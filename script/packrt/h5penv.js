@@ -29,17 +29,17 @@ export class H5PEnv {
         //
         // We are preparing localization
         //
-        const pathStringsDefault = "/assets/h5p-strings/default.json";
+        const pathStringsDefault = "assets/h5p-strings/default.json";
         this._objStringsDefault = await pipe.fetchJson(pathStringsDefault);
         //
-        let pathStringsEnglish = "/assets/h5p-strings/en.json";
+        let pathStringsEnglish = "assets/h5p-strings/en.json";
         let objStringsEnglish = await pipe.fetchJson(pathStringsEnglish);
         //
         this._localizer = new Localizer(new SimpleTranslator({ client: objStringsEnglish }).t);
         //
         // H5P Player template
         //
-        this._strPlayerTemplate = await pipe.fetchTextFile("/assets/templates/h5pplayer.txt");
+        this._strPlayerTemplate = await pipe.fetchTextFile("assets/templates/h5pplayer.txt");
         // console.log(this._strPlayerTemplate);
     }
     /*

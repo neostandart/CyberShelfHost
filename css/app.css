@@ -845,7 +845,7 @@ a {
             background-size: 18px;
             background-repeat: no-repeat;
             background-position: center;
-            background-image: url(/assets/images/svg/close_24.svg);
+            background-image: url(assets/images/svg/close_24.svg);
         }
 
     .package-wnd > #ClientArea {
@@ -974,6 +974,6 @@ a {
     cursor: pointer;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url(/assets/images/svg/close_24.svg);
+    background-image: url(assets/images/svg/close_24.svg);
     background-size: 18px;
 }
