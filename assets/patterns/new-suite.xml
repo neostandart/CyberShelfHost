@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Package StorageId="{0}" Name="{1}">
+	<Descr>{2}</Descr>
+	<Notes></Notes>
+</Package>

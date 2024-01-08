@@ -1,0 +1,24 @@
+<!doctype html>
+<html class="h5p-iframe">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale={0}">
+
+    {1}
+
+    <link rel="stylesheet" href="/css/packframe.css">
+
+    {2}
+
+    <script>
+        window.H5PIntegration = {3};
+    </script>
+</head>
+
+<body>
+    <div class="h5p-content" style="height: 100%; overflow-y: auto; padding: 2rem;"
+        data-content-id="{4}"></div>
+</body>
+
+</html>

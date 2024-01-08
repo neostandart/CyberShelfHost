@@ -1,0 +1,979 @@
+
+
+/* Grigory. ¬з€то из приложени€ сгенерированного Radzen Blazor Studio */
+:root {
+    font-size: var(--rz-root-font-size);
+}
+
+body {
+    font-family: var(--rz-text-font-family);
+    color: var(--rz-text-color);
+    font-size: var(--rz-body-font-size);
+    line-height: var(--rz-body-line-height);
+    background-color: var(--rz-body-background-color);
+}
+
+.rz-body {
+    --rz-body-padding: 0;
+}
+
+a {
+    color: var(--rz-link-color);
+}
+
+    a:hover,
+    a:focus {
+        color: var(--rz-link-hover-color);
+    }
+
+
+/* /////////////////////// */
+/* Radzen Theme Correction  */
+/* /////////////////////// */
+
+:root {
+    /* Reset the capitalization of the Badge text */
+    --rz-badge-text-transform: none;
+}
+
+/* ******************************* */
+/* RadzenPanelMenu item top/bottom divider */
+
+.rz-panel-menu .rz-navigation-item.ui-divider-t {
+    border-top: 1px solid var(--rz-base-500);
+}
+
+.rz-panel-menu .rz-navigation-item.ui-divider-b {
+    border-bottom: 1px solid var(--rz-base-500);
+}
+
+/* ******************************* */
+/* Reset the capitalization of the button text */
+
+.rz-button-text {
+    text-transform: none;
+}
+
+.rz-button-box {
+    text-transform: none;
+}
+
+.rz-text-button {
+    text-transform: none;
+}
+
+/* ******************************* */
+/* Slightly increase the size of the icons on the buttons */
+.rz-button-sm.ui-icon-larder .rzi {
+    font-size: 1.25rem;
+}
+
+.rz-button-md.ui-icon-larder .rzi {
+    font-size: 1.5rem;
+}
+
+.rz-button-lg.ui-icon-larder .rzi {
+    font-size: 1.75rem;
+}
+
+/* ******************************* */
+/* Label */
+
+.rz-label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ******************************* */
+/* RadzenSplitButton for large image */
+
+.rz-splitbutton.ui-image-box-tn {
+    width: auto;
+    height: auto;
+}
+
+    .rz-splitbutton.ui-image-box-tn .rz-button:first-child .rzi {
+        width: var(--ui-image-tn);
+        height: var(--ui-image-tn);
+    }
+
+    .rz-splitbutton.ui-image-box-tn .rz-button:first-child .rz-button-text {
+        display: none;
+    }
+
+/* ****************************************************************** */
+/* We shift the validation pop-up message closer to the target field. */
+.rz-form {
+    --rz-validator-transform: translateY(var(--rz-validator-pointer-size));
+}
+
+
+/* ****************************************************************** */
+/* Slight correction of the RadzenFieldset area */
+
+.rz-fieldset {
+    border: var(--rz-border-base-500);
+}
+
+    .rz-fieldset > .rz-fieldset-legend {
+        margin: 0 0 0.25rem 0.5rem;
+    }
+
+.rz-fieldset-legend > .rz-fieldset-legend-text {
+    font-size: var(--rz-text-caption-font-size);
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    color: var(--rz-text-title-color);
+}
+
+
+/* /////////////////////// */
+/* CyberShelf Application  */
+/* /////////////////////// */
+:root {
+    --ui-z-top: 3; /* ѕересмотреть исход€ из новой концепции: окна буков перекрывают всЄ кроме NavBar (кот. может открыватьс€ по клику на ’еадере главного окна) */
+    --ui-z-book: 2; /*   */
+    --ui-z-info: 1;
+    /* *** */
+    --ui-icon-tn: 12px;
+    --ui-icon-sm: 18px;
+    --ui-icon-md: 24px;
+    --ui-icon-lg: 36px;
+    --ui-icon-hg: 48px;
+    --ui-icon-gn: 64px;
+    /* *** */
+    --ui-image-tn: 80px;
+    --ui-image-sm: 96px;
+    --ui-image-md: 128px;
+    --ui-image-lg: 160px;
+    --ui-image-hg: 224px;
+    --ui-image-gn: 256px;
+    /* *** */
+    --ui-tbtn-tn: 18px;
+    --ui-tbtn-sm: 26px;
+    --ui-tbtn-md: 34px;
+    --ui-tbtn-lg: 52px;
+    --ui-tbtn-hg: 70px;
+    --ui-tbtn-gn: 92px;
+    /* *** */
+    --ui-color-info-bg: #e4edfe;
+    /* *** */
+    --folder-color: goldenrod;
+    --folder-color-dark: #B8860B;
+    --package-color: #b8860b;
+    --book-color: #5C2D91;
+    --widget-color: #0d6efd;
+}
+
+#Application.running {
+    visibility: visible;
+}
+
+/* ******************************* */
+/* MainLayout (Portrait Ч default) */
+/* ------------------------------- */
+
+#MainLayout {
+    --sidebar-toggle-indent: 0.25rem;
+    --layout-bar-size-unit: calc( var(--rz-sidebar-toggle-icon-width) + (var(--rz-sidebar-toggle-padding) * 2) + (var(--sidebar-toggle-indent) * 2) );
+    grid-template-areas: none;
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-columns: var(--layout-bar-size-unit) 1fr auto;
+}
+
+    #MainLayout > #MainHeader {
+        grid-row: 1;
+        grid-column: 1 / span 3;
+        min-height: 24px;
+    }
+
+    #MainLayout > #MainNavToggle {
+        --rz-sidebar-toggle-color: var(--rz-primary);
+        grid-row: 2;
+        grid-column: 1;
+        margin: var(--sidebar-toggle-indent);
+        z-index: auto;
+    }
+
+    #MainLayout > #FullscreenToggle {
+        grid-row: 2;
+        grid-column: 3;
+        margin: var(--sidebar-toggle-indent) var(--sidebar-toggle-indent) auto auto;
+        z-index: auto;
+    }
+
+    #MainLayout > #MainToolbar {
+        grid-row: 2;
+        grid-column: 2;
+        width: 100%;
+        min-height: var(--layout-bar-size-unit);
+        z-index: auto;
+    }
+
+    #MainLayout > #MainTopDivider {
+        grid-row: 3;
+        grid-column: 1 / span 3;
+        z-index: auto;
+    }
+
+
+    #MainLayout > #MainNavBar {
+        grid-row: 4;
+        grid-column: 1 / span 3;
+        width: 0;
+        border-top: 1px solid var(--rz-primary-lighter);
+        border-right: 1px solid var(--rz-primary-lighter);
+        z-index: var(--ui-z-top);
+    }
+
+#MainNavBar .rz-navigation-item-link {
+    padding-left: 0;
+}
+
+    #MainNavBar .rz-navigation-item-link > .nav-symbol-box {
+        min-width: var(--layout-bar-size-unit);
+        text-align: center;
+    }
+
+/* color of icons on navigation elements (Symbol) */
+#MainNavBar .nav-symbol-box {
+    color: var(--rz-panel-menu-icon-color);
+}
+
+#MainNavBar .rz-navigation-item-wrapper-active .nav-symbol-box {
+    color: var(--rz-panel-menu-item-active-color);
+}
+
+/* when collapsing the navigation bar, the text of the elements does not collapse */
+#MainNavBar .rz-panel-menu .rz-navigation-item-text {
+    min-width: calc( var(--rz-sidebar-width) - (var(--layout-bar-size-unit) + var(--rz-panel-menu-item-padding)) );
+}
+
+
+#MainLayout > #MainNavBar.rz-sidebar-expanded {
+    grid-row: 4;
+    grid-column: 1 / span 3;
+    width: var(--rz-sidebar-width);
+}
+
+#MainLayout > #PageHost {
+    grid-row: 4;
+    grid-column: 1 / span 3;
+    z-index: auto;
+}
+
+/* Grigory. new code BookLayer */
+#MainLayout > #BookLayer {
+    position: relative;
+    grid-row: 2 / span 3;
+    grid-column: 1 / span 3;
+    z-index: var(--ui-z-book);
+    pointer-events: none;
+}
+
+
+/* -------------- */
+/* Page Layout    */
+
+.ui-page {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    opacity: 0;
+}
+
+    .ui-page .ui-page-presenter {
+        position: relative;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        margin: 0 auto 0 auto;
+        border-left: 1px dotted var(--rz-primary-light);
+        border-right: 1px dotted var(--rz-primary-light);
+        overflow: hidden;
+    }
+
+.ui-page-presenter .page-header-slot {
+    grid-row: 1;
+}
+
+.ui-page-presenter .ui-page-body {
+    grid-row: 2;
+    position: relative;
+    overflow: hidden;
+    padding: 0.5rem;
+}
+
+.ui-page-presenter .page-footer-slot {
+    grid-row: 3;
+}
+
+/* strip-adaptive layout */
+
+.ui-page-presenter.strip-adaptive {
+    min-height: 100%;
+}
+
+/* strip-fluid layout */
+
+.ui-page-presenter.strip-fluid {
+    width: 100%;
+    min-height: 100%;
+}
+
+/* box-adaptive layout */
+
+.ui-page-presenter.box-adaptive {
+    height: 100%;
+}
+
+    .ui-page-presenter.box-adaptive > .ui-page-body {
+        /*flex: 1;*/
+        height: 100%;
+    }
+
+/* box-fluid layout */
+
+.ui-page-presenter.box-fluid {
+    width: 100%;
+    height: 100%;
+}
+
+    .ui-page-presenter.box-fluid > .ui-page-body {
+        /*flex: 1;*/
+        height: 100%;
+    }
+
+/*Page Caption */
+
+.ui-page-caption {
+    position: relative;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    color: var(--rz-base-700);
+    background-color: var(--rz-base-300);
+    font-style: italic;
+}
+
+    .ui-page-caption.authenticated {
+        color: var(--rz-primary);
+        background-color: var(--rz-primary-lighter);
+    }
+
+
+/* -------------------------- */
+/* Adaptive page presenter width   */
+
+/* X-Small devices (portrait phones, less than 576px) */
+.ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
+    width: 100%;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    .ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
+        /*width: 88%;*/
+        width: 95%;
+    }
+
+    .ui-page-presenter .ui-page-body {
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
+        /*width: 72%;*/
+        width: 90%;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
+        /*width: 64%;*/
+        width: 85%;
+    }
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
+        /*width: 56%;*/
+        width: 80%;
+    }
+}
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+    .ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
+        /*width: 48%;*/
+        width: 75%;
+    }
+}
+
+/* ------------------ */
+/* Page Transition    */
+
+.ui-page.appear-from-bottom {
+    visibility: visible;
+    animation: kf-appear-from-bottom ease-in 0.2s forwards;
+}
+
+.ui-page.appear-from-right {
+    visibility: visible;
+    animation: kf-appear-from-right ease-in 0.2s forwards;
+}
+
+.ui-page.appear-from-left {
+    visibility: visible;
+    animation: kf-appear-from-left ease-in 0.2s forwards;
+}
+
+@keyframes kf-appear-from-bottom {
+    from {
+        opacity: 0.3;
+        transform: translate3d(0, 50px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes kf-appear-from-right {
+    from {
+        opacity: 0.3;
+        transform: translate3d(50px, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes kf-appear-from-left {
+    from {
+        opacity: 0.3;
+        transform: translate3d(-50px, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+
+/* ------------------------------- */
+/* Adjustment layout for landscape */
+
+@media (orientation: landscape) {
+    #MainLayout {
+        grid-template-rows: auto var(--layout-bar-size-unit) 0 1fr;
+    }
+
+        #MainLayout > #FullscreenToggle {
+            margin: auto;
+        }
+
+        #MainLayout > #MainToolbar {
+            grid-row: 4;
+            grid-column: 3;
+            min-width: var( --layout-bar-size-unit);
+            height: 100%;
+            border-top: 1px solid var(--rz-primary-lighter);
+            border-left: 1px solid var(--rz-primary-lighter);
+        }
+
+        #MainLayout > #MainTopDivider {
+            display: none;
+        }
+
+        #MainLayout > #MainNavBar.rz-sidebar-collapsed {
+            width: var(--layout-bar-size-unit) !important;
+            opacity: 1 !important;
+        }
+
+    #MainNavBar.rz-sidebar-collapsed .rz-navigation-item-text {
+        visibility: hidden;
+    }
+
+    #MainLayout > #PageHost {
+        grid-row: 2 / span 3;
+        grid-column: 2;
+    }
+
+    #MainLayout > #BookLayer {
+        grid-column: 2 / span 2;
+    }
+}
+
+/* ----------- */
+/* Validation (for FieldValidator.razor and its derivatives) */
+
+.validation-msg-popup {
+    position: absolute;
+    /* */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* */
+    background-color: var(--rz-validator-background-color);
+    transform: var(--rz-validator-transform);
+    box-shadow: var(--rz-validator-shadow);
+    padding: 0;
+    border-radius: var(--rz-border-radius);
+    color: var(--rz-validator-color);
+}
+
+    .validation-msg-popup:before {
+        content: "";
+        border: var(--rz-validator-pointer-size) solid transparent;
+        border-bottom-color: var(--rz-validator-background-color);
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translate(var(--rz-validator-pointer-size), -100%);
+    }
+
+
+/* ******************** */
+/* Extra user interface */
+/* -------------------- */
+
+.ui-size-inherit {
+    width: inherit;
+    height: inherit;
+}
+
+/* ---------- */
+/* Icon sizes */
+
+/* icon font size */
+
+.ui-icon-tn {
+    font-size: var(--ui-icon-tn);
+}
+
+.ui-icon-sm {
+    font-size: var(--ui-icon-sm);
+}
+
+.ui-icon-md {
+    font-size: var(--ui-icon-md);
+}
+
+.ui-icon-lg {
+    font-size: var(--ui-icon-lg);
+}
+
+.ui-icon-hg {
+    font-size: var(--ui-icon-hg);
+}
+
+.ui-icon-gn {
+    font-size: var(--ui-icon-gn);
+}
+
+/* icon box size */
+
+.ui-icon-box-tn {
+    width: var(--ui-icon-tn);
+    height: var(--ui-icon-tn);
+}
+
+.ui-icon-box-sm {
+    width: var(--ui-icon-sm);
+    height: var(--ui-icon-sm);
+}
+
+.ui-icon-box-md {
+    width: var(--ui-icon-md);
+    height: var(--ui-icon-md);
+}
+
+.ui-icon-box-lg {
+    width: var(--ui-icon-lg);
+    height: var(--ui-icon-lg);
+}
+
+.ui-icon-box-hg {
+    width: var(--ui-icon-hg);
+    height: var(--ui-icon-hg);
+}
+
+.ui-icon-box-gn {
+    width: var(--ui-icon-gn);
+    height: var(--ui-icon-gn);
+}
+
+/* ---------- */
+/* Image sizes */
+
+.ui-image-box-tn {
+    width: var(--ui-image-tn);
+    height: var(--ui-image-tn);
+}
+
+.ui-image-box-sm {
+    width: var(--ui-image-sm);
+    height: var(--ui-image-sm);
+}
+
+.ui-image-box-md {
+    width: var(--ui-image-md);
+    height: var(--ui-image-md);
+}
+
+.ui-image-box-lg {
+    width: var(--ui-image-lg);
+    height: var(--ui-image-lg);
+}
+
+.ui-image-box-hg {
+    width: var(--ui-image-hg);
+    height: var(--ui-image-hg);
+}
+
+.ui-image-box-gn {
+    width: var(--ui-image-gn);
+    height: var(--ui-image-gn);
+}
+
+/* ---------- */
+/* Toolbar & tool buttons */
+
+.ui-toolbar {
+    position: relative;
+    background-color: var(--rz-base-300);
+}
+
+.ui-tbtn-tn {
+    width: var(--ui-tbtn-tn);
+    height: var(--ui-tbtn-tn);
+}
+
+.ui-tbtn-sm {
+    width: var(--ui-tbtn-sm);
+    height: var(--ui-tbtn-sm);
+}
+
+.ui-tbtn-md {
+    width: var(--ui-tbtn-md);
+    height: var(--ui-tbtn-md);
+}
+
+.ui-tbtn-lg {
+    width: var(--ui-tbtn-lg);
+    height: var(--ui-tbtn-lg);
+}
+
+.ui-tbtn-hg {
+    width: var(--ui-tbtn-hg);
+    height: var(--ui-tbtn-hg);
+}
+
+.ui-tbtn-gn {
+    width: var(--ui-tbtn-gn);
+    height: var(--ui-tbtn-gn);
+}
+
+/* ------------------------------ */
+/* Border */
+
+.ui-border-round {
+    border-radius: 50% !important;
+}
+
+/* ------------------------------ */
+/* Tool button (ToolButton.razor) */
+.ui-tbtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+/* ------------------------------ */
+/* Tool Divider (ToolDivider.razor) */
+
+.ui-tool-divider {
+    background-color: var(--rz-base-500);
+    border: none;
+}
+
+/* -------------- */
+/* Dialog Support */
+
+.ui-dlg-button {
+    border-radius: var(--rz-border-radius-8);
+    min-width: 8em;
+}
+
+
+/* ------------------------------ */
+/* Utilities */
+
+.ui-w-fit {
+    width: fit-content !important;
+    max-width: 100%;
+}
+
+.ui-fill {
+    width: 100%;
+    height: 100%;
+}
+
+/* ------------------------------ */
+/* Adaptation to the smallest screens */
+
+@media (max-width: 575.98px) {
+    .rz-button.ui-xs-btn .rz-button-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .rz-button.ui-xs-btn-notext .rz-button-box .rz-button-text {
+        display: none;
+    }
+}
+
+
+/* ******************************* */
+/* Common animations               */
+
+
+/* ------------------------------ */
+/* Blink */
+
+.anim-blink-normal {
+    animation-name: kf-blink;
+    animation-timing-function: linear;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+.anim-blink-normal-pale {
+    animation-name: kf-blink-pale;
+    animation-timing-function: linear;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+
+.anim-blink-intensive {
+    animation-name: kf-blink;
+    animation-timing-function: linear;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes kf-blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes kf-blink-pale {
+    50% {
+        opacity: 0.2;
+    }
+}
+
+
+/* ------------------------------ */
+/* ### */
+
+
+
+
+/* ******************************* */
+/* PackRT Styles                   */
+
+/* PackageWnd (Package Window) */
+
+.package-wnd {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 80%;
+    height: 50%;
+    border: 2px solid #5B2D8E;
+    overflow: hidden;
+    pointer-events: auto;
+}
+
+    .package-wnd > #Header {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0 0 2px 0;
+        border: none;
+        background-color: #5B2D8E;
+    }
+
+        .package-wnd > #Header > #DragCaptureZone {
+            flex: 1;
+        }
+
+        /* Miminize Package Window Button */
+        .package-wnd > #Header > #MinimizeBtn {
+            width: 36px;
+            height: 26px;
+            border: none;
+            cursor: pointer;
+            margin-left: auto;
+            margin-right: 1rem;
+        }
+
+        /* Close Package Window Button */
+        .package-wnd > #Header > #CloseBtn {
+            margin-left: auto;
+            width: 36px;
+            height: 26px;
+            border: none;
+            cursor: pointer;
+            background-size: 18px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url(/assets/images/svg/close_24.svg);
+        }
+
+    .package-wnd > #ClientArea {
+        position: relative;
+        overflow: hidden;
+        flex: 1;
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+
+#ClientArea > #Frame {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+
+.package-wnd.minimized #ClientArea > #Frame {
+    visibility: hidden;
+}
+
+.package-wnd.minimized {
+    animation: 0.4s ease-in 0s forwards kf-package-wnd-minimize;
+}
+
+@keyframes kf-package-wnd-minimize {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        top: 100%;
+        opacity: 0;
+        transform: scale(0.2);
+        visibility: hidden;
+    }
+}
+
+
+/* ////////////// *
+/* PackLayoutCtr */
+
+.package-wnd .packlayout-ctr {
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 100%;
+    border: 2px solid #5B2D8E;
+    background-color: ivory;
+    padding: 0.25rem;
+    z-index: 1;
+}
+
+.packlayout-ctr #Controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    overflow-x: auto;
+}
+
+.packlayout-ctr .group-caption {
+    text-align: center;
+    padding: 0.25rem;
+}
+
+/* SizePanel */
+
+.packlayout-ctr #SizePanel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.packlayout-ctr .sizepanel-clm {
+    display: flex;
+    flex-direction: column;
+}
+
+.packlayout-ctr #SizePanel .input-area {
+    padding: 0.5rem;
+}
+
+.packlayout-ctr #SizePanel .sizepanel-field {
+    margin-bottom: 0.75rem;
+}
+
+.packlayout-ctr #SizePanel #FillBtn {
+    display: block;
+    margin: 0 2rem 0.25rem 2rem;
+    padding: 0.5rem;
+    grid-column: 1 / span 2;
+    border-color: lightgray;
+}
+
+/* PosPanel */
+
+/* .packlayout-ctr #PosPanel {} */
+
+.packlayout-ctr #PosPanel .input-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    padding: 0.5rem;
+}
+
+    .packlayout-ctr #PosPanel .input-area .input-box {
+        border: 1px solid lightgray;
+    }
+
+.packlayout-ctr .input-area .input-box input {
+    margin: 0.5rem;
+}
+
+/* Close Button */
+.packlayout-ctr #Close {
+    display: block;
+    margin-left: auto;
+    width: 100%;
+    height: 24px;
+    margin-top: 1rem;
+    border: none;
+    cursor: pointer;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(/assets/images/svg/close_24.svg);
+    background-size: 18px;
+}
