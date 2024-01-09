@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "CyberShelf",
   "resources": {
-    "hash": "sha256-LDF8UnvSQ2I4eEQpV7U7eHAvpykv99g3ZFwmdoxtug8=",
+    "hash": "sha256-PXS2gDPexBjDlYgcOVYjVxZtvimtHUh4C6LC0NmUB/8=",
     "jsModuleNative": {
       "dotnet.native.8.0.0.asnp2d64hx.js": "sha256-MKCqRJd045XjWvP1u8qOXSMWyUS39wZyMmMjCJuWHAc="
     },
@@ -84,7 +84,7 @@
     },
     "satelliteResources": {
       "ru": {
-        "CyberShelf.resources.wasm": "sha256-vaTHkjTi+OCe5OcKsTvHeH1EuD6ymNScJLWEoeZVYvk="
+        "CyberShelf.resources.wasm": "sha256-3eZMyE5q3qfYWRJkn/WVw/UxCO/f5BLhBbM6MORG8Ho="
       }
     }
   },

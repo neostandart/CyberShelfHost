@@ -1289,7 +1289,7 @@
       "url": "script\/packrt\/active\/preproc.js"
     },
     {
-      "hash": "sha256-AhBObK+Wq2xCVfJCuTMV38BFgec2X\/vlgpSS8me0xgg=",
+      "hash": "sha256-JwY8l6QtyW+tBzKEJso0AiBGH1V7FEao3Doj2\/ma4EU=",
       "url": "script\/packrt\/h5penv.js"
     },
     {
@@ -1569,7 +1569,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-tus6aBIBqLl51kSiGRsUwyxrcmyfDLNsMduMfOo+DfM=",
+      "hash": "sha256-zDNrY6hupSG4VhsnG73pgTqUjaxviNncecTu4gdeSKo=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -1849,7 +1849,7 @@
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-vaTHkjTi+OCe5OcKsTvHeH1EuD6ymNScJLWEoeZVYvk=",
+      "hash": "sha256-3eZMyE5q3qfYWRJkn\/WVw\/UxCO\/f5BLhBbM6MORG8Ho=",
       "url": "_framework\/ru\/CyberShelf.resources.wasm"
     },
     {
@@ -2033,5 +2033,5 @@
       "url": "_content\/Radzen.Blazor\/Radzen.Blazor.js"
     }
   ],
-  "version": "Q5A4EelJ"
+  "version": "pUF5e\/iR"
 };

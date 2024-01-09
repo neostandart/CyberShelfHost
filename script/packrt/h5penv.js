@@ -11,20 +11,20 @@ export class H5PEnv {
     static _strPlayerTemplate;
     static async initializeAsync() {
         this._aCoreCss = [
-            "/vendor/h5p/core/styles/h5p.css",
-            "/vendor/h5p/core/styles/h5p-confirmation-dialog.css",
-            "/vendor/h5p/core/styles/h5p-core-button.css"
+            "vendor/h5p/core/styles/h5p.css",
+            "vendor/h5p/core/styles/h5p-confirmation-dialog.css",
+            "vendor/h5p/core/styles/h5p-core-button.css"
         ];
         this._aCoreJs = [
-            "/vendor/h5p/core/js/jquery.js",
-            "/vendor/h5p/core/js/h5p.js",
-            "/vendor/h5p/core/js/h5p-event-dispatcher.js",
-            "/vendor/h5p/core/js/h5p-x-api-event.js",
-            "/vendor/h5p/core/js/h5p-x-api.js",
-            "/vendor/h5p/core/js/h5p-content-type.js",
-            "/vendor/h5p/core/js/h5p-confirmation-dialog.js",
-            "/vendor/h5p/core/js/h5p-action-bar.js",
-            "/vendor/h5p/core/js/request-queue.js"
+            "vendor/h5p/core/js/jquery.js",
+            "vendor/h5p/core/js/h5p.js",
+            "vendor/h5p/core/js/h5p-event-dispatcher.js",
+            "vendor/h5p/core/js/h5p-x-api-event.js",
+            "vendor/h5p/core/js/h5p-x-api.js",
+            "vendor/h5p/core/js/h5p-content-type.js",
+            "vendor/h5p/core/js/h5p-confirmation-dialog.js",
+            "vendor/h5p/core/js/h5p-action-bar.js",
+            "vendor/h5p/core/js/request-queue.js"
         ];
         //
         // We are preparing localization
