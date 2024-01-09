@@ -2,11 +2,13 @@
     box-sizing: border-box;
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    border: none;
+body .h5p-content {
+    padding: 1rem;
 }
 
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    body .h5p-content {
+        padding: 1rem 2rem;
+    }
+}

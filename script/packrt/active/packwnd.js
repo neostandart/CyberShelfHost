@@ -106,7 +106,8 @@ export class PackageWnd {
             //
             document.addEventListener("mousemove", this._onMouseMove);
             document.addEventListener("mouseup", this._onMouseUp);
-            this._capturezone.addEventListener("mouseleave", this._onMouseLeave);
+            // preventing the loss of messages from the iframe
+            this._presenter.style.pointerEvents = "none";
             //
             this._startDrag(ev.clientX, ev.clientY);
         }
@@ -132,13 +133,6 @@ export class PackageWnd {
         }
     };
     _onMouseUp = (ev) => {
-        if (this._dragStatus === DragStatus.Mouse) {
-            ev.preventDefault();
-            //
-            this._endDrag();
-        }
-    };
-    _onMouseLeave = (ev) => {
         if (this._dragStatus === DragStatus.Mouse) {
             ev.preventDefault();
             //
@@ -196,7 +190,6 @@ export class PackageWnd {
                 case DragStatus.Mouse: {
                     document.removeEventListener("mousemove", this._onMouseMove);
                     document.removeEventListener("mouseup", this._onMouseUp);
-                    this._capturezone.removeEventListener("mouseleave", this._onMouseLeave);
                     break;
                 }
                 case DragStatus.Touch: {
@@ -205,6 +198,9 @@ export class PackageWnd {
                     break;
                 }
             }
+            //
+            // restoring event handling in this window
+            this._presenter.style.pointerEvents = "auto";
             //
             this._dragStatus = DragStatus.No;
             //
