@@ -40,7 +40,7 @@ export class PackageWnd {
         btnLayout.addEventListener("click", this._onLayout.bind(this));
         //
         const btnMinimize = this._header.querySelector("#MinimizeBtn");
-        btnMinimize.addEventListener("click", (ev) => { this.doMinimize(); });
+        btnMinimize.addEventListener("click", (ev) => { this.minimize(); });
         //
         const btnClose = this._header.querySelector("#CloseBtn");
         btnClose.addEventListener("click", this._onClose.bind(this));
@@ -78,7 +78,7 @@ export class PackageWnd {
         iFrameDoc.write(html);
         iFrameDoc.close();
     }
-    doMinimize() {
+    minimize() {
         if (!this.isMinimized) {
             this._presenter.classList.add("minimized");
             this._isMinimized = true;
@@ -90,6 +90,12 @@ export class PackageWnd {
             this._presenter.classList.remove("minimized");
             this._isMinimized = false;
         }
+    }
+    enablePointerEvents() {
+        this._presenter.style.pointerEvents = "auto";
+    }
+    disablePointerEvents() {
+        this._presenter.style.pointerEvents = "none";
     }
     //#endregion (Methods)
     //#region Events
@@ -107,7 +113,7 @@ export class PackageWnd {
             document.addEventListener("mousemove", this._onMouseMove);
             document.addEventListener("mouseup", this._onMouseUp);
             // preventing the loss of messages from the iframe
-            this._presenter.style.pointerEvents = "none";
+            PackagePool.disablePointerEventsAll();
             //
             this._startDrag(ev.clientX, ev.clientY);
         }
@@ -200,7 +206,7 @@ export class PackageWnd {
             }
             //
             // restoring event handling in this window
-            this._presenter.style.pointerEvents = "auto";
+            PackagePool.enablePointerEventsAll();
             //
             this._dragStatus = DragStatus.No;
             //

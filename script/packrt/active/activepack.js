@@ -267,4 +267,14 @@ export class PackagePool {
         this._nZIndexTop++;
         return this._nZIndexTop;
     }
+    static enablePointerEventsAll() {
+        for (let [key, value] of this._mapPacks) {
+            value.wnd.enablePointerEvents();
+        }
+    }
+    static disablePointerEventsAll() {
+        for (let [key, value] of this._mapPacks) {
+            value.wnd.disablePointerEvents();
+        }
+    }
 } // class PackagePool

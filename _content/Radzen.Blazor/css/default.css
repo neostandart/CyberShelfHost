@@ -19950,10 +19950,12 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
 .rz-tabview-nav li:hover:not(.rz-tabview-selected):not(.rz-state-disabled) {
   background-color: var(--rz-tabs-tab-hover-background-color);
 }
-.rz-tabview-nav li:hover:not(.rz-tabview-selected):not(.rz-state-disabled) a {
+.rz-tabview-nav li:hover:not(.rz-tabview-selected):not(.rz-state-disabled) a,
+.rz-tabview-nav li:hover:not(.rz-tabview-selected):not(.rz-state-disabled) a:not([href]):not([class]) {
   color: var(--rz-tabs-tab-hover-color);
 }
-.rz-tabview-nav li a {
+.rz-tabview-nav li a,
+.rz-tabview-nav li a:not([href]):not([class]) {
   display: flex;
   align-items: center;
   color: var(--rz-tabs-tab-color);
@@ -19964,8 +19966,10 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   text-transform: var(--rz-tabs-tab-text-transform);
   letter-spacing: var(--rz-tabs-tab-letter-spacing);
   text-decoration: none;
+  cursor: pointer;
 }
-.rz-tabview-nav li a:hover {
+.rz-tabview-nav li a:hover,
+.rz-tabview-nav li a:not([href]):not([class]):hover {
   text-decoration: none;
 }
 .rz-tabview-nav li.rz-state-disabled {
@@ -19975,7 +19979,8 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   background-color: var(--rz-tabs-background-color);
   position: relative;
 }
-.rz-tabview-nav .rz-tabview-selected a {
+.rz-tabview-nav .rz-tabview-selected a,
+.rz-tabview-nav .rz-tabview-selected a:not([href]):not([class]) {
   color: var(--rz-tabs-tab-selected-color);
 }
 .rz-tabview-top > .rz-tabview-nav {
@@ -24783,7 +24788,7 @@ button.rz-colorpicker-trigger .rzi:before {
 .rz-variant-filled .rz-textarea ~ .rz-form-field-label, .rz-variant-flat .rz-textarea ~ .rz-form-field-label {
   transform: translate(0, 0.625rem);
 }
-.rz-textbox:focus ~ .rz-form-field-label, .rz-textarea:focus ~ .rz-form-field-label, .rz-spinner:focus-within ~ .rz-form-field-label, .rz-autocomplete:focus-within ~ .rz-form-field-label, .rz-textbox:not(:placeholder-shown) ~ .rz-form-field-label, :not(.rz-state-empty) ~ .rz-form-field-label, .rz-variant-filled .rz-textarea:focus ~ .rz-form-field-label, .rz-variant-flat .rz-textarea:focus ~ .rz-form-field-label, .rz-variant-filled :not(.rz-state-empty) ~ .rz-form-field-label, .rz-variant-flat :not(.rz-state-empty) ~ .rz-form-field-label, .rz-radio-button-list-vertical ~ .rz-form-field-label, .rz-radio-button-list-horizontal ~ .rz-form-field-label, .rz-checkbox-list-vertical ~ .rz-form-field-label, .rz-checkbox-list-horizontal ~ .rz-form-field-label, .rz-chkbox ~ .rz-form-field-label {
+.rz-form-field:not(.rz-floating-label) .rz-form-field-label, .rz-textbox:focus ~ .rz-form-field-label, .rz-textarea:focus ~ .rz-form-field-label, .rz-spinner:focus-within ~ .rz-form-field-label, .rz-autocomplete:focus-within ~ .rz-form-field-label, .rz-textbox:not(:placeholder-shown) ~ .rz-form-field-label, :not(.rz-state-empty) ~ .rz-form-field-label, .rz-variant-filled .rz-textarea:focus ~ .rz-form-field-label, .rz-variant-flat .rz-textarea:focus ~ .rz-form-field-label, .rz-variant-filled :not(.rz-state-empty) ~ .rz-form-field-label, .rz-variant-flat :not(.rz-state-empty) ~ .rz-form-field-label, .rz-radio-button-list-vertical ~ .rz-form-field-label, .rz-radio-button-list-horizontal ~ .rz-form-field-label, .rz-checkbox-list-vertical ~ .rz-form-field-label, .rz-checkbox-list-horizontal ~ .rz-form-field-label, .rz-chkbox ~ .rz-form-field-label, .rz-state-empty:has(.rz-placeholder) ~ .rz-form-field-label {
   right: auto;
   top: var(--rz-form-field-label-floating-top);
   padding-top: 0;
@@ -24795,7 +24800,7 @@ button.rz-colorpicker-trigger .rzi:before {
   line-height: 1rem;
   max-width: calc(100% - 1.5rem);
 }
-.rz-form-field:not(.rz-variant-outlined) *:focus ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) *:focus-within ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) :not(.rz-state-empty) ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-radio-button-list-vertical ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-radio-button-list-horizontal ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-checkbox-list-vertical ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-checkbox-list-horizontal ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-chkbox ~ .rz-form-field-label {
+.rz-form-field:not(.rz-variant-outlined):not(.rz-floating-label) .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) *:focus ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) *:focus-within ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) :not(.rz-state-empty) ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-radio-button-list-vertical ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-radio-button-list-horizontal ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-checkbox-list-vertical ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-checkbox-list-horizontal ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-chkbox ~ .rz-form-field-label, .rz-form-field:not(.rz-variant-outlined) .rz-state-empty:has(.rz-placeholder) ~ .rz-form-field-label {
   background-color: inherit !important;
 }
 .invalid ~ .rz-form-field-label {

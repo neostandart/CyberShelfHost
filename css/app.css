@@ -185,6 +185,7 @@ a {
         grid-row: 1;
         grid-column: 1 / span 3;
         min-height: 24px;
+        z-index: var(--ui-z-top);
     }
 
     #MainLayout > #MainNavToggle {
@@ -237,7 +238,7 @@ a {
 
 /* color of icons on navigation elements (Symbol) */
 #MainNavBar .nav-symbol-box {
-    color: var(--rz-panel-menu-icon-color);
+    color: var(--rz-base-800);
 }
 
 #MainNavBar .rz-navigation-item-wrapper-active .nav-symbol-box {
@@ -349,7 +350,7 @@ a {
 .ui-page-caption {
     position: relative;
     padding: 0.5rem 0.5rem 0.5rem 1rem;
-    color: var(--rz-base-700);
+    color: var(--rz-base-800);
     background-color: var(--rz-base-300);
     font-style: italic;
 }
@@ -791,7 +792,6 @@ a {
 
 
 
-
 /* ******************************* */
 /* PackRT Styles                   */
 
@@ -807,6 +807,7 @@ a {
     height: 50%;
     border: 2px solid #5B2D8E;
     overflow: hidden;
+    background: #fefefe;
     pointer-events: auto;
 }
 
