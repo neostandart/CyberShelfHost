@@ -46,8 +46,7 @@
 }
 
 #Welcome #Content #Image {
-    -webkit-mask-image: url("_welcome/logo.svg");
-    mask-image: url("_welcome/logo.svg");
+    mask-image: url("./logo.svg");
     width: 150px;
     height: 150px;
     display: block;

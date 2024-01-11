@@ -9,7 +9,7 @@
       "url": "_welcome\/logo.svg"
     },
     {
-      "hash": "sha256-voW+wJK4Nlo\/\/WV8VpvGcRbybL5cguEBtGnn0UzoE8o=",
+      "hash": "sha256-4IG7\/0P0EhMxUqjoJolPcmSAKMQ0i3KL6a1L0mDutvQ=",
       "url": "_welcome\/welcome.css"
     },
     {
@@ -1217,7 +1217,7 @@
       "url": "assets\/templates\/h5pplayer.txt"
     },
     {
-      "hash": "sha256-g4\/NbjYNfUz\/g2v1KeELWX37bK6BYSBbDmDB9HsNeTA=",
+      "hash": "sha256-u8UfZcFp3LbN67ToUHJCO2ijIUyk9UJhLVi8ut8woco=",
       "url": "css\/app.css"
     },
     {
@@ -1233,7 +1233,7 @@
       "url": "css\/packframe.css"
     },
     {
-      "hash": "sha256-PF0b0MqEGpVzElEf0svslGDPzZyOwaJpJBGJWg3pNUc=",
+      "hash": "sha256-6Fxr2\/EHlYUjoDC4j0E+lsWyN4tU4Xha8afygieXgVg=",
       "url": "index.html"
     },
     {
@@ -1277,11 +1277,11 @@
       "url": "script\/packrt\/active\/file.js"
     },
     {
-      "hash": "sha256-0kGjzouNxTCdxcgYxvpDK0WmcmWiMYIOPa2BWNLztMU=",
+      "hash": "sha256-rvgeJuwRJIooIKPQLJDoO7Bon9qlTmre33MWCOZP1k0=",
       "url": "script\/packrt\/active\/layoutctr.js"
     },
     {
-      "hash": "sha256-xrkLE6NNnlMIJunC+NDcBRzvxpu\/fR8t195hGkzzjBA=",
+      "hash": "sha256-AiBDkbAx227NdNXYK3O2gslkoFzSE5PkvaJz9af2U4U=",
       "url": "script\/packrt\/active\/packwnd.js"
     },
     {
@@ -1577,11 +1577,11 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-xTxuNCkq\/46t4KLTnAfMtvZ9Lu06tOh48FJjWPEruuo=",
+      "hash": "sha256-vVtFORqY3\/8LmlV73uTROghjVcHULi5WRAHpRfnHh6E=",
       "url": "_framework\/blazor.boot.json"
     },
     {
-      "hash": "sha256-II7YCM87c\/jF0waHvpmLUrpqk37cXnkEl8A7sSEbn\/s=",
+      "hash": "sha256-Z4f\/niD62+hD+qnjnwS1p8SKiTRSEueSe9SbrjWtXfA=",
       "url": "_framework\/CyberShelf.wasm"
     },
     {
@@ -1849,7 +1849,7 @@
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-9fyczZQHr6adFgpnEygxHQwnkVpet1h6nuxjzfuZmdg=",
+      "hash": "sha256-a0ZcqsdJpUYduCXoL65tGNmkUXrQE9q+QjOVWXt\/nbQ=",
       "url": "_framework\/ru\/CyberShelf.resources.wasm"
     },
     {
@@ -2033,5 +2033,5 @@
       "url": "_content\/Radzen.Blazor\/Radzen.Blazor.js"
     }
   ],
-  "version": "6iiAuwyD"
+  "version": "kVgkpsHk"
 };

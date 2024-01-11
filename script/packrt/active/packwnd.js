@@ -221,11 +221,18 @@ export class PackageWnd {
             this._template.innerHTML =
                 `<article class="package-wnd">
                 <div id="Header">
-                    <button id="LayoutBtn">Размер/позиция</button>
+                    <button id="LayoutBtn" type="button" class="btn btn-outline-light btn-sm">
+                        <i class="fsym">view_compact_alt</i>
+                    </button>
+
                     <div id="DragCaptureZone"></div>
 
-                    <button id="MinimizeBtn">—</button>
-                    <button id="CloseBtn"></button>
+                    <button id="MinimizeBtn" type="button" class="btn btn-outline-light btn-sm">
+                        <i class="fsym">minimize</i>
+                    </button>
+                    <button id="CloseBtn" type="button" class="btn btn-outline-light btn-sm">
+                         <i class="fsym">close</i>
+                    </button>
                 </div>
                 <div id="ClientArea">
                     <iframe id="Frame" src="about:blank"></iframe>

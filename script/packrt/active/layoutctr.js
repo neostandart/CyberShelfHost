@@ -27,7 +27,7 @@ export class PackLayoutCtr {
         const btnFill = fragPresenter.getElementById("FillBtn");
         btnFill.addEventListener("click", this._onFillBtn.bind(this));
         //
-        const btnClose = fragPresenter.getElementById("Close");
+        const btnClose = fragPresenter.getElementById("CloseBtn");
         btnClose.addEventListener("click", () => {
             this.close();
         });
@@ -43,18 +43,23 @@ export class PackLayoutCtr {
             this._template = document.createElement("template");
             this._template.innerHTML =
                 `<div class="packlayout-ctr">
+
                 <div id="Controls">
                     <div id="SizePanel">
                         <div id="WidthGroup" class="sizepanel-clm">
                             <div class="group-caption">ширина</div>
                             <div class="input-area">
                                 <div class="sizepanel-field">
+                                    <input type="radio" id="SizeSelector" name="Width" value="25%">
+                                    <label for="SizeSelector">25%</label>
+                                </div>
+                                <div class="sizepanel-field">
                                     <input type="radio" id="SizeSelector" name="Width" value="50%">
                                     <label for="SizeSelector">50%</label>
                                 </div>
                                 <div class="sizepanel-field">
-                                    <input type="radio" id="SizeSelector" name="Width" value="80%">
-                                    <label for="SizeSelector">80%</label>
+                                    <input type="radio" id="SizeSelector" name="Width" value="75%">
+                                    <label for="SizeSelector">75%</label>
                                 </div>
                                 <div class="sizepanel-field">
                                     <input type="radio" id="SizeSelector" name="Width" value="100%">
@@ -67,21 +72,23 @@ export class PackLayoutCtr {
                             <div class="group-caption">высота</div>
                             <div class="input-area">
                                 <div class="sizepanel-field">
+                                    <input type="radio" id="SizeSelector" name="Height" value="25%">
+                                    <label for="SizeSelector">25%</label>
+                                </div>
+                                <div class="sizepanel-field">
                                     <input type="radio" id="SizeSelector" name="Height" value="50%">
                                     <label for="SizeSelector">50%</label>
                                 </div>
                                 <div class="sizepanel-field">
-                                    <input type="radio" id="SizeSelector" name="Height" value="80%">
-                                    <label for="SizeSelector">80%</label>
+                                    <input type="radio" id="SizeSelector" name="Height" value="75%">
+                                    <label for="SizeSelector">75%</label>
                                 </div>
                                 <div class="sizepanel-field">
                                     <input type="radio" id="SizeSelector" name="Height" value="100%">
                                     <label for="SizeSelector">100%</label>
                                 </div>
-                            </div>                        
+                            </div>
                         </div>
-
-                        <button id="FillBtn">100%</button>
                     </div>
 
                     <div id="PosPanel">
@@ -107,9 +114,11 @@ export class PackLayoutCtr {
                                 <input type="radio" name="WndPos" value="BottomRight">
                             </div>
                         </div>
+                        <button id="FillBtn" type="button" class="btn btn-primary"><i class="fsym">fit_screen</i></button>
                     </div>
                 </div>
-                <button id="Close"></button>
+
+                <button id="CloseBtn" type="button" class="btn btn-outline-secondary"><i class="fsym">north_west</i></button>
             </div>`;
         }
         //
@@ -222,6 +231,7 @@ export class PackLayoutCtr {
     }
     _onFillBtn(ev) {
         this.applyWndState({ width: "100%", height: "100%", position: "TopLeft" }, true);
+        this.close();
     }
     //#endregion Handlers
     //#region Internals
