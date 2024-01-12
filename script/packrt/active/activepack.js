@@ -6,7 +6,7 @@ import { H5PEnv } from "../h5penv.js";
 import { PackageWnd } from "./packwnd.js";
 export class ActivePackage {
     //#region Defs & Vars
-    _packtoken;
+    _packkey;
     _recPack;
     _recContent;
     _libmain;
@@ -19,8 +19,8 @@ export class ActivePackage {
     //#endregion (Defs & Vars)
     // --------------------------------------------------------
     //#region Construction / Initialization
-    constructor(packtoken, host) {
-        this._packtoken = packtoken;
+    constructor(packkey, host) {
+        this._packkey = packkey;
         this._host = host;
         //
         this._aDependencyLibTokens = [];
@@ -29,9 +29,9 @@ export class ActivePackage {
         this._mapDelegates = new Map();
     }
     async showAsync() {
-        this._recPack = await AppDB.get("packages", this._packtoken);
+        this._recPack = await AppDB.get("packages", this._packkey);
         if (!this._recPack) {
-            throw new Error(`The package with the specified recordKey (${this._packtoken}) not found!`);
+            throw new Error(`The package with the specified recordKey (${this._packkey}) not found!`);
         }
         //
         this._recContent = await AppDB.get("content", this._recPack.key);
@@ -62,7 +62,23 @@ export class ActivePackage {
         //
         this._wnd.frame.contentWindow.ActivePackage = this;
         //
-        this._wnd.presenter.addEventListener("invokeclose", this._onInvokeClose.bind(this));
+        //
+        this._wnd.presenter.addEventListener("invokeclose", () => {
+            // пока так, но это временно.
+            // Решение о закрытии виджета должно приниматься на уровне общего UI (т.е. Blazor)
+            const response = confirm("Are you sure you want to close this widget?");
+            if (response) {
+                this.dispose();
+            }
+        });
+        this._wnd.presenter.addEventListener("minimized", () => {
+            const packtoken = AppDB.makeTokenFromRecord(this._recPack);
+            window.DotNet.invokeMethodAsync("CyberShelf", "informMinimized", packtoken);
+        });
+        this._wnd.presenter.addEventListener("restored", () => {
+            const packtoken = AppDB.makeTokenFromRecord(this._recPack);
+            window.DotNet.invokeMethodAsync("CyberShelf", "informRestored", packtoken);
+        });
         //
         /*
             Grigory. 2023-12-28
@@ -79,6 +95,9 @@ export class ActivePackage {
         });
         //
         PackagePool.regPackage(this._recPack.key, this);
+        //
+        const packtoken = AppDB.makeTokenFromRecord(this._recPack);
+        window.DotNet.invokeMethodAsync("CyberShelf", "informOpened", packtoken);
     }
     async buildAsync() {
         // список зависимых библиотек подготовлен.
@@ -110,7 +129,7 @@ export class ActivePackage {
     }
     dispose() {
         this._host.removeChild(this._wnd.presenter);
-        PackagePool.releasePackage(this.token);
+        PackagePool.releasePackage(this.key);
         //
         this._mapActiveLibs.forEach((lib) => {
             LibraryPool.releaseLibrary(lib.token);
@@ -121,11 +140,15 @@ export class ActivePackage {
             delegate.releaseUrlFore();
         });
         this._mapDelegates.clear();
+        //
+        //
+        const packtoken = AppDB.makeTokenFromRecord(this._recPack);
+        window.DotNet.invokeMethodAsync("CyberShelf", "informClosed", packtoken);
     }
     //#endregion (Construction / Initialization)
     // --------------------------------------------------------
     //#region Properties
-    get token() {
+    get key() {
         return (this._recPack) ? this._recPack.key : "";
     }
     get name() {
@@ -186,14 +209,6 @@ export class ActivePackage {
             }
             // alert("Задание выполнено!");
         } // if (ev.data.statement.result)
-    }
-    _onInvokeClose(ev) {
-        // пока так, но это временно.
-        // Решение о закрытии виджета должно приниматься на уровне общего UI (т.е. Blazor)
-        const response = confirm("Are you sure you want to close this widget?");
-        if (response) {
-            this.dispose();
-        }
     }
     //#endregion (Handlers)
     //#region Internals

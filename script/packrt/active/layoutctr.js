@@ -49,7 +49,7 @@ export class PackLayoutCtr {
                         <div id="WidthGroup" class="sizepanel-clm">
                             <div class="group-caption">ширина</div>
                             <div class="input-area">
-                                <div class="sizepanel-field">
+                                <div class="sizepanel-field smallest-size">
                                     <input type="radio" id="SizeSelector" name="Width" value="25%">
                                     <label for="SizeSelector">25%</label>
                                 </div>
@@ -71,7 +71,7 @@ export class PackLayoutCtr {
                         <div id="HeightGroup" class="sizepanel-clm">
                             <div class="group-caption">высота</div>
                             <div class="input-area">
-                                <div class="sizepanel-field">
+                                <div class="sizepanel-field smallest-size">
                                     <input type="radio" id="SizeSelector" name="Height" value="25%">
                                     <label for="SizeSelector">25%</label>
                                 </div>

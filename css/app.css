@@ -350,7 +350,6 @@ a {
 }
 
     .ui-page-presenter.box-adaptive > .ui-page-body {
-        /*flex: 1;*/
         height: 100%;
     }
 
@@ -362,7 +361,6 @@ a {
 }
 
     .ui-page-presenter.box-fluid > .ui-page-body {
-        /*flex: 1;*/
         height: 100%;
     }
 
@@ -371,7 +369,6 @@ a {
 .ui-page-caption {
     position: relative;
     padding: 0.5rem 0.5rem 0.5rem 1rem;
-    color: var(--rz-base-800);
     background-color: var(--rz-base-300);
     font-style: italic;
 }
@@ -393,7 +390,6 @@ a {
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
     .ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
-        /*width: 88%;*/
         width: 95%;
     }
 
@@ -405,7 +401,6 @@ a {
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
     .ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
-        /*width: 72%;*/
         width: 90%;
     }
 }
@@ -413,7 +408,6 @@ a {
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
     .ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
-        /*width: 64%;*/
         width: 85%;
     }
 }
@@ -421,7 +415,6 @@ a {
 /* X-Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
     .ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
-        /*width: 56%;*/
         width: 80%;
     }
 }
@@ -429,7 +422,6 @@ a {
 /* XX-Large devices (larger desktops, 1400px and up) */
 @media (min-width: 1400px) {
     .ui-page-presenter.strip-adaptive, .ui-page-presenter.box-adaptive {
-        /*width: 48%;*/
         width: 75%;
     }
 }
@@ -753,7 +745,7 @@ a {
     height: 100%;
 }
 
-/* ------------------------------ */
+/* ---------------------------------- */
 /* Adaptation to the smallest screens */
 
 @media (max-width: 575.98px) {
@@ -910,6 +902,24 @@ a {
     }
 }
 
+/* ---------------------------------- */
+/* Adaptation to the smallest screens */
+
+@media (max-width: 575.98px) {
+    .package-wnd > #Header > #LayoutBtn {
+        min-width: 48px;
+    }
+
+    .package-wnd > #Header > #MinimizeBtn {
+        min-width: 36px;
+        margin: auto 0.5rem auto auto;
+    }
+
+    .package-wnd > #Header > #CloseBtn {
+        min-width: 36px;
+    }
+}
+
 
 /* ////////////// *
 /* PackLayoutCtr */
@@ -947,7 +957,7 @@ a {
     grid-template-columns: 1fr 1fr;
 }
 
-.packlayout-ctr .sizepanel-clm {
+.packlayout-ctr #SizePanel .sizepanel-clm {
     display: flex;
     flex-direction: column;
 }
@@ -960,6 +970,7 @@ a {
     margin-bottom: 0.75rem;
 }
 
+
 .packlayout-ctr #FillBtn {
     display: block;
     margin: 0.25rem auto auto auto;
@@ -967,8 +978,6 @@ a {
 }
 
 /* PosPanel */
-
-/* .packlayout-ctr #PosPanel {} */
 
 .packlayout-ctr #PosPanel .input-area {
     display: grid;
@@ -995,3 +1004,13 @@ a {
     font-size: var(--rz-icon-size);
     cursor: pointer;
 }
+
+/* ---------------------------------- */
+/* Adaptation to the smallest screens */
+
+@media (max-width: 575.98px) {
+    .packlayout-ctr #SizePanel .smallest-size {
+        display: none;
+    }
+}
+

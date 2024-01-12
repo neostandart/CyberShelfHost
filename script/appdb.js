@@ -113,6 +113,9 @@ export class AppDB {
     }
     //#endregion (Common Public Members)
     //#region Specialize Methods
+    static makeTokenFromRecord(rec) {
+        return { key: rec.key, guid: rec.bookGUID, name: rec.name, filename: rec.filename, version: rec.version };
+    }
     static async findPackageByFile(criteria) {
         return new Promise(async (resolve, reject) => {
             try {

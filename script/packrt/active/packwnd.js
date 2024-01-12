@@ -82,13 +82,17 @@ export class PackageWnd {
         if (!this.isMinimized) {
             this._presenter.classList.add("minimized");
             this._isMinimized = true;
+            //
+            this._presenter.dispatchEvent(new Event("minimized"));
         }
     }
-    restoreView() {
+    restore() {
         if (this.isMinimized) {
             PackageWnd.__topMe(this);
             this._presenter.classList.remove("minimized");
             this._isMinimized = false;
+            //
+            this._presenter.dispatchEvent(new Event("restored"));
         }
     }
     enablePointerEvents() {
@@ -208,8 +212,49 @@ export class PackageWnd {
             // restoring event handling in this window
             PackagePool.enablePointerEventsAll();
             //
+            // new code!
+            this._ensureView();
+            //
             this._dragStatus = DragStatus.No;
             //
+            this._ctrLayout.resetPositionState();
+        }
+    }
+    _ensureView() {
+        PackageWnd.__topMe(this);
+        //
+        const rcParent = this._presenter.offsetParent.getBoundingClientRect();
+        const rcThis = this._presenter.getBoundingClientRect();
+        const nLimitVert = rcThis.height / 2;
+        const nLimitHorz = rcThis.width / 2;
+        let bTopNew = false;
+        let bLeftNew = false;
+        // 
+        if ((rcThis.bottom - rcParent.bottom) > nLimitVert) {
+            rcThis.y = (rcParent.bottom - nLimitVert);
+            bTopNew = true;
+        }
+        if (rcThis.top < rcParent.top) {
+            rcThis.y = rcParent.top;
+            bTopNew = true;
+        }
+        if ((rcThis.right - rcParent.right) > nLimitHorz) {
+            rcThis.x = rcParent.right - nLimitHorz;
+            bLeftNew = true;
+        }
+        if (rcThis.left < rcParent.left) {
+            rcThis.x = rcParent.left;
+            bLeftNew = true;
+        }
+        //
+        if (bTopNew) {
+            this._presenter.style.top = (rcThis.top - rcParent.top) + "px";
+        }
+        if (bLeftNew) {
+            this._presenter.style.left = (rcThis.left - rcParent.left) + "px";
+        }
+        //
+        if (bTopNew || bLeftNew) {
             this._ctrLayout.resetPositionState();
         }
     }

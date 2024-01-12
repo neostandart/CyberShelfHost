@@ -25,7 +25,7 @@ export async function openPackage(packkey, user) {
     let pack = PackagePool.getPackage(packkey);
     if (pack) {
         if (pack.wnd.isMinimized) {
-            pack.wnd.restoreView();
+            pack.wnd.restore();
         }
     }
     else {
