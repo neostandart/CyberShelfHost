@@ -145,8 +145,58 @@ export class AppDB {
                 reject(err); // it is necessary to test...
             }
             finally {
-                this._releaseDB();
             }
+        });
+    }
+    static async findPackageRefs(packkey, userkeyExclude = null) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let adb = await this._useDB();
+                let transCatalogs = adb.transaction("catalogs", "readonly");
+                let storeCatalogs = transCatalogs.objectStore("catalogs");
+                //let transUsers = adb.transaction("users", "readonly");
+                //let storeUsers = transUsers.objectStore("users");
+                //
+                const aResult = [];
+                const regex = new RegExp(`PackageKey=("|\')${packkey}`);
+                //
+                storeCatalogs.openCursor().onsuccess = (event) => {
+                    const cursor = event.target.result;
+                    if (cursor) {
+                        if (!userkeyExclude || cursor.key !== userkeyExclude) {
+                            let strCatalog = cursor.value;
+                            if (regex.test(strCatalog)) {
+                                // ! a link to the package was found
+                                let transUsers = adb.transaction("users", "readonly");
+                                let storeUsers = transUsers.objectStore("users");
+                                const reqUser = storeUsers.get(cursor.key);
+                                reqUser.onsuccess = (event) => {
+                                    const user = event.target.result;
+                                    if (user) {
+                                        aResult.push({ id: user.id, displayName: user.displayName, email: user.email });
+                                    }
+                                    else {
+                                        console.error(`AppDB.findPackageRefs: Database integrity violation detected (packkey=${packkey}, UserId(key)=${cursor.key})`);
+                                    }
+                                };
+                            }
+                        }
+                        //
+                        cursor.continue();
+                    }
+                    else {
+                        this._releaseDB();
+                        resolve(aResult);
+                    }
+                };
+            }
+            catch (err) {
+                this._releaseDB();
+                reject(err);
+            }
+            //    finally {
+            //        this._releaseDB();
+            //    }
         });
     }
     //#endregion (Specialize Methods)

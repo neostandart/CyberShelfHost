@@ -42,15 +42,15 @@ export function closePackage(packkey) {
     }
 }
 export async function deletePackage(packkey) {
-    console.log("deletePackage");
+    //console.log("deletePackage");
     //
     if (PackagePool.hasPackage(packkey)) {
         alert("You cannot delete an open package!");
-        return;
+        return null;
     }
     //
-    const tokDeleted = await deinstall(packkey);
-    //alert(`Пакет (${tokDeleted}) удалён.`);
+    const deletedkey = await deinstall(packkey);
+    return deletedkey;
 }
 async function onInputChange() {
     if (_inputElement.files.length == 1) {
