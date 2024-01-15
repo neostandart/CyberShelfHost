@@ -258,16 +258,6 @@ export class PackagePool {
         //
         this._mapPacks.set(packtoken, pack);
     }
-    static getPackage(packtoken) {
-        return this._mapPacks.get(packtoken);
-    }
-    static getAllActivePackages() {
-        const aRes = [...this._mapPacks.values()];
-        return aRes;
-    }
-    static hasPackage(packtoken) {
-        return this._mapPacks.has(packtoken);
-    }
     static releasePackage(packtoken) {
         const pack = this._mapPacks.get(packtoken);
         if (pack) {
@@ -277,6 +267,29 @@ export class PackagePool {
         if (this._mapPacks.size === 0) {
             this._nZIndexTop = 0;
         }
+    }
+    static closeAllPackages() {
+        return new Promise((resolve, reject) => {
+            const aKeys = [];
+            const aPackages = this.getAllActivePackages();
+            //
+            for (const pack of aPackages) {
+                aKeys.push(pack.key);
+                pack.dispose();
+            }
+            //
+            resolve(aKeys);
+        });
+    }
+    static getPackage(packtoken) {
+        return this._mapPacks.get(packtoken);
+    }
+    static getAllActivePackages() {
+        const aRes = [...this._mapPacks.values()];
+        return aRes;
+    }
+    static hasPackage(packtoken) {
+        return this._mapPacks.has(packtoken);
     }
     static getZIndexTop() {
         this._nZIndexTop++;

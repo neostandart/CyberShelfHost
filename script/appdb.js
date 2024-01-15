@@ -154,8 +154,6 @@ export class AppDB {
                 let adb = await this._useDB();
                 let transCatalogs = adb.transaction("catalogs", "readonly");
                 let storeCatalogs = transCatalogs.objectStore("catalogs");
-                //let transUsers = adb.transaction("users", "readonly");
-                //let storeUsers = transUsers.objectStore("users");
                 //
                 const aResult = [];
                 const regex = new RegExp(`PackageKey=("|\')${packkey}`);
@@ -194,9 +192,41 @@ export class AppDB {
                 this._releaseDB();
                 reject(err);
             }
-            //    finally {
-            //        this._releaseDB();
-            //    }
+        });
+    }
+    static deleteUser(userid) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const database = await this.useDB();
+                const transaction = database.transaction(["users", "catalogs"], "readwrite");
+                const storeUsers = transaction.objectStore("users");
+                const storeCatalogs = transaction.objectStore("catalogs");
+                const recUser = await this._processStoreRequest(storeUsers.get(userid));
+                if (recUser) {
+                    const user = { id: recUser.id, displayName: recUser.displayName, email: recUser.email };
+                    //
+                    storeUsers.delete(userid);
+                    storeCatalogs.delete(userid);
+                    transaction.oncomplete = () => {
+                        resolve(user);
+                    };
+                    transaction.onabort = () => {
+                        resolve(null);
+                    };
+                    transaction.onerror = () => {
+                        resolve(null);
+                    };
+                }
+                else {
+                    resolve(null);
+                }
+            }
+            catch (err) {
+                resolve(null);
+            }
+            finally {
+                this.releaseDB();
+            }
         });
     }
     //#endregion (Specialize Methods)
