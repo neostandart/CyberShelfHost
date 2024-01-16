@@ -125,7 +125,7 @@ a {
     }
 
 .rz-fieldset-legend > .rz-fieldset-legend-text {
-    font-size: var(--rz-text-caption-font-size);
+    font-size: var(--rz-text-body2-font-size);
     font-weight: 500;
     letter-spacing: 0.4px;
     color: var(--rz-text-title-color);
@@ -170,12 +170,12 @@ a {
     --ui-image-hg: 224px;
     --ui-image-gn: 256px;
     /* *** */
-    --ui-tbtn-tn: 18px;
-    --ui-tbtn-sm: 26px;
-    --ui-tbtn-md: 34px;
-    --ui-tbtn-lg: 52px;
-    --ui-tbtn-hg: 70px;
-    --ui-tbtn-gn: 92px;
+    --ui-btn-tn: 18px;
+    --ui-btn-sm: 26px;
+    --ui-btn-md: 34px;
+    --ui-btn-lg: 52px;
+    --ui-btn-hg: 70px;
+    --ui-btn-gn: 92px;
     /* *** */
     --ui-color-info-bg: #e4edfe;
     /* *** */
@@ -669,34 +669,34 @@ a {
     background-color: var(--rz-base-300);
 }
 
-.ui-tbtn-tn {
-    width: var(--ui-tbtn-tn);
-    height: var(--ui-tbtn-tn);
+.ui-btn-tn {
+    width: var(--ui-btn-tn);
+    height: var(--ui-btn-tn);
 }
 
-.ui-tbtn-sm {
-    width: var(--ui-tbtn-sm);
-    height: var(--ui-tbtn-sm);
+.ui-btn-sm {
+    width: var(--ui-btn-sm);
+    height: var(--ui-btn-sm);
 }
 
-.ui-tbtn-md {
-    width: var(--ui-tbtn-md);
-    height: var(--ui-tbtn-md);
+.ui-btn-md {
+    width: var(--ui-btn-md);
+    height: var(--ui-btn-md);
 }
 
-.ui-tbtn-lg {
-    width: var(--ui-tbtn-lg);
-    height: var(--ui-tbtn-lg);
+.ui-btn-lg {
+    width: var(--ui-btn-lg);
+    height: var(--ui-btn-lg);
 }
 
-.ui-tbtn-hg {
-    width: var(--ui-tbtn-hg);
-    height: var(--ui-tbtn-hg);
+.ui-btn-hg {
+    width: var(--ui-btn-hg);
+    height: var(--ui-btn-hg);
 }
 
-.ui-tbtn-gn {
-    width: var(--ui-tbtn-gn);
-    height: var(--ui-tbtn-gn);
+.ui-btn-gn {
+    width: var(--ui-btn-gn);
+    height: var(--ui-btn-gn);
 }
 
 /* ------------------------------ */
@@ -708,11 +708,19 @@ a {
 
 /* ------------------------------ */
 /* Tool button (ToolButton.razor) */
-.ui-tbtn {
+.ui-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
+}
+
+.ui-btn-wide-1 {
+    min-width: 5em;
+}
+
+.ui-btn-wide-2 {
+    min-width: 8em;
 }
 
 /* ------------------------------ */
