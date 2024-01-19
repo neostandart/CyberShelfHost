@@ -15,6 +15,7 @@ export class PackageWnd {
     _frame;
     _ctrLayout;
     _isMinimized;
+    _hteMaxSizeIcon;
     static _template;
     _ptLastDragPos = new DOMPoint();
     _dragStatus = DragStatus.No;
@@ -37,13 +38,19 @@ export class PackageWnd {
         this._capturezone.addEventListener("touchstart", this._onCaptureZoneTouchStart);
         //
         const btnLayout = this._header.querySelector("#LayoutBtn");
-        btnLayout.addEventListener("click", this._onLayout.bind(this));
+        btnLayout.addEventListener("click", this._onLayoutClick.bind(this));
         //
         const btnMinimize = this._header.querySelector("#MinimizeBtn");
         btnMinimize.addEventListener("click", (ev) => { this.minimize(); });
         //
+        const btnMaxSize = this._header.querySelector("#MaxSizeBtn");
+        btnMaxSize.addEventListener("click", (ev) => { this.toggleMaxSize(); });
+        this._hteMaxSizeIcon = this._header.querySelector("#MaxSizeBtn i");
+        //
         const btnClose = this._header.querySelector("#CloseBtn");
-        btnClose.addEventListener("click", this._onClose.bind(this));
+        btnClose.addEventListener("click", this._onCloseClick.bind(this));
+        //
+        this._presenter.addEventListener("layout", this._onAfterLayout.bind(this));
     }
     //#endregion (Construction / Initialization)
     // --------------------------------------------------------
@@ -67,7 +74,8 @@ export class PackageWnd {
         this._ctrLayout.applyWndState(сохранённое состояние — класс PackWndState);
         */
         // Пока размещаем открываемое окно в правом верхнем углу родительской области
-        this._ctrLayout.applyWndState({ width: "80%", height: "80%", position: "TopRight" }, true);
+        this._ctrLayout.applyDefaultLayout();
+        // потом возможно надо запоминать расположение окна
         PackageWnd.__topMe(this); // открываемое окно должно быть поверх других
         //
         const iFrameDoc = this._frame.contentWindow && this._frame.contentWindow.document;
@@ -92,7 +100,19 @@ export class PackageWnd {
             this._presenter.classList.remove("minimized");
             this._isMinimized = false;
             //
+            this._ctrLayout.ensureView();
+            //
             this._presenter.dispatchEvent(new Event("restored"));
+        }
+    }
+    toggleMaxSize() {
+        if (this._ctrLayout.isMaxSize) {
+            this._ctrLayout.discardMaxSize();
+            this._hteMaxSizeIcon.innerHTML = "fullscreen";
+        }
+        else {
+            this._ctrLayout.applyMaxSize();
+            this._hteMaxSizeIcon.innerHTML = "close_fullscreen";
         }
     }
     enablePointerEvents() {
@@ -162,18 +182,26 @@ export class PackageWnd {
     };
     //#endregion (Drag handlers)
     //#region Common Handlers
-    _onLayout(ev) {
+    _onLayoutClick(ev) {
         PackageWnd.__topMe(this);
         //
-        if (this._ctrLayout.IsOpened) {
+        if (this._ctrLayout.isOpened) {
             this._ctrLayout.close();
         }
         else {
             this._ctrLayout.open(this._clientarea);
         }
     }
-    _onClose(ev) {
+    _onCloseClick(ev) {
         this._presenter.dispatchEvent(new Event("invokeclose"));
+    }
+    _onAfterLayout(ev) {
+        if (this._ctrLayout.isMaxSize) {
+            this._hteMaxSizeIcon.innerHTML = "close_fullscreen";
+        }
+        else {
+            this._hteMaxSizeIcon.innerHTML = "fullscreen";
+        }
     }
     //#endregion (Common Handlers)
     //#region Internals
@@ -212,50 +240,10 @@ export class PackageWnd {
             // restoring event handling in this window
             PackagePool.enablePointerEventsAll();
             //
-            // new code!
-            this._ensureView();
+            this._ctrLayout.ensureView();
+            this._ctrLayout.acceptCustomPosition();
             //
             this._dragStatus = DragStatus.No;
-            //
-            this._ctrLayout.resetPositionState();
-        }
-    }
-    _ensureView() {
-        PackageWnd.__topMe(this);
-        //
-        const rcParent = this._presenter.offsetParent.getBoundingClientRect();
-        const rcThis = this._presenter.getBoundingClientRect();
-        const nLimitVert = rcThis.height / 2;
-        const nLimitHorz = rcThis.width / 2;
-        let bTopNew = false;
-        let bLeftNew = false;
-        // 
-        if ((rcThis.bottom - rcParent.bottom) > nLimitVert) {
-            rcThis.y = (rcParent.bottom - nLimitVert);
-            bTopNew = true;
-        }
-        if (rcThis.top < rcParent.top) {
-            rcThis.y = rcParent.top;
-            bTopNew = true;
-        }
-        if ((rcThis.right - rcParent.right) > nLimitHorz) {
-            rcThis.x = rcParent.right - nLimitHorz;
-            bLeftNew = true;
-        }
-        if (rcThis.left < rcParent.left) {
-            rcThis.x = rcParent.left;
-            bLeftNew = true;
-        }
-        //
-        if (bTopNew) {
-            this._presenter.style.top = (rcThis.top - rcParent.top) + "px";
-        }
-        if (bLeftNew) {
-            this._presenter.style.left = (rcThis.left - rcParent.left) + "px";
-        }
-        //
-        if (bTopNew || bLeftNew) {
-            this._ctrLayout.resetPositionState();
         }
     }
     //#endregion (Internals)
@@ -270,14 +258,19 @@ export class PackageWnd {
                         <i class="fsym">view_compact_alt</i>
                     </button>
 
-                    <div id="DragCaptureZone"></div>
-
                     <button id="MinimizeBtn" type="button" class="btn btn-outline-light btn-sm">
                         <i class="fsym">minimize</i>
                     </button>
+
+                    <button id="MaxSizeBtn" type="button" class="btn btn-outline-light btn-sm">
+                        <i class="fsym">fullscreen</i>
+                    </button>
+
                     <button id="CloseBtn" type="button" class="btn btn-outline-light btn-sm">
                          <i class="fsym">close</i>
                     </button>
+
+                    <div id="DragCaptureZone"></div>
                 </div>
                 <div id="ClientArea">
                     <iframe id="Frame" src="about:blank"></iframe>

@@ -1,4 +1,4 @@
-import { Dimension, Layout } from "../../defs.js";
+import { Layout } from "../../defs.js";
 import { Helper } from "../../helper.js";
 export class PackLayoutCtr {
     //#region Defs & Vars
@@ -7,7 +7,9 @@ export class PackLayoutCtr {
     _bIsOpened;
     static _template;
     _hteTarget;
-    _stateWnd;
+    _layout;
+    _layoutSaved; // before MaxSize
+    _bMaxSize = false;
     //#endregion (Defs & Vars)
     // --------------------------------------------------------
     //#region Construction / Initialization
@@ -17,7 +19,7 @@ export class PackLayoutCtr {
         //
         this._hteTarget = hteTarget;
         //
-        this._stateWnd = { width: undefined, height: undefined, position: undefined };
+        this._layout = this.layoutDefault;
         //
         const listInputs = fragPresenter.querySelectorAll(".input-area input");
         listInputs.forEach((inputItem) => {
@@ -130,83 +132,106 @@ export class PackLayoutCtr {
     get presenter() {
         return this._presenter;
     }
-    get IsOpened() {
+    get isOpened() {
         return this._bIsOpened;
     }
-    get StateWnd() {
-        return this._stateWnd;
+    get stateWnd() {
+        return this._layout;
+    }
+    get isMaxSize() {
+        return this._bMaxSize;
+    }
+    get layoutDefault() {
+        return { width: "75%", height: "75%", position: "TopRight", left: undefined, top: undefined };
     }
     //#endregion (Properties)
     //#region Methods
-    applyWndState(state = null, bForce = false) {
-        if (state) {
-            this._stateWnd = state;
-        }
-        //
-        if (this._stateWnd.width) {
-            const input = this._presenter.querySelector(`#WidthGroup input[value="${this._stateWnd.width}"]`);
-            if (input) {
-                input.checked = true;
-            }
+    initLayout(layout) {
+        this._layout = layout;
+    }
+    applyDefaultLayout() {
+        this._layout = this.layoutDefault;
+        this.applyLayout();
+    }
+    applyMaxSize() {
+        if (!this.isMaxSize) {
+            this._bMaxSize = true;
             //
-            if (bForce) {
-                this._doTargetResize(Dimension.Width, this._stateWnd.width);
-            }
-        }
-        if (this._stateWnd.height) {
-            const input = this._presenter.querySelector(`#HeightGroup input[value="${this._stateWnd.width}"]`);
-            if (input) {
-                input.checked = true;
-            }
+            this._layoutSaved = this._layout;
+            this._layout = { width: "100%", height: "100%", position: "TopLeft", left: undefined, top: undefined };
+            this.applyLayout();
             //
-            if (bForce) {
-                this._doTargetResize(Dimension.Height, this._stateWnd.height);
-            }
+            this.close();
         }
-        if (this._stateWnd.position) {
-            if (this._stateWnd.position.indexOf(",") === -1) {
-                const input = this._presenter.querySelector(`#PosPanel input[value="${this._stateWnd.position}"]`);
-                if (input) {
-                    input.checked = true;
-                }
-            }
-            //
-            if (bForce) {
-                this._doTargetPositioning(this._stateWnd.position);
+    }
+    discardMaxSize(bApply = true) {
+        if (this.isMaxSize) {
+            this._bMaxSize = false;
+            if (bApply) {
+                this._layout = this._layoutSaved;
+                this.applyLayout();
             }
         }
     }
+    acceptCustomPosition() {
+        const listInputs = this._presenter.querySelectorAll("#PosPanel input");
+        listInputs.forEach((inputItem) => { inputItem.checked = false; });
+        //
+        this._layout.position = "custom";
+        this._layout.left = this._hteTarget.style.left;
+        this._layout.top = this._hteTarget.style.top;
+    }
+    ensureView() {
+        const rcParent = this._hteTarget.offsetParent.getBoundingClientRect();
+        const rcThis = this._hteTarget.getBoundingClientRect();
+        const nLimitVert = rcThis.height / 2;
+        const nLimitHorz = rcThis.width / 2;
+        let bTopNew = false;
+        let bLeftNew = false;
+        // 
+        if ((rcThis.bottom - rcParent.bottom) > nLimitVert) {
+            rcThis.y = (rcParent.bottom - nLimitVert);
+            bTopNew = true;
+        }
+        if (rcThis.top < rcParent.top) {
+            rcThis.y = rcParent.top;
+            bTopNew = true;
+        }
+        if ((rcThis.right - rcParent.right) > nLimitHorz) {
+            rcThis.x = rcParent.right - nLimitHorz;
+            bLeftNew = true;
+        }
+        if (rcThis.left < rcParent.left) {
+            rcThis.x = rcParent.left;
+            bLeftNew = true;
+        }
+        //
+        if (bTopNew) {
+            this._hteTarget.style.top = (rcThis.top - rcParent.top) + "px";
+        }
+        if (bLeftNew) {
+            this._hteTarget.style.left = (rcThis.left - rcParent.left) + "px";
+        }
+        //
+        if (bTopNew || bLeftNew) {
+            this.acceptCustomPosition();
+        }
+    }
+    //
+    //
     open(parent) {
-        if (!this.IsOpened) {
-            // It is executed before "_parent.appendChild", so "change" events for 
-            // input elements will not be raise.
-            this.applyWndState();
-            //
+        if (!this.isOpened) {
             this._parent = parent;
             this._parent.appendChild(this._presenter);
             this._bIsOpened = true;
         }
     }
     close() {
-        if (this.IsOpened) {
+        if (this.isOpened) {
             this._parent.removeChild(this._presenter);
             this._parent = null;
             this._bIsOpened = false;
         }
-    }
-    //
-    resetSizeState() {
-        this._stateWnd.width = undefined;
-        this._stateWnd.height = undefined;
-        //
-        const listInputs = this._presenter.querySelectorAll("#SizePanel input");
-        listInputs.forEach((inputItem) => { inputItem.checked = false; });
-    }
-    resetPositionState() {
-        this._stateWnd.position = undefined;
-        //
-        const listInputs = this._presenter.querySelectorAll("#PosPanel input");
-        listInputs.forEach((inputItem) => { inputItem.checked = false; });
     }
     //#endregion (Methods)
     //#region Events
@@ -216,93 +241,131 @@ export class PackLayoutCtr {
     _onInputChange(ev) {
         const input = ev.currentTarget;
         switch (input.name) {
-            case "Width":
+            case "Width": {
+                if (this.isMaxSize) {
+                    this.discardMaxSize(false);
+                }
+                //
+                this._layout.width = input.value;
+                this._doTargetResize(input.value, undefined);
+                break;
+            }
             case "Height": {
-                const vDimension = Helper.parseEnumEnsure(Dimension, input.name, Dimension.Full);
-                this._doTargetResize(vDimension, input.value);
+                if (this.isMaxSize) {
+                    this.discardMaxSize(false);
+                }
+                //
+                this._layout.height = input.value;
+                this._doTargetResize(undefined, input.value);
                 break;
             }
             case "WndPos": {
-                //const vLayout: Layout = <Layout>Helper.parseEnumEnsure(Layout, input.value, Layout.TopRight);
-                this._doTargetPositioning(input.value);
+                this._layout.position = input.value;
+                this._doRelPos(input.value);
                 break;
             }
         }
+        //
+        this._raiseLayout();
     }
     _onFillBtn(ev) {
-        this.applyWndState({ width: "100%", height: "100%", position: "TopLeft" }, true);
-        this.close();
+        this.applyMaxSize();
     }
     //#endregion Handlers
     //#region Internals
-    _doTargetResize(vDimension, strValue) {
-        switch (vDimension) {
-            case Dimension.Width: {
-                this._hteTarget.style.width = strValue;
-                //
-                if (this._stateWnd.position && this._stateWnd.position.indexOf(",") === -1) {
-                    this._doTargetPositioning(this._stateWnd.position);
-                }
-                //
-                break;
-            }
-            case Dimension.Height: {
-                this._hteTarget.style.height = strValue;
-                //
-                if (this._stateWnd.position && this._stateWnd.position.indexOf(",") === -1) {
-                    this._doTargetPositioning(this._stateWnd.position);
-                }
-                //
-                break;
-            }
-        } // switch (vDimension)
+    _raiseLayout() {
+        this._hteTarget.dispatchEvent(new Event("layout"));
     }
-    _doTargetPositioning(strPosInfo) {
+    _doTargetResize(width, height) {
+        if (width) {
+            this._hteTarget.style.width = width;
+        }
+        if (height) {
+            this._hteTarget.style.height = height;
+        }
+        if (this._layout.position != "custom") {
+            this._doRelPos(this._layout.position);
+        }
+        this.ensureView();
+    }
+    _doRelPos(strPosInfo) {
         let strLeft = "0";
         let strTop = "0";
         //
-        let aPosParts = strPosInfo.split(",");
-        if (aPosParts.length === 2) {
-            strLeft = aPosParts[0] + "px";
-            strTop = aPosParts[1] + "px";
-        }
-        else {
-            const layout = Helper.parseEnumEnsure(Layout, strPosInfo, Layout.TopRight);
-            switch (layout) {
-                case Layout.TopLeft: {
-                    break;
-                }
-                case Layout.TopRight: {
-                    let nLeft = this._hteTarget.offsetParent.clientWidth - this._hteTarget.offsetWidth;
-                    strLeft = (nLeft + "px");
-                    break;
-                }
-                case Layout.Center: {
-                    let nLeft = (this._hteTarget.offsetParent.clientWidth / 2) - (this._hteTarget.offsetWidth / 2);
-                    strLeft = (nLeft + "px");
-                    let nTop = (this._hteTarget.offsetParent.clientHeight / 2) - (this._hteTarget.offsetHeight / 2);
-                    strTop = (nTop + "px");
-                    break;
-                }
-                case Layout.BottomLeft: {
-                    let nTop = this._hteTarget.offsetParent.clientHeight - this._hteTarget.offsetHeight;
-                    strTop = nTop + "px";
-                    break;
-                }
-                case Layout.BottomRight: {
-                    let nLeft = this._hteTarget.offsetParent.clientWidth - this._hteTarget.offsetWidth;
-                    strLeft = (nLeft + "px");
-                    let nTop = this._hteTarget.offsetParent.clientHeight - this._hteTarget.offsetHeight;
-                    strTop = nTop + "px";
-                    break;
-                }
-            } // switch
-        }
-        //
-        //
-        this._stateWnd.position = strPosInfo;
+        const layout = Helper.parseEnumEnsure(Layout, strPosInfo, Layout.TopRight);
+        switch (layout) {
+            case Layout.TopLeft: {
+                break;
+            }
+            case Layout.TopRight: {
+                let nLeft = this._hteTarget.offsetParent.clientWidth - this._hteTarget.offsetWidth;
+                strLeft = (nLeft + "px");
+                break;
+            }
+            case Layout.Center: {
+                let nLeft = (this._hteTarget.offsetParent.clientWidth / 2) - (this._hteTarget.offsetWidth / 2);
+                strLeft = (nLeft + "px");
+                let nTop = (this._hteTarget.offsetParent.clientHeight / 2) - (this._hteTarget.offsetHeight / 2);
+                strTop = (nTop + "px");
+                break;
+            }
+            case Layout.BottomLeft: {
+                let nTop = this._hteTarget.offsetParent.clientHeight - this._hteTarget.offsetHeight;
+                strTop = nTop + "px";
+                break;
+            }
+            case Layout.BottomRight: {
+                let nLeft = this._hteTarget.offsetParent.clientWidth - this._hteTarget.offsetWidth;
+                strLeft = (nLeft + "px");
+                let nTop = this._hteTarget.offsetParent.clientHeight - this._hteTarget.offsetHeight;
+                strTop = nTop + "px";
+                break;
+            }
+        } // switch
         //
         this._hteTarget.style.left = strLeft;
         this._hteTarget.style.top = strTop;
+    }
+    _doAbsPos(left, top) {
+        this._hteTarget.style.left = left;
+        this._hteTarget.style.top = top;
+        //
+        this.ensureView();
+    }
+    applyLayout() {
+        //
+        // Window width
+        //
+        let input = this._presenter.querySelector(`#WidthGroup input[value="${this._layout.width}"]`);
+        if (input) {
+            input.checked = true;
+        }
+        //
+        this._doTargetResize(this._layout.width, undefined);
+        //
+        // Window height
+        //
+        input = this._presenter.querySelector(`#HeightGroup input[value="${this._layout.width}"]`);
+        if (input) {
+            input.checked = true;
+        }
+        //
+        this._doTargetResize(undefined, this._layout.height);
+        //
+        // Window position
+        //
+        if (this._layout.position === "custom") {
+            this._doAbsPos(this._layout.left, this._layout.top);
+        }
+        else {
+            input = this._presenter.querySelector(`#PosPanel input[value="${this._layout.position}"]`);
+            if (input) {
+                input.checked = true;
+            }
+            //
+            this._doRelPos(this._layout.position);
+        }
+        //
+        this._raiseLayout();
     }
 } // class PackLayoutCtr

@@ -835,6 +835,7 @@ a {
 }
 
     .package-wnd > #Header {
+        position: relative;
         display: flex;
         flex-direction: row;
         width: 100%;
@@ -845,15 +846,20 @@ a {
         background-color: #5B2D8E;
     }
 
-        .package-wnd > #Header > #LayoutBtn {
-            min-width: 80px;
-            margin: auto auto auto 0;
-            font-size: var(--rz-icon-size);
-            padding: 0;
+        .package-wnd > #Header > #DragCaptureZone {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
         }
 
-            .package-wnd > #Header > #DragCaptureZone {
-            flex: 1;
+        .package-wnd > #Header > #LayoutBtn {
+            min-width: 80px;
+            margin: auto 0.5rem auto 0;
+            font-size: var(--rz-icon-size);
+            padding: 0;
+            z-index: 1;
         }
 
         /* Miminize Package Window Button */
@@ -861,13 +867,23 @@ a {
             min-width: 40px;
             cursor: pointer;
             margin: auto 1rem auto auto;
+            z-index: 1;
+        }
+
+        /* Fullscreen Package Window Button */
+        .package-wnd > #Header > #MaxSizeBtn {
+            min-width: 40px;
+            cursor: pointer;
+            margin: auto 1.5rem auto 0;
+            z-index: 1;
         }
 
         /* Close Package Window Button */
         .package-wnd > #Header > #CloseBtn {
-            margin: auto;
+            margin: auto 0 auto 0;
             min-width: 40px;
             cursor: pointer;
+            z-index: 1;
         }
 
     .package-wnd > #ClientArea {
@@ -923,6 +939,10 @@ a {
         margin: auto 0.5rem auto auto;
     }
 
+    .package-wnd > #Header > #MaxSizeBtn {
+        margin: auto 1rem auto 0;
+    }
+
     .package-wnd > #Header > #CloseBtn {
         min-width: 36px;
     }
@@ -965,18 +985,18 @@ a {
     grid-template-columns: 1fr 1fr;
 }
 
-.packlayout-ctr #SizePanel .sizepanel-clm {
-    display: flex;
-    flex-direction: column;
-}
+    .packlayout-ctr #SizePanel .sizepanel-clm {
+        display: flex;
+        flex-direction: column;
+    }
 
-.packlayout-ctr #SizePanel .input-area {
-    padding: 0.5rem;
-}
+    .packlayout-ctr #SizePanel .input-area {
+        padding: 0.5rem;
+    }
 
-.packlayout-ctr #SizePanel .sizepanel-field {
-    margin-bottom: 0.75rem;
-}
+    .packlayout-ctr #SizePanel .sizepanel-field {
+        margin-bottom: 0.75rem;
+    }
 
 
 .packlayout-ctr #FillBtn {
@@ -1021,4 +1041,3 @@ a {
         display: none;
     }
 }
-
