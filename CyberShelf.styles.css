@@ -182,6 +182,27 @@ div[b-lsf9mahv16] {
     width: 100%;
     height: 100%;
 }
+/* /Pages/Settings/Stuff/LibraryList.razor.rz.scp.css */
+[b-4vn9hdohlu] .lib-item-content {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+[b-4vn9hdohlu] .lib-item-content tr {
+    border: solid;
+    border-width: 1px 0;
+}
+
+[b-4vn9hdohlu] .lib-item-content th {
+    line-height: 1;
+    padding: 0.5rem 0.25rem;
+}
+
+[b-4vn9hdohlu] .lib-item-content td {
+    width: 100%;
+    padding: 0.5rem 0.25rem 0.5rem 0.75rem;
+}
+
 /* /Pages/Shelf/ShelfPage.razor.rz.scp.css */
 
 [b-uqcxmc1g8g] .toolbutton-label {
@@ -210,8 +231,8 @@ article[b-m1gkco5jpd] {
 
 [b-m1gkco5jpd] .relocsign-box {
     position: absolute;
-    top: -10%;
-    left: -10%;
+    top: 10%;
+    left: calc(var(--ui-icon-md) * -1.25);
 }
 /* /Pages/Shelf/Stuff/DetailsView.razor.rz.scp.css */
 article[b-mj21airio6] {

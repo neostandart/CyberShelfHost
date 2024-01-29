@@ -1,3 +1,4 @@
+import { AppDB } from "../appdb.js";
 import { SimpleTranslator } from "./localization/translator.js";
 import { Localizer } from "./localization/localizer.js";
 import * as pipe from "../pipe.js";
@@ -6,9 +7,12 @@ import { Helper } from "../helper.js";
 export class H5PEnv {
     static _aCoreCss;
     static _aCoreJs;
+    static _addons;
     static _localizer;
     static _objStringsDefault;
     static _strPlayerTemplate;
+    //
+    //
     static async initializeAsync() {
         this._aCoreCss = [
             "vendor/h5p/core/styles/h5p.css",
@@ -26,6 +30,8 @@ export class H5PEnv {
             "vendor/h5p/core/js/h5p-action-bar.js",
             "vendor/h5p/core/js/request-queue.js"
         ];
+        //
+        this._addons = await AppDB.get("_system", "addons") || {};
         //
         // We are preparing localization
         //
@@ -68,19 +74,101 @@ export class H5PEnv {
     }
     //
     //
+    static async regAddonLibrary(librec) {
+        if (this._addons[librec.machineName]) {
+            const existing = this._addons[librec.machineName];
+            if (this.compareVersion(librec.version, existing.version) != 1)
+                return;
+        }
+        //
+        this._addons[librec.machineName] = { token: librec.token, version: librec.version, addTo: librec.metadata.addTo };
+        await AppDB.put("_system", this._addons, "addons");
+    }
+    static getAddonsForContent(data) {
+        const aAddons = [];
+        //
+        for (const key in this._addons) {
+            const addoninfo = this._addons[key];
+            for (const typeitem of addoninfo.addTo.content.types) {
+                // Grigory. Taken from the "H5P-Nodejs-Library" (Lumi Education) (Thanks to the developers!)
+                if (typeitem.text) {
+                    // The regex pattern in the metadata is specified like this:
+                    // /mypattern/ or /mypattern/g
+                    // Because of this we must extract the actual pattern and
+                    // the flags and pass them to the constructor of RegExp.
+                    const matches = /^\/(.+?)\/([gimy]+)?$/.exec(typeitem.text.regex);
+                    if (matches.length < 1) {
+                        console.error(`The addon ${addoninfo.token} contains an invalid regexp pattern in the addTo selector: ${typeitem.text.regex}. This will be silently ignored, but the addon will never be used!`);
+                        continue;
+                    }
+                    //
+                    if (new RegExp(matches[1], matches[2]).test(data)) {
+                        aAddons.push(addoninfo);
+                    }
+                } // if (typeitem.text)
+            }
+        }
+        //
+        return aAddons;
+    }
+    //
+    //
     static get CoreCssPaths() {
         return this._aCoreCss;
     }
     static get CoreJsPaths() {
         return this._aCoreJs;
     }
+    static getContentTypeImage(machinename) {
+        return "assets/images/svg/library.svg";
+    }
     //
     //
     static generateContentId() {
         return Math.random().toString(36).substring(2, 11);
     }
+    static getVersionFromObject(metadata) {
+        return (metadata.patchVersion) ?
+            `${metadata.majorVersion}.${metadata.minorVersion}.${metadata.patchVersion}` :
+            `${metadata.majorVersion}.${metadata.minorVersion}`;
+    }
     static makeLibraryToken(obj) {
         return `${obj.machineName}-${obj.majorVersion}.${obj.minorVersion}`;
+    }
+    static compareVersion(ver1, ver2) {
+        if (ver1 === ver2)
+            return 0;
+        //
+        const aVer1 = ver1.split(".").map((val) => Number(val));
+        const aVer2 = ver2.split(".").map((val) => Number(val));
+        //
+        let nResult = 0;
+        //
+        let i = 0;
+        for (; i < aVer1.length; i++) {
+            if (aVer1[i] == aVer2[i])
+                continue;
+            //
+            if (aVer1[i] > aVer2[i]) {
+                nResult = 1;
+            }
+            else {
+                nResult = -1;
+            }
+            //
+            break;
+        }
+        //
+        if (i < aVer2.length) {
+            for (; i < aVer2.length; i++) {
+                if (aVer2[i] === 0)
+                    continue;
+                nResult = -1;
+                break;
+            }
+        }
+        //
+        return nResult;
     }
     //
     //
@@ -126,6 +214,29 @@ export class H5PEnv {
             core: {
                 scripts: [] /*H5PJet.aCoreJs*/,
                 styles: [] /*H5PJet.aCoreCss*/
+            },
+            libraryConfig: {
+                "H5P.MathDisplay": {
+                    observers: [
+                        { name: 'mutationObserver', params: { cooldown: 500 } },
+                        { name: 'domChangedListener' }
+                    ],
+                    renderer: {
+                        mathjax: {
+                            src: 'vendor/mathjax/tex-svg.js',
+                            config: {
+                                extensions: ['tex2jax.js'],
+                                showMathMenu: false,
+                                jax: ['input/TeX', 'output/HTML-CSS'],
+                                tex2jax: {
+                                    // Important, otherwise MathJax will be rendered inside CKEditor
+                                    ignoreClass: "ckeditor"
+                                },
+                                messageStyle: 'none'
+                            }
+                        }
+                    }
+                }
             },
             contents: {
                 [`cid-${contentId}`]: {

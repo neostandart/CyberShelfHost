@@ -54,6 +54,11 @@ export class ActivePackage {
             }
         }
         //
+        // Checking the Addons
+        const addons = H5PEnv.getAddonsForContent(this._recContent.data);
+        for (const addoninfo of addons) {
+            await this.processLibDependencies(addoninfo.token, this._aDependencyLibTokens);
+        }
         //
         this._html = await this.buildAsync();
         //
@@ -65,8 +70,8 @@ export class ActivePackage {
         //
         this._wnd.presenter.addEventListener("invokeclose", () => {
             // пока так, но это временно.
-            // Решение о закрытии виджета должно приниматься на уровне общего UI (т.е. Blazor)
-            const response = confirm("Are you sure you want to close this widget?");
+            // Решение о закрытии окна контента должно приниматься на уровне общего UI (т.е. Blazor)
+            const response = confirm("Are you sure you want to close this content?");
             if (response) {
                 this.dispose();
             }

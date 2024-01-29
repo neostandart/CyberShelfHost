@@ -114,7 +114,7 @@ export class AppDB {
     //#endregion (Common Public Members)
     //#region Specialize Methods
     static makeTokenFromRecord(rec) {
-        return { key: rec.key, guid: rec.bookGUID, name: rec.name, filename: rec.filename, version: rec.version };
+        return { key: rec.key, guid: rec.guid, name: rec.name, version: rec.version, filename: rec.filename };
     }
     static async findPackageByFile(criteria) {
         return new Promise(async (resolve, reject) => {
@@ -127,8 +127,8 @@ export class AppDB {
                     const cursor = event.target.result;
                     if (cursor) {
                         let packCurrent = cursor.value;
-                        if (packCurrent.filename === criteria.filename && packCurrent.filesize === criteria.filesize && packCurrent.lastModified) {
-                            const refPack = { key: packCurrent.key, name: packCurrent.name, filename: packCurrent.filename, guid: packCurrent.bookGUID, version: packCurrent.version };
+                        if (packCurrent.filename === criteria.filename && packCurrent.filesize === criteria.filesize && packCurrent.modified) {
+                            const refPack = { key: packCurrent.key, guid: packCurrent.guid, name: packCurrent.name, version: packCurrent.version, filename: packCurrent.filename };
                             resolve(refPack);
                             return;
                         }
@@ -244,6 +244,7 @@ export class AppDB {
             //
             adb.createObjectStore("data");
             //
+            adb.createObjectStore("suites");
             adb.createObjectStore("packages");
             adb.createObjectStore("libs");
             adb.createObjectStore("libfiles");

@@ -21,7 +21,7 @@
 .rz-header a,
 .rz-header a:hover,
 .rz-header a:focus {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-primary);
 }
 
 .sidebar-toggle {
@@ -14184,7 +14184,7 @@ p-button[type] {
 
 :root {
   --rz-button-base-background-color: var(--rz-primary);
-  --rz-button-base-color: var(--rz-text-contrast-color);
+  --rz-button-base-color: var(--rz-on-primary);
   --rz-button-background-size: auto;
   --rz-button-border-radius: var(--rz-border-radius);
   --rz-button-shadow: var(--rz-shadow-1);
@@ -15768,7 +15768,7 @@ input::placeholder {
   --rz-header-min-height: 3.125rem;
   --rz-header-z: 2;
   --rz-header-border: none;
-  --rz-header-color: var(--rz-text-contrast-color);
+  --rz-header-color: var(--rz-on-primary);
   --rz-header-shadow: var(--rz-shadow-4);
 }
 
@@ -16078,9 +16078,9 @@ input::placeholder {
   --rz-sidebar-toggle-margin: 0 1rem 0 0;
   --rz-sidebar-toggle-padding: 0.8125rem;
   --rz-sidebar-toggle-border: none;
-  --rz-sidebar-toggle-color: var(--rz-text-contrast-color);
+  --rz-sidebar-toggle-color: var(--rz-on-primary);
   --rz-sidebar-toggle-background-color: transparent;
-  --rz-sidebar-toggle-hover-color: var(--rz-text-contrast-color);
+  --rz-sidebar-toggle-hover-color: var(--rz-on-primary-light);
   --rz-sidebar-toggle-hover-background-color: var(--rz-primary-light);
   --rz-sidebar-toggle-hover-border-radius: 50%;
 }
@@ -16140,13 +16140,13 @@ input::placeholder {
   --rz-menu-item-disabled-opacity: 0.2;
   --rz-menu-top-item-padding: 0.5rem;
   --rz-menu-top-item-border-radius: 0;
-  --rz-menu-top-item-color: var(--rz-text-contrast-color);
+  --rz-menu-top-item-color: var(--rz-on-primary);
   --rz-menu-top-item-background-color: var(--rz-primary);
-  --rz-menu-top-item-hover-color: var(--rz-text-contrast-color);
+  --rz-menu-top-item-hover-color: var(--rz-on-primary);
   --rz-menu-top-item-hover-background-color: transparent;
-  --rz-menu-top-item-selected-color: var(--rz-text-contrast-color);
-  --rz-menu-top-item-icon-color: var(--rz-text-contrast-color);
-  --rz-menu-top-item-icon-hover-color: var(--rz-text-contrast-color);
+  --rz-menu-top-item-selected-color: var(--rz-on-primary);
+  --rz-menu-top-item-icon-color: var(--rz-on-primary);
+  --rz-menu-top-item-icon-hover-color: var(--rz-on-primary);
   --rz-context-menu-padding: 0.5rem 0;
   --rz-context-menu-box-shadow: var(--rz-shadow-6);
 }
@@ -16390,7 +16390,7 @@ li.rz-navigation-item.rz-state-disabled {
   --rz-panel-menu-item-border-radius: 0;
   --rz-panel-menu-item-active-background-color: var(--rz-primary-lighter);
   --rz-panel-menu-item-background-color: var(--rz-base-background-color);
-  --rz-panel-menu-item-active-color: var(--rz-primary);
+  --rz-panel-menu-item-active-color: var(--rz-on-primary-lighter);
   --rz-panel-menu-item-active-indicator: var(--rz-secondary);
   --rz-panel-menu-item-offset: 0;
   --rz-panel-menu-item-transition: var(--rz-transition-all);
@@ -16406,12 +16406,12 @@ li.rz-navigation-item.rz-state-disabled {
   --rz-panel-menu-item-2nd-level-background-color: var(--rz-base-background-color);
   --rz-panel-menu-item-2nd-level-hover-color: var(--rz-text-title-color);
   --rz-panel-menu-item-2nd-level-active-background-color: var(--rz-primary-lighter);
-  --rz-panel-menu-item-2nd-level-active-color: var(--rz-primary);
+  --rz-panel-menu-item-2nd-level-active-color: var(--rz-on-primary-lighter);
   --rz-panel-menu-item-2nd-level-active-font-weight: 500;
   --rz-panel-menu-item-3rd-level-hover-background-color: var(--rz-base-100);
   --rz-panel-menu-item-3rd-level-hover-color: var(--rz-text-title-color);
   --rz-panel-menu-item-3rd-level-active-background-color: var(--rz-primary-lighter);
-  --rz-panel-menu-item-3rd-level-active-color: var(--rz-primary);
+  --rz-panel-menu-item-3rd-level-active-color: var(--rz-on-primary-lighter);
   --rz-panel-menu-icon-width: var(--rz-icon-size);
   --rz-panel-menu-icon-font-size: var(--rz-icon-size);
   --rz-panel-menu-icon-color: var(--rz-text-tertiary-color);
@@ -16660,7 +16660,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-steps-number-line-height: var(--rz-body-line-height);
   --rz-steps-number-color: var(--rz-text-contrast-color);
   --rz-steps-number-background-color: var(--rz-base-500);
-  --rz-steps-number-selected-color: var(--rz-text-contrast-color);
+  --rz-steps-number-selected-color: var(--rz-on-secondary);
   --rz-steps-number-selected-background: var(--rz-secondary);
   --rz-steps-title-selected-color: var(--rz-secondary);
   --rz-steps-title-margin: 0 1rem 0 0.5rem;
@@ -16776,7 +16776,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-checkbox-checked-background-color: var(--rz-primary);
   --rz-checkbox-checked-hover-background-color: var(--rz-primary-light);
   --rz-checkbox-checked-disabled-background-color: var(--rz-base-500);
-  --rz-checkbox-checked-color: var(--rz-text-contrast-color);
+  --rz-checkbox-checked-color: var(--rz-on-primary);
   --rz-checkbox-checked-shadow: none;
   --rz-checkbox-checked-border: var(--rz-border-primary);
   --rz-checkbox-checked-hover-border: var(--rz-border-primary);
@@ -16807,7 +16807,8 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   cursor: initial;
 }
 
-.rz-chkbox-label {
+.rz-chkbox-label,
+.rz-chkbox-template {
   margin: var(--rz-checkbox-label-margin);
 }
 
@@ -16888,7 +16889,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-switch-checked-background-color: var(--rz-primary-lighter);
   --rz-switch-box-shadow: var(--rz-shadow-1);
   --rz-switch-circle-background-color: var(--rz-text-contrast-color);
-  --rz-switch-checked-circle-background-color: var(--rz-primary);
+  --rz-switch-checked-circle-background-color: var(--rz-on-primary-lighter);
 }
 
 .rz-switch {
@@ -17155,9 +17156,9 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-dropdown-item-selected-background-color: var(--rz-primary-lighter);
   --rz-dropdown-item-selected-shadow: none;
   --rz-dropdown-item-hover-color: var(--rz-text-title-color);
-  --rz-dropdown-item-selected-color: var(--rz-primary);
+  --rz-dropdown-item-selected-color: var(--rz-on-primary-lighter);
   --rz-dropdown-item-selected-hover-background-color: var(--rz-primary-lighter);
-  --rz-dropdown-item-selected-hover-color: var(--rz-primary);
+  --rz-dropdown-item-selected-hover-color: var(--rz-on-primary-lighter);
   --rz-dropdown-item-transition: none;
   --rz-dropdown-item-disabled-opacity: 0.2;
   --rz-dropdown-label-padding: 0 var(--rz-icon-size) 0 0;
@@ -17589,7 +17590,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-slider-range-border: none;
   --rz-slider-handle-width: 20px;
   --rz-slider-handle-height: 20px;
-  --rz-slider-handle-color: var(--rz-text-contrast-color);
+  --rz-slider-handle-color: var(--rz-on-secondary);
   --rz-slider-handle-background-color: var(--rz-primary);
   --rz-slider-handle-border: none;
   --rz-slider-handle-border-radius: 50%;
@@ -17734,7 +17735,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-selectbar-color: var(--rz-text-color);
   --rz-selectbar-border: var(--rz-border-base-300);
   --rz-selectbar-selected-background-color: var(--rz-primary-lighter);
-  --rz-selectbar-selected-color: var(--rz-primary);
+  --rz-selectbar-selected-color: var(--rz-on-primary-lighter);
   --rz-selectbar-selected-border: var(--rz-border-base-300);
   --rz-selectbar-border-radius: var(--rz-border-radius);
 }
@@ -17860,9 +17861,9 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-datepicker-calendar-color: var(--rz-text-color);
   --rz-datepicker-calendar-hover-color: var(--rz-text-title-color);
   --rz-datepicker-calendar-hover-background-color: var(--rz-base-100);
-  --rz-datepicker-calendar-selected-color: var(--rz-text-contrast-color);
+  --rz-datepicker-calendar-selected-color: var(--rz-on-secondary);
   --rz-datepicker-calendar-selected-background-color: var(--rz-secondary);
-  --rz-datepicker-calendar-selected-hover-color: var(--rz-text-contrast-color);
+  --rz-datepicker-calendar-selected-hover-color: var(--rz-on-secondary-light);
   --rz-datepicker-calendar-selected-hover-background-color: var(--rz-secondary-light);
   --rz-datepicker-calendar-border: none;
   --rz-datepicker-calendar-border-radius: 50%;
@@ -18309,8 +18310,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-grid-hover-background-color: var(--rz-base-100);
   --rz-grid-hover-color: var(--rz-text-title-color);
   --rz-grid-selected-background-color: var(--rz-primary-lighter);
-  --rz-grid-selected-color: var(--rz-primary);
-  --rz-grid-stripe-background-color: var(--rz-base-50);
+  --rz-grid-selected-color: var(--rz-on-primary-lighter);
   --rz-grid-toolbar-background-color: var(--rz-base-background-color);
   --rz-grid-header-cell-border: none;
   --rz-grid-header-cell-border-bottom: var(--rz-border-base-300);
@@ -18358,6 +18358,8 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-grid-sort-icon-color: var(--rz-text-disabled-color);
   --rz-grid-shadow: none;
   --rz-grid-background-color: var(--rz-base-background-color);
+  --rz-grid-stripe-background-color: var(--rz-base-50);
+  --rz-grid-stripe-odd-background-color: var(--rz-base-background-color);
   --rz-grid-column-resizer-width: 0.25rem;
   --rz-grid-column-resizer-helper-width: 0.125rem;
   --rz-grid-column-resizer-helper-background-color: var(--rz-secondary);
@@ -18623,7 +18625,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   background-color: var(--rz-grid-stripe-background-color);
 }
 .rz-grid-table-striped tbody > tr:not(.rz-expanded-row-content):nth-child(odd) > td {
-  background-color: var(--rz-grid-background-color);
+  background-color: var(--rz-grid-stripe-odd-background-color);
 }
 
 .rz-grid-table-composite .rz-datatable-thead th, .rz-grid-table-composite.rz-grid-table thead th {
@@ -19253,7 +19255,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-paginator-numeric-button-margin: 0 0.25rem;
   --rz-paginator-numeric-button-padding: 0.75rem 1rem;
   --rz-paginator-numeric-button-selected-background-color: var(--rz-primary-lighter);
-  --rz-paginator-numeric-button-selected-color: var(--rz-primary);
+  --rz-paginator-numeric-button-selected-color: var(--rz-on-primary-lighter);
   --rz-paginator-numeric-button-selected-border: none;
   --rz-paginator-numeric-button-selected-padding: 0.75rem 1rem;
   --rz-paginator-numeric-button-min-width: 3rem;
@@ -19539,7 +19541,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-tree-background-color: transparent;
   --rz-tree-node-padding: 0.25rem 0.5rem;
   --rz-tree-node-selected-background-color: var(--rz-primary-lighter);
-  --rz-tree-node-selected-color: var(--rz-primary);
+  --rz-tree-node-selected-color: var(--rz-on-primary-lighter);
   --rz-tree-node-selected-border-radius: var(--rz-border-radius);
   --rz-tree-node-margin: 0;
   --rz-tree-node-hover-background-color: var(--rz-base-100);
@@ -19802,7 +19804,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-scheduler-view-button-border: var(--rz-border-base-300);
   --rz-scheduler-view-button-color: var(--rz-text-secondary-color);
   --rz-scheduler-view-button-background-color: var(--rz-base-background-color);
-  --rz-scheduler-view-selected-color: var(--rz-primary);
+  --rz-scheduler-view-selected-color: var(--rz-on-primary-lighter);
   --rz-scheduler-view-selected-background-color: var(--rz-primary-lighter);
   --rz-scheduler-view-selected-border-color: var(--rz-base-300);
   --rz-scheduler-header-background-color: var(--rz-base-background-color);
@@ -19812,7 +19814,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-scheduler-header-color: inherit;
   --rz-scheduler-header-border: var(--rz-border-base-300);
   --rz-scheduler-header-padding: 0.5rem 0;
-  --rz-scheduler-event-color: var(--rz-text-contrast-color);
+  --rz-scheduler-event-color: var(--rz-on-info);
   --rz-scheduler-event-background-color: var(--rz-info);
   --rz-scheduler-event-font-size: 0.75rem;
   --rz-scheduler-event-line-height: 1.25rem;
@@ -20459,7 +20461,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
 
 :root {
   --rz-tooltip-background-color: var(--rz-info);
-  --rz-tooltip-color: var(--rz-text-contrast-color);
+  --rz-tooltip-color: var(--rz-white);
   --rz-tooltip-shadow: 0 6px 14px 0 rgba(0, 0, 0, 0.15);
   --rz-tooltip-padding: 0.25rem 0.5rem;
   --rz-tooltip-border-radius: var(--rz-border-radius);
@@ -20889,7 +20891,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-form-error-font-size: 0.75rem;
   --rz-form-group-margin-bottom: 1rem;
   --rz-validator-background-color: var(--rz-danger);
-  --rz-validator-color: var(--rz-text-contrast-color);
+  --rz-validator-color: var(--rz-on-danger);
   --rz-validator-shadow: 0 6px 14px 0 rgba(244, 67, 54, 0.3);
   --rz-validator-text-padding: 0;
   --rz-validator-padding: 0.25rem 0.5rem;
@@ -21317,7 +21319,7 @@ body:not(.rz-default-scrollbars) ::-webkit-scrollbar-corner {
 }
 
 .rz-progressbar.rz-progressbar-primary {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-primary);
 }
 
 .rz-progressbar-determinate.rz-progressbar-primary .rz-progressbar-value {
@@ -21380,7 +21382,7 @@ body:not(.rz-default-scrollbars) ::-webkit-scrollbar-corner {
 }
 
 .rz-progressbar.rz-progressbar-secondary {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-secondary);
 }
 
 .rz-progressbar-determinate.rz-progressbar-secondary .rz-progressbar-value {
@@ -21401,7 +21403,7 @@ body:not(.rz-default-scrollbars) ::-webkit-scrollbar-corner {
 }
 
 .rz-progressbar.rz-progressbar-info {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-info);
 }
 
 .rz-progressbar-determinate.rz-progressbar-info .rz-progressbar-value {
@@ -21422,7 +21424,7 @@ body:not(.rz-default-scrollbars) ::-webkit-scrollbar-corner {
 }
 
 .rz-progressbar.rz-progressbar-warning {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-warning);
 }
 
 .rz-progressbar-determinate.rz-progressbar-warning .rz-progressbar-value {
@@ -21443,7 +21445,7 @@ body:not(.rz-default-scrollbars) ::-webkit-scrollbar-corner {
 }
 
 .rz-progressbar.rz-progressbar-danger {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-danger);
 }
 
 .rz-progressbar-determinate.rz-progressbar-danger .rz-progressbar-value {
@@ -21464,7 +21466,7 @@ body:not(.rz-default-scrollbars) ::-webkit-scrollbar-corner {
 }
 
 .rz-progressbar.rz-progressbar-success {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-success);
 }
 
 .rz-progressbar-determinate.rz-progressbar-success .rz-progressbar-value {
@@ -22439,7 +22441,7 @@ body:not(.rz-default-scrollbars) ::-webkit-scrollbar-corner {
   --rz-editor-button-color: var(--rz-text-color);
   --rz-editor-button-disabled-color: var(--rz-text-disabled-color);
   --rz-editor-button-selected-background-color: var(--rz-secondary-lighter);
-  --rz-editor-button-selected-color: var(--rz-secondary);
+  --rz-editor-button-selected-color: var(--rz-on-secondary-lighter);
   --rz-editor-separator-background-color: var(--rz-base-200);
   --rz-editor-content-background-color: var(--rz-base-background-color);
 }
@@ -22863,7 +22865,7 @@ button.rz-colorpicker-trigger .rzi:before {
 
 :root {
   --rz-splitter-bar-color: var(--rz-text-secondary-color);
-  --rz-splitter-bar-color-active: var(--rz-text-contrast-color);
+  --rz-splitter-bar-color-active: var(--rz-on-primary);
   --rz-splitter-bar-background-color: var(--rz-base-200);
   --rz-splitter-bar-background-color-active: var(--rz-primary);
   --rz-splitter-bar-hover-opacity: 1;

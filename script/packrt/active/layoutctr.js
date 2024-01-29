@@ -1,5 +1,6 @@
 import { Layout } from "../../defs.js";
 import { Helper } from "../../helper.js";
+import { mapLocaleStrings } from "../manager.js";
 export class PackLayoutCtr {
     //#region Defs & Vars
     _presenter;
@@ -49,7 +50,7 @@ export class PackLayoutCtr {
                 <div id="Controls">
                     <div id="SizePanel">
                         <div id="WidthGroup" class="sizepanel-clm">
-                            <div class="group-caption">ширина</div>
+                            <div class="group-caption">${mapLocaleStrings.get("W_width")}</div>
                             <div class="input-area">
                                 <div class="sizepanel-field smallest-size">
                                     <input type="radio" id="SizeSelector" name="Width" value="25%">
@@ -71,7 +72,7 @@ export class PackLayoutCtr {
                         </div>
 
                         <div id="HeightGroup" class="sizepanel-clm">
-                            <div class="group-caption">высота</div>
+                            <div class="group-caption">${mapLocaleStrings.get("W_height")}</div>
                             <div class="input-area">
                                 <div class="sizepanel-field smallest-size">
                                     <input type="radio" id="SizeSelector" name="Height" value="25%">
@@ -94,7 +95,7 @@ export class PackLayoutCtr {
                     </div>
 
                     <div id="PosPanel">
-                        <div class="group-caption">позиция</div>
+                        <div class="group-caption">${mapLocaleStrings.get("W_position")}</div>
                         <div class="input-area">
                             <div class="input-box">
                                 <input type="radio" name="WndPos" value="TopLeft">

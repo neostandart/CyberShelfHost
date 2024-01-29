@@ -132,6 +132,14 @@ a {
 }
 
 /* ****************************************************************** */
+/* Panel height correction up to 100% for RadzenTabs (by .panel-h-100) */
+
+.rz-tabview.panel-h-100 .rz-tabview-panel {
+    height: 100%;
+}
+
+
+/* ****************************************************************** */
 /* Symbolic font support (adjusted analog .rzi, i.rzi) */
 .fsym {
     font-family: var(--rz-icon-font-family) !important;
@@ -181,9 +189,9 @@ a {
     /* *** */
     --folder-color: goldenrod;
     --folder-color-dark: #B8860B;
-    --package-color: #b8860b;
+    --suite-color: #b8860b;
     --book-color: #5C2D91;
-    --widget-color: #0d6efd;
+    --h5pack-color: #0d6efd;
 }
 
 #Application.running {
@@ -277,6 +285,11 @@ a {
     grid-column: 1 / span 3;
     width: var(--rz-sidebar-width);
 }
+
+#MainLayout > #MainNavBar.rz-sidebar-collapsed #MainNavBarCloseBtn {
+    visibility: hidden;
+}
+
 
 #MainLayout > #PageHost {
     grid-row: 4;

@@ -447,6 +447,7 @@ export class Helper {
         }
         //
         if (errcase instanceof Error) {
+            strMessage = __addSection(errcase.name);
             strMessage = __addSection(errcase.message);
         }
         else if (errcase instanceof Response) {
@@ -458,21 +459,21 @@ export class Helper {
                 strMessage = errcase;
             }
             else {
-                if (errcase && errcase.message) {
-                    strMessage = __addSection(errcase.message);
+                if (errcase && errcase.name) {
+                    strMessage = __addSection(errcase.name);
                 }
                 //
-                if (errcase.status) {
+                if (errcase && errcase.status) {
                     strMessage = __addSection(`status=${errcase.status}`);
                 }
                 //
-                if (errcase.statusText) {
+                if (errcase && errcase.statusText) {
                     strMessage = __addSection(`statusText=${errcase.statusText}`);
                 }
             }
         }
         //
-        return [strMessage, (errcase && errcase.stack) ? errcase.stack : null];
+        return strMessage;
         //
         function __addSection(section) {
             return (strMessage.length > 0) ? strMessage += ` | ${section}` : section;

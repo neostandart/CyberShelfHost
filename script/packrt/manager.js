@@ -1,24 +1,40 @@
+import { Helper } from "../helper.js";
 import { AppDB } from "../appdb.js";
 import * as parser from "./parse/parser.js";
 import { H5PEnv } from "./h5penv.js";
 import { PackagePool, ActivePackage } from "./active/activepack.js";
-let _inputElement;
+import { LibraryPool } from "./active/activelib.js";
+let _inputPackage;
+let _inputLibrary;
 let _hteFrameHost;
-export function attachFrameHost(hteFrameHost) {
-    _hteFrameHost = hteFrameHost;
-}
-export function attachInputElement(inputElement) {
-    _inputElement = inputElement;
-    if (_inputElement) {
-        _inputElement.addEventListener("change", onInputChange);
-    }
-}
+export const mapLocaleStrings = new Map();
 export async function initializeAsync() {
     await H5PEnv.initializeAsync();
 }
+export async function attachFrameHost(hteFrameHost) {
+    _hteFrameHost = hteFrameHost;
+    //
+    const alocaleKeys = ["W_width", "W_height", "W_position"];
+    const mapSrc = await window.DotNet.invokeMethodAsync("CyberShelf", "getLocaleStrings", alocaleKeys);
+    for (const key in mapSrc) {
+        mapLocaleStrings.set(key, mapSrc[key]);
+    }
+}
+export function attachPackageInput(inputElement) {
+    _inputPackage = inputElement;
+    if (_inputPackage) {
+        _inputPackage.addEventListener("change", onInputPackageChange);
+    }
+}
+export function attachLibraryInput(inputElement) {
+    _inputLibrary = inputElement;
+    if (_inputLibrary) {
+        _inputLibrary.addEventListener("change", onInputLibraryChange);
+    }
+}
 export function beginInstall() {
-    if (_inputElement) {
-        _inputElement.click();
+    if (_inputPackage) {
+        _inputPackage.click();
     }
 }
 export async function openPackage(packkey, user) {
@@ -42,8 +58,6 @@ export function closePackage(packkey) {
     }
 }
 export async function deletePackage(packkey) {
-    //console.log("deletePackage");
-    //
     if (PackagePool.hasPackage(packkey)) {
         alert("You cannot delete an open package!");
         return null;
@@ -52,22 +66,221 @@ export async function deletePackage(packkey) {
     const deletedkey = await deinstall(packkey);
     return deletedkey;
 }
-async function onInputChange() {
-    if (_inputElement.files.length == 1) {
-        const filePackage = _inputElement.files[0];
-        //
-        const filetoken = { name: filePackage.name, size: filePackage.size, type: filePackage.type, lastModified: filePackage.lastModified };
-        let bPermission = await window.DotNet.invokeMethodAsync("CyberShelf", "requestParsing", filetoken);
-        //
-        if (bPermission) {
-            const parsed = await parser.parse(filePackage);
-            const packref = { key: parsed.package.key, guid: parsed.package.bookGUID, name: parsed.package.name, filename: parsed.package.filename, version: parsed.package.version };
-            bPermission = await window.DotNet.invokeMethodAsync("CyberShelf", "requestInstall", packref);
-            if (bPermission) {
-                packref.key = await saveNewPackage(parsed);
-                window.DotNet.invokeMethodAsync("CyberShelf", "informInstalled", packref);
+export async function deleteLibrary(libtoken) {
+    if (LibraryPool.hasLibrary(libtoken)) {
+        throw new Error(`You cannot delete a library that is in use! (library: ${libtoken})`);
+    }
+    //
+    const deletedtoken = await deinstallLibrary(libtoken);
+    return deletedtoken;
+}
+export async function fetchPackageList() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let adb = await AppDB.useDB();
+            //
+            const aCatalogs = (await AppDB.getAll("catalogs")).map((r) => r.toString());
+            const aSuites = (await AppDB.getAll("suites")).map(r => r);
+            //
+            let transPackages = adb.transaction("packages", "readonly");
+            let storePackages = transPackages.objectStore("packages");
+            //
+            const aResult = [];
+            //
+            storePackages.openCursor().onsuccess = (event) => {
+                const cursor = event.target.result;
+                if (cursor) {
+                    const recPackage = cursor.value;
+                    const packitem = {
+                        key: recPackage.key,
+                        url: recPackage.url || "",
+                        origfrom: recPackage.origfrom || "",
+                        //
+                        suitename: __getSuiteName(recPackage.suitekey, aSuites),
+                        //
+                        guid: recPackage.guid || "",
+                        name: recPackage.name,
+                        shortname: recPackage.shortname || "",
+                        version: recPackage.version || "",
+                        //
+                        filename: recPackage.filename || "",
+                        modified: recPackage.modified,
+                        installed: recPackage.installed,
+                        updated: recPackage.updated,
+                        //
+                        refcount: __getRefCount(recPackage.key, aCatalogs)
+                    };
+                    aResult.push(packitem);
+                    //
+                    cursor.continue();
+                }
+                else {
+                    AppDB.releaseDB();
+                    resolve(aResult);
+                }
+            };
+        }
+        catch (err) {
+            AppDB.releaseDB();
+            reject(err);
+        }
+        // inline functions
+        function __getRefCount(packkey, aCatalogs) {
+            let nCount = 0;
+            //
+            const regex = new RegExp(`PackageKey=("|\')${packkey}`);
+            for (const strCatalog of aCatalogs) {
+                if (regex.test(strCatalog)) {
+                    nCount++;
+                }
             }
-        } // if (bPermission)
+            //
+            return nCount;
+        }
+        function __getSuiteName(suitekey, aSiutes) {
+            if (!suitekey)
+                return "";
+            //
+            const suite = aSiutes.find((item) => item.key === suitekey);
+            return (suite) ? suite.name : "";
+        }
+    });
+}
+export async function fetchLibraryList() {
+    return new Promise(async (resolve, reject) => {
+        const mapLibRefs = new Map();
+        try {
+            const aResult = [];
+            //
+            let adb = await AppDB.useDB();
+            //
+            const aPackages = await AppDB.getAll("packages");
+            aPackages.forEach((itemPack) => {
+                __updateRefs(itemPack.metadata.preloadedDependencies, true);
+            });
+            //
+            let transLibraries = adb.transaction("libs", "readonly");
+            let storeLibraries = transLibraries.objectStore("libs");
+            //
+            storeLibraries.openCursor().onsuccess = (event) => {
+                const cursor = event.target.result;
+                if (cursor) {
+                    const recLibrary = cursor.value;
+                    const item = {};
+                    //
+                    item.libtoken = cursor.key.toString();
+                    item.image = H5PEnv.getContentTypeImage(recLibrary.metadata.machineName);
+                    item.version = `${recLibrary.metadata.majorVersion}.${recLibrary.metadata.minorVersion}.${recLibrary.metadata.patchVersion}`;
+                    item.title = recLibrary.metadata.title;
+                    item.license = recLibrary.metadata.license || "";
+                    item.author = recLibrary.metadata.author || "";
+                    item.description = recLibrary.metadata.description || "";
+                    //
+                    item.fullscreen = (recLibrary.metadata.fullscreen == true);
+                    //
+                    item.isAddon = recLibrary.isAddon == true;
+                    //
+                    item.packrefs = 0;
+                    item.librefs = 0;
+                    //
+                    __updateRefs(recLibrary.metadata.preloadedDependencies, false);
+                    //
+                    aResult.push(item);
+                    cursor.continue();
+                }
+                else {
+                    AppDB.releaseDB();
+                    //
+                    aResult.forEach((libitem) => {
+                        if (mapLibRefs.has(libitem.libtoken)) {
+                            const refsinfo = mapLibRefs.get(libitem.libtoken);
+                            libitem.packrefs = refsinfo.packrefs;
+                            libitem.librefs = refsinfo.librefs;
+                        }
+                    });
+                    //
+                    resolve(aResult);
+                }
+            };
+        }
+        catch (err) {
+            AppDB.releaseDB();
+            reject(err);
+        }
+        // inline
+        function __updateRefs(aDependencies, bPackage) {
+            if (aDependencies && aDependencies.length > 0) {
+                aDependencies.forEach((item) => {
+                    const libtok = H5PEnv.makeLibraryToken(item);
+                    if (!mapLibRefs.has(libtok)) {
+                        mapLibRefs.set(libtok, { packrefs: 0, librefs: 0 });
+                    }
+                    //
+                    const refsinfo = mapLibRefs.get(libtok);
+                    if (bPackage) {
+                        refsinfo.packrefs = refsinfo.packrefs + 1;
+                    }
+                    else {
+                        refsinfo.librefs = refsinfo.librefs + 1;
+                    }
+                    //
+                    mapLibRefs.set(libtok, refsinfo);
+                });
+            }
+        }
+    });
+}
+//
+//
+export function beginLibraryInstall() {
+    if (_inputLibrary) {
+        _inputLibrary.click();
+    }
+}
+//
+// Internals
+//
+async function onInputPackageChange() {
+    try {
+        if (_inputPackage.files.length == 1) {
+            const filePackage = _inputPackage.files[0];
+            //
+            const filetoken = { name: filePackage.name, size: filePackage.size, type: filePackage.type, modified: filePackage.lastModified };
+            let bPermission = await window.DotNet.invokeMethodAsync("CyberShelf", "requestParsing", filetoken);
+            //
+            if (bPermission) {
+                const parsed = await parser.parsePackageFile(filePackage);
+                const packref = { key: parsed.package.key, guid: parsed.package.guid, name: parsed.package.name, filename: parsed.package.filename, version: parsed.package.version };
+                bPermission = await window.DotNet.invokeMethodAsync("CyberShelf", "requestInstall", packref);
+                if (bPermission) {
+                    packref.key = await saveNewPackage(parsed);
+                    window.DotNet.invokeMethodAsync("CyberShelf", "informInstallFinish", packref);
+                }
+            } // if (bPermission)
+        }
+    }
+    catch (err) {
+        window.DotNet.invokeMethodAsync("CyberShelf", "informInstallError", Helper.extractMessage(err));
+    }
+}
+async function onInputLibraryChange() {
+    try {
+        if (_inputLibrary.files.length == 1) {
+            const fileLibrary = _inputLibrary.files[0];
+            const filetoken = { name: fileLibrary.name, size: fileLibrary.size, type: fileLibrary.type, modified: fileLibrary.lastModified };
+            let bPermission = await window.DotNet.invokeMethodAsync("CyberShelf", "requestLibInstall", filetoken);
+            if (bPermission) {
+                const parsed = await parser.parseLibraryFile(fileLibrary);
+                await AppDB.put("libs", parsed.library, parsed.library.token);
+                await AppDB.put("libfiles", parsed.files, parsed.library.token);
+                const libtok = { key: parsed.library.token, title: parsed.library.metadata.title, version: parsed.library.version };
+                //
+                window.DotNet.invokeMethodAsync("CyberShelf", "informLibInstallFinish", libtok);
+            } // if (bPermission)
+        }
+    }
+    catch (err) {
+        window.DotNet.invokeMethodAsync("CyberShelf", "informLibInstallError", Helper.extractMessage(err));
     }
 }
 async function saveNewPackage(parsed) {
@@ -226,3 +439,37 @@ async function deinstall(packtoken) {
         }
     }
 } // deinstall
+async function deinstallLibrary(libtoken) {
+    let database = null;
+    let transaction = null;
+    //
+    try {
+        database = await AppDB.useDB();
+        //
+        transaction = database.transaction(["libs", "libfiles"], "readwrite");
+        let storeLibs = transaction.objectStore("libs");
+        let storeLibFiles = transaction.objectStore("libfiles");
+        //
+        storeLibs.delete(libtoken);
+        storeLibFiles.delete(libtoken);
+        //
+        transaction.commit();
+        //
+        return libtoken;
+    }
+    catch (err) {
+        if (transaction) {
+            try {
+                transaction.abort();
+            }
+            catch (errTrans) {
+                console.error(errTrans);
+            }
+        }
+        //
+        return null;
+    }
+    finally {
+        AppDB.releaseDB();
+    }
+}

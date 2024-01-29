@@ -124,6 +124,9 @@ export class LibraryPool {
     //#region Properties
     //#endregion (Properties)
     //#region Methods
+    static hasLibrary(libtoken) {
+        return this._mapLibs.has(libtoken);
+    }
     static async getLibrary(libtoken) {
         let libnest = this._mapLibs.get(libtoken);
         if (!libnest) {

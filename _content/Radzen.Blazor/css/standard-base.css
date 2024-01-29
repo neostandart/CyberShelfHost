@@ -11,7 +11,7 @@
 }
 .rz-selectable .rz-datatable-even:hover .rz-cell-data,
 .rz-selectable .rz-datatable-odd:hover .rz-cell-data {
-  color: #1151f3;
+  color: var(--rz-on-primary-lighter);
 }
 
 .rz-checkbox-list-vertical.rz-state-disabled > div > .rz-chkbox-label,
@@ -10459,12 +10459,12 @@ input::placeholder {
   --rz-menu-item-padding: 0.5rem 1rem 0.5rem 0.5rem;
   --rz-menu-item-border-radius: 0;
   --rz-menu-item-color: var(--rz-text-color);
-  --rz-menu-item-hover-color: var(--rz-primary);
+  --rz-menu-item-hover-color: var(--rz-on-primary-lighter);
   --rz-menu-item-hover-background-color: var(--rz-primary-lighter);
   --rz-menu-item-selected-color: var(--rz-primary);
   --rz-menu-item-icon-margin: 0 0.5rem 0 0;
   --rz-menu-item-icon-color: var(--rz-text-color);
-  --rz-menu-item-icon-hover-color: var(--rz-primary);
+  --rz-menu-item-icon-hover-color: var(--rz-on-primary-lighter);
   --rz-menu-item-offset: 1rem;
   --rz-menu-item-transition: var(--rz-transition-all);
   --rz-menu-item-disabled-opacity: 0.2;
@@ -10472,11 +10472,11 @@ input::placeholder {
   --rz-menu-top-item-border-radius: 0;
   --rz-menu-top-item-color: var(--rz-text-color);
   --rz-menu-top-item-background-color: var(--rz-base-background-color);
-  --rz-menu-top-item-hover-color: var(--rz-primary);
+  --rz-menu-top-item-hover-color: var(--rz-on-primary-lighter);
   --rz-menu-top-item-hover-background-color: var(--rz-primary-lighter);
   --rz-menu-top-item-selected-color: var(--rz-primary);
   --rz-menu-top-item-icon-color: var(--rz-text-color);
-  --rz-menu-top-item-icon-hover-color: var(--rz-primary);
+  --rz-menu-top-item-icon-hover-color: var(--rz-on-primary-lighter);
   --rz-context-menu-padding: 0;
   --rz-context-menu-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.04), 0px 2px 4px rgba(0, 0, 0, 0.04), 0px 4px 16px rgba(0, 0, 0, 0.1);
 }
@@ -10990,7 +10990,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-steps-number-line-height: var(--rz-body-line-height);
   --rz-steps-number-color: var(--rz-text-color);
   --rz-steps-number-background-color: var(--rz-base-300);
-  --rz-steps-number-selected-color: var(--rz-text-contrast-color);
+  --rz-steps-number-selected-color: var(--rz-on-secondary);
   --rz-steps-number-selected-background: var(--rz-primary);
   --rz-steps-title-selected-color: var(--rz-primary);
   --rz-steps-title-margin: 0 1rem 0 0.5rem;
@@ -11137,7 +11137,8 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   cursor: initial;
 }
 
-.rz-chkbox-label {
+.rz-chkbox-label,
+.rz-chkbox-template {
   margin: var(--rz-checkbox-label-margin);
 }
 
@@ -11218,7 +11219,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-switch-checked-background-color: var(--rz-primary);
   --rz-switch-box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.08), 0px 2px 2px rgba(0, 0, 0, 0.08), 0px 4px 12px 0 rgba(0, 0, 0, 0.04);
   --rz-switch-circle-background-color: var(--rz-text-contrast-color);
-  --rz-switch-checked-circle-background-color: var(--rz-text-contrast-color);
+  --rz-switch-checked-circle-background-color: var(--rz-on-secondary);
 }
 
 .rz-switch {
@@ -11484,10 +11485,10 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-dropdown-item-hover-background-color: var(--rz-primary-lighter);
   --rz-dropdown-item-selected-background-color: var(--rz-primary-lighter);
   --rz-dropdown-item-selected-shadow: none;
-  --rz-dropdown-item-hover-color: var(--rz-primary);
-  --rz-dropdown-item-selected-color: var(--rz-primary);
+  --rz-dropdown-item-hover-color: var(--rz-on-primary-lighter);
+  --rz-dropdown-item-selected-color: var(--rz-on-primary-lighter);
   --rz-dropdown-item-selected-hover-background-color: var(--rz-primary-lighter);
-  --rz-dropdown-item-selected-hover-color: var(--rz-primary);
+  --rz-dropdown-item-selected-hover-color: var(--rz-on-primary-lighter);
   --rz-dropdown-item-transition: var(--rz-transition-all);
   --rz-dropdown-item-disabled-opacity: 0.2;
   --rz-dropdown-label-padding: 0 var(--rz-icon-size) 0 0;
@@ -11919,7 +11920,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-slider-range-border: var(--rz-border-primary-lighter);
   --rz-slider-handle-width: 1.25rem;
   --rz-slider-handle-height: 1.25rem;
-  --rz-slider-handle-color: var(--rz-text-contrast-color);
+  --rz-slider-handle-color: var(--rz-on-secondary);
   --rz-slider-handle-background-color: var(--rz-white);
   --rz-slider-handle-border: 0.25rem solid var(--rz-primary);
   --rz-slider-handle-border-radius: calc(4 * var(--rz-border-radius));
@@ -12063,8 +12064,8 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-selectbar-background-color: transparent;
   --rz-selectbar-color: var(--rz-text-color);
   --rz-selectbar-border: var(--rz-border-normal);
-  --rz-selectbar-selected-background-color: rgba(114, 152, 248, 0.16);
-  --rz-selectbar-selected-color: #1151f3;
+  --rz-selectbar-selected-background-color: var(--rz-primary-lighter);
+  --rz-selectbar-selected-color: var(--rz-on-primary-lighter);
   --rz-selectbar-selected-border: var(--rz-border-normal);
   --rz-selectbar-border-radius: var(--rz-border-radius);
 }
@@ -12188,11 +12189,11 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-datepicker-calendar-header-color: var(--rz-text-tertiary-color);
   --rz-datepicker-calendar-font-size: var(--rz-body-font-size);
   --rz-datepicker-calendar-color: var(--rz-text-color);
-  --rz-datepicker-calendar-hover-color: var(--rz-primary);
+  --rz-datepicker-calendar-hover-color: var(--rz-on-primary-lighter);
   --rz-datepicker-calendar-hover-background-color: var(--rz-primary-lighter);
-  --rz-datepicker-calendar-selected-color: var(--rz-text-contrast-color);
+  --rz-datepicker-calendar-selected-color: var(--rz-on-primary);
   --rz-datepicker-calendar-selected-background-color: var(--rz-primary);
-  --rz-datepicker-calendar-selected-hover-color: var(--rz-text-contrast-color);
+  --rz-datepicker-calendar-selected-hover-color: var(--rz-on-primary-light);
   --rz-datepicker-calendar-selected-hover-background-color: var(--rz-primary-light);
   --rz-datepicker-calendar-border: none;
   --rz-datepicker-calendar-border-radius: var(--rz-border-radius);
@@ -12208,7 +12209,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-timepicker-padding: 0.5rem;
   --rz-timepicker-hour-padding: 0.5rem;
   --rz-timepicker-button-background-color: var(--rz-primary);
-  --rz-timepicker-button-color: var(--rz-text-contrast-color);
+  --rz-timepicker-button-color: var(--rz-on-primary);
   --rz-timepicker-button-width: 0.875rem;
   --rz-timepicker-button-height: 0.875rem;
   --rz-timepicker-button-border-radius: var(--rz-border-radius);
@@ -12530,11 +12531,11 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-upload-files-remove-color: var(--rz-text-color);
   --rz-upload-files-margin: 0 0.5rem;
   --rz-upload-choose-background-color: var(--rz-secondary-lighter);
-  --rz-upload-choose-color: var(--rz-secondary);
+  --rz-upload-choose-color: var(--rz-on-secondary-lighter);
   --rz-upload-choose-hover-background-color: var(--rz-secondary-light);
-  --rz-upload-choose-hover-color: var(--rz-text-contrast-color);
+  --rz-upload-choose-hover-color: var(--rz-on-secondary-light);
   --rz-upload-choose-active-background-color: var(--rz-secondary-dark);
-  --rz-upload-choose-active-color: var(--rz-text-contrast-color);
+  --rz-upload-choose-active-color: var(--rz-on-secondary-dark);
   --rz-upload-cancel-background-color: var(--rz-base-300);
   --rz-upload-cancel-color: var(--rz-text-color);
   --rz-upload-button-background-color: var(--rz-primary);
@@ -12637,10 +12638,9 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-grid-cell-font-size: var(--rz-body-font-size);
   --rz-grid-cell-line-height: var(--rz-body-line-height);
   --rz-grid-hover-background-color: var(--rz-primary-lighter);
-  --rz-grid-hover-color: #1151f3;
+  --rz-grid-hover-color: var(--rz-on-primary-lighter);
   --rz-grid-selected-background-color: rgba(114, 152, 248, 0.16);
-  --rz-grid-selected-color: #1151f3;
-  --rz-grid-stripe-background-color: #f7f8fb;
+  --rz-grid-selected-color: var(--rz-on-primary-lighter);
   --rz-grid-toolbar-background-color: var(--rz-base-background-color);
   --rz-grid-header-cell-border: var(--rz-border-normal);
   --rz-grid-header-cell-border-bottom: var(--rz-border-normal);
@@ -12675,7 +12675,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-grid-clear-filter-button-color: var(--rz-text-color);
   --rz-grid-clear-filter-button-shadow: inherit;
   --rz-grid-apply-filter-button-background-color: var(--rz-primary);
-  --rz-grid-apply-filter-button-color: var(--rz-text-contrast-color);
+  --rz-grid-apply-filter-button-color: var(--rz-on-primary);
   --rz-grid-apply-filter-button-shadow: inherit;
   --rz-grid-header-filter-icon-margin: 0 0.5rem 0 auto;
   --rz-grid-header-filter-icon-hover-color: var(--rz-text-title-color);
@@ -12688,6 +12688,8 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-grid-sort-icon-color: var(--rz-text-disabled-color);
   --rz-grid-shadow: none;
   --rz-grid-background-color: var(--rz-base-background-color);
+  --rz-grid-stripe-background-color: #f7f8fb;
+  --rz-grid-stripe-odd-background-color: var(--rz-base-background-color);
   --rz-grid-column-resizer-width: 0.5rem;
   --rz-grid-column-resizer-helper-width: 0.25rem;
   --rz-grid-column-resizer-helper-background-color: var(--rz-primary);
@@ -12697,7 +12699,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-grid-detail-template-border-radius: 0;
   --rz-grid-detail-template-padding: 0;
   --rz-grid-detail-template-background-color: var(--rz-base-100);
-  --rz-grid-loading-indicator-color: var(--rz-primary);
+  --rz-grid-loading-indicator-color: var(--rz-on-primary-lighter);
   --rz-grid-loading-indicator-background-color: var(--rz-primary-lighter);
   --rz-grid-frozen-cell-border: var(--rz-border-normal);
   --rz-grid-frozen-cell-background-color: var(--rz-base-100);
@@ -12953,7 +12955,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   background-color: var(--rz-grid-stripe-background-color);
 }
 .rz-grid-table-striped tbody > tr:not(.rz-expanded-row-content):nth-child(odd) > td {
-  background-color: var(--rz-grid-background-color);
+  background-color: var(--rz-grid-stripe-odd-background-color);
 }
 
 .rz-grid-table-composite .rz-datatable-thead th, .rz-grid-table-composite.rz-grid-table thead th {
@@ -13583,7 +13585,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-paginator-numeric-button-margin: 0 0.25rem;
   --rz-paginator-numeric-button-padding: 0.4375rem;
   --rz-paginator-numeric-button-selected-background-color: var(--rz-primary-lighter);
-  --rz-paginator-numeric-button-selected-color: var(--rz-primary);
+  --rz-paginator-numeric-button-selected-color: var(--rz-on-primary-lighter);
   --rz-paginator-numeric-button-selected-border: 1px solid transparent;
   --rz-paginator-numeric-button-selected-padding: 0.4375rem;
   --rz-paginator-numeric-button-min-width: 2.25rem;
@@ -13869,7 +13871,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-tree-background-color: var(--rz-base-background-color);
   --rz-tree-node-padding: 0.25rem;
   --rz-tree-node-selected-background-color: var(--rz-primary);
-  --rz-tree-node-selected-color: var(--rz-text-contrast-color);
+  --rz-tree-node-selected-color: var(--rz-on-secondary);
   --rz-tree-node-selected-border-radius: var(--rz-border-radius);
   --rz-tree-node-margin: 1px 0;
   --rz-tree-node-hover-background-color: var(--rz-primary-lighter);
@@ -14132,8 +14134,8 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-scheduler-view-button-border: var(--rz-border-normal);
   --rz-scheduler-view-button-color: var(--rz-text-color);
   --rz-scheduler-view-button-background-color: transparent;
-  --rz-scheduler-view-selected-color: var(--rz-primary);
-  --rz-scheduler-view-selected-background-color: rgba(114, 152, 248, 0.16);
+  --rz-scheduler-view-selected-color: var(--rz-on-primary-lighter);
+  --rz-scheduler-view-selected-background-color: var(--rz-primary-lighter);
   --rz-scheduler-view-selected-border-color: transparent;
   --rz-scheduler-header-background-color: var(--rz-base-100);
   --rz-scheduler-header-font-size: 0.75rem;
@@ -14142,7 +14144,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-scheduler-header-color: var(--rz-text-tertiary-color);
   --rz-scheduler-header-border: var(--rz-border-normal);
   --rz-scheduler-header-padding: 0.5rem 0;
-  --rz-scheduler-event-color: var(--rz-text-contrast-color);
+  --rz-scheduler-event-color: var(--rz-on-info);
   --rz-scheduler-event-background-color: var(--rz-info);
   --rz-scheduler-event-font-size: 0.75rem;
   --rz-scheduler-event-line-height: 1.25rem;
@@ -14789,7 +14791,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
 
 :root {
   --rz-tooltip-background-color: var(--rz-base-900);
-  --rz-tooltip-color: var(--rz-text-contrast-color);
+  --rz-tooltip-color: var(--rz-white);
   --rz-tooltip-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.04), 0px 3px 5px rgba(0, 0, 0, 0.04), 0px 8px 20px rgba(0, 0, 0, 0.11);
   --rz-tooltip-padding: 0.25rem 0.5rem;
   --rz-tooltip-border-radius: var(--rz-border-radius);
@@ -15219,7 +15221,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-form-error-font-size: 0.75rem;
   --rz-form-group-margin-bottom: 1.5rem;
   --rz-validator-background-color: var(--rz-danger);
-  --rz-validator-color: var(--rz-text-contrast-color);
+  --rz-validator-color: var(--rz-on-danger);
   --rz-validator-shadow: 0 6px 14px 0 rgba(243, 17, 85, 0.3);
   --rz-validator-text-padding: 0;
   --rz-validator-padding: 0.25rem 0.5rem;
@@ -15627,7 +15629,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
 }
 
 .rz-progressbar.rz-progressbar-primary {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-primary);
 }
 
 .rz-progressbar-determinate.rz-progressbar-primary .rz-progressbar-value {
@@ -15690,7 +15692,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
 }
 
 .rz-progressbar.rz-progressbar-secondary {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-secondary);
 }
 
 .rz-progressbar-determinate.rz-progressbar-secondary .rz-progressbar-value {
@@ -15711,7 +15713,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
 }
 
 .rz-progressbar.rz-progressbar-info {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-info);
 }
 
 .rz-progressbar-determinate.rz-progressbar-info .rz-progressbar-value {
@@ -15732,7 +15734,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
 }
 
 .rz-progressbar.rz-progressbar-warning {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-warning);
 }
 
 .rz-progressbar-determinate.rz-progressbar-warning .rz-progressbar-value {
@@ -15753,7 +15755,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
 }
 
 .rz-progressbar.rz-progressbar-danger {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-danger);
 }
 
 .rz-progressbar-determinate.rz-progressbar-danger .rz-progressbar-value {
@@ -15774,7 +15776,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
 }
 
 .rz-progressbar.rz-progressbar-success {
-  color: var(--rz-text-contrast-color);
+  color: var(--rz-on-success);
 }
 
 .rz-progressbar-determinate.rz-progressbar-success .rz-progressbar-value {
@@ -16749,7 +16751,7 @@ ul.rz-profile-menu .rz-navigation-menu .rzi {
   --rz-editor-button-color: var(--rz-text-color);
   --rz-editor-button-disabled-color: var(--rz-text-disabled-color);
   --rz-editor-button-selected-background-color: var(--rz-primary);
-  --rz-editor-button-selected-color: var(--rz-text-contrast-color);
+  --rz-editor-button-selected-color: var(--rz-on-primary);
   --rz-editor-separator-background-color: var(--rz-base-200);
   --rz-editor-content-background-color: var(--rz-base-background-color);
 }
@@ -17173,7 +17175,7 @@ button.rz-colorpicker-trigger .rzi:before {
 
 :root {
   --rz-splitter-bar-color: var(--rz-text-tertiary-color);
-  --rz-splitter-bar-color-active: var(--rz-primary);
+  --rz-splitter-bar-color-active: var(--rz-on-primary-lighter);
   --rz-splitter-bar-background-color: var(--rz-base-200);
   --rz-splitter-bar-background-color-active: var(--rz-primary-lighter);
   --rz-splitter-bar-hover-opacity: 1;

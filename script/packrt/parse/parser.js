@@ -26,10 +26,18 @@ var EntryStatus;
     EntryStatus[EntryStatus["LibraryPart"] = 3] = "LibraryPart";
     EntryStatus[EntryStatus["UsedByEditor"] = 4] = "UsedByEditor";
 })(EntryStatus || (EntryStatus = {}));
-export async function parse(filePackage) {
+export async function parsePackageFile(filePackage) {
     const result = {
         libs: new Map(),
-        package: { filename: filePackage.name, filesize: filePackage.size, lastModified: filePackage.lastModified, dependencies: [] },
+        package: {
+            origfrom: "local",
+            filename: filePackage.name,
+            filesize: filePackage.size,
+            modified: filePackage.lastModified,
+            installed: Number(new Date()),
+            updated: -1,
+            dependencies: []
+        },
         content: { files: [] }
     };
     //
@@ -48,7 +56,7 @@ export async function parse(filePackage) {
             switch (resEntryParse.status) {
                 case EntryStatus.RootFile: {
                     if (resEntryParse.filename == KnownNames.PackageMain) {
-                        result.package.bookGUID = "";
+                        result.package.guid = "";
                         result.package.version = "";
                         //
                         const strMetadata = await fetchTextFromEntry(resEntryParse);
@@ -63,7 +71,7 @@ export async function parse(filePackage) {
                         }
                         //
                         result.package.name = result.package.metadata.title;
-                        result.package.shortName = result.package.metadata.title;
+                        result.package.shortname = result.package.metadata.title;
                     }
                     else {
                         console.error(`Unknown entry in the root of the H5P package (entry: "${entry.filename}"), (package file: "${filePackage.name}").`);
@@ -98,10 +106,17 @@ export async function parse(filePackage) {
                                 newlib.machineName = newlib.metadata.machineName;
                                 newlib.majorVersion = newlib.metadata.majorVersion;
                                 newlib.minorVersion = newlib.metadata.minorVersion;
+                                newlib.version = H5PEnv.getVersionFromObject(newlib.metadata);
                                 if (newlib.metadata.coreApi) {
                                     newlib.majorVersionCore = newlib.metadata.coreApi.majorVersion;
                                     newlib.minorVersionCore = newlib.metadata.coreApi.minorVersion;
                                 }
+                                //
+                                newlib.isAddon = (newlib.metadata.addTo) ? true : false;
+                                if (newlib.isAddon) {
+                                    H5PEnv.regAddonLibrary(newlib);
+                                }
+                                //
                                 break;
                             }
                             case KnownNames.UpgradesFile: {
@@ -130,6 +145,9 @@ export async function parse(filePackage) {
     if (aPreloaded) {
         for (let i = 0; i < aPreloaded.length; i++) {
             let libtoken = H5PEnv.makeLibraryToken(aPreloaded[i]);
+            // Grigory. 2024-01-27 (ИМХО) в анализе "preloadedDependencies" вроде как нет смысла,
+            // поскольку все библиотеки указанные в этом списке и так включены в H5P файл,
+            // где они выявляются при анализе содержимого пакета.
         }
     }
     //
@@ -152,6 +170,67 @@ export async function parse(filePackage) {
         //
         return newlib;
     }
+}
+export async function parseLibraryFile(fileLibrary) {
+    const newlib = {};
+    const aFiles = [];
+    const readerBlob = new zip.BlobReader(fileLibrary);
+    const readerZip = new zip.ZipReader(readerBlob);
+    const aEntries = await readerZip.getEntries();
+    for (let i = 0; i < aEntries.length; i++) {
+        const entry = aEntries[i];
+        //
+        const resEntryParse = await parseEntry(entry);
+        switch (resEntryParse.status) {
+            case EntryStatus.LibraryPart: {
+                const lfile = await makeLinkedFile(resEntryParse);
+                aFiles.push(lfile);
+                //
+                // we save the texts of some service files for convenience
+                switch (resEntryParse.filename) {
+                    case KnownNames.LibraryFile: {
+                        if (newlib.token) {
+                            throw new Error("Incorrect structure of the H5P library file. More than one nested directory was found!");
+                        }
+                        //
+                        newlib.token = resEntryParse.rootParent;
+                        const strMetadata = await fetchTextFromEntry(resEntryParse);
+                        newlib.metadata = JSON.parse(strMetadata);
+                        //
+                        newlib.machineName = newlib.metadata.machineName;
+                        newlib.majorVersion = newlib.metadata.majorVersion;
+                        newlib.minorVersion = newlib.metadata.minorVersion;
+                        newlib.version = H5PEnv.getVersionFromObject(newlib.metadata);
+                        if (newlib.metadata.coreApi) {
+                            newlib.majorVersionCore = newlib.metadata.coreApi.majorVersion;
+                            newlib.minorVersionCore = newlib.metadata.coreApi.minorVersion;
+                        }
+                        //
+                        newlib.isAddon = (newlib.metadata.addTo) ? true : false;
+                        if (newlib.isAddon) {
+                            H5PEnv.regAddonLibrary(newlib);
+                        }
+                        //
+                        break;
+                    }
+                    case KnownNames.UpgradesFile: {
+                        newlib.textUpgrades = await fetchTextFromEntry(resEntryParse);
+                        break;
+                    }
+                    case KnownNames.PresaveFile: {
+                        newlib.textPresave = await fetchTextFromEntry(resEntryParse);
+                        break;
+                    }
+                } // switch (resEntryParse.filename)
+                break;
+            }
+        } // switch
+    } // for (let i = 0; i < aEntries.length; i++)
+    //
+    //
+    await readerZip.close();
+    //
+    return { library: newlib, files: { libtoken: newlib.token, files: aFiles } };
 }
 //
 // Utilities

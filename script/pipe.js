@@ -37,7 +37,7 @@ export function fetchTextFile(url) {
                 resolve(res.text());
             }
             else {
-                reject(Helper.extractMessage(res)[0]);
+                reject(Helper.extractMessage(res));
             }
         });
     });
@@ -49,7 +49,7 @@ export function fetchJson(url) {
                 resolve(res.json());
             }
             else {
-                reject(Helper.extractMessage(res)[0]);
+                reject(Helper.extractMessage(res));
             }
         });
     });
