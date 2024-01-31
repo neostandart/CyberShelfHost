@@ -7,7 +7,7 @@
 
     {1}
 
-    <link rel="stylesheet" href="/css/packframe.css">
+    <link rel="stylesheet" href="css/packframe.css">
 
     {2}
 
