@@ -1193,7 +1193,7 @@
       "url": "assets\/symbols\/msgkinds.svg"
     },
     {
-      "hash": "sha256-h5d48wkqGq1czG15oWcF0Z7RV9n\/iDODnKr6qVF7f24=",
+      "hash": "sha256-K0fVNuVkNjC5jTSJc3vFIQaZtTKbI7GE7ZHXcWmP+X8=",
       "url": "assets\/symbols\/symbols.svg"
     },
     {
@@ -1213,7 +1213,7 @@
       "url": "css\/bootstrap\/bootstrap.min.css.map"
     },
     {
-      "hash": "sha256-bKLC4x309h1OITBTaFGfcYKZHGR8U45yV89keDV1aCE=",
+      "hash": "sha256-OzzgHsiqgl2cjprJfJB88AiUtaCE+UM\/bHMm0OyMxzw=",
       "url": "css\/packframe.css"
     },
     {
@@ -1225,7 +1225,7 @@
       "url": "manifest.json"
     },
     {
-      "hash": "sha256-TugpSc8NrIsHuBoc9Qx16FrKr48z6L70yGPlnX0CIHY=",
+      "hash": "sha256-3gqjBdpazdR2QR1tSmik\/skbw512aH9yGHdzAJkkdrI=",
       "url": "script\/appdb.js"
     },
     {
@@ -1285,11 +1285,11 @@
       "url": "script\/packrt\/localization\/translator.js"
     },
     {
-      "hash": "sha256-nSFJQdphkRdtWsROKdK3X+HzPNN+PbGcPtxfmZ1WlIw=",
+      "hash": "sha256-jbCuvBNuwN5YFTVwihgfvq28U9yjPh6KnCCcloZ77q0=",
       "url": "script\/packrt\/manager.js"
     },
     {
-      "hash": "sha256-b1zNcBQesMJI39GJ\/r1COFs6f6innWZ3zCfVGNWnu3Y=",
+      "hash": "sha256-02REYvpV+MTNMOOqPi3v6bC5cA6a8t487ylKWc0Ou+M=",
       "url": "script\/packrt\/parse\/parser.js"
     },
     {
@@ -1565,11 +1565,11 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-+Ta9TLbLDy5UqjASdU7pB1yc2auUqTnBvUdX3CFpS8w=",
+      "hash": "sha256-2w88fTS2a0wiQBclmW3oDdtUQBm1fDngRtZUliSrolE=",
       "url": "_framework\/blazor.boot.json"
     },
     {
-      "hash": "sha256-VDUSBCvqxePX5F36Ggr6vbEHk28+0adfybg3EQ6DKz8=",
+      "hash": "sha256-S\/IJ1dfWfLVLmD\/4vUZooNEDunhO6xTbiXDOvyFOhlE=",
       "url": "_framework\/CyberShelf.wasm"
     },
     {
@@ -1765,7 +1765,7 @@
       "url": "_framework\/System.Private.Uri.wasm"
     },
     {
-      "hash": "sha256-Y54ay3WDkox5oOL6NzzfTQYx6BUyhVdB2c8NVvgIDBE=",
+      "hash": "sha256-C3RxGwL6Dt61HdYfr5QlQAWJdRSB9ZVtE8kx9dkKmMM=",
       "url": "_framework\/System.Private.Xml.Linq.wasm"
     },
     {
@@ -1837,7 +1837,7 @@
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-9B5AqpPADR00fh3m2BP\/g\/VVDx0NTji\/hEqq0tX8u3I=",
+      "hash": "sha256-64lAmUHbqblJ55yCaB8AfDrLf\/FdTpLxLcNe1ZwCdc0=",
       "url": "_framework\/ru\/CyberShelf.resources.wasm"
     },
     {
@@ -2021,5 +2021,5 @@
       "url": "_content\/Radzen.Blazor\/Radzen.Blazor.js"
     }
   ],
-  "version": "Q1QdeRYA"
+  "version": "nM\/QGUnB"
 };

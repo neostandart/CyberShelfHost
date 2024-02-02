@@ -114,7 +114,7 @@ export class AppDB {
     //#endregion (Common Public Members)
     //#region Specialize Methods
     static makeTokenFromRecord(rec) {
-        return { key: rec.key, guid: rec.guid, name: rec.name, version: rec.version, filename: rec.filename };
+        return { key: rec.key, guid: rec.guid, name: rec.name, version: rec.version, filename: rec.filename, isBroken: rec.isBroken };
     }
     static async findPackageByFile(criteria) {
         return new Promise(async (resolve, reject) => {
@@ -126,10 +126,10 @@ export class AppDB {
                 store.openCursor().onsuccess = (event) => {
                     const cursor = event.target.result;
                     if (cursor) {
-                        let packCurrent = cursor.value;
-                        if (packCurrent.filename === criteria.filename && packCurrent.filesize === criteria.filesize && packCurrent.modified) {
-                            const refPack = { key: packCurrent.key, guid: packCurrent.guid, name: packCurrent.name, version: packCurrent.version, filename: packCurrent.filename };
-                            resolve(refPack);
+                        const pack = cursor.value;
+                        if (pack.filename === criteria.filename && pack.filesize === criteria.filesize && pack.modified) {
+                            const token = { key: pack.key, guid: pack.guid, name: pack.name, version: pack.version, filename: pack.filename, isBroken: pack.isBroken };
+                            resolve(token);
                             return;
                         }
                         //
@@ -137,14 +137,14 @@ export class AppDB {
                     }
                     else {
                         resolve(null);
-                        return;
                     }
                 };
             }
             catch (err) {
-                reject(err); // it is necessary to test...
+                reject(err);
             }
             finally {
+                AppDB.releaseDB();
             }
         });
     }

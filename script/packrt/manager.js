@@ -108,7 +108,10 @@ export async function fetchPackageList() {
                         installed: recPackage.installed,
                         updated: recPackage.updated,
                         //
-                        refcount: __getRefCount(recPackage.key, aCatalogs)
+                        refcount: __getRefCount(recPackage.key, aCatalogs),
+                        //
+                        isBroken: recPackage.isBroken,
+                        brokeninfo: recPackage.brokeninfo || ""
                     };
                     aResult.push(packitem);
                     //
@@ -143,6 +146,36 @@ export async function fetchPackageList() {
             //
             const suite = aSiutes.find((item) => item.key === suitekey);
             return (suite) ? suite.name : "";
+        }
+    });
+}
+export async function fetchPackageTokens() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let adb = await AppDB.useDB();
+            let transPackages = adb.transaction("packages", "readonly");
+            let storePackages = transPackages.objectStore("packages");
+            //
+            const aResult = [];
+            //
+            storePackages.openCursor().onsuccess = (event) => {
+                const cursor = event.target.result;
+                if (cursor) {
+                    const recPackage = cursor.value;
+                    const packtok = AppDB.makeTokenFromRecord(recPackage);
+                    //
+                    aResult.push(packtok);
+                    cursor.continue();
+                }
+                else {
+                    AppDB.releaseDB();
+                    resolve(aResult);
+                }
+            };
+        }
+        catch (err) {
+            AppDB.releaseDB();
+            reject(err);
         }
     });
 }

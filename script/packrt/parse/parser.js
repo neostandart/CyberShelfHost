@@ -36,7 +36,9 @@ export async function parsePackageFile(filePackage) {
             modified: filePackage.lastModified,
             installed: Number(new Date()),
             updated: -1,
-            dependencies: []
+            dependencies: [],
+            isBroken: false,
+            brokeninfo: ""
         },
         content: { files: [] }
     };
