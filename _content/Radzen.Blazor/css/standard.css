@@ -5256,7 +5256,7 @@ a.text-dark:hover, a.text-dark:focus {
   font-family: "Material Icons";
   font-style: normal;
   font-weight: 400;
-  src: local("Material Icons"), local("MaterialIcons-Regular"), url("../fonts/MaterialIcons-Regular.woff") format("woff");
+  src: url("../fonts/MaterialIcons-Regular.woff") format("woff");
 }
 @font-face {
   font-family: "Source Sans Pro";

@@ -899,8 +899,11 @@ window.Radzen = {
     Radzen[id] = function (e) {
         var lastPopup = Radzen.popups && Radzen.popups[Radzen.popups.length - 1];
         var currentPopup = lastPopup != null && document.getElementById(lastPopup.id) || popup;
-        currentPopup.instance = lastPopup.instance;
-        currentPopup.callback = lastPopup.callback;
+
+        if (lastPopup) {
+            currentPopup.instance = lastPopup.instance;
+            currentPopup.callback = lastPopup.callback;
+        }
 
         if(e.type == 'contextmenu' || !e.target || !closeOnDocumentClick) return;
         if (!/Android/i.test(navigator.userAgent) &&
@@ -1191,7 +1194,7 @@ window.Radzen = {
       arg instanceof Element || arg instanceof HTMLDocument
         ? arg
         : document.getElementById(arg);
-    return input ? input.value : '';
+    return input && input.value != '' ? input.value : null;
   },
   setInputValue: function (arg, value) {
     var input =
@@ -1699,7 +1702,15 @@ window.Radzen = {
           },
           mouseMoveHandler: function (e) {
               if (Radzen[el]) {
-                  var width = (Radzen[el].width - (Radzen[el].clientX - e.clientX)) + 'px';
+                  var widthFloat = (Radzen[el].width - (Radzen[el].clientX - e.clientX));
+                  var minWidth = parseFloat(cell.style.minWidth || 0)
+
+                  if (widthFloat < minWidth) {
+                      widthFloat = minWidth;
+                  }
+
+                  var width = widthFloat + 'px';
+
                   if (cell) {
                       cell.style.width = width;
                   }

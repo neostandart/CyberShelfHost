@@ -37,6 +37,9 @@ export function beginInstall() {
         _inputPackage.click();
     }
 }
+export function isPackageOpened(packkey) {
+    return PackagePool.hasPackage(packkey);
+}
 export async function openPackage(packkey, user) {
     let pack = PackagePool.getPackage(packkey);
     if (pack) {
@@ -57,21 +60,19 @@ export function closePackage(packkey) {
         pack.dispose();
     }
 }
-export async function deletePackage(packkey) {
-    if (PackagePool.hasPackage(packkey)) {
-        alert("You cannot delete an open package!");
-        return null;
-    }
+export async function uninstallPackage(packkey) {
+    const token = await uninstall(packkey);
     //
-    const deletedkey = await deinstall(packkey);
-    return deletedkey;
+    setTimeout(() => {
+        window.DotNet.invokeMethodAsync("CyberShelf", "informUninstalled", token);
+    }, 10);
 }
 export async function deleteLibrary(libtoken) {
     if (LibraryPool.hasLibrary(libtoken)) {
         throw new Error(`You cannot delete a library that is in use! (library: ${libtoken})`);
     }
     //
-    const deletedtoken = await deinstallLibrary(libtoken);
+    const deletedtoken = await uninstallLibrary(libtoken);
     return deletedtoken;
 }
 export async function fetchPackageList() {
@@ -79,7 +80,7 @@ export async function fetchPackageList() {
         try {
             let adb = await AppDB.useDB();
             //
-            const aCatalogs = (await AppDB.getAll("catalogs")).map((r) => r.toString());
+            const aCatalogs = await AppDB.getAll("catalogs");
             const aSuites = (await AppDB.getAll("suites")).map(r => r);
             //
             let transPackages = adb.transaction("packages", "readonly");
@@ -111,7 +112,8 @@ export async function fetchPackageList() {
                         refcount: __getRefCount(recPackage.key, aCatalogs),
                         //
                         isBroken: recPackage.isBroken,
-                        brokeninfo: recPackage.brokeninfo || ""
+                        brokeninfo: recPackage.brokeninfo || "",
+                        isOpened: PackagePool.hasPackage(recPackage.key)
                     };
                     aResult.push(packitem);
                     //
@@ -132,8 +134,8 @@ export async function fetchPackageList() {
             let nCount = 0;
             //
             const regex = new RegExp(`PackageKey=("|\')${packkey}`);
-            for (const strCatalog of aCatalogs) {
-                if (regex.test(strCatalog)) {
+            for (const catalog of aCatalogs) {
+                if (regex.test(catalog.content)) {
                     nCount++;
                 }
             }
@@ -388,18 +390,19 @@ async function saveNewPackage(parsed) {
         }
     }
 } // saveNewData
-async function deinstall(packtoken) {
+async function uninstall(packkey) {
     //
-    const pack = await AppDB.get("packages", packtoken);
+    const pack = await AppDB.get("packages", packkey);
     if (!pack) {
-        alert(`the package being deleted (${packtoken}) was not found!`);
-        return null;
+        throw new Error(`The package for uninstall (${packkey}) was not found!`);
     }
+    //
+    const token = AppDB.makeTokenFromRecord(pack);
     //
     const aDependencies = pack.dependencies;
     const setBeingDeleted = new Set();
     const aAllPacks = await AppDB.getAll("packages");
-    const nIndex = aAllPacks.findIndex((packCurrent) => packCurrent.key === packtoken);
+    const nIndex = aAllPacks.findIndex((packCurrent) => packCurrent.key === packkey);
     aAllPacks.splice(nIndex, 1);
     for (const tokenDepLib of aDependencies) {
         //
@@ -407,9 +410,7 @@ async function deinstall(packtoken) {
         if (!bOtherRefs)
             setBeingDeleted.add(tokenDepLib);
     }
-    //
-    // Список зависимых библиотек на которые нет других ссылок
-    // подготовлен. Можно начинать удаление.
+    // A list of dependent libraries for which there are no other references has been prepared. You can start deleting.
     let database = null;
     let transaction = null;
     try {
@@ -427,14 +428,15 @@ async function deinstall(packtoken) {
         }
         //
         let storePack = transaction.objectStore("packages");
-        storePack.delete(packtoken);
+        storePack.delete(packkey);
+        //
         let storeContent = transaction.objectStore("content");
-        storeContent.delete(packtoken);
+        storeContent.delete(packkey);
         //
         //
         transaction.commit();
-        // Конец удаления пакета
-        return packtoken;
+        // The package has been deleted from the database.
+        return token;
     }
     catch (err) {
         _abortTransaction();
@@ -471,8 +473,8 @@ async function deinstall(packtoken) {
             ;
         }
     }
-} // deinstall
-async function deinstallLibrary(libtoken) {
+} // uninstall
+async function uninstallLibrary(libtoken) {
     let database = null;
     let transaction = null;
     //

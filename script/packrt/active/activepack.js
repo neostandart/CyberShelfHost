@@ -256,17 +256,17 @@ export class PackagePool {
     //#region Properties
     //#endregion (Properties)
     //#region Methods
-    static regPackage(packtoken, pack) {
-        if (this._mapPacks.has(packtoken)) {
-            throw new Error(`The package with the "${packtoken}" token has already been registered!`);
+    static regPackage(packkey, pack) {
+        if (this._mapPacks.has(packkey)) {
+            throw new Error(`The package with the "${packkey}" token has already been registered!`);
         }
         //
-        this._mapPacks.set(packtoken, pack);
+        this._mapPacks.set(packkey, pack);
     }
-    static releasePackage(packtoken) {
-        const pack = this._mapPacks.get(packtoken);
+    static releasePackage(packkey) {
+        const pack = this._mapPacks.get(packkey);
         if (pack) {
-            this._mapPacks.delete(packtoken);
+            this._mapPacks.delete(packkey);
         }
         //
         if (this._mapPacks.size === 0) {
@@ -286,15 +286,15 @@ export class PackagePool {
             resolve(aKeys);
         });
     }
-    static getPackage(packtoken) {
-        return this._mapPacks.get(packtoken);
+    static getPackage(packkey) {
+        return this._mapPacks.get(packkey);
     }
     static getAllActivePackages() {
         const aRes = [...this._mapPacks.values()];
         return aRes;
     }
-    static hasPackage(packtoken) {
-        return this._mapPacks.has(packtoken);
+    static hasPackage(packkey) {
+        return this._mapPacks.has(packkey);
     }
     static getZIndexTop() {
         this._nZIndexTop++;

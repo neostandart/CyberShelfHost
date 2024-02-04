@@ -86,6 +86,41 @@ export class AppDB {
             return record;
         }
     }
+    // it is not fully debugged !!!
+    static async getByKeys(storename, keys) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const aResult = [];
+                let adb = await this._useDB();
+                let transaction = adb.transaction(storename);
+                let store = transaction.objectStore(storename);
+                let request = store.openCursor();
+                request.onsuccess = (event) => {
+                    const cursor = event.target.result;
+                    if (cursor) {
+                        //
+                        if (keys.findIndex(value => cursor.key == value) >= 0) {
+                            aResult.push(cursor.value);
+                        }
+                        //
+                        cursor.continue();
+                    }
+                    else {
+                        resolve(aResult);
+                    }
+                };
+                request.onerror = (event) => {
+                    throw new Error(request.error.message || "error of the cursor"); // ???
+                };
+            }
+            catch (err) {
+                reject(err);
+            }
+            finally {
+                AppDB.releaseDB();
+            }
+        });
+    }
     static async getAll(storename) {
         let result;
         try {
@@ -148,7 +183,7 @@ export class AppDB {
             }
         });
     }
-    static async findPackageRefs(packkey, userkeyExclude = null) {
+    static async findPackageRefsOld(packkey, userkeyExclude = null) {
         return new Promise(async (resolve, reject) => {
             try {
                 let adb = await this._useDB();
@@ -162,7 +197,7 @@ export class AppDB {
                     const cursor = event.target.result;
                     if (cursor) {
                         if (!userkeyExclude || cursor.key !== userkeyExclude) {
-                            let strCatalog = cursor.value;
+                            let strCatalog = cursor.value.content;
                             if (regex.test(strCatalog)) {
                                 // ! a link to the package was found
                                 let transUsers = adb.transaction("users", "readonly");
@@ -193,6 +228,21 @@ export class AppDB {
                 reject(err);
             }
         });
+    }
+    static async findPackageRefs(packkey, userkeyExclude = null) {
+        const regex = new RegExp(`PackageKey=("|\')${packkey}`);
+        //
+        const aUserKeys = [];
+        var aCatalogs = await AppDB.getAll("catalogs");
+        aCatalogs.forEach((catalog) => {
+            if (regex.test(catalog.content)) {
+                aUserKeys.push(catalog.userkey);
+            }
+        });
+        //
+        let users = await AppDB.getByKeys("users", aUserKeys);
+        //
+        return users;
     }
     static deleteUser(userid) {
         return new Promise(async (resolve, reject) => {
