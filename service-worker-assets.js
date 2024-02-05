@@ -1197,7 +1197,7 @@
       "url": "assets\/symbols\/symbols.svg"
     },
     {
-      "hash": "sha256-6pAKjDX\/04cZnRMZPdMN9mvnphZW3wwHsgcXy6sgTNY=",
+      "hash": "sha256-xLxs4niAM2KEtianx9m2cWEwao31BsujW6ZY5DZrT2Y=",
       "url": "assets\/templates\/h5pplayer.txt"
     },
     {
@@ -1239,6 +1239,10 @@
     {
       "hash": "sha256-2GPbk7f7SEF0\/3vS2lPgiYxDe6DC0PpeRSdPpLf9pbM=",
       "url": "script\/fullscreen.js"
+    },
+    {
+      "hash": "sha256-gMaSPVXTR1CLEjan1wMMJ2ApXsgFhOd4rtUTnLeGN\/I=",
+      "url": "script\/h5p-stub.js"
     },
     {
       "hash": "sha256-sZqI+wA8fT\/JQ0WpCXZ59mBQb2XXzT7Yg00Kyh49qY0=",
@@ -1417,7 +1421,7 @@
       "url": "vendor\/h5p\/core\/js\/h5p-confirmation-dialog.js"
     },
     {
-      "hash": "sha256-cM0uNwe4q7RalZjVX+RINDbR6OaZd\/uJjpVRAEEOnXQ=",
+      "hash": "sha256-QaIUEzE1wEiMBYjcxjYa+dIGxAHAAlIFhW6tpmhBz\/E=",
       "url": "vendor\/h5p\/core\/js\/h5p-content-type.js"
     },
     {
@@ -1557,7 +1561,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-1s7ivIA7rKg+Db8QKJtN9dZFJSFomJq8AFWNgjk7JFA=",
+      "hash": "sha256-vuxBJe4EW+pipCPYUthCRM8HUf00\/8Wow6+Qnh454O4=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -1569,7 +1573,7 @@
       "url": "_framework\/dotnet.native.wasm"
     },
     {
-      "hash": "sha256-52+ajczI526Y4BGHE+\/HQ2HLlZs+652sHGgzRgFBvo4=",
+      "hash": "sha256-Ryto4nVFc1vKqTWGoL\/3VwCEciZYgz01WmFz2t7Tkcs=",
       "url": "_framework\/CyberShelf.wasm"
     },
     {
@@ -1837,7 +1841,7 @@
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-KgGgou0mlpRuom2jXYYavdgsVtR8\/OtnIRAVrvuOoUc=",
+      "hash": "sha256-ZhgwuFraEdAs4SAAcIdJrQ6xwvUjRHMd9gUuUBvjFx4=",
       "url": "_framework\/ru\/CyberShelf.resources.wasm"
     },
     {
@@ -2021,5 +2025,5 @@
       "url": "_content\/Radzen.Blazor\/Radzen.Blazor.js"
     }
   ],
-  "version": "zDqUbLsb"
+  "version": "fnBaknO3"
 };

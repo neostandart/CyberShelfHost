@@ -13,41 +13,44 @@
  */
 H5P.ContentType = function (isRootLibrary) {
 
-  function ContentType() { }
+    function ContentType() { }
 
-  // Inherit from EventDispatcher.
-  ContentType.prototype = new H5P.EventDispatcher();
+    // Inherit from EventDispatcher.
+    ContentType.prototype = new H5P.EventDispatcher();
 
-  /**
-   * Is library standalone or not? Not beeing standalone, means it is
-   * included in another library
-   *
-   * @return {Boolean}
-   */
-  ContentType.prototype.isRoot = function () {
-    return isRootLibrary;
-  };
+    /**
+     * Is library standalone or not? Not beeing standalone, means it is
+     * included in another library
+     *
+     * @return {Boolean}
+     */
+    ContentType.prototype.isRoot = function () {
+        return isRootLibrary;
+    };
 
-  /**
-   * Returns the file path of a file in the current library
-   * @param  {string} filePath The path to the file relative to the library folder
-   * @return {string} The full path to the file
-   */
-  ContentType.prototype.getLibraryFilePath = function (filePath) {
-    // Grigory
-    if (window.ActivePackage) {
-      // здесь у открытого пакета запрашиваем библиотеку по "this.libraryInfo.versionedNameNoSpaces"
-      // (это фактически "libtoken"), и оттуда получаем ObjectURL файла !!! 
-      const lib = window.ActivePackage.getActiveLibrary(this.libraryInfo.versionedNameNoSpaces);
-      return (lib) ? lib.getObjectURL(filePath) : "";
-    }
+    /**
+     * Returns the file path of a file in the current library
+     * @param  {string} filePath The path to the file relative to the library folder
+     * @return {string} The full path to the file
+     */
+    ContentType.prototype.getLibraryFilePath = function (filePath) {
+        // Grigory
+        if (window.ActivePackage) {
+            // здесь у открытого пакета запрашиваем библиотеку по "this.libraryInfo.versionedNameNoSpaces"
+            // (это фактически "libtoken"), и оттуда получаем ObjectURL файла !!! 
+            const lib = window.ActivePackage.getActiveLibrary(this.libraryInfo.versionedNameNoSpaces);
+            if (!lib) return "";
 
-    //
-    // Native H5P code
-    //
+            //return (lib) ? lib.getObjectURL(filePath) : "";
+            return (filePath) ? lib.getObjectURL(filePath) : lib.token + "/"; // 2024-02-04 Grigory !
+        }
 
-    return H5P.getLibraryPath(this.libraryInfo.versionedNameNoSpaces) + '/' + filePath;
-  };
+        //
+        // Native H5P code
+        //
 
-  return ContentType;
+        return H5P.getLibraryPath(this.libraryInfo.versionedNameNoSpaces) + '/' + filePath;
+    };
+
+    return ContentType;
 };

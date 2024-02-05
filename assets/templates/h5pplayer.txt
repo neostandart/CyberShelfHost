@@ -11,6 +11,8 @@
 
     {2}
 
+    <script src="script/h5p-stub.js"></script>
+
     <script>
         window.H5PIntegration = {3};
     </script>
