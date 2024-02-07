@@ -2,13 +2,13 @@
     box-sizing: border-box;
 }
 
-body .h5p-content {
+.h5p-container {
     padding: 1rem 0.5rem;
 }
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
-    body .h5p-content {
-        padding: 1rem 2rem;
+    .h5p-container {
+        padding: 1rem 1.5rem;
     }
 }
