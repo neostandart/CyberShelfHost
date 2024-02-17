@@ -277,7 +277,7 @@ export function beginLibraryInstall() {
 //
 async function onInputPackageChange() {
     try {
-        if (_inputPackage.files.length == 1) {
+        if (_inputPackage.files.length >= 1) {
             const filePackage = _inputPackage.files[0];
             //
             const filetoken = { name: filePackage.name, size: filePackage.size, type: filePackage.type, modified: filePackage.lastModified };
@@ -300,7 +300,7 @@ async function onInputPackageChange() {
 }
 async function onInputLibraryChange() {
     try {
-        if (_inputLibrary.files.length == 1) {
+        if (_inputLibrary.files.length >= 1) {
             const fileLibrary = _inputLibrary.files[0];
             const filetoken = { name: fileLibrary.name, size: fileLibrary.size, type: fileLibrary.type, modified: fileLibrary.lastModified };
             let bPermission = await window.DotNet.invokeMethodAsync("CyberShelf", "requestLibInstall", filetoken);

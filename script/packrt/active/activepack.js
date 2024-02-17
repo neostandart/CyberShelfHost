@@ -201,16 +201,16 @@ export class ActivePackage {
         if (ev.data && ev.data.statement && ev.data.statement.result) {
             const theResult = ev.data.statement.result;
             if (theResult.completion == true) {
-                console.log("Поле 'completion' равно 'true'.");
+                //console.log("Поле 'completion' равно 'true'.");
             }
             else {
-                console.log("Поле 'completion' не равно 'true'.");
+                //console.log("Поле 'completion' не равно 'true'.");
             }
             if (theResult.success == true) {
-                console.log("Поле 'success' равно 'true'.");
+                //console.log("Поле 'success' равно 'true'.");
             }
             else {
-                console.log("Поле 'success' не равно 'true'.");
+                //console.log("Поле 'success' не равно 'true'.");
             }
             // alert("Задание выполнено!");
         } // if (ev.data.statement.result)
