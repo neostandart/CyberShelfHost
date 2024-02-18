@@ -212,11 +212,11 @@ export class H5PEnv {
                 contentUserData: user ? this.getContentDataEndpoint(user) : ""
             },
             saveFreq: false,
-            user: {
+            user: (user) ? {
                 name: user ? user.displayName : "",
                 mail: user ? user.email : "",
                 id: user ? user.id : ""
-            },
+            } : undefined,
             siteUrl: undefined,
             l10n: {
                 H5P: this.Localizer.localize(this.StringsDefault, language, true)
