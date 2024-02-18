@@ -7,9 +7,11 @@ import { LibraryPool } from "./active/activelib.js";
 let _inputPackage;
 let _inputLibrary;
 let _hteFrameHost;
-export const mapLocaleStrings = new Map();
-export async function initializeAsync() {
-    await H5PEnv.initializeAsync();
+//
+//
+export const LocaleStrings = new Map();
+export async function initializeAsync(objUserSettings) {
+    await H5PEnv.initializeAsync(objUserSettings);
 }
 export async function attachFrameHost(hteFrameHost) {
     _hteFrameHost = hteFrameHost;
@@ -17,7 +19,7 @@ export async function attachFrameHost(hteFrameHost) {
     const alocaleKeys = ["W_width", "W_height", "W_position"];
     const mapSrc = await window.DotNet.invokeMethodAsync("CyberShelf", "getLocaleStrings", alocaleKeys);
     for (const key in mapSrc) {
-        mapLocaleStrings.set(key, mapSrc[key]);
+        LocaleStrings.set(key, mapSrc[key]);
     }
 }
 export function attachPackageInput(inputElement) {
@@ -58,6 +60,36 @@ export function closePackage(packkey) {
     const pack = PackagePool.getPackage(packkey);
     if (pack) {
         pack.dispose();
+    }
+}
+export function minimizePackage(packkey) {
+    const pack = PackagePool.getPackage(packkey);
+    if (pack) {
+        pack.wnd.minimize();
+    }
+}
+export function restorePackage(packkey) {
+    const pack = PackagePool.getPackage(packkey);
+    if (pack) {
+        pack.wnd.restore();
+    }
+}
+export function raiseTop(packkey) {
+    const pack = PackagePool.getPackage(packkey);
+    if (pack) {
+        pack.wnd.raiseTop();
+    }
+}
+export function minimizeAll() {
+    const aPackages = PackagePool.getAllActivePackages();
+    for (let i = 0; i < aPackages.length; i++) {
+        aPackages[i].wnd.minimize();
+    }
+}
+export function restoreAll() {
+    const aPackages = PackagePool.getAllActivePackages();
+    for (let i = 0; i < aPackages.length; i++) {
+        aPackages[i].wnd.restore();
     }
 }
 export async function uninstallPackage(packkey) {

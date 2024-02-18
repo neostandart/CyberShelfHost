@@ -1,6 +1,7 @@
 import { Layout } from "../../defs.js";
 import { Helper } from "../../helper.js";
-import { mapLocaleStrings } from "../manager.js";
+import { H5PEnv } from "../h5penv.js";
+import { LocaleStrings } from "../manager.js";
 export class PackLayoutCtr {
     //#region Defs & Vars
     _presenter;
@@ -9,26 +10,47 @@ export class PackLayoutCtr {
     static _template;
     _hteTarget;
     _layout;
-    _layoutSaved; // before MaxSize
+    _layoutSaved;
     _bMaxSize = false;
+    _aWidthSetButtons = [];
+    _aHeightSetButtons = [];
+    _aPositionSetButtons = [];
     //#endregion (Defs & Vars)
     // --------------------------------------------------------
     //#region Construction / Initialization
     constructor(hteTarget) {
         const fragPresenter = PackLayoutCtr.createPresenter();
         this._presenter = fragPresenter.firstElementChild;
+        this._presenter.classList.add("packlayout-ctr");
         //
         this._hteTarget = hteTarget;
         //
         this._layout = this.layoutDefault;
         //
-        const listInputs = fragPresenter.querySelectorAll(".input-area input");
-        listInputs.forEach((inputItem) => {
-            inputItem.addEventListener("change", this._onInputChange.bind(this));
+        // Width set buttons
+        let listButtons = fragPresenter.querySelectorAll("#WidthDefPanel button");
+        listButtons.forEach((hteBtn) => {
+            hteBtn.onclick = (ev) => { this._onWidthSetClick(ev.target); };
+            //
+            this._aWidthSetButtons.push(hteBtn);
         });
-        //
-        const btnFill = fragPresenter.getElementById("FillBtn");
-        btnFill.addEventListener("click", this._onFillBtn.bind(this));
+        // Height set buttons
+        listButtons = fragPresenter.querySelectorAll("#HeightDefPanel button");
+        listButtons.forEach((hteBtn) => {
+            hteBtn.onclick = (ev) => { this._onHeightSetClick(ev.target); };
+            //
+            this._aHeightSetButtons.push(hteBtn);
+        });
+        // Position set radio buttons (inputs)
+        const listRadioButtons = fragPresenter.querySelectorAll("#PositionDefPanel input");
+        listRadioButtons.forEach((hteBtn) => {
+            hteBtn.onclick = (ev) => { this._onPositionSetClick(ev.target); };
+            //
+            this._aPositionSetButtons.push(hteBtn);
+        });
+        // Position caption
+        const htePosCap = fragPresenter.querySelector("#PositionCap");
+        htePosCap.innerText = LocaleStrings.get("W_position");
         //
         const btnClose = fragPresenter.getElementById("CloseBtn");
         btnClose.addEventListener("click", () => {
@@ -44,85 +66,7 @@ export class PackLayoutCtr {
     static createPresenter() {
         if (!this._template) {
             this._template = document.createElement("template");
-            this._template.innerHTML =
-                `<div class="packlayout-ctr">
-
-                <div id="Controls">
-                    <div id="SizePanel">
-                        <div id="WidthGroup" class="sizepanel-clm">
-                            <div class="group-caption">${mapLocaleStrings.get("W_width")}</div>
-                            <div class="input-area">
-                                <div class="sizepanel-field smallest-size">
-                                    <input type="radio" id="SizeSelector" name="Width" value="25%">
-                                    <label for="SizeSelector">25%</label>
-                                </div>
-                                <div class="sizepanel-field">
-                                    <input type="radio" id="SizeSelector" name="Width" value="50%">
-                                    <label for="SizeSelector">50%</label>
-                                </div>
-                                <div class="sizepanel-field">
-                                    <input type="radio" id="SizeSelector" name="Width" value="75%">
-                                    <label for="SizeSelector">75%</label>
-                                </div>
-                                <div class="sizepanel-field">
-                                    <input type="radio" id="SizeSelector" name="Width" value="100%">
-                                    <label for="SizeSelector">100%</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="HeightGroup" class="sizepanel-clm">
-                            <div class="group-caption">${mapLocaleStrings.get("W_height")}</div>
-                            <div class="input-area">
-                                <div class="sizepanel-field smallest-size">
-                                    <input type="radio" id="SizeSelector" name="Height" value="25%">
-                                    <label for="SizeSelector">25%</label>
-                                </div>
-                                <div class="sizepanel-field">
-                                    <input type="radio" id="SizeSelector" name="Height" value="50%">
-                                    <label for="SizeSelector">50%</label>
-                                </div>
-                                <div class="sizepanel-field">
-                                    <input type="radio" id="SizeSelector" name="Height" value="75%">
-                                    <label for="SizeSelector">75%</label>
-                                </div>
-                                <div class="sizepanel-field">
-                                    <input type="radio" id="SizeSelector" name="Height" value="100%">
-                                    <label for="SizeSelector">100%</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="PosPanel">
-                        <div class="group-caption">${mapLocaleStrings.get("W_position")}</div>
-                        <div class="input-area">
-                            <div class="input-box">
-                                <input type="radio" name="WndPos" value="TopLeft">
-                            </div>
-                            <div></div>
-                            <div class="input-box">
-                                <input type="radio" name="WndPos" value="TopRight">
-                            </div>
-                            <div></div>
-                            <div class="input-box">
-                                <input type="radio" name="WndPos" value="Center">
-                            </div>
-                            <div></div>
-                            <div class="input-box">
-                                <input type="radio" name="WndPos" value="BottomLeft">
-                            </div>
-                            <div></div>
-                            <div class="input-box">
-                                <input type="radio" name="WndPos" value="BottomRight">
-                            </div>
-                        </div>
-                        <button id="FillBtn" type="button" class="btn btn-primary"><i class="fsym">fit_screen</i></button>
-                    </div>
-                </div>
-
-                <button id="CloseBtn" type="button" class="btn btn-outline-secondary"><i class="fsym">north_west</i></button>
-            </div>`;
+            this._template.innerHTML = H5PEnv.LayoutCtrTemplateHtml;
         }
         //
         return this._template.content.cloneNode(true);
@@ -142,17 +86,22 @@ export class PackLayoutCtr {
     get isMaxSize() {
         return this._bMaxSize;
     }
+    get Layout() {
+        return this._layout;
+    }
+    //
     get layoutDefault() {
         return { width: "75%", height: "75%", position: "TopRight", left: undefined, top: undefined };
     }
     //#endregion (Properties)
     //#region Methods
-    initLayout(layout) {
+    applyLayout(layout) {
         this._layout = layout;
+        this._doLayout();
     }
     applyDefaultLayout() {
         this._layout = this.layoutDefault;
-        this.applyLayout();
+        this._doLayout();
     }
     applyMaxSize() {
         if (!this.isMaxSize) {
@@ -160,7 +109,7 @@ export class PackLayoutCtr {
             //
             this._layoutSaved = this._layout;
             this._layout = { width: "100%", height: "100%", position: "TopLeft", left: undefined, top: undefined };
-            this.applyLayout();
+            this._doLayout();
             //
             this.close();
         }
@@ -170,13 +119,12 @@ export class PackLayoutCtr {
             this._bMaxSize = false;
             if (bApply) {
                 this._layout = this._layoutSaved;
-                this.applyLayout();
+                this._doLayout();
             }
         }
     }
     acceptCustomPosition() {
-        const listInputs = this._presenter.querySelectorAll("#PosPanel input");
-        listInputs.forEach((inputItem) => { inputItem.checked = false; });
+        this._aPositionSetButtons.forEach(inp => inp.checked = false);
         //
         this._layout.position = "custom";
         this._layout.left = this._hteTarget.style.left;
@@ -236,47 +184,44 @@ export class PackLayoutCtr {
     }
     //#endregion (Methods)
     //#region Events
-    //#endregion (Events)
-    // --------------------------------------------------------
-    //#region Handlers
-    _onInputChange(ev) {
-        const input = ev.currentTarget;
-        switch (input.name) {
-            case "Width": {
-                if (this.isMaxSize) {
-                    this.discardMaxSize(false);
-                }
-                //
-                this._layout.width = input.value;
-                this._doTargetResize(input.value, undefined);
-                break;
-            }
-            case "Height": {
-                if (this.isMaxSize) {
-                    this.discardMaxSize(false);
-                }
-                //
-                this._layout.height = input.value;
-                this._doTargetResize(undefined, input.value);
-                break;
-            }
-            case "WndPos": {
-                this._layout.position = input.value;
-                this._doRelPos(input.value);
-                break;
-            }
-        }
-        //
-        this._raiseLayout();
-    }
-    _onFillBtn(ev) {
-        this.applyMaxSize();
-    }
-    //#endregion Handlers
-    //#region Internals
     _raiseLayout() {
         this._hteTarget.dispatchEvent(new Event("layout"));
     }
+    //#endregion (Events)
+    // --------------------------------------------------------
+    //#region Handlers
+    _onWidthSetClick(hteBtn) {
+        console.log("_onWidthSetClick");
+        //
+        if (this.isMaxSize) {
+            this.discardMaxSize(false);
+        }
+        //
+        this._markButton(hteBtn, this._aWidthSetButtons);
+        this._layout.width = hteBtn.value;
+        this._doTargetResize(this._layout.width, undefined);
+        //
+        this._raiseLayout();
+    }
+    _onHeightSetClick(hteBtn) {
+        console.log("_onHeightSetClick");
+        //
+        this._markButton(hteBtn, this._aHeightSetButtons);
+        this._layout.height = hteBtn.value;
+        this._doTargetResize(undefined, this._layout.height);
+        //
+        this._raiseLayout();
+    }
+    _onPositionSetClick(hteInput) {
+        console.log("_onPositionSetClick");
+        //
+        this._layout.position = hteInput.value;
+        this._doRelPos(this._layout.position);
+        //
+        this._raiseLayout();
+    }
+    //#endregion Handlers
+    //#region Internals
     _doTargetResize(width, height) {
         if (width) {
             this._hteTarget.style.width = width;
@@ -327,46 +272,58 @@ export class PackLayoutCtr {
         this._hteTarget.style.left = strLeft;
         this._hteTarget.style.top = strTop;
     }
-    _doAbsPos(left, top) {
+    _doAbsPosition(left, top) {
         this._hteTarget.style.left = left;
         this._hteTarget.style.top = top;
         //
         this.ensureView();
     }
-    applyLayout() {
+    _doLayout() {
         //
         // Window width
         //
-        let input = this._presenter.querySelector(`#WidthGroup input[value="${this._layout.width}"]`);
-        if (input) {
-            input.checked = true;
-        }
+        const hteWidthSetBtn = this._aWidthSetButtons.find((btn) => btn.value === this._layout.width);
+        this._markButton(hteWidthSetBtn, this._aWidthSetButtons);
         //
         this._doTargetResize(this._layout.width, undefined);
         //
         // Window height
         //
-        input = this._presenter.querySelector(`#HeightGroup input[value="${this._layout.width}"]`);
-        if (input) {
-            input.checked = true;
-        }
+        const hteHeightSetBtn = this._aHeightSetButtons.find((btn) => btn.value === this._layout.height);
+        this._markButton(hteHeightSetBtn, this._aHeightSetButtons);
         //
         this._doTargetResize(undefined, this._layout.height);
         //
         // Window position
         //
         if (this._layout.position === "custom") {
-            this._doAbsPos(this._layout.left, this._layout.top);
+            const hteInput = this._aPositionSetButtons.find((inp) => inp.checked);
+            if (hteInput)
+                hteInput.checked = false;
+            //
+            this._doAbsPosition(this._layout.left, this._layout.top);
         }
         else {
-            input = this._presenter.querySelector(`#PosPanel input[value="${this._layout.position}"]`);
-            if (input) {
-                input.checked = true;
-            }
+            const hteInput = this._aPositionSetButtons.find((inp) => inp.value === this._layout.position);
+            if (hteInput)
+                hteInput.checked = true;
             //
             this._doRelPos(this._layout.position);
         }
         //
         this._raiseLayout();
+    }
+    _markButton(hteBtn, aScope) {
+        aScope.forEach((btn) => {
+            if (btn.classList.contains("rz-variant-filled")) {
+                btn.classList.remove("rz-variant-filled");
+                btn.classList.add("rz-variant-outlined");
+            }
+        });
+        //
+        if (hteBtn) {
+            hteBtn.classList.remove("rz-variant-outlined");
+            hteBtn.classList.add("rz-variant-filled");
+        }
     }
 } // class PackLayoutCtr

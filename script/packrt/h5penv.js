@@ -11,9 +11,12 @@ export class H5PEnv {
     static _localizer;
     static _objStringsDefault;
     static _strPlayerTemplate;
+    static _strLayoutCtrTemplate;
+    static _objUserSettings;
     //
     //
-    static async initializeAsync() {
+    static async initializeAsync(objUserSettings) {
+        this._objUserSettings = objUserSettings;
         this._aCoreCss = [
             "vendor/h5p/core/styles/h5p.css",
             "vendor/h5p/core/styles/h5p-confirmation-dialog.css",
@@ -46,7 +49,10 @@ export class H5PEnv {
         // H5P Player template
         //
         this._strPlayerTemplate = await pipe.fetchTextFile("assets/templates/h5pplayer.txt");
-        // console.log(this._strPlayerTemplate);
+        //
+        // LayoutCtr (window) template
+        //
+        this._strLayoutCtrTemplate = await pipe.fetchTextFile("assets/templates/layoutctr.txt");
     }
     /*
         Что касается Addon(ов). Это отдельные библиотеки, которые могут динамически обрабатывать контент без их явного включения в пакет.
@@ -71,6 +77,12 @@ export class H5PEnv {
     }
     static get Localizer() {
         return this._localizer;
+    }
+    static get LayoutCtrTemplateHtml() {
+        return this._strLayoutCtrTemplate;
+    }
+    static get UserSettings() {
+        return this._objUserSettings;
     }
     //
     //

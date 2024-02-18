@@ -282,23 +282,41 @@ export class AppDB {
     //#endregion (Specialize Methods)
     //#region Internals
     static _onUpgradeAppDB(ev) {
+        let request = ev.target;
+        let adb = request.result;
         if (ev.oldVersion === 0) {
-            let request = ev.target;
-            let adb = request.result;
+            __createDB();
+        }
+        else if ((ev.oldVersion !== ev.newVersion) && ev.newVersion < 3) {
+            const listStoreNames = adb.objectStoreNames;
+            for (const strStoreName of listStoreNames) {
+                adb.deleteObjectStore(strStoreName);
+            }
             //
+            console.log(`CyberShelf: All the object stores from the AppDB have been deleted (oldVersion: ${ev.oldVersion}, newVersion: ${ev.newVersion}).`);
+            //
+            __createDB();
+        }
+        else {
+            // it is assumed that there is a new version of the AddDB here (>= 3).
+        }
+        // inline
+        function __createDB() {
             adb.createObjectStore("_system");
+            //
+            adb.createObjectStore("shared");
             //
             adb.createObjectStore("users");
             adb.createObjectStore("catalogs");
+            adb.createObjectStore("usermats");
             adb.createObjectStore("results");
-            //
-            adb.createObjectStore("data");
             //
             adb.createObjectStore("suites");
             adb.createObjectStore("packages");
+            adb.createObjectStore("content");
+            //
             adb.createObjectStore("libs");
             adb.createObjectStore("libfiles");
-            adb.createObjectStore("content");
         }
     }
     static _useDB() {

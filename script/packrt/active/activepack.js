@@ -24,7 +24,7 @@ export class ActivePackage {
         this._host = host;
         //
         this._aDependencyLibTokens = [];
-        this._mapActiveLibs = new Map(); // new code
+        this._mapActiveLibs = new Map();
         //
         this._mapDelegates = new Map();
     }
@@ -62,19 +62,16 @@ export class ActivePackage {
         //
         this._html = await this.buildAsync();
         //
-        this._wnd = new PackageWnd();
-        this._wnd.show(this._html, this._host);
+        this._wnd = new PackageWnd(this._packkey);
+        PackagePool.regPackage(this._recPack.key, this);
+        //
+        await this._wnd.show(this._html, this._host);
         //
         this._wnd.frame.contentWindow.ActivePackage = this;
         //
         //
         this._wnd.presenter.addEventListener("invokeclose", () => {
-            // пока так, но это временно.
-            // Решение о закрытии окна контента должно приниматься на уровне общего UI (т.е. Blazor)
-            const response = confirm("Are you sure you want to close this content?");
-            if (response) {
-                this.dispose();
-            }
+            window.DotNet.invokeMethodAsync("CyberShelf", "invokeClosePackage", this.key);
         });
         this._wnd.presenter.addEventListener("minimized", () => {
             const packtoken = AppDB.makeTokenFromRecord(this._recPack);
@@ -99,15 +96,14 @@ export class ActivePackage {
             }
         });
         //
-        PackagePool.regPackage(this._recPack.key, this);
+        //PackagePool.regPackage(this._recPack!.key, this);
         //
         const packtoken = AppDB.makeTokenFromRecord(this._recPack);
         window.DotNet.invokeMethodAsync("CyberShelf", "informOpened", packtoken);
     }
     async buildAsync() {
-        // список зависимых библиотек подготовлен.
-        // теперь выстраиваем файлы (библиотек) в последовательность 
-        // по мере использования (url(s) и ourl(s))
+        // The list of dependent libraries has been prepared.
+        // now we arrange the files (libraries) in sequence as they are used (url(s) и ourl(s))
         let aCSSRefs = [];
         let aJSRefs = [];
         for (const libtoken of this._aDependencyLibTokens) {
@@ -133,6 +129,8 @@ export class ActivePackage {
         return htmlPage;
     }
     dispose() {
+        this._wnd.saveLayout();
+        //
         this._host.removeChild(this._wnd.presenter);
         PackagePool.releasePackage(this.key);
         //
@@ -236,7 +234,7 @@ export class ActivePackage {
         for (let i = 0; i < aDependencyTokensCurrent.length; i++) {
             const libtokenCurrent = aDependencyTokensCurrent[i];
             if (aDependencyTokens.indexOf(libtokenCurrent) < 0) {
-                // библиотека ещё не включена
+                // the library is not included yet
                 await this.processLibDependencies(libtokenCurrent, aDependencyTokens);
             }
         }
@@ -250,7 +248,6 @@ export class ActivePackage {
 export class PackagePool {
     //#region Defs & Vars
     static _mapPacks = new Map();
-    static _nZIndexTop = 0;
     //#endregion (Defs & Vars)
     // --------------------------------------------------------
     //#region Properties
@@ -267,10 +264,6 @@ export class PackagePool {
         const pack = this._mapPacks.get(packkey);
         if (pack) {
             this._mapPacks.delete(packkey);
-        }
-        //
-        if (this._mapPacks.size === 0) {
-            this._nZIndexTop = 0;
         }
     }
     static closeAllPackages() {
@@ -296,9 +289,10 @@ export class PackagePool {
     static hasPackage(packkey) {
         return this._mapPacks.has(packkey);
     }
-    static getZIndexTop() {
-        this._nZIndexTop++;
-        return this._nZIndexTop;
+    static raiseToTop(packkey) {
+        for (let [key, value] of this._mapPacks) {
+            value.wnd.presenter.style.zIndex = (key === packkey) ? "1" : "auto";
+        }
     }
     static enablePointerEventsAll() {
         for (let [key, value] of this._mapPacks) {

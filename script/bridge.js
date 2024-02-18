@@ -301,6 +301,9 @@ export function bindPositionTo(element, target, side = "bottom", align = "start"
     element.style.left = nLeftNew + "px";
 }
 //#region DOM tree
+export function getGlobalObject(strObjectName) {
+    return window[strObjectName];
+}
 export function appendChild(hteParent, hteChild) {
     hteParent.appendChild(hteChild);
 }
@@ -309,7 +312,7 @@ export function removeChild(hteParent, hteChild) {
 }
 export async function fetchSvgFromFile(path, strId, strClass) {
     const strSvgSource = await fetchTextFile(path);
-    const svg = _parser.parseFromString(strSvgSource, "image/svg+xml").rootElement;
+    const svg = _parser.parseFromString(strSvgSource, "image/svg+xml").firstElementChild;
     //
     if (strId) {
         svg.setAttribute("id", strId);
