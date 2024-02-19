@@ -1,22 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cybershelf Welcome</title>
     <!--  -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="./_content/Radzen.Blazor/css/material.css" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #MainFrame {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* *** */
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 1rem;
+        }
+
+        #Header {
+            font-style: italic;
+            margin-bottom: 3rem;
+            color: var(--rz-primary)
+        }
+
+        #RunBox {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #SonarWrapper {
+            position: relative;
+            width: auto;
+            height: auto;
+        }
+
+        #RunBtn {
+            padding: 2rem;
+            border-radius: 50%;
+        }
+
+        #RunBtn:active {
+            transform: scale(0.95);
+        }
+
+
+        #SonarWave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: var(--rz-primary);
+            opacity: 0;
+            z-index: -1;
+            pointer-events: none;
+            animation: kf-sonar-wave 2s linear infinite;
+        }
+
+        @keyframes kf-sonar-wave {
+            from {
+                opacity: 0.4;
+            }
+
+            to {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+    </style>
+
 </head>
+
 <body>
-    
 
-    <h3>Страница запуска/установки</h3>
-    <h2>системы управления виртуальными учебными материалами</h2>
-    <h1>Киберполка</h1>
+    <main id="MainFrame">
+        <h1 id="Header">Киберполка</h1>
 
-    <a href="https://neostandart.github.io/CyberShelfHost/" class="btn btn-primary mt-3" role="button">Запустить Киберполку в режиме онлайн</a>
+        <article id="RunBox">
+            <div id="SonarWrapper">
+                <a id="RunBtn" href="https://neostandart.github.io/CyberShelfHost/"
+                    class="rz-button rz-button-md rz-variant-filled rz-primary rz-shade-default" role="button"
+                    onclick="onRunBtnClick()">
+                    <svg width="96" height="96" viewBox="0 -960 960 960" style="fill: currentColor;">
+                        <path
+                            d="M480-160q-48-38-104-59t-116-21q-42 0-82.5 11T100-198q-21 11-40.5-1T40-234v-482q0-11 5.5-21T62-752q46-24 96-36t102-12q58 0 113.5 15T480-740v484q51-32 107-48t113-16q36 0 70.5 6t69.5 18v-480q15 5 29.5 10.5T898-752q11 5 16.5 15t5.5 21v482q0 23-19.5 35t-40.5 1q-37-20-77.5-31T700-240q-60 0-116 21t-104 59Zm80-200v-380l200-200v400L560-360Zm-160 65v-396q-33-14-68.5-21.5T260-720q-37 0-72 7t-68 21v397q35-13 69.5-19t70.5-6q36 0 70.5 6t69.5 19Zm0 0v-396 396Z" />
+                    </svg>
+                </a>
+                <div id="SonarWave"></div>
+            </div>
+            <h4 class="rz-mt-3">Запустить приложение в режиме онлайн</h4>
+        </article>
+
+    </main>
 
     <!--  -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>   
+
+    <script>
+        function onRunBtnClick() {
+            console.log("onRunBtnClick");
+            let hteSonarWave = document.getElementById("SonarWave");
+            if (hteSonarWave) {
+                hteSonarWave.remove();
+            }
+        }
+    </script>
 </body>
+
 </html>
