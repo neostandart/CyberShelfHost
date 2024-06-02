@@ -337,20 +337,198 @@ export async function loadSvgBox(hteBox, pathSvg, strId, strClass) {
     hteBox.appendChild(svg);
 }
 //#endregion (DOM tree)
-//#region Ext Libraries
-//export function applyOverlayScrollbars(element: HTMLElement, cfg: TObject | null = null, prms: TObject | null = null) {
-//    var instance = (window as any).OverlayScrollbarsGlobal.OverlayScrollbars(element, cfg || {});
-//    if (instance) {
-//        if (prms) {
-//            if (prms.position && prms.position === "end") {
-//                var viewport = instance.elements().viewport;
-//                if (viewport) {
-//                    viewport.scrollLeft = viewport.scrollWidth;
-//                }
-//            }
-//        }
-//    }
-//    //
-//    return instance;
-//}
-//#endregion (Ext Libraries)
+//#region Dragable
+// This code has not been tested yet!
+//and _ensureView() is not implemented
+var DragStatus;
+(function (DragStatus) {
+    DragStatus[DragStatus["No"] = 0] = "No";
+    DragStatus[DragStatus["Mouse"] = 1] = "Mouse";
+    DragStatus[DragStatus["Touch"] = 2] = "Touch";
+})(DragStatus || (DragStatus = {}));
+class Dragable {
+    _hteDragable;
+    _hteCaptureZone;
+    _hteArea;
+    _dragStatus = DragStatus.No;
+    _ptLastDragPos = new DOMPoint();
+    constructor(hteDragable, hteCaptureZone, hteArea) {
+        this._hteDragable = hteDragable;
+        this._hteCaptureZone = hteCaptureZone;
+        this._hteArea = hteArea || hteDragable.offsetParent;
+        //
+        this._hteCaptureZone.addEventListener("mousedown", this._onCaptureZoneMouseDown);
+        this._hteCaptureZone.addEventListener("touchstart", this._onCaptureZoneTouchStart);
+    }
+    get element() {
+        return this._hteDragable;
+    }
+    get zone() {
+        return this._hteCaptureZone;
+    }
+    get area() {
+        return this._hteArea;
+    }
+    //
+    //
+    _ensureView() {
+    }
+    //
+    //
+    _onCaptureZoneMouseDown = (ev) => {
+        if (ev.target && ev.target.closest("button")) {
+            return;
+        }
+        //
+        if (this._dragStatus === DragStatus.No) {
+            ev.preventDefault();
+            //
+            this._dragStatus = DragStatus.Mouse;
+            //
+            document.addEventListener("mousemove", this._onMouseMove, { capture: true });
+            document.addEventListener("mouseup", this._onMouseUp, { capture: true });
+            // preventing the loss of messages from the iframe
+            //PackagePool.disablePointerEventsAll();
+            //
+            this._startDrag(ev.clientX, ev.clientY);
+        }
+    };
+    _onCaptureZoneTouchStart = (ev) => {
+        if (this._dragStatus === DragStatus.No) {
+            //
+            this._dragStatus = DragStatus.Touch;
+            //
+            document.addEventListener("touchmove", this._onTouchMove, { capture: true });
+            document.addEventListener("touchend", this._onTouchEnd, { capture: true });
+            //
+            this._startDrag(ev.touches[0].clientX, ev.touches[0].clientY);
+        }
+    };
+    //
+    _onMouseMove = (ev) => {
+        if (this._dragStatus === DragStatus.Mouse) {
+            ev.preventDefault();
+            this._drag(ev.clientX, ev.clientY);
+        }
+    };
+    _onMouseUp = (ev) => {
+        if (this._dragStatus === DragStatus.Mouse) {
+            ev.preventDefault();
+            //
+            this._endDrag();
+        }
+    };
+    _onTouchMove = (ev) => {
+        if (this._dragStatus === DragStatus.Touch) {
+            this._drag(ev.touches[0].clientX, ev.touches[0].clientY);
+        }
+    };
+    _onTouchEnd = (ev) => {
+        if (this._dragStatus === DragStatus.Touch) {
+            //
+            this._endDrag();
+        }
+    };
+    //
+    //
+    _startDrag(x, y) {
+        this._ptLastDragPos.x = x;
+        this._ptLastDragPos.y = y;
+    }
+    _drag(x, y) {
+        let nNewX = this._ptLastDragPos.x - x;
+        let nNewY = this._ptLastDragPos.y - y;
+        //
+        this._ptLastDragPos.x = x;
+        this._ptLastDragPos.y = y;
+        //
+        this._hteDragable.style.top = (this._hteDragable.offsetTop - nNewY) + "px";
+        this._hteDragable.style.left = (this._hteDragable.offsetLeft - nNewX) + "px";
+    }
+    _endDrag() {
+        if (this._dragStatus !== DragStatus.No) {
+            switch (this._dragStatus) {
+                case DragStatus.Mouse: {
+                    document.removeEventListener("mousemove", this._onMouseMove);
+                    document.removeEventListener("mouseup", this._onMouseUp);
+                    break;
+                }
+                case DragStatus.Touch: {
+                    document.removeEventListener("touchmove", this._onTouchMove);
+                    document.removeEventListener("touchend", this._onTouchEnd);
+                    break;
+                }
+            }
+            //
+            // restoring event handling in this window
+            //PackagePool.enablePointerEventsAll();
+            //
+            this._ensureView();
+            //
+            this._dragStatus = DragStatus.No;
+        }
+    }
+} // class Dragable
+const _aDragables = [];
+function _findDragable(hteDragable) {
+    return _aDragables.find(item => item.element === hteDragable);
+}
+function _findDragableIndex(hteDragable) {
+    return _aDragables.findIndex(item => item.element === hteDragable);
+}
+export function regDragable(hteDragable, hteCaptureZone, hteArea = null) {
+    const objExisting = _findDragable(hteDragable);
+    if (!objExisting) {
+        _aDragables.push(new Dragable(hteDragable, hteCaptureZone, hteArea));
+    }
+}
+export function unregDragable(hteDragable) {
+    const nIndex = _findDragableIndex(hteDragable);
+    if (nIndex >= 0) {
+        _aDragables.splice(nIndex, 1);
+    }
+}
+export class ProgressControl {
+    _strAssemblyName;
+    _strMethodName;
+    //
+    _nPercentTotal = 0;
+    _nSegment = 100; // percentage of 100 (total)
+    _nStepMax = 100;
+    _nStepCounter = 0;
+    _nSegmentStepValue = 0;
+    _nSegmentSeed = 0;
+    _nSegmentRatio = 1;
+    //
+    constructor(strAssemblyName, strMethodName) {
+        this._strAssemblyName = strAssemblyName;
+        this._strMethodName = strMethodName;
+    }
+    setSegment(nSegment) {
+        this._nSegment = nSegment;
+        this._nStepMax = 1;
+        this._nStepCounter = 0;
+        this._nSegmentSeed = this._nPercentTotal;
+        this._nSegmentRatio = nSegment / 100;
+    }
+    setStepMax(nStepMax) {
+        this._nStepMax = nStepMax;
+        this._nSegmentStepValue = 100 / nStepMax;
+        this._nStepCounter = 0;
+    }
+    doStep() {
+        if (this._nStepCounter < this._nStepMax) {
+            this._nStepCounter++;
+            let nSegmentPercent = Math.round((this._nStepCounter * this._nSegmentStepValue));
+            if (nSegmentPercent > 100)
+                nSegmentPercent = 100;
+            this._nPercentTotal = this._nSegmentSeed + Math.round(nSegmentPercent * this._nSegmentRatio);
+            if (this._nPercentTotal > 100)
+                this._nPercentTotal = 100;
+            window.requestAnimationFrame((timestamp) => {
+                window.DotNet.invokeMethodAsync(this._strAssemblyName, this._strMethodName, this._nPercentTotal);
+            });
+        }
+    }
+} // class ProgressControl
+//#endregion (Utilities)

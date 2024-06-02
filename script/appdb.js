@@ -183,60 +183,14 @@ export class AppDB {
             }
         });
     }
-    static async findPackageRefsOld(packkey, userkeyExclude = null) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                let adb = await this._useDB();
-                let transCatalogs = adb.transaction("catalogs", "readonly");
-                let storeCatalogs = transCatalogs.objectStore("catalogs");
-                //
-                const aResult = [];
-                const regex = new RegExp(`PackageKey=("|\')${packkey}`);
-                //
-                storeCatalogs.openCursor().onsuccess = (event) => {
-                    const cursor = event.target.result;
-                    if (cursor) {
-                        if (!userkeyExclude || cursor.key !== userkeyExclude) {
-                            let strCatalog = cursor.value.content;
-                            if (regex.test(strCatalog)) {
-                                // ! a link to the package was found
-                                let transUsers = adb.transaction("users", "readonly");
-                                let storeUsers = transUsers.objectStore("users");
-                                const reqUser = storeUsers.get(cursor.key);
-                                reqUser.onsuccess = (event) => {
-                                    const user = event.target.result;
-                                    if (user) {
-                                        aResult.push({ id: user.id, displayName: user.displayName, email: user.email });
-                                    }
-                                    else {
-                                        console.error(`AppDB.findPackageRefs: Database integrity violation detected (packkey=${packkey}, UserId(key)=${cursor.key})`);
-                                    }
-                                };
-                            }
-                        }
-                        //
-                        cursor.continue();
-                    }
-                    else {
-                        this._releaseDB();
-                        resolve(aResult);
-                    }
-                };
-            }
-            catch (err) {
-                this._releaseDB();
-                reject(err);
-            }
-        });
-    }
     static async findPackageRefs(packkey, userkeyExclude = null) {
         const regex = new RegExp(`PackageKey=("|\')${packkey}`);
         //
         const aUserKeys = [];
-        var aCatalogs = await AppDB.getAll("catalogs");
-        aCatalogs.forEach((catalog) => {
-            if (regex.test(catalog.content)) {
-                aUserKeys.push(catalog.userkey);
+        var aShelfDataSet = await AppDB.getAll("shelves");
+        aShelfDataSet.forEach((recShelf) => {
+            if (regex.test(recShelf.data)) {
+                aUserKeys.push(recShelf.userid);
             }
         });
         //
@@ -248,15 +202,15 @@ export class AppDB {
         return new Promise(async (resolve, reject) => {
             try {
                 const database = await this.useDB();
-                const transaction = database.transaction(["users", "catalogs"], "readwrite");
+                const transaction = database.transaction(["users", "shelves"], "readwrite");
                 const storeUsers = transaction.objectStore("users");
-                const storeCatalogs = transaction.objectStore("catalogs");
+                const storeShelfData = transaction.objectStore("shelves");
                 const recUser = await this._processStoreRequest(storeUsers.get(userid));
                 if (recUser) {
                     const user = { id: recUser.id, displayName: recUser.displayName, email: recUser.email };
                     //
                     storeUsers.delete(userid);
-                    storeCatalogs.delete(userid);
+                    storeShelfData.delete(userid);
                     transaction.oncomplete = () => {
                         resolve(user);
                     };
@@ -284,21 +238,12 @@ export class AppDB {
     static _onUpgradeAppDB(ev) {
         let request = ev.target;
         let adb = request.result;
-        if (ev.oldVersion === 0) {
-            __createDB();
-        }
-        else if ((ev.oldVersion !== ev.newVersion) && ev.newVersion < 3) {
-            const listStoreNames = adb.objectStoreNames;
-            for (const strStoreName of listStoreNames) {
-                adb.deleteObjectStore(strStoreName);
-            }
-            //
-            console.log(`CyberShelf: All the object stores from the AppDB have been deleted (oldVersion: ${ev.oldVersion}, newVersion: ${ev.newVersion}).`);
-            //
+        if (ev.oldVersion < 3) {
+            __clearDB();
             __createDB();
         }
         else {
-            // it is assumed that there is a new version of the AddDB here (>= 3).
+            // if version 3 and higher, we are not doing anything yet.
         }
         // inline
         function __createDB() {
@@ -307,7 +252,7 @@ export class AppDB {
             adb.createObjectStore("shared");
             //
             adb.createObjectStore("users");
-            adb.createObjectStore("catalogs");
+            adb.createObjectStore("shelves");
             adb.createObjectStore("usermats");
             adb.createObjectStore("results");
             //
@@ -317,6 +262,12 @@ export class AppDB {
             //
             adb.createObjectStore("libs");
             adb.createObjectStore("libfiles");
+        }
+        function __clearDB() {
+            const listStoreNames = adb.objectStoreNames;
+            for (const strStoreName of listStoreNames) {
+                adb.deleteObjectStore(strStoreName);
+            }
         }
     }
     static _useDB() {

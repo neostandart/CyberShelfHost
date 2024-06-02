@@ -1185,15 +1185,15 @@
       "url": "assets\/patterns\/new-suite.xml"
     },
     {
-      "hash": "sha256-s6OYznRSogSctXaO4y8d+LH9SsEcej4FU2pyy+TRSvc=",
-      "url": "assets\/patterns\/user-catalog.xml"
+      "hash": "sha256-67QohMId8ITZjcohg1KggXfD7kvCe4O8lyGqpPUPDKg=",
+      "url": "assets\/patterns\/shelf.xml"
     },
     {
       "hash": "sha256-ZGhhdkVHXmqHhUldjfqunf282cjIVfQt58ZlUFF493M=",
       "url": "assets\/symbols\/msgkinds.svg"
     },
     {
-      "hash": "sha256-cddFv0Ca3bdr26JVqeDI1DwXOVvCg1IQnugk\/DZA+6g=",
+      "hash": "sha256-Dj94HZnv2awHvQnBIM0yaX+Jpka+3MMcfYfGQ1Im1ws=",
       "url": "assets\/symbols\/symbols.svg"
     },
     {
@@ -1205,23 +1205,15 @@
       "url": "assets\/templates\/layoutctr.txt"
     },
     {
-      "hash": "sha256-zzy5c9iOPiLDSDg1+6hiXpyW5qaG7K10c3qMDIJUC5k=",
+      "hash": "sha256-5+bW\/ArV85n2Pe6PGh2+qaUHkVgiCavw7RFoYSp9924=",
       "url": "css\/app.css"
-    },
-    {
-      "hash": "sha256-xGrKB7dOsTNCOrmDW\/tYPJuUmBoVpUpv8d1FSPYzHpQ=",
-      "url": "css\/bootstrap\/bootstrap.min.css"
-    },
-    {
-      "hash": "sha256-raa7KReKM7YBvZpgm2OGqKPCMTXR+LDER3gOCqWIarY=",
-      "url": "css\/bootstrap\/bootstrap.min.css.map"
     },
     {
       "hash": "sha256-IcTlmKwQqyvSiDw\/kC1LXZYydzx7jWZv3J543YZ061A=",
       "url": "css\/packframe.css"
     },
     {
-      "hash": "sha256-6Fxr2\/EHlYUjoDC4j0E+lsWyN4tU4Xha8afygieXgVg=",
+      "hash": "sha256-OUJjq0zqrmmIje8PGGoxq9t61nSYurcNqB1af4+w2e4=",
       "url": "index.html"
     },
     {
@@ -1229,11 +1221,11 @@
       "url": "manifest.json"
     },
     {
-      "hash": "sha256-GKJYgb0C3m\/negQmrqQqEIFGAzUON\/59pxWs08kUHQs=",
+      "hash": "sha256-5IKSnlWVz8w9\/I8TP4yBVArD\/f\/dZf5p1FV9fR+ddhA=",
       "url": "script\/appdb.js"
     },
     {
-      "hash": "sha256-Sq2g7uhgaBIyGBCCicUTNTfF72Un+yps4B0DhAhTYy4=",
+      "hash": "sha256-ERmwKduDobiXWtRHtQzI0bwYJs3AnxkdmREqsWInnEA=",
       "url": "script\/bridge.js"
     },
     {
@@ -1293,16 +1285,24 @@
       "url": "script\/packrt\/localization\/translator.js"
     },
     {
-      "hash": "sha256-UJ9fjGVeN\/JB8Yc7UtDu5TFtJaHLf\/UHDgFDOQdfrgs=",
+      "hash": "sha256-6\/4AkthVveXcL8M4LoYUwzM\/M+GDURu7hF56hSxCmOo=",
       "url": "script\/packrt\/manager.js"
     },
     {
-      "hash": "sha256-02REYvpV+MTNMOOqPi3v6bC5cA6a8t487ylKWc0Ou+M=",
+      "hash": "sha256-D6C5Vm63FElykm\/mLLW02XWZemQNJgm5+ESobfWr3gQ=",
       "url": "script\/packrt\/parse\/parser.js"
     },
     {
       "hash": "sha256-9WPX5Ap3WURjnoVuNYMbne5Q1+sPlkiPHGDJCXx5B8w=",
       "url": "script\/pipe.js"
+    },
+    {
+      "hash": "sha256-kk6OP7H5pHRrCvVmM9gA6pLCWNsop7yiGttBAVI\/1IU=",
+      "url": "vendor\/bootstrap\/bootstrap.min.css"
+    },
+    {
+      "hash": "sha256-Xt+vPCfHWYugn8\/ASoGaJokBzjQ\/Bw9JW06WthDalUI=",
+      "url": "vendor\/bootstrap\/bundle.min.js"
     },
     {
       "hash": "sha256-\/9qlzJQJ1BHObMAEdBTYtZcHKIguCNN9RFHdq6mYOKU=",
@@ -1565,7 +1565,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-bLFwqQ5jdlaxP89+yEoZVp6yIZnkjoLUcY1rq1e\/NlQ=",
+      "hash": "sha256-fZVulfNnk5jqi+Het8+pYTTqJRn0WJiB1y\/UbgnpulQ=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -1577,7 +1577,7 @@
       "url": "_framework\/dotnet.native.wasm"
     },
     {
-      "hash": "sha256-8FGco27OOwT6sAMkc9orpILWx0J7DePSYmw6b7s9rxs=",
+      "hash": "sha256-Lktdbfn40JXixuh77ROPqxz42vV1VvtiuwS0sd2VGjg=",
       "url": "_framework\/CyberShelf.wasm"
     },
     {
@@ -1773,7 +1773,7 @@
       "url": "_framework\/System.Private.Uri.wasm"
     },
     {
-      "hash": "sha256-teuwMGAn5omreHeZGIw7eK\/j3UsEXBe4vnxUEP5Wjbg=",
+      "hash": "sha256-QY2kekyE2N9HdVlgXiOqvJl0jXRJcyntZYHu+nXeSvQ=",
       "url": "_framework\/System.Private.Xml.Linq.wasm"
     },
     {
@@ -1845,11 +1845,11 @@
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-GVF6FBBi5x+\/goEYMHPesQloM+Pw3tOyCNrgbCf1dTA=",
+      "hash": "sha256-OajHM4naYivfIBIoKN5PL+aZKybFlC3VWJzc75+ZMco=",
       "url": "_framework\/ru\/CyberShelf.resources.wasm"
     },
     {
-      "hash": "sha256-R\/jprhdPf8irO4M88tNmgUQWXQB5f7jCQzhm7hPBtDU=",
+      "hash": "sha256-8epUUPNezj4TyNcmm\/vkBqKiOXbB8qvQkO8REriXiHs=",
       "url": "CyberShelf.styles.css"
     },
     {
@@ -2053,5 +2053,5 @@
       "url": "_content\/Radzen.Blazor\/Radzen.Blazor.js"
     }
   ],
-  "version": "lEyXOtyH"
+  "version": "X5TOfzsc"
 };

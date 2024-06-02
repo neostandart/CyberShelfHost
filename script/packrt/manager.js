@@ -4,6 +4,7 @@ import * as parser from "./parse/parser.js";
 import { H5PEnv } from "./h5penv.js";
 import { PackagePool, ActivePackage } from "./active/activepack.js";
 import { LibraryPool } from "./active/activelib.js";
+import { ProgressControl } from "../bridge.js";
 let _inputPackage;
 let _inputLibrary;
 let _hteFrameHost;
@@ -112,7 +113,7 @@ export async function fetchPackageList() {
         try {
             let adb = await AppDB.useDB();
             //
-            const aCatalogs = await AppDB.getAll("catalogs");
+            const aStoredShelves = await AppDB.getAll("shelves");
             const aSuites = (await AppDB.getAll("suites")).map(r => r);
             //
             let transPackages = adb.transaction("packages", "readonly");
@@ -141,7 +142,7 @@ export async function fetchPackageList() {
                         installed: recPackage.installed,
                         updated: recPackage.updated,
                         //
-                        refcount: __getRefCount(recPackage.key, aCatalogs),
+                        refcount: __getRefCount(recPackage.key, aStoredShelves),
                         //
                         isBroken: recPackage.isBroken,
                         brokeninfo: recPackage.brokeninfo || "",
@@ -162,12 +163,12 @@ export async function fetchPackageList() {
             reject(err);
         }
         // inline functions
-        function __getRefCount(packkey, aCatalogs) {
+        function __getRefCount(packkey, aStoredShelves) {
             let nCount = 0;
             //
             const regex = new RegExp(`PackageKey=("|\')${packkey}`);
-            for (const catalog of aCatalogs) {
-                if (regex.test(catalog.content)) {
+            for (const recShelf of aStoredShelves) {
+                if (regex.test(recShelf.data)) {
                     nCount++;
                 }
             }
@@ -309,6 +310,8 @@ export function beginLibraryInstall() {
 //
 async function onInputPackageChange() {
     try {
+        const objProgress = new ProgressControl("CyberShelf", "updateInstallProgress");
+        //
         if (_inputPackage.files.length >= 1) {
             const filePackage = _inputPackage.files[0];
             //
@@ -316,12 +319,16 @@ async function onInputPackageChange() {
             let bPermission = await window.DotNet.invokeMethodAsync("CyberShelf", "requestParsing", filetoken);
             //
             if (bPermission) {
-                const parsed = await parser.parsePackageFile(filePackage);
+                objProgress.setSegment(70);
+                const parsed = await parser.parsePackageFile(filePackage, objProgress);
                 const packref = { key: parsed.package.key, guid: parsed.package.guid, name: parsed.package.name, filename: parsed.package.filename, version: parsed.package.version };
                 bPermission = await window.DotNet.invokeMethodAsync("CyberShelf", "requestInstall", packref);
                 if (bPermission) {
-                    packref.key = await saveNewPackage(parsed);
-                    window.DotNet.invokeMethodAsync("CyberShelf", "informInstallFinish", packref);
+                    objProgress.setSegment(30);
+                    packref.key = await saveNewPackage(parsed, objProgress);
+                    setTimeout(() => {
+                        window.DotNet.invokeMethodAsync("CyberShelf", "informInstallFinish", packref);
+                    }, 300);
                 }
             } // if (bPermission)
         }
@@ -350,13 +357,14 @@ async function onInputLibraryChange() {
         window.DotNet.invokeMethodAsync("CyberShelf", "informLibInstallError", Helper.extractMessage(err));
     }
 }
-async function saveNewPackage(parsed) {
+async function saveNewPackage(parsed, progress) {
     //
     // Saving prepared data in the database (libraries & content)
     //
     let database = null;
     let transaction = null;
     try {
+        progress.setStepMax(parsed.libs.size + 1);
         const nNewPackKey = await AppDB.getNextAutoKey("packages");
         database = await AppDB.useDB();
         transaction = database.transaction(["libs", "libfiles", "packages", "content"], "readwrite");
@@ -374,6 +382,7 @@ async function saveNewPackage(parsed) {
             const objLibFiles = { libtoken: token, files: files };
             let storeLibFiles = transaction.objectStore("libfiles");
             storeLibFiles.put(objLibFiles, token);
+            progress.doStep();
         }
         // Сохраняем в базе данных запись установленного пакета
         let storePack = transaction.objectStore("packages");
@@ -383,10 +392,11 @@ async function saveNewPackage(parsed) {
         parsed.content.ownerkey = parsed.package.key;
         let storeContent = transaction.objectStore("content");
         storeContent.put(parsed.content, parsed.content.ownerkey);
-        //
+        progress.doStep();
         //
         transaction.commit();
         // Конец сохранения нового пакета
+        progress.doStep(); // для верности...
         // PackageRef будет передан на уровень UI
         return parsed.package.key;
     }

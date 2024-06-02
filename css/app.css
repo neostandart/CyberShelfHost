@@ -200,6 +200,7 @@ a {
     --ui-color-info-bg: #e4edfe;
     /* *** */
     --ui-packctr-width: 340px;
+    --ui-packctr-width-xs: 300px;
     --ui-packctr-list-max-height: 500px;
     /* *** */
     --folder-color: goldenrod;
@@ -208,6 +209,8 @@ a {
     --book-color: #5C2D91;
     --book-color-bg: #f5f1f8;
     --h5pack-color: #2475BE;
+    --selitem-color-bg: #DFDFF1;
+    --selitem-color-br: #4340D2;
 }
 
 #Application.running {
@@ -312,6 +315,7 @@ a {
     z-index: var(--ui-z-book-ctr);
     margin-bottom: auto;
 }
+
 
 
 /* Page Host */

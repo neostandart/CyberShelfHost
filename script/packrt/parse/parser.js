@@ -26,7 +26,7 @@ var EntryStatus;
     EntryStatus[EntryStatus["LibraryPart"] = 3] = "LibraryPart";
     EntryStatus[EntryStatus["UsedByEditor"] = 4] = "UsedByEditor";
 })(EntryStatus || (EntryStatus = {}));
-export async function parsePackageFile(filePackage) {
+export async function parsePackageFile(filePackage, progress) {
     const result = {
         libs: new Map(),
         package: {
@@ -48,6 +48,7 @@ export async function parsePackageFile(filePackage) {
     const readerBlob = new zip.BlobReader(filePackage);
     const readerZip = new zip.ZipReader(readerBlob);
     const aEntries = await readerZip.getEntries();
+    progress.setStepMax(aEntries.length);
     // A main loop over all entries in the ZIP package
     for (let i = 0; i < aEntries.length; i++) {
         const entry = aEntries[i];
@@ -139,6 +140,7 @@ export async function parsePackageFile(filePackage) {
         else {
             console.error(`Unrecognized entry status (entry: "${entry.filename}"), (package file: "${filePackage.name}").`);
         }
+        progress.doStep();
     } // for (let i = 0; i < aEntries.length; i++)
     await readerZip.close();
     // Preparing a list of dependent libraries from "preloadedDependencies"

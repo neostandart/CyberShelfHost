@@ -217,23 +217,6 @@ div[b-lsf9mahv16] {
     animation-timing-function: ease-out;
     fill: var(--rz-primary);
 }
-/* /Pages/Shelf/Stuff/CatalogTree.razor.rz.scp.css */
-article[b-m1gkco5jpd] {
-    height: 100%;
-    overflow-y: auto;
-    /**/
-    border: 3px solid transparent;
-}
-
-    article.relocation[b-m1gkco5jpd] {
-        border-color: var(--rz-info);
-    }
-
-[b-m1gkco5jpd] .relocsign-box {
-    position: absolute;
-    top: 10%;
-    left: calc(var(--ui-icon-md) * -1.25);
-}
 /* /Pages/Shelf/Stuff/DetailsView.razor.rz.scp.css */
 article[b-mj21airio6] {
     display: flex;
@@ -263,3 +246,97 @@ article[b-mj21airio6] {
         overflow-y: auto;
         padding: 0 0.5rem 0.5rem 0.5rem;
     }
+/* /Pages/Shelf/Stuff/ShelfTree.razor.rz.scp.css */
+
+article[b-gku454r8v1] {
+    overflow-x: auto;
+}
+
+[b-gku454r8v1] .vitem {
+    margin: 0;
+    padding: 0;
+}
+
+    [b-gku454r8v1] .vitem .vitem-label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 0.25rem;
+        user-select: none;
+    }
+
+
+
+[b-gku454r8v1] .vitem-label .text {
+    margin: 0 0 0 0.5rem;
+    text-wrap: nowrap;
+}
+
+
+[b-gku454r8v1] .vitem-label .arrow {
+    margin-right: 0.5rem;
+    min-width: 1em;
+    cursor: pointer;
+}
+
+[b-gku454r8v1] .vitem-label .arrow.disabled {
+    opacity: 0.5;
+}
+
+[b-gku454r8v1] .vitem-label .arrow.hidden {
+    visibility: hidden;
+}
+
+/* не используется */
+[b-gku454r8v1] .vitem-label .arrow-placeholder {
+    min-width: 1em;
+    margin-right: 0.5rem;
+}
+
+
+[b-gku454r8v1] .vitem-label .label-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    cursor: default;
+    border-width: 1px;
+    border-style: dotted;
+    border-color: transparent;
+    border-radius: 10px;
+}
+
+[b-gku454r8v1] .vitem .vitem-label.selected .label-content {
+    border-color: var(--selitem-color-br);
+    background-color: var(--selitem-color-bg);
+}
+
+
+
+
+
+[b-gku454r8v1] .vitem .nest-box {
+    position: relative;
+    margin-left: calc(1em + 0.5rem + 0.5rem + (var(--ui-icon-md) / 2));
+    margin-bottom: 0.5rem;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    border-left: 1px solid grey;
+}
+
+@media (min-width: 576px) {
+    [b-gku454r8v1] .vitem .nest-box {
+        margin-left: calc(1em + 0.5rem + 0.5rem + (var(--ui-icon-lg) / 2));
+    }
+}
+
+
+[b-gku454r8v1] .nest-box .lowerband {
+    position: absolute;
+    top: auto;
+    left: 0;
+    right: auto;
+    bottom: 0;
+    border-bottom: 1px solid grey;
+    width: 16px;
+    height: 1px;
+}
