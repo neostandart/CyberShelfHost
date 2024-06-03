@@ -249,7 +249,8 @@ article[b-mj21airio6] {
 /* /Pages/Shelf/Stuff/ShelfTree.razor.rz.scp.css */
 
 article[b-gku454r8v1] {
-    overflow-x: auto;
+    height: 100%;
+    overflow: auto;
 }
 
 [b-gku454r8v1] .vitem {
