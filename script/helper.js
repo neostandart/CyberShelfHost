@@ -350,6 +350,17 @@ export class Helper {
             return "???";
         }
     }
+    static extractWithoutExtension(path) {
+        const nIndexDot = path.lastIndexOf(".");
+        if (nIndexDot < 0)
+            return path;
+        //
+        const nIndexSep = path.lastIndexOf("/");
+        if (nIndexDot < nIndexSep)
+            return path;
+        //
+        return path.substring(0, nIndexDot);
+    }
     //#endregion (Path)
     //#region HTML
     static clearHTMLElement(hte) {

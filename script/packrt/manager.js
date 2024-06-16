@@ -324,8 +324,9 @@ async function onInputPackageChange() {
                 const packref = { key: parsed.package.key, guid: parsed.package.guid, name: parsed.package.name, filename: parsed.package.filename, version: parsed.package.version };
                 bPermission = await window.DotNet.invokeMethodAsync("CyberShelf", "requestInstall", packref);
                 if (bPermission) {
-                    objProgress.setSegment(30);
+                    objProgress.setSegment(29);
                     packref.key = await saveNewPackage(parsed, objProgress);
+                    objProgress.done();
                     setTimeout(() => {
                         window.DotNet.invokeMethodAsync("CyberShelf", "informInstallFinish", packref);
                     }, 300);

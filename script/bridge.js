@@ -530,5 +530,12 @@ export class ProgressControl {
             });
         }
     }
+    done() {
+        this._nPercentTotal = 100;
+        //
+        window.requestAnimationFrame((timestamp) => {
+            window.DotNet.invokeMethodAsync(this._strAssemblyName, this._strMethodName, this._nPercentTotal);
+        });
+    }
 } // class ProgressControl
 //#endregion (Utilities)
