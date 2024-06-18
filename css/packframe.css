@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+=======
+* {
+    /* it is necessary for the correct work of native H5P elements */
+    box-sizing: content-box;
+}
+
+>>>>>>> 9639351bfb2fee6f221537b9ae3cfab47f4fe98d
 .h5p-iframe {
     overflow-y: scroll;
 }
