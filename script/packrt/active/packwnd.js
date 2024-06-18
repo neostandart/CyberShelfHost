@@ -1,3 +1,4 @@
+import { H5PEnv } from "../h5penv.js";
 import { PackagePool } from "./activepack.js";
 import { PackLayoutCtr } from "./layoutctr.js";
 var DragStatus;
@@ -8,6 +9,7 @@ var DragStatus;
 })(DragStatus || (DragStatus = {}));
 export class PackageWnd {
     //#region Defs & Vars
+    _packkey;
     _presenter;
     _header;
     _capturezone;
@@ -22,10 +24,13 @@ export class PackageWnd {
     //#endregion (Defs & Vars)
     // --------------------------------------------------------
     //#region Construction / Initialization
-    constructor() {
+    constructor(packkey) {
+        this._packkey = packkey;
+        //
         const fragPresenter = PackageWnd.createPresenter();
         this._header = fragPresenter.getElementById("Header");
-        this._capturezone = this._header.querySelector("#DragCaptureZone");
+        //this._capturezone = this._header.querySelector("#DragCaptureZone") as HTMLElement;
+        this._capturezone = this._header;
         this._clientarea = fragPresenter.getElementById("ClientArea");
         this._frame = fragPresenter.getElementById("Frame");
         this._presenter = fragPresenter.firstElementChild;
@@ -66,17 +71,22 @@ export class PackageWnd {
     }
     //#endregion (Properties)
     //#region Methods
-    show(html, host) {
+    async show(html, host) {
+        const strSavedLayout = await H5PEnv.UserSettings.invokeMethodAsync('GetPackWndState', this._packkey);
+        //
         host.appendChild(this._presenter);
-        /* Внимание!
-        (по идее) здесь (после "host.appendChild") нужно проверять наличие сохранённого состояния
-        окна (PackageWnd) для текущего пользователя, и если оно есть, — вызывать
-        this._ctrLayout.applyWndState(сохранённое состояние — класс PackWndState);
-        */
-        // Пока размещаем открываемое окно в правом верхнем углу родительской области
-        this._ctrLayout.applyDefaultLayout();
-        // потом возможно надо запоминать расположение окна
-        PackageWnd.__topMe(this); // открываемое окно должно быть поверх других
+        //
+        if (strSavedLayout) {
+            const objSavedLayout = JSON.parse(strSavedLayout);
+            this._ctrLayout.applyLayout(objSavedLayout);
+        }
+        else {
+            this._ctrLayout.applyDefaultLayout();
+        }
+        //
+        PackageWnd.__raiseTop(this);
+        //
+        this._presenter.classList.add("visible");
         //
         const iFrameDoc = this._frame.contentWindow && this._frame.contentWindow.document;
         if (!iFrameDoc) {
@@ -96,7 +106,7 @@ export class PackageWnd {
     }
     restore() {
         if (this.isMinimized) {
-            PackageWnd.__topMe(this);
+            PackageWnd.__raiseTop(this);
             this._presenter.classList.remove("minimized");
             this._isMinimized = false;
             //
@@ -104,6 +114,9 @@ export class PackageWnd {
             //
             this._presenter.dispatchEvent(new Event("restored"));
         }
+    }
+    raiseTop() {
+        PackageWnd.__raiseTop(this);
     }
     toggleMaxSize() {
         if (this._ctrLayout.isMaxSize) {
@@ -121,13 +134,21 @@ export class PackageWnd {
     disablePointerEvents() {
         this._presenter.style.pointerEvents = "none";
     }
+    //
+    saveLayout() {
+        H5PEnv.UserSettings.invokeMethodAsync('SavePackWndState', JSON.stringify(this._ctrLayout.Layout), this._packkey);
+    }
     //#endregion (Methods)
     //#region Events
     //#endregion (Events)
     // --------------------------------------------------------
     //#region Drag handlers
     _onCaptureZoneMouseDown = (ev) => {
-        PackageWnd.__topMe(this);
+        PackageWnd.__raiseTop(this);
+        //
+        if (ev.target && ev.target.closest("button")) {
+            return;
+        }
         //
         if (this._dragStatus === DragStatus.No) {
             ev.preventDefault();
@@ -143,7 +164,7 @@ export class PackageWnd {
         }
     };
     _onCaptureZoneTouchStart = (ev) => {
-        PackageWnd.__topMe(this);
+        PackageWnd.__raiseTop(this);
         //
         if (this._dragStatus === DragStatus.No) {
             //
@@ -183,7 +204,7 @@ export class PackageWnd {
     //#endregion (Drag handlers)
     //#region Common Handlers
     _onLayoutClick(ev) {
-        PackageWnd.__topMe(this);
+        PackageWnd.__raiseTop(this);
         //
         if (this._ctrLayout.isOpened) {
             this._ctrLayout.close();
@@ -254,6 +275,7 @@ export class PackageWnd {
             this._template.innerHTML =
                 `<article class="package-wnd">
                 <div id="Header">
+
                     <button id="LayoutBtn" type="button" class="btn btn-outline-light btn-sm">
                         <i class="fsym">view_compact_alt</i>
                     </button>
@@ -269,8 +291,6 @@ export class PackageWnd {
                     <button id="CloseBtn" type="button" class="btn btn-outline-light btn-sm">
                          <i class="fsym">close</i>
                     </button>
-
-                    <div id="DragCaptureZone"></div>
                 </div>
                 <div id="ClientArea">
                     <iframe id="Frame" src="about:blank"></iframe>
@@ -282,10 +302,10 @@ export class PackageWnd {
     }
     //
     static __wndTop = null;
-    static __topMe(wnd) {
+    static __raiseTop(wnd) {
         if (this.__wndTop !== wnd) {
+            PackagePool.raiseToTop(wnd._packkey);
             this.__wndTop = wnd;
-            this.__wndTop._presenter.style.zIndex = PackagePool.getZIndexTop().toString();
         }
     }
 } // class PackWnd

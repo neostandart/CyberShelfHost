@@ -1,5 +1,5 @@
-* {
-    box-sizing: border-box;
+.h5p-iframe {
+    overflow-y: scroll;
 }
 
 .h5p-container {

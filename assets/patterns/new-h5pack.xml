@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <H5Pack PackageKey="{0}" Name="{1}" >
-	<Descr>{2}</Descr>
+	<Annotation>{2}</Annotation>
 	<Notes></Notes>
 </H5Pack>

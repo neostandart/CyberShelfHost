@@ -106,6 +106,14 @@ a {
         display: none;
     }
 
+
+/* ******************************* */
+/* Slightly increase the controls of the splitter */
+
+.rz-splitter-bar {
+    font-size: 2rem;
+}
+
 /* ****************************************************************** */
 /* We shift the validation pop-up message closer to the target field. */
 .rz-form {
@@ -160,9 +168,13 @@ a {
 /* ///////////////////////////////////////////////////////////////// */
 
 :root {
-    --ui-z-top: 3; /* Пересмотреть исходя из новой концепции: окна буков перекрывают всё кроме NavBar (кот. может открываться по клику на Хеадере главного окна) */
-    --ui-z-book: 2; /*   */
-    --ui-z-info: 1;
+    --ui-z-cover: 6;
+    --ui-z-info: 5;
+    --ui-z-navbar: 4;
+    --ui-z-book-ctr: 3;
+    --ui-z-book-view: 2;
+    --ui-z-elevated: 1;
+    /*   */
     /* *** */
     --ui-icon-tn: 12px;
     --ui-icon-sm: 18px;
@@ -187,11 +199,18 @@ a {
     /* *** */
     --ui-color-info-bg: #e4edfe;
     /* *** */
+    --ui-packctr-width: 340px;
+    --ui-packctr-width-xs: 300px;
+    --ui-packctr-list-max-height: 500px;
+    /* *** */
     --folder-color: goldenrod;
     --folder-color-dark: #B8860B;
     --suite-color: #b8860b;
     --book-color: #5C2D91;
-    --h5pack-color: #0d6efd;
+    --book-color-bg: #f5f1f8;
+    --h5pack-color: #2475BE;
+    --selitem-color-bg: #DFDFF1;
+    --selitem-color-br: #4340D2;
 }
 
 #Application.running {
@@ -214,7 +233,7 @@ a {
         grid-row: 1;
         grid-column: 1 / span 3;
         min-height: 24px;
-        z-index: var(--ui-z-top);
+        z-index: var(--ui-z-cover);
     }
 
     #MainLayout > #MainNavToggle {
@@ -253,7 +272,7 @@ a {
         grid-column: 1 / span 3;
         width: 0;
         border-right: 1px solid var(--rz-primary-light);
-        z-index: var(--ui-z-top);
+        z-index: var(--ui-z-navbar);
     }
 
 #MainNavBar .rz-navigation-item-link {
@@ -281,8 +300,6 @@ a {
 
 
 #MainLayout > #MainNavBar.rz-sidebar-expanded {
-    grid-row: 4;
-    grid-column: 1 / span 3;
     width: var(--rz-sidebar-width);
 }
 
@@ -291,18 +308,29 @@ a {
 }
 
 
+/* Active (Packages) Panel */
+#MainLayout > #ActivePanel {
+    grid-row: 4;
+    grid-column: 1 / span 3;
+    z-index: var(--ui-z-book-ctr);
+    margin-bottom: auto;
+}
+
+
+
+/* Page Host */
 #MainLayout > #PageHost {
     grid-row: 4;
     grid-column: 1 / span 3;
     z-index: auto;
 }
 
-/* Grigory. new code BookLayer */
+/* BookLayer */
 #MainLayout > #BookLayer {
     position: relative;
     grid-row: 2 / span 3;
     grid-column: 1 / span 3;
-    z-index: var(--ui-z-book);
+    z-index: var(--ui-z-book-view);
     pointer-events: none;
 }
 
@@ -532,6 +560,10 @@ a {
         visibility: hidden;
     }
 
+    #MainLayout > #ActivePanel {
+        grid-column: 2 / span 2;
+    }
+
     #MainLayout > #PageHost {
         grid-row: 2 / span 3;
         grid-column: 2;
@@ -613,32 +645,44 @@ a {
 
 .ui-icon-box-tn {
     width: var(--ui-icon-tn);
+    min-width: var(--ui-icon-tn);
     height: var(--ui-icon-tn);
+    min-height: var(--ui-icon-tn);
 }
 
 .ui-icon-box-sm {
     width: var(--ui-icon-sm);
+    min-width: var(--ui-icon-sm);
     height: var(--ui-icon-sm);
+    min-height: var(--ui-icon-sm);
 }
 
 .ui-icon-box-md {
     width: var(--ui-icon-md);
+    min-width: var(--ui-icon-md);
     height: var(--ui-icon-md);
+    min-height: var(--ui-icon-md);
 }
 
 .ui-icon-box-lg {
     width: var(--ui-icon-lg);
+    min-width: var(--ui-icon-lg);
     height: var(--ui-icon-lg);
+    min-height: var(--ui-icon-lg);
 }
 
 .ui-icon-box-hg {
     width: var(--ui-icon-hg);
+    min-width: var(--ui-icon-hg);
     height: var(--ui-icon-hg);
+    min-height: var(--ui-icon-hg);
 }
 
 .ui-icon-box-gn {
     width: var(--ui-icon-gn);
+    min-width: var(--ui-icon-gn);
     height: var(--ui-icon-gn);
+    min-height: var(--ui-icon-gn);
 }
 
 /* ---------- */
@@ -646,32 +690,44 @@ a {
 
 .ui-image-box-tn {
     width: var(--ui-image-tn);
+    min-width: var(--ui-image-tn);
     height: var(--ui-image-tn);
+    min-height: var(--ui-image-tn);
 }
 
 .ui-image-box-sm {
     width: var(--ui-image-sm);
+    min-width: var(--ui-image-sm);
     height: var(--ui-image-sm);
+    min-height: var(--ui-image-sm);
 }
 
 .ui-image-box-md {
     width: var(--ui-image-md);
+    min-width: var(--ui-image-md);
     height: var(--ui-image-md);
+    min-height: var(--ui-image-md);
 }
 
 .ui-image-box-lg {
     width: var(--ui-image-lg);
+    min-width: var(--ui-image-lg);
     height: var(--ui-image-lg);
+    min-height: var(--ui-image-lg);
 }
 
 .ui-image-box-hg {
     width: var(--ui-image-hg);
+    min-width: var(--ui-image-hg);
     height: var(--ui-image-hg);
+    min-height: var(--ui-image-hg);
 }
 
 .ui-image-box-gn {
     width: var(--ui-image-gn);
+    min-width: var(--ui-image-gn);
     height: var(--ui-image-gn);
+    min-height: var(--ui-image-gn);
 }
 
 /* ---------- */
@@ -761,9 +817,13 @@ a {
     max-width: 100%;
 }
 
-.ui-fill {
+.ui-max-fill {
     width: 100%;
     height: 100%;
+}
+
+.ui-winbtn {
+    width: 40px;
 }
 
 /* ---------------------------------- */
@@ -825,7 +885,6 @@ a {
 }
 
 
-
 /* ///////////////////////////////////////////////////////////////// */
 /* PackRT Styles */
 /* ///////////////////////////////////////////////////////////////// */
@@ -841,11 +900,20 @@ a {
     left: 30px;
     width: 80%;
     height: 50%;
-    border: 4px solid #5B2D8E;
+    border: 4px solid var(--book-color);
     overflow: hidden;
     background: #fefefe;
     pointer-events: auto;
+    transition: opacity 0.2s;
+    opacity: 0;
+    visibility: hidden;
 }
+
+.package-wnd.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
 
     .package-wnd > #Header {
         position: relative;
@@ -856,23 +924,14 @@ a {
         margin: 0;
         padding: 0 0 4px 0;
         border: none;
-        background-color: #5B2D8E;
+        background-color: var(--book-color);
     }
-
-        .package-wnd > #Header > #DragCaptureZone {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-        }
 
         .package-wnd > #Header > #LayoutBtn {
             min-width: 80px;
             margin: auto 0.5rem auto 0;
             font-size: var(--rz-icon-size);
             padding: 0;
-            z-index: 1;
         }
 
         /* Miminize Package Window Button */
@@ -880,7 +939,6 @@ a {
             min-width: 40px;
             cursor: pointer;
             margin: auto 1rem auto auto;
-            z-index: 1;
         }
 
         /* Fullscreen Package Window Button */
@@ -888,7 +946,6 @@ a {
             min-width: 40px;
             cursor: pointer;
             margin: auto 1.5rem auto 0;
-            z-index: 1;
         }
 
         /* Close Package Window Button */
@@ -896,7 +953,6 @@ a {
             margin: auto 0 auto 0;
             min-width: 40px;
             cursor: pointer;
-            z-index: 1;
         }
 
     .package-wnd > #ClientArea {
@@ -971,86 +1027,55 @@ a {
     top: 0;
     max-width: 100%;
     max-height: 100%;
-    border: 2px solid #5B2D8E;
+    border: 2px solid var(--book-color);
     background-color: ivory;
-    padding: 0.25rem;
-    z-index: 1;
+    padding: 0.5rem;
     overflow-y: auto;
 }
 
-.packlayout-ctr #Controls {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.25rem;
-    overflow-x: auto;
-}
-
-.packlayout-ctr .group-caption {
-    text-align: center;
-    padding: 0.25rem;
-}
-
-/* SizePanel */
-
-.packlayout-ctr #SizePanel {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-    .packlayout-ctr #SizePanel .sizepanel-clm {
-        display: flex;
-        flex-direction: column;
+    .package-wnd .packlayout-ctr .wnd-size-btn {
+        padding: 0;
+        width: 3em;
     }
 
-    .packlayout-ctr #SizePanel .input-area {
-        padding: 0.5rem;
+    .package-wnd .packlayout-ctr #PositionDefPanel {
+        --cell-size: 28px;
+        /* *** */
+        grid-row: 2;
+        grid-column: 2;
+        display: grid;
+        grid-template-rows: var(--cell-size) var(--cell-size) var(--cell-size);
+        grid-template-columns: var(--cell-size) var(--cell-size) var(--cell-size);
+        padding: 0.25rem;
+        border: 1px solid var(--rz-primary);
     }
 
-    .packlayout-ctr #SizePanel .sizepanel-field {
-        margin-bottom: 0.75rem;
+        .package-wnd .packlayout-ctr #PositionDefPanel .input-box {
+            margin: auto;
+        }
+
+        .package-wnd .packlayout-ctr #PositionDefPanel input[type="radio"] {
+            -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+            accent-color: var(--rz-primary);
+        }
+
+    /* Close Button */
+    .package-wnd .packlayout-ctr #CloseBtn {
+        display: block;
+        margin-left: auto;
+        margin-top: 1rem;
+        max-width: 48px;
+        padding: 0 0.25rem 0 0.25rem;
+        font-size: var(--rz-icon-size);
+        cursor: pointer;
     }
-
-
-.packlayout-ctr #FillBtn {
-    display: block;
-    margin: 0.25rem auto auto auto;
-    font-size: var(--rz-icon-size);
-}
-
-/* PosPanel */
-
-.packlayout-ctr #PosPanel .input-area {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    padding: 0.5rem;
-}
-
-    .packlayout-ctr #PosPanel .input-area .input-box {
-        border: 1px solid lightgray;
-    }
-
-.packlayout-ctr .input-area .input-box input {
-    margin: 0.5rem;
-}
-
-/* Close Button */
-.packlayout-ctr #CloseBtn {
-    display: block;
-    margin-left: auto;
-    margin-top: 1rem;
-    max-width: 48px;
-    padding: 0 0.25rem 0 0.25rem;
-    font-size: var(--rz-icon-size);
-    cursor: pointer;
-}
 
 /* ---------------------------------- */
 /* Adaptation to the smallest screens */
 
 @media (max-width: 575.98px) {
-    .packlayout-ctr #SizePanel .smallest-size {
+    .package-wnd .packlayout-ctr .no-smallest {
         display: none;
     }
 }

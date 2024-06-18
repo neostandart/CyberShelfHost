@@ -36,12 +36,11 @@ H5P.ContentType = function (isRootLibrary) {
     ContentType.prototype.getLibraryFilePath = function (filePath) {
         // Grigory
         if (window.ActivePackage) {
-            // здесь у открытого пакета запрашиваем библиотеку по "this.libraryInfo.versionedNameNoSpaces"
-            // (это фактически "libtoken"), и оттуда получаем ObjectURL файла !!! 
+            // Here, we request the library from the open package by "this.libraryInfo.versionedNameNoSpaces" 
+            // (this is actually "libtoken"), and from there we get the ObjectURL of the file!!!
             const lib = window.ActivePackage.getActiveLibrary(this.libraryInfo.versionedNameNoSpaces);
             if (!lib) return "";
 
-            //return (lib) ? lib.getObjectURL(filePath) : "";
             return (filePath) ? lib.getObjectURL(filePath) : lib.token + "/"; // 2024-02-04 Grigory !
         }
 
