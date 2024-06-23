@@ -1,19 +1,14 @@
-* {
-    /* it is necessary for the correct work of native H5P elements */
-    box-sizing: content-box;
-}
-
 .h5p-iframe {
     overflow-y: scroll;
 }
 
-.h5p-container {
+.h5p-container:not(.h5p-interactive-book) {
     padding: 1rem 0.5rem;
 }
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
-    .h5p-container {
+    .h5p-container:not(.h5p-interactive-book) {
         padding: 1rem 1.5rem;
     }
 }

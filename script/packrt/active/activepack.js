@@ -9,7 +9,8 @@ export class ActivePackage {
     _packkey;
     _recPack;
     _recContent;
-    _libmain;
+    _libMain;
+    _libRuntime;
     _aDependencyLibTokens;
     _mapActiveLibs;
     _mapDelegates;
@@ -43,7 +44,7 @@ export class ActivePackage {
             throw new Error(`ActivePackage.initializeAsync (${this._recPack.name}): The Main Library (${this._recPack.metadata.mainLibrary}) was not found in the dependencies!`);
         }
         const tokenLibMain = H5PEnv.makeLibraryToken(objLibMaiInfo);
-        this._libmain = await this.accessLibrary(tokenLibMain);
+        this._libMain = await this.accessLibrary(tokenLibMain);
         //
         if (aPreloaded) {
             for (let i = 0; i < aPreloaded.length; i++) {
@@ -116,7 +117,7 @@ export class ActivePackage {
         aCSSRefs = H5PEnv.CoreCssPaths.concat(aCSSRefs);
         aJSRefs = H5PEnv.CoreJsPaths.concat(aJSRefs);
         console.log("Все включаемые файлы подготовлены!");
-        const objIntegration = H5PEnv.prepareIntegration(this._recPack.key, this._recContent.data, "", this._recPack.metadata, this._libmain.libname, aCSSRefs, aJSRefs, false, null, H5PEnv.language);
+        const objIntegration = H5PEnv.prepareIntegration(this._recPack.key, this._recContent.data, "", this._recPack.metadata, this._libMain.libname, aCSSRefs, aJSRefs, false, null, H5PEnv.language);
         const model = {
             viewportScale: (H5PEnv.isViewportXSmall ? "0.9" : "1.0"),
             contentId: this._recPack.key,
@@ -125,6 +126,10 @@ export class ActivePackage {
             integration: objIntegration
         };
         let htmlPage = H5PEnv.buildHTMLPage(model);
+        //
+        this._libRuntime = Array.from(this._mapActiveLibs.values()).find((item) => {
+            return item.libname.startsWith("VMB.Runtime");
+        });
         //
         return htmlPage;
     }
@@ -189,6 +194,9 @@ export class ActivePackage {
     }
     getActiveLibrary(libtoken) {
         return this._mapActiveLibs.get(libtoken);
+    }
+    getRuntimeLibrary() {
+        return this._libRuntime;
     }
     //#endregion (Methods)
     //#region Events

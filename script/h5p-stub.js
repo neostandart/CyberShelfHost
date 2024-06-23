@@ -9,6 +9,9 @@ class SoundJS_Proxy {
         return true;
     }
     registerSound(filepath, key) {
+        // Grigory. Since each package opened by H5P is deployed in a separate "iframe", 
+        // the "iframe.contentWindow" property will contain one global ActivePackage 
+        // object(which sets ActivePackage itself in its constructor).
         const pack = window.ActivePackage;
         if (pack) {
             // Here we assume that filepath starts with "library token".

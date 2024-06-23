@@ -34,14 +34,17 @@ H5P.ContentType = function (isRootLibrary) {
      * @return {string} The full path to the file
      */
     ContentType.prototype.getLibraryFilePath = function (filePath) {
-        // Grigory
+
+        // Grigory. CyberShelf specifics
+        // Since each package opened by H5P is deployed in a separate "iframe",
+        // the "iframe.contentWindow" property will contain one global ActivePackage
+        // object(which sets ActivePackage itself in its constructor).
         if (window.ActivePackage) {
-            // здесь у открытого пакета запрашиваем библиотеку по "this.libraryInfo.versionedNameNoSpaces"
-            // (это фактически "libtoken"), и оттуда получаем ObjectURL файла !!! 
+            // Here, we request the library from the open package by "this.libraryInfo.versionedNameNoSpaces" 
+            // (this is actually "libtoken"), and from there we get the ObjectURL of the file!!!
             const lib = window.ActivePackage.getActiveLibrary(this.libraryInfo.versionedNameNoSpaces);
             if (!lib) return "";
 
-            //return (lib) ? lib.getObjectURL(filePath) : "";
             return (filePath) ? lib.getObjectURL(filePath) : lib.token + "/"; // 2024-02-04 Grigory !
         }
 
