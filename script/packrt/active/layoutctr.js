@@ -91,7 +91,7 @@ export class PackLayoutCtr {
     }
     //
     get layoutDefault() {
-        return { width: "75%", height: "75%", position: "TopRight", left: undefined, top: undefined };
+        return { width: "100%", height: "100%", position: "TopLeft", left: undefined, top: undefined };
     }
     //#endregion (Properties)
     //#region Methods

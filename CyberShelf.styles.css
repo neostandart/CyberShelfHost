@@ -267,9 +267,11 @@ article[b-gku454r8v1] {
     }
 
 
-
 [b-gku454r8v1] .vitem-label .text {
     margin: 0 0 0 0.5rem;
+}
+
+[b-gku454r8v1] .vitem-label.nowrap .text {
     text-wrap: nowrap;
 }
 
