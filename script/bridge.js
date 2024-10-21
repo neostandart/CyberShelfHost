@@ -370,8 +370,10 @@ class Dragable {
         return this._hteArea;
     }
     //
+    //
     _ensureView() {
     }
+    //
     //
     _onCaptureZoneMouseDown = (ev) => {
         if (ev.target && ev.target.closest("button")) {
@@ -380,17 +382,25 @@ class Dragable {
         //
         if (this._dragStatus === DragStatus.No) {
             ev.preventDefault();
+            //
             this._dragStatus = DragStatus.Mouse;
+            //
             document.addEventListener("mousemove", this._onMouseMove, { capture: true });
             document.addEventListener("mouseup", this._onMouseUp, { capture: true });
+            // preventing the loss of messages from the iframe
+            //PackagePool.disablePointerEventsAll();
+            //
             this._startDrag(ev.clientX, ev.clientY);
         }
     };
     _onCaptureZoneTouchStart = (ev) => {
         if (this._dragStatus === DragStatus.No) {
+            //
             this._dragStatus = DragStatus.Touch;
+            //
             document.addEventListener("touchmove", this._onTouchMove, { capture: true });
             document.addEventListener("touchend", this._onTouchEnd, { capture: true });
+            //
             this._startDrag(ev.touches[0].clientX, ev.touches[0].clientY);
         }
     };
@@ -420,6 +430,7 @@ class Dragable {
         }
     };
     //
+    //
     _startDrag(x, y) {
         this._ptLastDragPos.x = x;
         this._ptLastDragPos.y = y;
@@ -427,8 +438,10 @@ class Dragable {
     _drag(x, y) {
         let nNewX = this._ptLastDragPos.x - x;
         let nNewY = this._ptLastDragPos.y - y;
+        //
         this._ptLastDragPos.x = x;
         this._ptLastDragPos.y = y;
+        //
         this._hteDragable.style.top = (this._hteDragable.offsetTop - nNewY) + "px";
         this._hteDragable.style.left = (this._hteDragable.offsetLeft - nNewX) + "px";
     }
@@ -446,7 +459,12 @@ class Dragable {
                     break;
                 }
             }
+            //
+            // restoring event handling in this window
+            //PackagePool.enablePointerEventsAll();
+            //
             this._ensureView();
+            //
             this._dragStatus = DragStatus.No;
         }
     }
@@ -471,4 +489,6 @@ export function unregDragable(hteDragable) {
     }
 }
 //#endregion (Dragable)
+//#region Utilities
+//#endregion (Utilities)
 //# sourceMappingURL=bridge.js.map

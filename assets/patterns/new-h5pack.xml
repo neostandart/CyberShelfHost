@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<H5Pack PackageId="{0}" Name="{1}" FileName="{2}">
+	<Annotation>{3}</Annotation>
+	<Notes></Notes>
+</H5Pack>

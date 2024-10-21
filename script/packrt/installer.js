@@ -1,17 +1,20 @@
 import { Helper } from "../helper.js";
 import { DeliveryMethod, LearningPackType } from "./abstraction.js";
-import { DotNet } from "./h5penv.js";
 import { AppDB } from "../appdb.js";
 import * as parser from "./parser.js";
 import { ProgressControl } from "../progress.js";
 import { PackageRaw } from "./packobj/packraw.js";
 import { PackageCase } from "./packobj/packcase.js";
+//#region Definitions
 var UpgradeAnswer;
 (function (UpgradeAnswer) {
     UpgradeAnswer[UpgradeAnswer["Yes"] = 0] = "Yes";
     UpgradeAnswer[UpgradeAnswer["No"] = 1] = "No";
     UpgradeAnswer[UpgradeAnswer["Cancel"] = 2] = "Cancel";
 })(UpgradeAnswer || (UpgradeAnswer = {}));
+//#endregion (Definitions)
+//#region Constants and Variables
+const DotNet = window.DotNet;
 let _inputPackage;
 let _inputLibrary;
 //interface ICheckIncomingResult {
@@ -22,6 +25,8 @@ let _inputLibrary;
 //    package: IStoredPackage;
 //    message: string;
 //}
+//#endregion (Constants and Variables)
+//#region Internals
 async function storePackage(packraw, progress) {
     let database = null;
     let transaction = null;
@@ -201,7 +206,7 @@ async function findUpdateCandidate(packNew) {
                 if (cursor) {
                     const packCurrent = cursor.value;
                     //
-                    if (packCurrent.packtype === LearningPackType.Regular) {
+                    if (packCurrent.packtype === LearningPackType.SimplePack) {
                         if (packNew.fileinfo.fullname === packCurrent.fileinfo.fullname) {
                             packStored = packCurrent;
                             bMatch = (packNew.fileinfo.size === packCurrent.fileinfo.size) && (packNew.fileinfo.modified === packCurrent.fileinfo.modified);
@@ -234,7 +239,8 @@ async function findUpdateCandidate(packNew) {
         }
     });
 }
-// --------------------------------------------------------
+//#endregion (Internals)
+//#region Handlers
 async function onInputPackageChange() {
     if (_inputPackage.files.length >= 1) { // !! so far, we are processing only one file
         const filePackage = _inputPackage.files[0];
@@ -266,21 +272,20 @@ async function onInputPackageChange() {
                 let installed = null;
                 if (existing) {
                     // Requesting permission to update
-                    let answer = await DotNet.invokeMethodAsync("CyberShelf", "requestPackUpdate", candidateRaw.getCase(), new PackageCase(existing), bMatch);
+                    let answer = await DotNet.invokeMethodAsync("CyberShelf", "requestUpgrade", candidateRaw.getCase(), new PackageCase(existing), bMatch);
                     switch (answer) {
                         case UpgradeAnswer.Yes: {
-                            if (candidateRaw.isRegular) {
+                            if (candidateRaw.isSimplePack) {
                                 candidateRaw.changeId(existing.id);
                             }
                             //
-                            candidateRaw.setUpdatedTimestamp(Date.now());
                             installed = await storePackage(candidateRaw, progress);
                             break;
                         }
                         case UpgradeAnswer.No: {
                             candidateRaw.makeUniqueName();
                             if (candidateRaw.isBook) {
-                                candidateRaw.changeId("tmp-" + Helper.createDynamicID());
+                                candidateRaw.changeId(Helper.createDynamicID());
                             }
                             //
                             installed = await storePackage(candidateRaw, progress);
@@ -302,7 +307,7 @@ async function onInputPackageChange() {
                 //
                 setTimeout(() => {
                     progress.done();
-                    DotNet.invokeMethodAsync("CyberShelf", "informInstallFinish", installed);
+                    window.DotNet.invokeMethodAsync("CyberShelf", "informInstallFinish", installed);
                 }, 200);
             }
             catch (err) {
@@ -316,7 +321,7 @@ async function onInputLibraryChange() {
         if (_inputLibrary.files.length >= 1) {
             const fileLibrary = _inputLibrary.files[0];
             const filetoken = { name: fileLibrary.name, size: fileLibrary.size, type: fileLibrary.type, modified: fileLibrary.lastModified };
-            let bPermission = await DotNet.invokeMethodAsync("CyberShelf", "requestLibInstall", filetoken);
+            let bPermission = await window.DotNet.invokeMethodAsync("CyberShelf", "requestLibInstall", filetoken);
             if (bPermission) {
                 const parsed = await parser.parseLibraryFile(fileLibrary);
                 // восстановить!!!
@@ -324,7 +329,7 @@ async function onInputLibraryChange() {
                 //await AppDB.put("libfiles", parsed.files, parsed.library.token);
                 //const libtok = <LibraryToken>{ key: parsed.library.token, title: parsed.library.metadata.title, version: parsed.library.version };
                 //
-                //DotNet.invokeMethodAsync("CyberShelf", "informLibInstallFinish", libtok);
+                //(<TObject>window).DotNet.invokeMethodAsync("CyberShelf", "informLibInstallFinish", libtok);
             } // if (bPermission)
         }
     }
@@ -332,7 +337,9 @@ async function onInputLibraryChange() {
         DotNet.invokeMethodAsync("CyberShelf", "informLibInstallError", Helper.extractMessage(err));
     }
 }
+//#endregion (Handlers)
 // --------------------------------------------------------
+//#region Export
 export function attachPackageInput(inputElement) {
     _inputPackage = inputElement;
     if (_inputPackage) {
@@ -357,7 +364,10 @@ export async function uninstallPackage(packkey) {
         DotNet.invokeMethodAsync("CyberShelf", "informUninstalled", token);
     }, 50);
 }
+//#endregion (Export)
 // --------------------------------------------------------
+//#region Initialization
 export async function initializeAsync() {
 }
+//#endregion (Initialization)
 //# sourceMappingURL=installer.js.map

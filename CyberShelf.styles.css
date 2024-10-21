@@ -203,17 +203,6 @@ div[b-lsf9mahv16] {
     padding: 0.5rem 0.25rem 0.5rem 0.75rem;
 }
 
-/* /Pages/Settings/Stuff/PackageList.razor.rz.scp.css */
-
-
-[b-t1nf0w24u9] #PackageProps tr {
-    vertical-align: middle;
-}
-
-[b-t1nf0w24u9] #PackageProps th {
-    white-space:break-spaces;
-    width: 1%;
-}
 /* /Pages/Shelf/ShelfPage.razor.rz.scp.css */
 
 [b-uqcxmc1g8g] .toolbutton-label {
@@ -280,7 +269,6 @@ article[b-gku454r8v1] {
 
 [b-gku454r8v1] .vitem-label .text {
     margin: 0 0 0 0.5rem;
-    line-height: 1.3;
 }
 
 [b-gku454r8v1] .vitem-label.nowrap .text {
@@ -310,7 +298,6 @@ article[b-gku454r8v1] {
 
 
 [b-gku454r8v1] .vitem-label .label-content {
-    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -322,20 +309,13 @@ article[b-gku454r8v1] {
     border-radius: 10px;
 }
 
-[b-gku454r8v1] .vitem-label.selected .label-content {
+[b-gku454r8v1] .vitem .vitem-label.selected .label-content {
     border-color: var(--selitem-color-br);
     background-color: var(--selitem-color-bg);
 }
 
-[b-gku454r8v1] .label-content .prompt-sign {
-    position: absolute;
-    left: -8px;
-    top: -10px;
-    color: var(--bs-primary);
-    background-color: rgb(255, 255, 255, 0.5);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
+
+
 
 
 [b-gku454r8v1] .vitem .nest-box {
@@ -362,21 +342,4 @@ article[b-gku454r8v1] {
     border-bottom: 1px solid grey;
     width: 16px;
     height: 1px;
-}
-
-@media (min-width: 992px) {
-
-    [b-gku454r8v1] .vitem-label .text {
-        font-size-adjust: 0.6;
-        line-height: 1.4;
-    }
-
-}
-
-@media (min-width: 1200px) {
-
-    [b-gku454r8v1] .vitem-label .text {
-        font-size-adjust: 0.7;
-        line-height: 1.6;
-    }
 }

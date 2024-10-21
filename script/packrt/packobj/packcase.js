@@ -1,7 +1,6 @@
 import { LearningPackType } from "../abstraction.js";
 export class PackageCase {
     id;
-    origId;
     name;
     version;
     packtype;
@@ -11,13 +10,13 @@ export class PackageCase {
     filename;
     filesize;
     modified;
+    libtoken;
     isBroken;
     constructor(stored) {
         this.id = stored.id;
-        this.origId = stored.origId;
         this.name = stored.name;
         this.version = stored.version;
-        this.packtype = stored.packtype || LearningPackType.Regular;
+        this.packtype = stored.packtype || LearningPackType.SimplePack;
         this.delivery = stored.delivery;
         this.origurl = stored.origurl;
         //
@@ -26,6 +25,8 @@ export class PackageCase {
         this.filename = stored.fileinfo.fullname;
         this.filesize = stored.fileinfo.size;
         this.modified = stored.fileinfo.modified;
+        //
+        this.libtoken = stored.libtoken;
         //
         this.isBroken = stored.isBroken;
     }

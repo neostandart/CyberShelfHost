@@ -3,6 +3,7 @@ import { AppDB } from "../appdb.js";
 import { SimpleTranslator } from "./localization/translator.js";
 import { Localizer } from "./localization/localizer.js";
 import * as pipe from "../pipe.js";
+//#region Defs & Vars
 let _aCoreCss;
 let _aCoreJs;
 let _addons;
@@ -10,6 +11,9 @@ let _localizer;
 let _objStringsDefault;
 let _strPlayerTemplate;
 let _strLayoutCtrTemplate;
+//#endregion (Defs & Vars)
+// --------------------------------------------------------
+//#region Initialization
 /*
     Что касается Addon(ов). Это отдельные библиотеки, которые могут динамически обрабатывать контент без их явного включения в пакет.
     Например, отображать формулы если в тексте присутствует соответствующая разметка. Аддоны (по идее) устанавливаются отдельно, как
@@ -22,8 +26,48 @@ let _strLayoutCtrTemplate;
     https://docs.lumi.education/advanced-usage/addons
     
 */
+export async function initializeAsync() {
+    //_objUserSettings = objUserSettings;
+    _aCoreCss = [
+        "vendor/h5p/core/styles/h5p.css",
+        "vendor/h5p/core/styles/h5p-confirmation-dialog.css",
+        "vendor/h5p/core/styles/h5p-core-button.css"
+    ];
+    _aCoreJs = [
+        "vendor/h5p/core/js/jquery.js",
+        "vendor/h5p/core/js/h5p.js",
+        "vendor/h5p/core/js/h5p-event-dispatcher.js",
+        "vendor/h5p/core/js/h5p-x-api-event.js",
+        "vendor/h5p/core/js/h5p-x-api.js",
+        "vendor/h5p/core/js/h5p-content-type.js",
+        "vendor/h5p/core/js/h5p-confirmation-dialog.js",
+        "vendor/h5p/core/js/h5p-action-bar.js",
+        "vendor/h5p/core/js/request-queue.js"
+    ];
+    //
+    _addons = await AppDB.get("_system", "addons") || {};
+    //
+    // We are preparing localization
+    //
+    const pathStringsDefault = "assets/h5p-strings/default.json";
+    _objStringsDefault = await pipe.fetchJson(pathStringsDefault);
+    //
+    let pathStringsEnglish = "assets/h5p-strings/en.json";
+    let objStringsEnglish = await pipe.fetchJson(pathStringsEnglish);
+    //
+    _localizer = new Localizer(new SimpleTranslator({ client: objStringsEnglish }).t);
+    //
+    // H5P Player template
+    //
+    _strPlayerTemplate = await pipe.fetchTextFile("assets/templates/h5pplayer.txt");
+    //
+    // LayoutCtr (window) template
+    //
+    _strLayoutCtrTemplate = await pipe.fetchTextFile("assets/templates/layoutctr.txt");
+}
+//#endregion (Initialization)
 // --------------------------------------------------------
-export const DotNet = window.DotNet;
+//#region Methods
 export async function getUserId() {
     return await (window.DotNet).invokeMethodAsync("CyberShelf", "getCurrentUserId");
 }
@@ -90,6 +134,7 @@ export function getAddonsForContent(data) {
     return aAddons;
 }
 //
+//
 export function getCoreCssPaths() {
     return _aCoreCss;
 }
@@ -99,6 +144,7 @@ export function getCoreJsPaths() {
 export function getContentTypeImage(machinename) {
     return "assets/images/svg/library.svg";
 }
+//
 //
 export function generateContentId() {
     return Math.random().toString(36).substring(2, 11);
@@ -149,6 +195,7 @@ export function compareVersion(ver1, ver2) {
     //
     return nResult;
 }
+//
 //
 //#region (for Integration build)
 export function getAjaxEndpoint(user) {
@@ -253,43 +300,8 @@ export function buildHTMLPage(model) {
     let strPlayer = Helper.formatString(_strPlayerTemplate, model.viewportScale, strStyles, strScripts, strIntegration, model.contentId);
     return strPlayer;
 }
+//#endregion (Methods)
 // --------------------------------------------------------
-export async function initializeAsync() {
-    _aCoreCss = [
-        "vendor/h5p/core/styles/h5p.css",
-        "vendor/h5p/core/styles/h5p-confirmation-dialog.css",
-        "vendor/h5p/core/styles/h5p-core-button.css"
-    ];
-    _aCoreJs = [
-        "vendor/h5p/core/js/jquery.js",
-        "vendor/h5p/core/js/h5p.js",
-        "vendor/h5p/core/js/h5p-event-dispatcher.js",
-        "vendor/h5p/core/js/h5p-x-api-event.js",
-        "vendor/h5p/core/js/h5p-x-api.js",
-        "vendor/h5p/core/js/h5p-content-type.js",
-        "vendor/h5p/core/js/h5p-confirmation-dialog.js",
-        "vendor/h5p/core/js/h5p-action-bar.js",
-        "vendor/h5p/core/js/request-queue.js"
-    ];
-    //
-    _addons = await AppDB.get("_system", "addons") || {};
-    //
-    // We are preparing localization
-    //
-    const pathStringsDefault = "assets/h5p-strings/default.json";
-    _objStringsDefault = await pipe.fetchJson(pathStringsDefault);
-    //
-    let pathStringsEnglish = "assets/h5p-strings/en.json";
-    let objStringsEnglish = await pipe.fetchJson(pathStringsEnglish);
-    //
-    _localizer = new Localizer(new SimpleTranslator({ client: objStringsEnglish }).t);
-    //
-    // H5P Player template
-    //
-    _strPlayerTemplate = await pipe.fetchTextFile("assets/templates/h5pplayer.txt");
-    //
-    // LayoutCtr (window) template
-    //
-    _strLayoutCtrTemplate = await pipe.fetchTextFile("assets/templates/layoutctr.txt");
-}
+//#region Internals
+//#endregion (Internals)
 //# sourceMappingURL=h5penv.js.map

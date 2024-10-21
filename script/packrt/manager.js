@@ -11,7 +11,7 @@ export async function attachFrameHost(hteFrameHost) {
     _hteFrameHost = hteFrameHost;
     //
     const alocaleKeys = ["W_width", "W_height", "W_position"];
-    const mapSrc = await H5PEnv.DotNet.invokeMethodAsync("CyberShelf", "getLocaleStrings", alocaleKeys);
+    const mapSrc = await window.DotNet.invokeMethodAsync("CyberShelf", "getLocaleStrings", alocaleKeys);
     for (const key in mapSrc) {
         LocaleStrings.set(key, mapSrc[key]);
     }
@@ -74,6 +74,14 @@ export function restoreAll() {
     }
 }
 ///** @deprecated */
+//export async function uninstallPackage(packkey: string): Promise<void> {
+//    const token = await uninstall(packkey);
+//    //
+//    setTimeout(() => {
+//        (<TObject>window).DotNet.invokeMethodAsync("CyberShelf", "informUninstalled", token);
+//    }, 10);
+//}
+///** @deprecated */
 //export async function deleteLibrary(libtoken: string): Promise<string> {
 //    if (LibraryPool.hasLibrary(libtoken)) {
 //        throw new Error(`You cannot delete a library that is in use! (library: ${libtoken})`);
@@ -101,19 +109,16 @@ export async function fetchPackageList() {
                     const recPackage = cursor.value;
                     const packitem = {
                         id: recPackage.id,
-                        origId: recPackage.origId,
-                        version: recPackage.version || "0.0.0",
+                        version: recPackage.version,
                         name: recPackage.name,
                         //
-                        packtype: recPackage.packtype,
                         delivery: recPackage.delivery,
                         origurl: recPackage.origurl,
                         //
                         suiteid: recPackage.suiteid,
                         suitename: __getSuiteName(recPackage.suiteid, aSuites),
                         //
-                        filename: recPackage.fileinfo.fullname,
-                        filesize: recPackage.fileinfo.size,
+                        filename: recPackage.fileinfo.name,
                         modified: recPackage.fileinfo.modified,
                         installed: recPackage.installed,
                         updated: recPackage.updated,
@@ -352,6 +357,36 @@ export async function findPackageByFile(criteria) {
 // Internals
 //
 ///** @deprecated */
+//async function onInputPackageChange(): Promise<void> {
+//    try {
+//        const objProgress = new ProgressControl("CyberShelf", "updateInstallProgress");
+//        //
+//        if (_inputPackage!.files!.length >= 1) {
+//            const filePackage: File = _inputPackage!.files![0];
+//            //
+//            const filetoken = { name: filePackage.name, size: filePackage.size, type: filePackage.type, modified: filePackage.lastModified };
+//            let bPermission = await (<TObject>window).DotNet.invokeMethodAsync("CyberShelf", "requestParsing", filetoken);
+//            //
+//            if (bPermission) {
+//                objProgress.setSegment(70);
+//                const parsed = await parser.parsePackageFile_Old(filePackage, objProgress);
+//                const packref = <PackageToken>{ key: parsed.package.id, guid: parsed.package.guid, name: parsed.package.name, filename: parsed.package.filename, version: parsed.package.version };
+//                bPermission = await (<TObject>window).DotNet.invokeMethodAsync("CyberShelf", "requestInstall", packref);
+//                if (bPermission) {
+//                    objProgress.setSegment(29);
+//                    packref.key = await saveNewPackage(parsed, objProgress);
+//                    objProgress.done();
+//                    setTimeout(() => {
+//                        (<TObject>window).DotNet.invokeMethodAsync("CyberShelf", "informInstallFinish", packref);
+//                    }, 300);
+//                }
+//            } // if (bPermission)
+//        }
+//    } catch (err) {
+//        (<TObject>window).DotNet.invokeMethodAsync("CyberShelf", "informInstallError", Helper.extractMessage(err));
+//    }
+//}
+///** @deprecated */
 //async function onInputLibraryChange(): Promise<void> {
 //    try {
 //        if (_inputLibrary!.files!.length >= 1) {
@@ -371,6 +406,76 @@ export async function findPackageByFile(criteria) {
 //        (<TObject>window).DotNet.invokeMethodAsync("CyberShelf", "informLibInstallError", Helper.extractMessage(err));
 //    }
 //}
+///** @deprecated */
+//async function saveNewPackage(parsed: parser.ParsedPackage, progress: ProgressControl): Promise<string> {
+//    //
+//    // Saving prepared data in the database (libraries & content)
+//    //
+//    let database: IDBDatabase | null = null;
+//    let transaction: IDBTransaction | null = null;
+//    try {
+//        progress.setStepMax(parsed.libs.size + 1);
+//        const nNewPackKey = await AppDB.getNextAutoKey("packages");
+//        database = await AppDB.useDB();
+//        transaction = database.transaction(["libs", "libfiles", "packages", "content"], "readwrite");
+//        transaction.onerror = _onTransError;
+//        transaction.oncomplete = _onTransComplete;
+//        // Новые библиотеки сохраняем в базе данных используя для этого два хранилища:
+//        // первое содержит основные данные, второе — файлы.
+//        for (const [token, newlib] of parsed.libs) {
+//            const files: LinkedFile[] = newlib.files!;
+//            newlib.files = undefined;
+//            //
+//            let storeLibs = transaction.objectStore("libs");
+//            storeLibs.put(newlib, token);
+//            //
+//            const objLibFiles = <LibraryFiles>{ libtoken: token, files: files }
+//            let storeLibFiles = transaction.objectStore("libfiles");
+//            storeLibFiles.put(objLibFiles, token);
+//            progress.doStep();
+//        }
+//        // Сохраняем в базе данных запись установленного пакета
+//        let storePack = transaction.objectStore("packages");
+//        parsed.package.id = `pack-${nNewPackKey}`;
+//        storePack.put(parsed.package, parsed.package.id);
+//        // Связанная по packtoken запись содержащая файлы контента
+//        parsed.content.id = parsed.package.id;
+//        let storeContent = transaction.objectStore("content");
+//        storeContent.put(parsed.content, parsed.content.id);
+//        progress.doStep();
+//        //
+//        transaction.commit();
+//        // Конец сохранения нового пакета
+//        progress.doStep(); // для верности...
+//        // PackageRef будет передан на уровень UI
+//        return parsed.package.id;
+//    } catch (err: any) {
+//        // Установка H5P пакета завершилась неудачно :-(
+//        _abortTransaction();
+//        //
+//        throw err;
+//    } finally {
+//        AppDB.releaseDB();
+//    }
+//    //
+//    // inline
+//    //
+//    function _onTransComplete(ev: Event): void {
+//        transaction = null;
+//    }
+//    function _onTransError(ev: Event): void {
+//        let msg: string = ((<any>ev).srcElement) ? (<any>ev).srcElement : ev;
+//        console.error(`An error occurred while writing data to the application database: ${msg}.`);
+//        _abortTransaction();
+//    }
+//    function _abortTransaction(): void {
+//        if (transaction) {
+//            let transForAbort = transaction;
+//            transaction = null;
+//            try { transForAbort.abort(); } catch (err) { }; // try/catch - reinsurance :-)
+//        }
+//    }
+//} // saveNewData
 ///** @deprecated */
 //async function uninstall(packkey: string): Promise<PackageToken> {
 //    //

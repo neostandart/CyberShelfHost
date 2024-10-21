@@ -12,7 +12,6 @@ export class Helper {
         //
         return (aPartsNew.length > 0);
     }
-    // ОПТИМИЗИРОВАТЬ!!! Grigory
     static isVersionEqual(strVerTarget, strVerAnother) {
         const VERLENGTH = 3;
         //
@@ -39,6 +38,8 @@ export class Helper {
             //
             if (nTarget !== nAnother)
                 return false;
+            ;
+            //
         }
         return true;
     }

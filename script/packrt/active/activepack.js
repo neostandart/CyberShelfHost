@@ -6,6 +6,7 @@ import { LibraryPool } from "./activelib.js";
 import * as H5PEnv from "../h5penv.js";
 import { PackageWnd } from "./packwnd.js";
 export class ActivePackage {
+    //#region Defs & Vars
     _packid;
     _recPack;
     _recContent;
@@ -17,103 +18,9 @@ export class ActivePackage {
     _html = "";
     _wnd = undefined;
     _host;
+    //#endregion (Defs & Vars)
     // --------------------------------------------------------
-    /** данная функция гарантирует, что счётчик обращений к библиотеке
-     * в рамках одного пакета всегда будет равен 1 (что необходимо
-     * для правильного выполнения dispose при закрытии виджета)
-     */
-    async accessLibrary(libtoken) {
-        if (this._mapActiveLibs.has(libtoken))
-            return this._mapActiveLibs.get(libtoken);
-        //
-        const libActive = await LibraryPool.getLibrary(libtoken);
-        this._mapActiveLibs.set(libtoken, libActive);
-        //
-        return libActive;
-    }
-    async processLibDependencies(libtoken, aDependencyTokens) {
-        const libActive = await this.accessLibrary(libtoken);
-        const aDependencyTokensCurrent = libActive.getDependencyTokens();
-        for (let i = 0; i < aDependencyTokensCurrent.length; i++) {
-            const libtokenCurrent = aDependencyTokensCurrent[i];
-            if (aDependencyTokens.indexOf(libtokenCurrent) < 0) {
-                // the library is not included yet
-                await this.processLibDependencies(libtokenCurrent, aDependencyTokens);
-            }
-        }
-        if (aDependencyTokens.indexOf(libtoken) >= 0) {
-            throw new Error(`processLibDependencies: Похоже зацикливание! Токен=${libtoken}`);
-        }
-        aDependencyTokens.push(libtoken);
-    }
-    // --------------------------------------------------------
-    /**
-     * Обработка событий от интерактивных H5P элементов
-     */
-    _onH5PxAPI(ev) {
-        if (ev.data && ev.data.statement && ev.data.statement.result) {
-            const theResult = ev.data.statement.result;
-            if (theResult.completion == true) {
-                //console.log("Поле 'completion' равно 'true'.");
-            }
-            else {
-                //console.log("Поле 'completion' не равно 'true'.");
-            }
-            if (theResult.success == true) {
-                //console.log("Поле 'success' равно 'true'.");
-            }
-            else {
-                //console.log("Поле 'success' не равно 'true'.");
-            }
-            // alert("Задание выполнено!");
-        } // if (ev.data.statement.result)
-    }
-    // --------------------------------------------------------
-    //public get key(): string {
-    //    return (this._recPack) ? this._recPack.id : "";
-    //}
-    get Id() {
-        return this._packid;
-    }
-    get name() {
-        return (this._recPack) ? this._recPack.name : "";
-    }
-    get wnd() {
-        return this._wnd;
-    }
-    get html() {
-        return this._html;
-    }
-    //
-    getObjectURL(localpath) {
-        let delegate = this._mapDelegates.get(localpath);
-        if (!delegate) {
-            const lfile = this._recContent.files.find((value) => {
-                return value.path === localpath;
-            });
-            if (!lfile) {
-                throw new Error(`ActivePackage.getObjectURL: Файл "${localpath}" не найден в составе пакета "${this._recPack.name}"!`);
-            }
-            delegate = new BlobDelegate(lfile.data, Helper.MIMEMap.get(lfile.extension));
-            this._mapDelegates.set(localpath, delegate);
-        }
-        //
-        return delegate.getUrl();
-    }
-    getObjectURLFlex(pathpart) {
-        const lfile = this._recContent.files.find((value) => {
-            return value.path.indexOf(pathpart) >= 0;
-        });
-        //
-        return (lfile) ? this.getObjectURL(lfile.path) : "";
-    }
-    getActiveLibrary(libtoken) {
-        return this._mapActiveLibs.get(libtoken);
-    }
-    getRuntimeLibrary() {
-        return this._libRuntime;
-    }
-    // --------------------------------------------------------
+    //#region Construction / Initialization
     constructor(packid, host) {
         this._packid = packid;
         this._host = host;
@@ -166,15 +73,15 @@ export class ActivePackage {
         //
         //
         this._wnd.presenter.addEventListener("invokeclose", () => {
-            H5PEnv.DotNet.invokeMethodAsync("CyberShelf", "invokeClosePackage", this.Id);
+            window.DotNet.invokeMethodAsync("CyberShelf", "invokeClosePackage", this.key);
         });
         this._wnd.presenter.addEventListener("minimized", () => {
             const packcase = new PackageCase(this._recPack);
-            H5PEnv.DotNet.invokeMethodAsync("CyberShelf", "informMinimized", packcase);
+            window.DotNet.invokeMethodAsync("CyberShelf", "informMinimized", packcase);
         });
         this._wnd.presenter.addEventListener("restored", () => {
             const packcase = new PackageCase(this._recPack);
-            H5PEnv.DotNet.invokeMethodAsync("CyberShelf", "informRestored", packcase);
+            window.DotNet.invokeMethodAsync("CyberShelf", "informRestored", packcase);
         });
         //
         /*
@@ -194,7 +101,7 @@ export class ActivePackage {
         //PackagePool.regPackage(this._recPack!.key, this);
         //
         const packcase = new PackageCase(this._recPack);
-        H5PEnv.DotNet.invokeMethodAsync("CyberShelf", "informOpened", packcase);
+        window.DotNet.invokeMethodAsync("CyberShelf", "informOpened", packcase);
     }
     async buildAsync() {
         // The list of dependent libraries has been prepared.
@@ -231,7 +138,7 @@ export class ActivePackage {
         this._wnd.saveLayout();
         //
         this._host.removeChild(this._wnd.presenter);
-        PackagePool.releasePackage(this.Id);
+        PackagePool.releasePackage(this.key);
         //
         this._mapActiveLibs.forEach((lib) => {
             LibraryPool.releaseLibrary(lib.token);
@@ -245,13 +152,116 @@ export class ActivePackage {
         //
         //
         const packcase = new PackageCase(this._recPack);
-        H5PEnv.DotNet.invokeMethodAsync("CyberShelf", "informClosed", packcase);
+        window.DotNet.invokeMethodAsync("CyberShelf", "informClosed", packcase);
+    }
+    //#endregion (Construction / Initialization)
+    // --------------------------------------------------------
+    //#region Properties
+    get key() {
+        return (this._recPack) ? this._recPack.id : "";
+    }
+    get name() {
+        return (this._recPack) ? this._recPack.name : "";
+    }
+    get wnd() {
+        return this._wnd;
+    }
+    get html() {
+        return this._html;
+    }
+    //#endregion (Properties)
+    //#region Methods
+    getObjectURL(localpath) {
+        let delegate = this._mapDelegates.get(localpath);
+        if (!delegate) {
+            const lfile = this._recContent.files.find((value) => {
+                return value.path === localpath;
+            });
+            if (!lfile) {
+                throw new Error(`ActivePackage.getObjectURL: Файл "${localpath}" не найден в составе пакета "${this._recPack.name}"!`);
+            }
+            delegate = new BlobDelegate(lfile.data, Helper.MIMEMap.get(lfile.extension));
+            this._mapDelegates.set(localpath, delegate);
+        }
+        //
+        return delegate.getUrl();
+    }
+    getObjectURLFlex(pathpart) {
+        const lfile = this._recContent.files.find((value) => {
+            return value.path.indexOf(pathpart) >= 0;
+        });
+        //
+        return (lfile) ? this.getObjectURL(lfile.path) : "";
+    }
+    getActiveLibrary(libtoken) {
+        return this._mapActiveLibs.get(libtoken);
+    }
+    getRuntimeLibrary() {
+        return this._libRuntime;
+    }
+    //#endregion (Methods)
+    //#region Events
+    //#endregion (Events)
+    // --------------------------------------------------------
+    //#region Handlers
+    _onH5PxAPI(ev) {
+        if (ev.data && ev.data.statement && ev.data.statement.result) {
+            const theResult = ev.data.statement.result;
+            if (theResult.completion == true) {
+                //console.log("Поле 'completion' равно 'true'.");
+            }
+            else {
+                //console.log("Поле 'completion' не равно 'true'.");
+            }
+            if (theResult.success == true) {
+                //console.log("Поле 'success' равно 'true'.");
+            }
+            else {
+                //console.log("Поле 'success' не равно 'true'.");
+            }
+            // alert("Задание выполнено!");
+        } // if (ev.data.statement.result)
+    }
+    //#endregion (Handlers)
+    //#region Internals
+    /** данная функция гарантирует, что счётчик обращений к библиотеке
+     * в рамках одного пакета всегда будет равен 1 (что необходимо
+     * для правильного выполнения dispose при закрытии виджета)
+     */
+    async accessLibrary(libtoken) {
+        if (this._mapActiveLibs.has(libtoken))
+            return this._mapActiveLibs.get(libtoken);
+        //
+        const libActive = await LibraryPool.getLibrary(libtoken);
+        this._mapActiveLibs.set(libtoken, libActive);
+        //
+        return libActive;
+    }
+    async processLibDependencies(libtoken, aDependencyTokens) {
+        const libActive = await this.accessLibrary(libtoken);
+        const aDependencyTokensCurrent = libActive.getDependencyTokens();
+        for (let i = 0; i < aDependencyTokensCurrent.length; i++) {
+            const libtokenCurrent = aDependencyTokensCurrent[i];
+            if (aDependencyTokens.indexOf(libtokenCurrent) < 0) {
+                // the library is not included yet
+                await this.processLibDependencies(libtokenCurrent, aDependencyTokens);
+            }
+        }
+        if (aDependencyTokens.indexOf(libtoken) >= 0) {
+            throw new Error(`processLibDependencies: Похоже зацикливание! Токен=${libtoken}`);
+        }
+        aDependencyTokens.push(libtoken);
     }
 } // class ActivePackage
 // ====================================================================
 export class PackagePool {
+    //#region Defs & Vars
     static _mapPacks = new Map();
+    //#endregion (Defs & Vars)
     // --------------------------------------------------------
+    //#region Properties
+    //#endregion (Properties)
+    //#region Methods
     static regPackage(packid, pack) {
         if (this._mapPacks.has(packid)) {
             throw new Error(`The package with the "${packid}" token has already been registered!`);
@@ -271,7 +281,7 @@ export class PackagePool {
             const aPackages = this.getAllActivePackages();
             //
             for (const pack of aPackages) {
-                aKeys.push(pack.Id);
+                aKeys.push(pack.key);
                 pack.dispose();
             }
             //
@@ -289,7 +299,6 @@ export class PackagePool {
         return this._mapPacks.has(packid);
     }
     static raiseToTop(packid) {
-        let packidOld = null;
         for (let [key, value] of this._mapPacks) {
             value.wnd.presenter.style.zIndex = (key === packid) ? "1" : "auto";
         }

@@ -207,8 +207,8 @@ a {
     /* *** */
     --ui-color-info-bg: #e4edfe;
     /* *** */
-    --ui-packctr-width: 360px;
-    --ui-packctr-width-xs: 320px;
+    --ui-packctr-width: 340px;
+    --ui-packctr-width-xs: 300px;
     --ui-packctr-list-max-height: 500px;
     /* *** */
     --folder-color: goldenrod;
@@ -289,11 +289,11 @@ a {
         height: 100%;
         top: 0;
         left: 0;
+        background-color: rgba(0, 0, 0, 0.3);
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: var(--ui-z-busy);
-        background-color: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(4px);
         -webkit-backdrop-filter: blur(4px);
     }
@@ -1037,10 +1037,6 @@ a {
     .package-wnd > #Header > #CloseBtn {
         min-width: 36px;
     }
-
-    .package-wnd .packlayout-ctr .no-smallest {
-        display: none;
-    }
 }
 
 
@@ -1097,3 +1093,11 @@ a {
         cursor: pointer;
     }
 
+/* ---------------------------------- */
+/* Adaptation to the smallest screens */
+
+@media (max-width: 575.98px) {
+    .package-wnd .packlayout-ctr .no-smallest {
+        display: none;
+    }
+}

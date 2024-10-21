@@ -138,13 +138,12 @@ export class PackLayoutCtr {
         this._layout.top = this._hteTarget.style.top;
     }
     ensureView() {
-        if (!this._hteTarget.offsetParent)
-            return; // reinsurance :-)
         const rcParent = this._hteTarget.offsetParent.getBoundingClientRect();
         const rcThis = this._hteTarget.getBoundingClientRect();
         const nLimitHorz = rcThis.width / 2;
         let bTopNew = false;
         let bLeftNew = false;
+        // 
         if (rcThis.bottom > rcParent.bottom) {
             rcThis.y = (rcParent.bottom - rcThis.height);
             bTopNew = true;
@@ -161,19 +160,23 @@ export class PackLayoutCtr {
             rcThis.x = rcParent.left;
             bLeftNew = true;
         }
+        //
         if (bTopNew) {
             this._hteTarget.style.top = (rcThis.top - rcParent.top) + "px";
         }
         if (bLeftNew) {
             this._hteTarget.style.left = (rcThis.left - rcParent.left) + "px";
         }
+        //
         if (rcThis.height > rcParent.height) {
             this._hteTarget.style.maxHeight = (rcParent.height + "px");
         }
+        //
         if (bTopNew || bLeftNew) {
             this.acceptCustomPosition();
         }
     }
+    //
     //
     open(parent) {
         if (!this.isOpened) {

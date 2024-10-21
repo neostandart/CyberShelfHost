@@ -18,19 +18,18 @@ export class PackageRaw {
             const strMainLibToken = H5PEnv.makeLibraryToken(objMainLib);
             //
             this._objPackage = {
-                id: undefined,
-                origId: undefined,
+                id: "",
                 name: internals.metadata.title,
-                version: "0.0.0",
+                version: undefined,
                 //
-                packtype: LearningPackType.Regular,
+                packtype: LearningPackType.SimplePack,
                 delivery: delivery,
                 origurl: url,
                 //
                 suiteid: "",
                 //
                 fileinfo: fileinfo,
-                installed: Date.now(),
+                installed: 0,
                 updated: 0,
                 //
                 libtoken: strMainLibToken,
@@ -75,13 +74,12 @@ export class PackageRaw {
                 }
             }
             if (this._objPackage.id) {
-                this._objPackage.packtype = LearningPackType.Book; // in this version, the Learning Pack Type.VMBook is not supported
+                this._objPackage.packtype = LearningPackType.BookPack; // in this version, the Learning Pack Type.VMBook is not supported
             }
             else {
-                this._objPackage.id = "h5p-" + Helper.createDynamicID();
+                this._objPackage.id = "h5p_" + Helper.createDynamicID();
                 this._objPackage.version = undefined;
             }
-            this._objPackage.origId = this._objPackage.id;
             this._internals.content.packid = this._objPackage.id;
             //
             const aPreloaded = internals.metadata.preloadedDependencies;
@@ -101,11 +99,11 @@ export class PackageRaw {
     get isCorrect() {
         return this._isCorrect;
     }
-    get isRegular() {
-        return this._objPackage.packtype === LearningPackType.Regular;
+    get isSimplePack() {
+        return this._objPackage.packtype === LearningPackType.SimplePack;
     }
     get isBook() {
-        return this._objPackage.packtype !== LearningPackType.Regular;
+        return this._objPackage.packtype !== LearningPackType.SimplePack;
     }
     get incorrectMessage() {
         return this._strIncorrectMessage;
@@ -128,14 +126,12 @@ export class PackageRaw {
         this._objPackage.name = `${this._objPackage.name} (${now})`;
     }
     changeId(idNew) {
-        this._objPackage.id = idNew;
-        if (this._objPackage.packtype === LearningPackType.Regular) {
-            this._objPackage.origId = idNew;
+        if (this._objFromAuthor && this._objFromAuthor.id) {
+            this._objFromAuthor.id = idNew;
+            this._objPackage.metadata.authorComments = JSON.stringify(this._objFromAuthor);
         }
-        // ! For Books, the "origId" and "his._objFromAuthor.id" does not change. 
-    }
-    setUpdatedTimestamp(timestamp) {
-        this._objPackage.updated = timestamp;
+        //
+        this._objPackage.id = idNew;
     }
     getCase() {
         return new PackageCase(this._objPackage);
