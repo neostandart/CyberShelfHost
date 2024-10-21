@@ -4,9 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <!---->
-    <title>CyberShelf Starting...</title>
-    <!---->
+    <title>Starting...</title>
     <base href="/CyberShelfHost/" />
     <!---->
     <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon">
@@ -93,16 +91,17 @@
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 
     <!-- Radzen Components -->
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="_content/Radzen.Blazor/css/material-base.css" rel="stylesheet">
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
 
     <!-- Zip library -->
-    <script type="text/javascript" src="vendor/zip/zip-fs-full.js"></script>
+    <script type="text/javascript" src="./vendor/zip/zip-fs-full.js"></script>
 
     <!-- Application Styles -->
-    <link href="CyberShelf.styles.css" rel="stylesheet" />
-    <link href="css/app.css" rel="stylesheet" />
+    <link href="/assets/symbols/style.css" rel="stylesheet" />
+    <link href="/CyberShelf.styles.css" rel="stylesheet" />
+    <link href="/css/app.css" rel="stylesheet" />
 
     <!-- Application inline scripts -->
     <script>
