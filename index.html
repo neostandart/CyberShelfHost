@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Starting...</title>
+    <!---->
+    <title>CyberShelf Starting...</title>
+    <!---->
     <base href="/CyberShelfHost/" />
     <!---->
     <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon">
@@ -90,18 +92,21 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 
+    <!-- Bootstrap -->
+    <link href="vendor/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="vendor/bootstrap/bundle.min.js"></script>
+
+
     <!-- Radzen Components -->
-    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="_content/Radzen.Blazor/css/material-base.css" rel="stylesheet">
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
 
     <!-- Zip library -->
-    <script type="text/javascript" src="./vendor/zip/zip-fs-full.js"></script>
+    <script type="text/javascript" src="vendor/zip/zip-fs-full.js"></script>
 
     <!-- Application Styles -->
-    <link href="/assets/symbols/style.css" rel="stylesheet" />
-    <link href="/CyberShelf.styles.css" rel="stylesheet" />
-    <link href="/css/app.css" rel="stylesheet" />
+    <link href="CyberShelf.styles.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
 
     <!-- Application inline scripts -->
     <script>
@@ -121,6 +126,35 @@
             */
             await DotNet.invokeMethodAsync("CyberShelf", "informAppExit");
         });
+
+
+        window.setFocusToElement = (element) => {
+            element.focus();
+        };
+
+        window.sendKeyPress = (key, element) => {
+            var fGetCode = (key) => {
+                switch (key) {
+                    case "Enter": return 13;
+                    case "Tab": return 9;
+                    case "ArrowRight": return 39;
+                    case "ArrowLeft": return 37;
+                    default: return 0;
+                }
+            }
+
+            var keyCode = fGetCode(key);
+
+            let event = new KeyboardEvent("keypress", {
+                key: key,
+                code: key,
+                keyCode: keyCode,
+                which: keyCode
+            });
+
+            element.dispatchEvent(event);
+        };
+
 
     </script>
 
