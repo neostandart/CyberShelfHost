@@ -1,5 +1,4 @@
-////////////////////////////////////////////////////////////////////////
-//#region Common
+//#region Types
 export var TransDirection;
 (function (TransDirection) {
     TransDirection[TransDirection["None"] = 0] = "None";
@@ -27,23 +26,21 @@ export var Dimension;
     Dimension[Dimension["Width"] = 1] = "Width";
     Dimension[Dimension["Height"] = 2] = "Height";
 })(Dimension || (Dimension = {}));
-export var Position;
-(function (Position) {
-    Position[Position["Custom"] = 0] = "Custom";
-    Position[Position["Top"] = 1] = "Top";
-    Position[Position["Right"] = 2] = "Right";
-    Position[Position["Bottom"] = 3] = "Bottom";
-    Position[Position["Left"] = 4] = "Left";
-    Position[Position["TopLeft"] = 5] = "TopLeft";
-    Position[Position["TopCenter"] = 6] = "TopCenter";
-    Position[Position["TopRight"] = 7] = "TopRight";
-    Position[Position["Center"] = 8] = "Center";
-    Position[Position["CenterLeft"] = 9] = "CenterLeft";
-    Position[Position["CenterRight"] = 10] = "CenterRight";
-    Position[Position["BottomLeft"] = 11] = "BottomLeft";
-    Position[Position["BottomCenter"] = 12] = "BottomCenter";
-    Position[Position["BottomRight"] = 13] = "BottomRight";
-})(Position || (Position = {}));
+export var Layout;
+(function (Layout) {
+    Layout[Layout["Undef"] = 0] = "Undef";
+    Layout[Layout["Top"] = 1] = "Top";
+    Layout[Layout["TopLeft"] = 2] = "TopLeft";
+    Layout[Layout["TopCenter"] = 3] = "TopCenter";
+    Layout[Layout["TopRight"] = 4] = "TopRight";
+    Layout[Layout["Center"] = 5] = "Center";
+    Layout[Layout["CenterLeft"] = 6] = "CenterLeft";
+    Layout[Layout["CenterRight"] = 7] = "CenterRight";
+    Layout[Layout["Bottom"] = 8] = "Bottom";
+    Layout[Layout["BottomLeft"] = 9] = "BottomLeft";
+    Layout[Layout["BottomCenter"] = 10] = "BottomCenter";
+    Layout[Layout["BottomRight"] = 11] = "BottomRight";
+})(Layout || (Layout = {}));
 export var Orientation;
 (function (Orientation) {
     Orientation[Orientation["Landscape"] = 0] = "Landscape";
@@ -55,12 +52,4 @@ export var LayoutAction;
     LayoutAction[LayoutAction["ResizeHeight"] = 1] = "ResizeHeight";
     LayoutAction[LayoutAction["Positioning"] = 2] = "Positioning";
 })(LayoutAction || (LayoutAction = {}));
-export var DeliveryMethod;
-(function (DeliveryMethod) {
-    DeliveryMethod[DeliveryMethod["Local"] = 0] = "Local";
-    DeliveryMethod[DeliveryMethod["Link"] = 1] = "Link";
-    DeliveryMethod[DeliveryMethod["Store"] = 2] = "Store";
-})(DeliveryMethod || (DeliveryMethod = {}));
-//#endregion (Common)
-////////////////////////////////////////////////////////////////////////
-//# sourceMappingURL=defs.js.map
+//#endregion (Common types)

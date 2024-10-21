@@ -43,4 +43,3 @@ export class Localizer {
         return copy;
     }
 } // class Localizer
-//# sourceMappingURL=localizer.js.map

@@ -1,5 +1,4 @@
-import * as H5PEnv from "../h5penv.js";
-import { AppDB } from "../../appdb.js";
+import { H5PEnv } from "../h5penv.js";
 import { PackagePool } from "./activepack.js";
 import { PackLayoutCtr } from "./layoutctr.js";
 var DragStatus;
@@ -10,7 +9,7 @@ var DragStatus;
 })(DragStatus || (DragStatus = {}));
 export class PackageWnd {
     //#region Defs & Vars
-    _packid;
+    _packkey;
     _presenter;
     _header;
     _capturezone;
@@ -22,15 +21,15 @@ export class PackageWnd {
     static _template;
     _ptLastDragPos = new DOMPoint();
     _dragStatus = DragStatus.No;
-    _cache = null;
     //#endregion (Defs & Vars)
     // --------------------------------------------------------
     //#region Construction / Initialization
-    constructor(packid) {
-        this._packid = packid;
+    constructor(packkey) {
+        this._packkey = packkey;
         //
         const fragPresenter = PackageWnd.createPresenter();
         this._header = fragPresenter.getElementById("Header");
+        //this._capturezone = this._header.querySelector("#DragCaptureZone") as HTMLElement;
         this._capturezone = this._header;
         this._clientarea = fragPresenter.getElementById("ClientArea");
         this._frame = fragPresenter.getElementById("Frame");
@@ -73,15 +72,16 @@ export class PackageWnd {
     //#endregion (Properties)
     //#region Methods
     async show(html, host) {
-        this._cache = await AppDB.getWinCache(await H5PEnv.getUserId(), this._packid);
+        const strSavedLayout = await H5PEnv.UserSettings.invokeMethodAsync('GetPackWndState', this._packkey);
         //
         host.appendChild(this._presenter);
         //
-        if (this._cache && this._cache.layout) {
-            this._ctrLayout.applyLayout(this._cache.layout);
+        if (strSavedLayout) {
+            const objSavedLayout = JSON.parse(strSavedLayout);
+            this._ctrLayout.applyLayout(objSavedLayout);
         }
         else {
-            this._ctrLayout.applyMaxSize();
+            this._ctrLayout.applyDefaultLayout();
         }
         //
         PackageWnd.__raiseTop(this);
@@ -135,14 +135,8 @@ export class PackageWnd {
         this._presenter.style.pointerEvents = "none";
     }
     //
-    async saveLayout() {
-        if (!this._cache) {
-            this._cache = { layout: undefined };
-        }
-        //
-        this._cache.layout = this._ctrLayout.Layout;
-        //
-        await AppDB.setWinCache(await H5PEnv.getUserId(), this._packid, this._cache);
+    saveLayout() {
+        H5PEnv.UserSettings.invokeMethodAsync('SavePackWndState', JSON.stringify(this._ctrLayout.Layout), this._packkey);
     }
     //#endregion (Methods)
     //#region Events
@@ -310,9 +304,8 @@ export class PackageWnd {
     static __wndTop = null;
     static __raiseTop(wnd) {
         if (this.__wndTop !== wnd) {
-            PackagePool.raiseToTop(wnd._packid);
+            PackagePool.raiseToTop(wnd._packkey);
             this.__wndTop = wnd;
         }
     }
 } // class PackWnd
-//# sourceMappingURL=packwnd.js.map

@@ -2,6 +2,7 @@ export class BlobDelegate {
     _blob;
     _ourl;
     _usecount;
+    // Над в конструктор BlobDelegate передавать тип (MIME) !!!
     constructor(source, mime = undefined) {
         this._blob = (mime) ? new Blob([source], { type: mime }) : new Blob([source]); // Uint8Array | string
         this._usecount = 0;
@@ -32,4 +33,3 @@ export class BlobDelegate {
         }
     }
 } // lass BlobDelegate
-//# sourceMappingURL=file.js.map

@@ -54,4 +54,3 @@ export function fetchJson(url) {
         });
     });
 }
-//# sourceMappingURL=pipe.js.map

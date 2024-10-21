@@ -1,13 +1,12 @@
 import { Helper } from "../../helper.js";
 import { AppDB } from "../../appdb.js";
-import { PackageCase } from "../packobj/packcase.js";
 import { BlobDelegate } from "./file.js";
 import { LibraryPool } from "./activelib.js";
-import * as H5PEnv from "../h5penv.js";
+import { H5PEnv } from "../h5penv.js";
 import { PackageWnd } from "./packwnd.js";
 export class ActivePackage {
     //#region Defs & Vars
-    _packid;
+    _packkey;
     _recPack;
     _recContent;
     _libMain;
@@ -21,8 +20,8 @@ export class ActivePackage {
     //#endregion (Defs & Vars)
     // --------------------------------------------------------
     //#region Construction / Initialization
-    constructor(packid, host) {
-        this._packid = packid;
+    constructor(packkey, host) {
+        this._packkey = packkey;
         this._host = host;
         //
         this._aDependencyLibTokens = [];
@@ -31,12 +30,12 @@ export class ActivePackage {
         this._mapDelegates = new Map();
     }
     async showAsync() {
-        this._recPack = await AppDB.get("packages", this._packid);
+        this._recPack = await AppDB.get("packages", this._packkey);
         if (!this._recPack) {
-            throw new Error(`The package with the specified recordKey (${this._packid}) not found!`);
+            throw new Error(`The package with the specified recordKey (${this._packkey}) not found!`);
         }
         //
-        this._recContent = await AppDB.get("content", this._recPack.id);
+        this._recContent = await AppDB.get("content", this._recPack.key);
         //
         const aPreloaded = this._recPack.metadata.preloadedDependencies;
         //
@@ -64,8 +63,8 @@ export class ActivePackage {
         //
         this._html = await this.buildAsync();
         //
-        this._wnd = new PackageWnd(this._packid);
-        PackagePool.regPackage(this._recPack.id, this);
+        this._wnd = new PackageWnd(this._packkey);
+        PackagePool.regPackage(this._recPack.key, this);
         //
         await this._wnd.show(this._html, this._host);
         //
@@ -76,12 +75,12 @@ export class ActivePackage {
             window.DotNet.invokeMethodAsync("CyberShelf", "invokeClosePackage", this.key);
         });
         this._wnd.presenter.addEventListener("minimized", () => {
-            const packcase = new PackageCase(this._recPack);
-            window.DotNet.invokeMethodAsync("CyberShelf", "informMinimized", packcase);
+            const packtoken = AppDB.makeTokenFromRecord(this._recPack);
+            window.DotNet.invokeMethodAsync("CyberShelf", "informMinimized", packtoken);
         });
         this._wnd.presenter.addEventListener("restored", () => {
-            const packcase = new PackageCase(this._recPack);
-            window.DotNet.invokeMethodAsync("CyberShelf", "informRestored", packcase);
+            const packtoken = AppDB.makeTokenFromRecord(this._recPack);
+            window.DotNet.invokeMethodAsync("CyberShelf", "informRestored", packtoken);
         });
         //
         /*
@@ -100,8 +99,8 @@ export class ActivePackage {
         //
         //PackagePool.regPackage(this._recPack!.key, this);
         //
-        const packcase = new PackageCase(this._recPack);
-        window.DotNet.invokeMethodAsync("CyberShelf", "informOpened", packcase);
+        const packtoken = AppDB.makeTokenFromRecord(this._recPack);
+        window.DotNet.invokeMethodAsync("CyberShelf", "informOpened", packtoken);
     }
     async buildAsync() {
         // The list of dependent libraries has been prepared.
@@ -115,13 +114,13 @@ export class ActivePackage {
             aCSSRefs.push(...aPreloadedCss);
             aJSRefs.push(...aPreloadedJs);
         }
-        aCSSRefs = H5PEnv.getCoreCssPaths().concat(aCSSRefs);
-        aJSRefs = H5PEnv.getCoreJsPaths().concat(aJSRefs);
+        aCSSRefs = H5PEnv.CoreCssPaths.concat(aCSSRefs);
+        aJSRefs = H5PEnv.CoreJsPaths.concat(aJSRefs);
         console.log("Все включаемые файлы подготовлены!");
-        const objIntegration = await H5PEnv.prepareIntegration(this._recPack.id, this._recContent.data, "", this._recPack.metadata, this._libMain.libname, aCSSRefs, aJSRefs, false, H5PEnv.getLanguage());
+        const objIntegration = H5PEnv.prepareIntegration(this._recPack.key, this._recContent.data, "", this._recPack.metadata, this._libMain.libname, aCSSRefs, aJSRefs, false, null, H5PEnv.language);
         const model = {
-            viewportScale: (H5PEnv.isViewportXSmall() ? "0.9" : "1.0"),
-            contentId: this._recPack.id,
+            viewportScale: (H5PEnv.isViewportXSmall ? "0.9" : "1.0"),
+            contentId: this._recPack.key,
             styles: aCSSRefs,
             scripts: aJSRefs,
             integration: objIntegration
@@ -151,14 +150,14 @@ export class ActivePackage {
         this._mapDelegates.clear();
         //
         //
-        const packcase = new PackageCase(this._recPack);
-        window.DotNet.invokeMethodAsync("CyberShelf", "informClosed", packcase);
+        const packtoken = AppDB.makeTokenFromRecord(this._recPack);
+        window.DotNet.invokeMethodAsync("CyberShelf", "informClosed", packtoken);
     }
     //#endregion (Construction / Initialization)
     // --------------------------------------------------------
     //#region Properties
     get key() {
-        return (this._recPack) ? this._recPack.id : "";
+        return (this._recPack) ? this._recPack.key : "";
     }
     get name() {
         return (this._recPack) ? this._recPack.name : "";
@@ -262,17 +261,17 @@ export class PackagePool {
     //#region Properties
     //#endregion (Properties)
     //#region Methods
-    static regPackage(packid, pack) {
-        if (this._mapPacks.has(packid)) {
-            throw new Error(`The package with the "${packid}" token has already been registered!`);
+    static regPackage(packkey, pack) {
+        if (this._mapPacks.has(packkey)) {
+            throw new Error(`The package with the "${packkey}" token has already been registered!`);
         }
         //
-        this._mapPacks.set(packid, pack);
+        this._mapPacks.set(packkey, pack);
     }
-    static releasePackage(packid) {
-        const pack = this._mapPacks.get(packid);
+    static releasePackage(packkey) {
+        const pack = this._mapPacks.get(packkey);
         if (pack) {
-            this._mapPacks.delete(packid);
+            this._mapPacks.delete(packkey);
         }
     }
     static closeAllPackages() {
@@ -288,19 +287,19 @@ export class PackagePool {
             resolve(aKeys);
         });
     }
-    static getPackage(packid) {
-        return this._mapPacks.get(packid);
+    static getPackage(packkey) {
+        return this._mapPacks.get(packkey);
     }
     static getAllActivePackages() {
         const aRes = [...this._mapPacks.values()];
         return aRes;
     }
-    static hasPackage(packid) {
-        return this._mapPacks.has(packid);
+    static hasPackage(packkey) {
+        return this._mapPacks.has(packkey);
     }
-    static raiseToTop(packid) {
+    static raiseToTop(packkey) {
         for (let [key, value] of this._mapPacks) {
-            value.wnd.presenter.style.zIndex = (key === packid) ? "1" : "auto";
+            value.wnd.presenter.style.zIndex = (key === packkey) ? "1" : "auto";
         }
     }
     static enablePointerEventsAll() {
@@ -314,4 +313,3 @@ export class PackagePool {
         }
     }
 } // class PackagePool
-//# sourceMappingURL=activepack.js.map

@@ -114,13 +114,6 @@ a {
     font-size: 2rem;
 }
 
-/* ******************************* */
-/* Slightly correct  */
-
-.rz-alert-content {
-    text-wrap: wrap;
-}
-
 /* ****************************************************************** */
 /* We shift the validation pop-up message closer to the target field. */
 .rz-form {
@@ -175,9 +168,8 @@ a {
 /* ///////////////////////////////////////////////////////////////// */
 
 :root {
-    --ui-z-cover: 7;
-    --ui-z-info: 6;
-    --ui-z-busy: 5;
+    --ui-z-cover: 6;
+    --ui-z-info: 5;
     --ui-z-navbar: 4;
     --ui-z-book-ctr: 3;
     --ui-z-book-view: 2;
@@ -216,7 +208,7 @@ a {
     --suite-color: #b8860b;
     --book-color: #5C2D91;
     --book-color-bg: #f5f1f8;
-    --package-color: #2475BE;
+    --h5pack-color: #2475BE;
     --selitem-color-bg: #DFDFF1;
     --selitem-color-br: #4340D2;
 }
@@ -283,21 +275,6 @@ a {
         z-index: var(--ui-z-navbar);
     }
 
-    #MainLayout .busy-overlay {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.3);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: var(--ui-z-busy);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-    }
-
 #MainNavBar .rz-navigation-item-link {
     padding-left: 0;
 }
@@ -350,7 +327,6 @@ a {
 
 /* BookLayer */
 #MainLayout > #BookLayer {
-    overflow: hidden;
     position: relative;
     grid-row: 2 / span 3;
     grid-column: 1 / span 3;
@@ -917,11 +893,15 @@ a {
 /* PackageWnd (Package Window) */
 
 .package-wnd {
+    display: flex;
+    flex-direction: column;
     position: absolute;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    overflow: hidden;
+    top: 30px;
+    left: 30px;
+    width: 80%;
+    height: 50%;
     border: 4px solid var(--book-color);
+    overflow: hidden;
     background: #fefefe;
     pointer-events: auto;
     transition: opacity 0.2s;
@@ -929,14 +909,14 @@ a {
     visibility: hidden;
 }
 
-    .package-wnd.visible {
-        opacity: 1;
-    }
+.package-wnd.visible {
+    opacity: 1;
+    visibility: visible;
+}
 
 
     .package-wnd > #Header {
         position: relative;
-        grid-row: 1;
         display: flex;
         flex-direction: row;
         width: 100%;
@@ -978,30 +958,28 @@ a {
     .package-wnd > #ClientArea {
         position: relative;
         overflow: hidden;
-        grid-row: 2;
-        width: 100%;
-        height: 100%;
+        flex: 1;
         margin: 0;
         padding: 0;
         border: none;
     }
 
-        .package-wnd > #ClientArea > #Frame {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            border: none;
-        }
+#ClientArea > #Frame {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
 
 
-    .package-wnd.minimized #ClientArea > #Frame {
-        visibility: hidden;
-    }
+.package-wnd.minimized #ClientArea > #Frame {
+    visibility: hidden;
+}
 
-    .package-wnd.minimized {
-        animation: 0.4s ease-in 0s forwards kf-package-wnd-minimize;
-    }
+.package-wnd.minimized {
+    animation: 0.4s ease-in 0s forwards kf-package-wnd-minimize;
+}
 
 @keyframes kf-package-wnd-minimize {
     from {

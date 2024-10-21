@@ -106,4 +106,3 @@ export class FullScreenToggler {
         }
     };
 } // class FullScreenToggler
-//# sourceMappingURL=fullscreen.js.map

@@ -1,3 +1,4 @@
+//
 export class HtmlStateKeeper {
     //#region Defs & Vars
     _mapTargets;
@@ -81,4 +82,3 @@ export function createKeeper() {
     const keeper = new HtmlStateKeeper();
     return keeper;
 }
-//# sourceMappingURL=keeper.js.map

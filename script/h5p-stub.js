@@ -49,4 +49,3 @@ class SoundJS_Proxy {
 if (window.H5P.SoundJS) {
     window.H5P.SoundJS = new SoundJS_Proxy();
 }
-//# sourceMappingURL=h5p-stub.js.map
