@@ -27,3 +27,4 @@ export class SimpleTranslator {
         return key;
     };
 } // class SimpleTranslator
+//# sourceMappingURL=translator.js.map
