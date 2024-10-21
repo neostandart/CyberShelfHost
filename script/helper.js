@@ -1,4 +1,3 @@
-//
 export class Helper {
     //#region Version
     static isVerMajorNewer(strVerNew, strVerOld) {
@@ -13,10 +12,71 @@ export class Helper {
         //
         return (aPartsNew.length > 0);
     }
+    // ОПТИМИЗИРОВАТЬ!!! Grigory
+    static isVersionEqual(strVerTarget, strVerAnother) {
+        const VERLENGTH = 3;
+        //
+        const aPartsTarget = strVerTarget.split(".");
+        if (aPartsTarget.length < VERLENGTH) {
+            while (aPartsTarget.length === VERLENGTH) {
+                aPartsTarget.push("0");
+            }
+        }
+        const aPartsAnother = strVerAnother.split(".");
+        if (aPartsAnother.length < VERLENGTH) {
+            while (aPartsAnother.length === VERLENGTH) {
+                aPartsAnother.push("0");
+            }
+        }
+        for (let i = 0; i < aPartsTarget.length; i++) {
+            let nTarget = parseInt(aPartsTarget[i]);
+            if (Number.isNaN(nTarget))
+                nTarget = 0;
+            //
+            let nAnother = parseInt(aPartsAnother[i]);
+            if (Number.isNaN(nAnother))
+                nAnother = 0;
+            //
+            if (nTarget !== nAnother)
+                return false;
+        }
+        return true;
+    }
+    static compareVersion(strVerTarget, strVerAnother) {
+        const VERLENGTH = 3;
+        //
+        const aPartsTarget = strVerTarget.split(".");
+        if (aPartsTarget.length < VERLENGTH) {
+            while (aPartsTarget.length === VERLENGTH) {
+                aPartsTarget.push("0");
+            }
+        }
+        const aPartsAnother = strVerAnother.split(".");
+        if (aPartsAnother.length < VERLENGTH) {
+            while (aPartsAnother.length === VERLENGTH) {
+                aPartsAnother.push("0");
+            }
+        }
+        for (let i = 0; i < aPartsTarget.length; i++) {
+            let nTarget = parseInt(aPartsTarget[i]);
+            if (Number.isNaN(nTarget))
+                nTarget = 0;
+            //
+            let nAnother = parseInt(aPartsAnother[i]);
+            if (Number.isNaN(nAnother))
+                nAnother = 0;
+            //
+            if (nTarget === nAnother)
+                continue;
+            //
+            return (nTarget < nAnother) ? -1 : 1;
+        }
+        return 0;
+    }
     //#endregion (Version)
     //#region Crypto
-    static createUUID() {
-        return Date.now().toString(); // crypto.randomUUID();
+    static createDynamicID() {
+        return Date.now().toString();
     }
     //#endregion Crypto()
     //#region Date/Time
@@ -145,6 +205,9 @@ export class Helper {
     static isString(str) {
         return (typeof str === "string");
     }
+    //public static isNotEmptyString(str: unknown): boolean {
+    //    return ((typeof str === "string") && ((<string>str).length > 0));
+    //}
     static isNumber(val) {
         return (typeof val === "number");
     }
@@ -172,7 +235,7 @@ export class Helper {
     static asType(a) {
         return a;
     }
-    //#endregion (Type)   
+    //#endregion (Type)
     //#region Enumeration
     static parseEnum(enm, valueKey, bCaseSensitive = false) {
         if (!valueKey)
@@ -350,7 +413,7 @@ export class Helper {
             return "???";
         }
     }
-    static extractWithoutExtension(path) {
+    static extractFileName(path) {
         const nIndexDot = path.lastIndexOf(".");
         if (nIndexDot < 0)
             return path;
@@ -450,20 +513,24 @@ export class Helper {
         //
         if (errcase instanceof Event) {
             if (errcase.target instanceof IDBOpenDBRequest) {
-                let target = errcase.target;
+                const target = errcase.target;
                 if (target.error) {
                     errcase = target.error;
                 }
             }
         }
-        //
-        if (errcase instanceof Error) {
-            strMessage = __addSection(errcase.name);
-            strMessage = __addSection(errcase.message);
+        else if (errcase instanceof Error) {
+            const errorInstance = errcase;
+            strMessage = errorInstance.name;
+            if (!strMessage.endsWith("."))
+                strMessage += ".";
+            if (errorInstance.message) {
+                strMessage += " " + errorInstance.message;
+            }
         }
         else if (errcase instanceof Response) {
-            const response = errcase;
-            strMessage = __addSection(`Response: ok=${response.ok}; status=${response.status}; statusText=${response.statusText}; type=${response.type}; url=${response.url}.`);
+            const responseInstance = errcase;
+            strMessage = __addSection(`Response: ok=${responseInstance.ok}; status=${responseInstance.status}; statusText=${responseInstance.statusText}; type=${responseInstance.type}; url=${responseInstance.url}.`);
         }
         else {
             if (typeof errcase === 'string') {
@@ -529,4 +596,29 @@ export class Helper {
         step(target, undefined, undefined);
         return output;
     }
+    static sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    //#endregion (Utils)
+    //#region Screen
+    static getOrientation() {
+        return Math.abs(screen.orientation.angle) - 90 == 0 ? "landscape" : "portrait";
+    }
+    ;
+    static getMobileWidth() {
+        return this.getOrientation() == "landscape" ? screen.availHeight : screen.availWidth;
+    }
+    ;
+    static getMobileHeight() {
+        return this.getOrientation() == "landscape" ? screen.availWidth : screen.availHeight;
+    }
+    ;
+    static get isExtraSmall() {
+        const nThreshold = 576;
+        //return (window.visualViewport.width < nThreshold || window.visualViewport.height < screen.availWidth);
+        //return (screen.availWidth < nThreshold || screen.availHeight < screen.availWidth);
+        // so far, this is an option
+        return (window.visualViewport.width < nThreshold);
+    }
 } // class Helper
+//# sourceMappingURL=helper.js.map

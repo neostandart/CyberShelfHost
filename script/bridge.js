@@ -370,10 +370,8 @@ class Dragable {
         return this._hteArea;
     }
     //
-    //
     _ensureView() {
     }
-    //
     //
     _onCaptureZoneMouseDown = (ev) => {
         if (ev.target && ev.target.closest("button")) {
@@ -382,25 +380,17 @@ class Dragable {
         //
         if (this._dragStatus === DragStatus.No) {
             ev.preventDefault();
-            //
             this._dragStatus = DragStatus.Mouse;
-            //
             document.addEventListener("mousemove", this._onMouseMove, { capture: true });
             document.addEventListener("mouseup", this._onMouseUp, { capture: true });
-            // preventing the loss of messages from the iframe
-            //PackagePool.disablePointerEventsAll();
-            //
             this._startDrag(ev.clientX, ev.clientY);
         }
     };
     _onCaptureZoneTouchStart = (ev) => {
         if (this._dragStatus === DragStatus.No) {
-            //
             this._dragStatus = DragStatus.Touch;
-            //
             document.addEventListener("touchmove", this._onTouchMove, { capture: true });
             document.addEventListener("touchend", this._onTouchEnd, { capture: true });
-            //
             this._startDrag(ev.touches[0].clientX, ev.touches[0].clientY);
         }
     };
@@ -430,7 +420,6 @@ class Dragable {
         }
     };
     //
-    //
     _startDrag(x, y) {
         this._ptLastDragPos.x = x;
         this._ptLastDragPos.y = y;
@@ -438,10 +427,8 @@ class Dragable {
     _drag(x, y) {
         let nNewX = this._ptLastDragPos.x - x;
         let nNewY = this._ptLastDragPos.y - y;
-        //
         this._ptLastDragPos.x = x;
         this._ptLastDragPos.y = y;
-        //
         this._hteDragable.style.top = (this._hteDragable.offsetTop - nNewY) + "px";
         this._hteDragable.style.left = (this._hteDragable.offsetLeft - nNewX) + "px";
     }
@@ -459,12 +446,7 @@ class Dragable {
                     break;
                 }
             }
-            //
-            // restoring event handling in this window
-            //PackagePool.enablePointerEventsAll();
-            //
             this._ensureView();
-            //
             this._dragStatus = DragStatus.No;
         }
     }
@@ -488,54 +470,5 @@ export function unregDragable(hteDragable) {
         _aDragables.splice(nIndex, 1);
     }
 }
-export class ProgressControl {
-    _strAssemblyName;
-    _strMethodName;
-    //
-    _nPercentTotal = 0;
-    _nSegment = 100; // percentage of 100 (total)
-    _nStepMax = 100;
-    _nStepCounter = 0;
-    _nSegmentStepValue = 0;
-    _nSegmentSeed = 0;
-    _nSegmentRatio = 1;
-    //
-    constructor(strAssemblyName, strMethodName) {
-        this._strAssemblyName = strAssemblyName;
-        this._strMethodName = strMethodName;
-    }
-    setSegment(nSegment) {
-        this._nSegment = nSegment;
-        this._nStepMax = 1;
-        this._nStepCounter = 0;
-        this._nSegmentSeed = this._nPercentTotal;
-        this._nSegmentRatio = nSegment / 100;
-    }
-    setStepMax(nStepMax) {
-        this._nStepMax = nStepMax;
-        this._nSegmentStepValue = 100 / nStepMax;
-        this._nStepCounter = 0;
-    }
-    doStep() {
-        if (this._nStepCounter < this._nStepMax) {
-            this._nStepCounter++;
-            let nSegmentPercent = Math.round((this._nStepCounter * this._nSegmentStepValue));
-            if (nSegmentPercent > 100)
-                nSegmentPercent = 100;
-            this._nPercentTotal = this._nSegmentSeed + Math.round(nSegmentPercent * this._nSegmentRatio);
-            if (this._nPercentTotal > 100)
-                this._nPercentTotal = 100;
-            window.requestAnimationFrame((timestamp) => {
-                window.DotNet.invokeMethodAsync(this._strAssemblyName, this._strMethodName, this._nPercentTotal);
-            });
-        }
-    }
-    done() {
-        this._nPercentTotal = 100;
-        //
-        window.requestAnimationFrame((timestamp) => {
-            window.DotNet.invokeMethodAsync(this._strAssemblyName, this._strMethodName, this._nPercentTotal);
-        });
-    }
-} // class ProgressControl
-//#endregion (Utilities)
+//#endregion (Dragable)
+//# sourceMappingURL=bridge.js.map

@@ -1,6 +1,6 @@
-import { Layout } from "../../defs.js";
 import { Helper } from "../../helper.js";
-import { H5PEnv } from "../h5penv.js";
+import { Position } from "../abstraction.js";
+import * as H5PEnv from "../h5penv.js";
 import { LocaleStrings } from "../manager.js";
 export class PackLayoutCtr {
     //#region Defs & Vars
@@ -56,6 +56,10 @@ export class PackLayoutCtr {
         btnClose.addEventListener("click", () => {
             this.close();
         });
+        // When changing the window size, we need to adjust the position and size of the window
+        window.addEventListener("resize", (ev) => {
+            this.ensureView();
+        });
         //
         this._bIsOpened = false;
         this._parent = null;
@@ -66,7 +70,7 @@ export class PackLayoutCtr {
     static createPresenter() {
         if (!this._template) {
             this._template = document.createElement("template");
-            this._template.innerHTML = H5PEnv.LayoutCtrTemplateHtml;
+            this._template.innerHTML = H5PEnv.getLayoutCtrTemplateHtml();
         }
         //
         return this._template.content.cloneNode(true);
@@ -91,7 +95,10 @@ export class PackLayoutCtr {
     }
     //
     get layoutDefault() {
-        return { width: "100%", height: "100%", position: "TopLeft", left: undefined, top: undefined };
+        // so far, the value is the same for any screen size
+        return Helper.isExtraSmall ?
+            { width: "75%", height: "75%", position: "Center", left: undefined, top: undefined } :
+            { width: "75%", height: "75%", position: "Center", left: undefined, top: undefined };
     }
     //#endregion (Properties)
     //#region Methods
@@ -131,15 +138,15 @@ export class PackLayoutCtr {
         this._layout.top = this._hteTarget.style.top;
     }
     ensureView() {
+        if (!this._hteTarget.offsetParent)
+            return; // reinsurance :-)
         const rcParent = this._hteTarget.offsetParent.getBoundingClientRect();
         const rcThis = this._hteTarget.getBoundingClientRect();
-        const nLimitVert = rcThis.height / 2;
         const nLimitHorz = rcThis.width / 2;
         let bTopNew = false;
         let bLeftNew = false;
-        // 
-        if ((rcThis.bottom - rcParent.bottom) > nLimitVert) {
-            rcThis.y = (rcParent.bottom - nLimitVert);
+        if (rcThis.bottom > rcParent.bottom) {
+            rcThis.y = (rcParent.bottom - rcThis.height);
             bTopNew = true;
         }
         if (rcThis.top < rcParent.top) {
@@ -154,19 +161,19 @@ export class PackLayoutCtr {
             rcThis.x = rcParent.left;
             bLeftNew = true;
         }
-        //
         if (bTopNew) {
             this._hteTarget.style.top = (rcThis.top - rcParent.top) + "px";
         }
         if (bLeftNew) {
             this._hteTarget.style.left = (rcThis.left - rcParent.left) + "px";
         }
-        //
+        if (rcThis.height > rcParent.height) {
+            this._hteTarget.style.maxHeight = (rcParent.height + "px");
+        }
         if (bTopNew || bLeftNew) {
             this.acceptCustomPosition();
         }
     }
-    //
     //
     open(parent) {
         if (!this.isOpened) {
@@ -238,29 +245,29 @@ export class PackLayoutCtr {
         let strLeft = "0";
         let strTop = "0";
         //
-        const layout = Helper.parseEnumEnsure(Layout, strPosInfo, Layout.TopRight);
+        const layout = Helper.parseEnumEnsure(Position, strPosInfo, Position.TopRight);
         switch (layout) {
-            case Layout.TopLeft: {
+            case Position.TopLeft: {
                 break;
             }
-            case Layout.TopRight: {
+            case Position.TopRight: {
                 let nLeft = this._hteTarget.offsetParent.clientWidth - this._hteTarget.offsetWidth;
                 strLeft = (nLeft + "px");
                 break;
             }
-            case Layout.Center: {
+            case Position.Center: {
                 let nLeft = (this._hteTarget.offsetParent.clientWidth / 2) - (this._hteTarget.offsetWidth / 2);
                 strLeft = (nLeft + "px");
                 let nTop = (this._hteTarget.offsetParent.clientHeight / 2) - (this._hteTarget.offsetHeight / 2);
                 strTop = (nTop + "px");
                 break;
             }
-            case Layout.BottomLeft: {
+            case Position.BottomLeft: {
                 let nTop = this._hteTarget.offsetParent.clientHeight - this._hteTarget.offsetHeight;
                 strTop = nTop + "px";
                 break;
             }
-            case Layout.BottomRight: {
+            case Position.BottomRight: {
                 let nLeft = this._hteTarget.offsetParent.clientWidth - this._hteTarget.offsetWidth;
                 strLeft = (nLeft + "px");
                 let nTop = this._hteTarget.offsetParent.clientHeight - this._hteTarget.offsetHeight;
@@ -327,3 +334,4 @@ export class PackLayoutCtr {
         }
     }
 } // class PackLayoutCtr
+//# sourceMappingURL=layoutctr.js.map

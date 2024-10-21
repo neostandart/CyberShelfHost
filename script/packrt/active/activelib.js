@@ -1,7 +1,7 @@
 import { Helper } from "../../helper.js";
 import { AppDB } from "../../appdb.js";
 import { BlobDelegate } from "./file.js";
-import { H5PEnv } from "../h5penv.js";
+import * as H5PEnv from "../h5penv.js";
 import { Preprocessor } from "./preproc.js";
 export class ActiveLibrary {
     //#region Defs & Vars
@@ -157,3 +157,4 @@ export class LibraryPool {
         }
     }
 } // class LibraryPool
+//# sourceMappingURL=activelib.js.map
