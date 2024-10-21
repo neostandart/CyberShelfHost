@@ -7,7 +7,7 @@
     <!---->
     <title>CyberShelf Starting...</title>
     <!---->
-    <base href="/CyberShelfHost/" />
+    <base href="/" />
     <!---->
     <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon">
     <!---->
@@ -126,6 +126,35 @@
             */
             await DotNet.invokeMethodAsync("CyberShelf", "informAppExit");
         });
+
+
+        window.setFocusToElement = (element) => {
+            element.focus();
+        };
+
+        window.sendKeyPress = (key, element) => {
+            var fGetCode = (key) => {
+                switch (key) {
+                    case "Enter": return 13;
+                    case "Tab": return 9;
+                    case "ArrowRight": return 39;
+                    case "ArrowLeft": return 37;
+                    default: return 0;
+                }
+            }
+
+            var keyCode = fGetCode(key);
+
+            let event = new KeyboardEvent("keypress", {
+                key: key,
+                code: key,
+                keyCode: keyCode,
+                which: keyCode
+            });
+
+            element.dispatchEvent(event);
+        };
+
 
     </script>
 
