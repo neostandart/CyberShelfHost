@@ -1693,11 +1693,11 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-vG60t+zuceVsGWyddpdHlYx+tvKgHbgV5KcUNxmDYM0=",
+      "hash": "sha256-QIUuX+l863HF0U5+n7bVFGW0wM8oBYIEbOAGYC+Qy9Y=",
       "url": "_framework\/blazor.boot.json"
     },
     {
-      "hash": "sha256-g\/rwPquXPLO9ojJIcXXXrqtMctnW3uxSdSZ33GT+hRg=",
+      "hash": "sha256-KjWl8T09bDG6eRgRYf+OGHU65f9o+wOU3RF58mI8Ce8=",
       "url": "_framework\/CyberShelf.wasm"
     },
     {
@@ -1917,7 +1917,7 @@
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-rKYyz3is9m38MlPwTEGfnyzXQztRLJ9K1DEeeOmtN04=",
+      "hash": "sha256-6T3dfIz+Lj\/JuRXwvuflZqRobI3vHPPmmFefgSI4PlY=",
       "url": "_framework\/ru\/CyberShelf.resources.wasm"
     },
     {
@@ -2101,5 +2101,5 @@
       "url": "_content\/Radzen.Blazor\/Radzen.Blazor.js"
     }
   ],
-  "version": "YunHDcR8"
+  "version": "KXUsa3mX"
 };
