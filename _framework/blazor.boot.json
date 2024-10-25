@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "CyberShelf-PWA",
   "resources": {
-    "hash": "sha256-hWWL+2e6z4Jeaswib6FF8zVOlb2udHey9astxtdXxXM=",
+    "hash": "sha256-b5fXji3qEfAz3vg6nvpiOQTPehFYr/czI5C+t18qiW8=",
     "jsModuleNative": {
       "dotnet.native.8.0.10.t4jwgljjud.js": "sha256-QVxMlY7ohmjgde/bZMA0dlWDAeuUP+tEfkiSdg4DFcE="
     },
@@ -15,11 +15,11 @@
       "icudt.dat": "sha256-tO5O5YzMTVSaKBboxAqezOQL9ewmupzV2JrB5Rkc8a4="
     },
     "assembly": {
-      "CyberShelf-PWA.wasm": "sha256-CQs2YDyD5Q0dFCnIxsUXA6SoOKgvtQVDUOqjDcm82KQ=",
+      "CyberShelf-PWA.wasm": "sha256-aqotUWfN7MDG4qyaJLmlxnbcWdTLEgHboAndDNc8SlU=",
       "Microsoft.AspNetCore.Authorization.wasm": "sha256-XX06CfzyVeYyf0MhDNqN7B+Cy6KQYLWkb11JmtYdfAI=",
       "Microsoft.AspNetCore.Components.Authorization.wasm": "sha256-UVmwfjpByaEvRFhncPVOMBPDNUNMdc0Kh3rUvGLI9po=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-9gl40kDm0CQ/2gyBWHDQYZHVuRchVEdX6QUEd6CIjkQ=",
-      "Microsoft.AspNetCore.Components.Web.wasm": "sha256-zHTkqN8duE5S+fZQQKVnNFumqyg6d6BMIzGYRqnL7F4=",
+      "Microsoft.AspNetCore.Components.Web.wasm": "sha256-gRWRrAT13Cob4qdLef3mPUiXQy0lP3NAEvn3UAnzybE=",
       "Microsoft.AspNetCore.Components.WebAssembly.wasm": "sha256-wv21IF1uYmlT0/NrOEYbnYPPTLAMGXV3jQnzhfk8xsg=",
       "Microsoft.Extensions.Configuration.Abstractions.wasm": "sha256-vAkP5yC5dr3kd6Jlq57SnhzOqRen20nVbp2JUFMbYPM=",
       "Microsoft.Extensions.Configuration.Binder.wasm": "sha256-KTcaTqR5fc55kTJtZGx5y/HWJdIDqiF8cHxZkCJzbg8=",
@@ -67,7 +67,7 @@
     },
     "satelliteResources": {
       "ru": {
-        "CyberShelf-PWA.resources.wasm": "sha256-CeEOiRHrxzxsnaZSIt9fPES+G4YJl9kkt+vUkysB+14="
+        "CyberShelf-PWA.resources.wasm": "sha256-O/HcxY4uaE4NOtnQhRYh4AI7IXfw5BYDFS0VCWO9A/M="
       }
     }
   },
