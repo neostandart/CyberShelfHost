@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CyberShelf-PWA</title>
-   <base href="/CyberShelfHost/" />
+    <base href="/CyberShelfHost/" />
     <link rel="stylesheet" href="css/app.css" />
     <link href="manifest.webmanifest" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="Application">
         <svg class="loading-progress">
             <circle r="40%" cx="50%" cy="50%" />
             <circle r="40%" cx="50%" cy="50%" />
@@ -35,8 +35,9 @@
     <link href="vendor/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <script src="vendor/bootstrap/bundle.min.js"></script>
 
-    <!-- Zip library -->
-    <script type="text/javascript" src="vendor/zip/zip-fs-full.js"></script>
+    <!-- Radzen Components -->
+    <link href="_content/Radzen.Blazor/css/material-base.css" rel="stylesheet">
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
 
     <!-- Application Styles -->
     <link href="CyberShelf-PWA.styles.css" rel="stylesheet" />
@@ -44,6 +45,32 @@
 
     <!-- Application inline scripts -->
     <script>
+
+        window.addClass = (element, classname) => {
+            if (element instanceof HTMLElement) {
+                element.classList.add(classname);
+            }
+        };
+
+        window.addClassBySelector = (scope, selector, classname) => {
+            const target = scope.querySelector(selector);
+            if (target instanceof HTMLElement) {
+                target.classList.add(classname);
+            } 
+        };
+
+        window.setUniqueClass = (scope, selector, classname) => {
+            const aHasClass = scope.querySelectorAll("." + classname);
+            for (let i = 0; i < aHasClass.length; i++) {
+                aHasClass[i].classList.remove(classname);
+            }
+
+            const target = scope.querySelector(selector);
+            if (target instanceof HTMLElement) {
+                target.classList.add(classname);
+            }
+        };
+
     </script>
 </body>
 

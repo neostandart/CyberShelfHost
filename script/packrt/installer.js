@@ -1,6 +1,6 @@
 import { Helper } from "../helper.js";
 import { DeliveryMethod, LearningPackType } from "./abstraction.js";
-import { AppDB } from "../appdb.js";
+import * as appdb from "../appdb.js";
 import * as parser from "./parser.js";
 import { ProgressControl } from "../progress.js";
 import { PackageRaw } from "./packobj/packraw.js";
@@ -25,7 +25,7 @@ async function storePackage(packraw, progress) {
     try {
         progress.setStepMax(packraw.newlibs.size + 3);
         //
-        database = await AppDB.useDB();
+        database = await appdb.useDB();
         transaction = database.transaction(["libs", "libfiles", "packages", "content"], "readwrite");
         transaction.onerror = _onTransError;
         transaction.oncomplete = _onTransComplete;
@@ -62,7 +62,7 @@ async function storePackage(packraw, progress) {
         throw err;
     }
     finally {
-        AppDB.releaseDB();
+        appdb.releaseDB();
     }
     progress.doStep(); // Additional step 3
     return packraw.getCase();
@@ -91,7 +91,7 @@ async function storePackage(packraw, progress) {
 } // saveNewPackage
 async function doUninstall(packkey) {
     //
-    const pack = await AppDB.get("packages", packkey);
+    const pack = await appdb.get("packages", packkey);
     if (!pack) {
         throw new Error(`The package for uninstall (${packkey}) was not found!`);
     }
@@ -100,7 +100,7 @@ async function doUninstall(packkey) {
     //
     const aDependencies = pack.dependencies;
     const setBeingDeleted = new Set();
-    const aAllPacks = await AppDB.getAll("packages");
+    const aAllPacks = await appdb.getAll("packages");
     const nIndex = aAllPacks.findIndex((packCurrent) => packCurrent.id === packkey);
     aAllPacks.splice(nIndex, 1);
     for (const tokenDepLib of aDependencies) {
@@ -110,12 +110,12 @@ async function doUninstall(packkey) {
             setBeingDeleted.add(tokenDepLib);
     }
     //
-    const aCachedDataKeys = await AppDB.getKeysByIndex("wincache", "pack_idx", packkey);
+    const aCachedDataKeys = await appdb.getKeysByIndex("wincache", "pack_idx", packkey);
     // A list of dependent libraries for which there are no other references has been prepared. You can start deleting.
     let database = null;
     let transaction = null;
     try {
-        database = await AppDB.useDB();
+        database = await appdb.useDB();
         transaction = database.transaction(["libs", "libfiles", "packages", "content", "wincache"], "readwrite");
         transaction.onerror = _onTransError;
         transaction.oncomplete = _onTransComplete;
@@ -142,7 +142,7 @@ async function doUninstall(packkey) {
         throw err;
     }
     finally {
-        AppDB.releaseDB();
+        appdb.releaseDB();
     }
     // inline
     function _testOtherRefs(theLibToken) {
@@ -176,7 +176,7 @@ async function doUninstall(packkey) {
 async function findUpdateCandidate(packNew) {
     return new Promise(async (resolve, reject) => {
         try {
-            let adb = await AppDB.useDB();
+            let adb = await appdb.useDB();
             let transPackages = adb.transaction("packages", "readonly");
             let storePackages = transPackages.objectStore("packages");
             //
@@ -217,7 +217,7 @@ async function findUpdateCandidate(packNew) {
             reject(err);
         }
         finally {
-            AppDB.releaseDB();
+            appdb.releaseDB();
         }
     });
 }
@@ -227,7 +227,7 @@ async function uninstallLibrary(libtoken) {
     let transaction = null;
     //
     try {
-        database = await AppDB.useDB();
+        database = await appdb.useDB();
         //
         transaction = database.transaction(["libs", "libfiles"], "readwrite");
         let storeLibs = transaction.objectStore("libs");
@@ -253,7 +253,7 @@ async function uninstallLibrary(libtoken) {
         return null;
     }
     finally {
-        AppDB.releaseDB();
+        appdb.releaseDB();
     }
 }
 // --------------------------------------------------------
@@ -340,8 +340,8 @@ async function onInputLibraryChange() {
             let bPermission = await _refBookMan.invokeMethodAsync("requestLibInstall", filetoken);
             if (bPermission) {
                 const parsed = await parser.parseLibraryFile(fileLibrary);
-                await AppDB.put("libs", parsed.library, parsed.library.token);
-                await AppDB.put("libfiles", parsed.files, parsed.library.token);
+                await appdb.put("libs", parsed.library, parsed.library.token);
+                await appdb.put("libfiles", parsed.files, parsed.library.token);
                 const libtok = { key: parsed.library.token, title: parsed.library.metadata.title, version: parsed.library.version };
                 _refBookMan.invokeMethodAsync("informLibInstallFinish", libtok);
             } // if (bPermission)

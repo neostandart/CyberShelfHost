@@ -1,7 +1,7 @@
 import { Helper } from "../../helper.js";
-import { AppDB } from "../../appdb.js";
+import * as appdb from "../../appdb.js";
 import { BlobDelegate } from "./file.js";
-import * as H5PEnv from "../h5penv.js";
+import * as h5penv from "../h5penv.js";
 import { Preprocessor } from "./preproc.js";
 export class ActiveLibrary {
     //#region Defs & Vars
@@ -87,7 +87,7 @@ export class ActiveLibrary {
         const aDependenciesInfo = this.metadata.preloadedDependencies;
         if (aDependenciesInfo) {
             for (const item of aDependenciesInfo) {
-                aRes.push(H5PEnv.makeLibraryToken(item));
+                aRes.push(h5penv.makeLibraryToken(item));
             }
         }
         //
@@ -130,12 +130,12 @@ export class LibraryPool {
     static async getLibrary(libtoken) {
         let libnest = this._mapLibs.get(libtoken);
         if (!libnest) {
-            const storedlib = await AppDB.get("libs", libtoken);
+            const storedlib = await appdb.get("libs", libtoken);
             if (!storedlib) {
                 throw new Error(`LibraryPool.getLibrary: The library "${libtoken} was not found!"`);
             }
             //
-            const libfiles = await AppDB.get("libfiles", libtoken);
+            const libfiles = await appdb.get("libfiles", libtoken);
             const activelib = new ActiveLibrary(storedlib, libfiles);
             libnest = { lib: new ActiveLibrary(storedlib, libfiles), usecount: 0 };
             await libnest.lib.initializeAsync();

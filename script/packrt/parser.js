@@ -1,15 +1,12 @@
 /*
     Grigory.
-    Я не нашёл способа подключить к проекту библиотеку zip.js как модуль
-    с поддержкой типизации. Подключаю её в файле "index.html" обычным образом.
-    После загрузки "\wwwroot\vendor\zip\zip-fs-full.js", создаётся глобальная
-    переменная "zip".
+    I have not found a way to connect the zip library to the project.js as a module.
+    Therefore, I stupidly load it in the code (see below).
+    After downloading, the global variable "zip" is created.
 */
 import { Helper } from "../helper.js";
-import { AppDB } from "../appdb.js";
-import * as H5PEnv from "./h5penv.js";
-//
-const zip = window.zip;
+import * as appdb from "../appdb.js";
+import * as h5penv from "./h5penv.js";
 class KnownNames {
     static PackageMain = "h5p.json";
     static ContentFolder = "content";
@@ -29,7 +26,25 @@ var EntryStatus;
     EntryStatus[EntryStatus["ContentPart"] = 4] = "ContentPart";
     EntryStatus[EntryStatus["LibraryPart"] = 5] = "LibraryPart";
 })(EntryStatus || (EntryStatus = {}));
+function provideZipLibrary() {
+    return new Promise((resolve, reject) => {
+        let scriptElement = document.createElement("script");
+        scriptElement.setAttribute("src", "vendor/zip/zip.min.js");
+        document.head.appendChild(scriptElement);
+        scriptElement.addEventListener("load", () => {
+            const zip = window.zip;
+            resolve(zip);
+        });
+        scriptElement.addEventListener("error", (ev) => {
+            reject(Helper.extractMessage(ev));
+        });
+    });
+}
+let zip = undefined;
 export async function parsePackageFile(filePackage, progress) {
+    if (!zip) {
+        zip = await provideZipLibrary();
+    }
     const result = {
         metadata: {
             title: "",
@@ -78,7 +93,7 @@ export async function parsePackageFile(filePackage, progress) {
     //
     // Начинаем главный цикл по вхождениям в ZIP файл пакета
     //
-    const aInstalledLibs = await AppDB.getAll("libs");
+    const aInstalledLibs = await appdb.getAll("libs");
     for (let i = 0; i < aEntries.length; i++) {
         const entry = aEntries[i];
         const parsed = parseEntry(entry);
@@ -130,7 +145,7 @@ export async function parsePackageFile(filePackage, progress) {
                             newlib.machineName = newlib.metadata.machineName;
                             newlib.majorVersion = newlib.metadata.majorVersion;
                             newlib.minorVersion = newlib.metadata.minorVersion;
-                            newlib.version = H5PEnv.getVersionFromObject(newlib.metadata);
+                            newlib.version = h5penv.getVersionFromObject(newlib.metadata);
                             if (newlib.metadata.coreApi) {
                                 newlib.majorVersionCore = newlib.metadata.coreApi.majorVersion;
                                 newlib.minorVersionCore = newlib.metadata.coreApi.minorVersion;
@@ -138,7 +153,7 @@ export async function parsePackageFile(filePackage, progress) {
                             //
                             newlib.isAddon = (newlib.metadata.addTo) ? true : false;
                             if (newlib.isAddon) {
-                                H5PEnv.regAddonLibrary(newlib);
+                                h5penv.regAddonLibrary(newlib);
                             }
                             //
                             break;
@@ -199,7 +214,6 @@ export async function parsePackageFile(filePackage, progress) {
     return result;
 }
 //
-//
 export async function parseLibraryFile(fileLibrary) {
     const newlib = {};
     const aFiles = [];
@@ -229,7 +243,7 @@ export async function parseLibraryFile(fileLibrary) {
                         newlib.machineName = newlib.metadata.machineName;
                         newlib.majorVersion = newlib.metadata.majorVersion;
                         newlib.minorVersion = newlib.metadata.minorVersion;
-                        newlib.version = H5PEnv.getVersionFromObject(newlib.metadata);
+                        newlib.version = h5penv.getVersionFromObject(newlib.metadata);
                         if (newlib.metadata.coreApi) {
                             newlib.majorVersionCore = newlib.metadata.coreApi.majorVersion;
                             newlib.minorVersionCore = newlib.metadata.coreApi.minorVersion;
@@ -237,7 +251,7 @@ export async function parseLibraryFile(fileLibrary) {
                         //
                         newlib.isAddon = (newlib.metadata.addTo) ? true : false;
                         if (newlib.isAddon) {
-                            H5PEnv.regAddonLibrary(newlib);
+                            h5penv.regAddonLibrary(newlib);
                         }
                         //
                         break;
@@ -255,10 +269,7 @@ export async function parseLibraryFile(fileLibrary) {
             }
         } // switch
     } // for (let i = 0; i < aEntries.length; i++)
-    //
-    //
     await readerZip.close();
-    //
     return { library: newlib, files: { libtoken: newlib.token, files: aFiles } };
 }
 //
@@ -296,7 +307,6 @@ function prepareVmbContentMap(content, mapVmbContentEntries) {
 //
 function parseEntry(entry) {
     const res = { status: EntryStatus.Undef, entry: entry };
-    //
     if (entry.directory) {
         res.status = EntryStatus.Directory;
         res.localpath = res.filename;
@@ -329,18 +339,12 @@ function parseEntry(entry) {
                     else {
                         res.status = res.rootParent.startsWith(KnownNames.EditorLibPrefix) ? EntryStatus.Ignore : EntryStatus.LibraryPart;
                     }
-                    //res.status = (res.rootParent == KnownNames.ContentFolder) ? EntryStatus.ContentPart :
-                    //    (res.rootParent.startsWith(KnownNames.EditorLibPrefix)) ? EntryStatus.NotUsed :
-                    //        EntryStatus.LibraryPart;
                 }
             }
         } // if (aPath.length !== 0)
     }
-    //
     return res;
-    //
     // inline
-    //
     function __getFileNameParts(filename) {
         const res = ["", ""];
         const nIndex = filename.lastIndexOf(".");
@@ -398,7 +402,7 @@ async function makeLinkedFile(parse) {
         }
     } // switch (parse.status)
     return lfile;
-    //
+    // inline
     async function __writeData() {
         var writer = new zip.Uint8ArrayWriter();
         await parse.entry.getData(writer);
@@ -410,12 +414,10 @@ async function makeVmbLinkedFile(basepath, entry) {
     const lfile = { needpreproc: false };
     lfile.path = basepath + "/" + entry.filename;
     lfile.extension = Helper.extractExtension(entry.filename);
-    //
     var writer = new zip.Uint8ArrayWriter();
     await entry.getData(writer);
     lfile.data = await writer.getData();
     lfile.text = null;
-    //
     return lfile;
 }
 //# sourceMappingURL=parser.js.map

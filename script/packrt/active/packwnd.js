@@ -1,5 +1,5 @@
-import * as H5PEnv from "../h5penv.js";
-import { AppDB } from "../../appdb.js";
+import * as h5penv from "../h5penv.js";
+import * as appdb from "../../appdb.js";
 import { PackagePool } from "./activepack.js";
 import { PackLayoutCtr } from "./layoutctr.js";
 var DragStatus;
@@ -199,7 +199,7 @@ export class PackageWnd {
     }
     //
     async show(html, host) {
-        this._cache = await AppDB.getWinCache(await H5PEnv.getUserId(), this._packid);
+        this._cache = await appdb.getWinCache(await h5penv.getUserId(), this._packid);
         //
         host.appendChild(this._presenter);
         //
@@ -268,7 +268,7 @@ export class PackageWnd {
         //
         this._cache.layout = this._ctrLayout.Layout;
         //
-        await AppDB.setWinCache(await H5PEnv.getUserId(), this._packid, this._cache);
+        await appdb.setWinCache(await h5penv.getUserId(), this._packid, this._cache);
     }
     // --------------------------------------------------------
     constructor(packid) {

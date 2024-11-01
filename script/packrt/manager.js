@@ -1,5 +1,5 @@
-import { AppDB } from "../appdb.js";
-import * as H5PEnv from "./h5penv.js";
+import * as appdb from "../appdb.js";
+import * as h5penv from "./h5penv.js";
 import { PackagePool, ActivePackage } from "./active/activepack.js";
 import { PackageCase } from "./packobj/packcase.js";
 let _refBookMan;
@@ -8,8 +8,8 @@ export const LocaleStrings = new Map();
 export async function attachFrameHost(hteFrameHost) {
     _hteFrameHost = hteFrameHost;
     //
-    const alocaleKeys = ["W_width", "W_height", "W_position"];
-    const mapSrc = await H5PEnv.DotNet.invokeMethodAsync("CyberShelf", "getLocaleStrings", alocaleKeys);
+    const alocaleKeys = ["width", "height", "position"];
+    const mapSrc = await h5penv.DotNet.invokeMethodAsync("CyberShelf-PWA", "getLocaleStrings", alocaleKeys);
     for (const key in mapSrc) {
         LocaleStrings.set(key, mapSrc[key]);
     }
@@ -74,10 +74,10 @@ export function restoreAll() {
 export async function fetchPackageList() {
     return new Promise(async (resolve, reject) => {
         try {
-            let adb = await AppDB.useDB();
+            let adb = await appdb.useDB();
             //
-            const aStoredShelves = await AppDB.getAll("shelves");
-            const aSuites = (await AppDB.getAll("suites")).map(r => r);
+            const aStoredShelves = await appdb.getAll("shelves");
+            const aSuites = (await appdb.getAll("suites")).map(r => r);
             //
             let transPackages = adb.transaction("packages", "readonly");
             let storePackages = transPackages.objectStore("packages");
@@ -118,13 +118,13 @@ export async function fetchPackageList() {
                     cursor.continue();
                 }
                 else {
-                    AppDB.releaseDB();
+                    appdb.releaseDB();
                     resolve(aResult);
                 }
             };
         }
         catch (err) {
-            AppDB.releaseDB();
+            appdb.releaseDB();
             reject(err);
         }
         // inline functions
@@ -152,7 +152,7 @@ export async function fetchPackageList() {
 export async function fetchPackageCases() {
     return new Promise(async (resolve, reject) => {
         try {
-            let adb = await AppDB.useDB();
+            let adb = await appdb.useDB();
             let transPackages = adb.transaction("packages", "readonly");
             let storePackages = transPackages.objectStore("packages");
             //
@@ -168,13 +168,13 @@ export async function fetchPackageCases() {
                     cursor.continue();
                 }
                 else {
-                    AppDB.releaseDB();
+                    appdb.releaseDB();
                     resolve(aResult);
                 }
             };
         }
         catch (err) {
-            AppDB.releaseDB();
+            appdb.releaseDB();
             reject(err);
         }
     });
@@ -185,9 +185,9 @@ export async function fetchLibraryList() {
         try {
             const aResult = [];
             //
-            let adb = await AppDB.useDB();
+            let adb = await appdb.useDB();
             //
-            const aPackages = await AppDB.getAll("packages");
+            const aPackages = await appdb.getAll("packages");
             aPackages.forEach((itemPack) => {
                 __updateRefs(itemPack.metadata.preloadedDependencies, true);
             });
@@ -202,7 +202,7 @@ export async function fetchLibraryList() {
                     const item = {};
                     //
                     item.libtoken = cursor.key.toString();
-                    item.image = H5PEnv.getContentTypeImage(recLibrary.metadata.machineName);
+                    item.image = h5penv.getContentTypeImage(recLibrary.metadata.machineName);
                     item.version = `${recLibrary.metadata.majorVersion}.${recLibrary.metadata.minorVersion}.${recLibrary.metadata.patchVersion}`;
                     item.title = recLibrary.metadata.title;
                     item.license = recLibrary.metadata.license || "";
@@ -222,7 +222,7 @@ export async function fetchLibraryList() {
                     cursor.continue();
                 }
                 else {
-                    AppDB.releaseDB();
+                    appdb.releaseDB();
                     //
                     aResult.forEach((libitem) => {
                         if (mapLibRefs.has(libitem.libtoken)) {
@@ -237,14 +237,14 @@ export async function fetchLibraryList() {
             };
         }
         catch (err) {
-            AppDB.releaseDB();
+            appdb.releaseDB();
             reject(err);
         }
         // inline
         function __updateRefs(aDependencies, bPackage) {
             if (aDependencies && aDependencies.length > 0) {
                 aDependencies.forEach((item) => {
-                    const libtok = H5PEnv.makeLibraryToken(item);
+                    const libtok = h5penv.makeLibraryToken(item);
                     if (!mapLibRefs.has(libtok)) {
                         mapLibRefs.set(libtok, { packrefs: 0, librefs: 0 });
                     }
@@ -266,7 +266,7 @@ export async function fetchLibraryList() {
 export async function hasPackageRefs(packid, useridExclude = null) {
     const regex = new RegExp(`PackageId=("|\')${packid}`);
     //
-    var aShelfContentSet = await AppDB.getAll("shelves");
+    var aShelfContentSet = await appdb.getAll("shelves");
     for (let i = 0; i < aShelfContentSet.length; i++) {
         const recShelf = aShelfContentSet[i];
         if (!useridExclude || recShelf.userid != useridExclude) {
@@ -283,7 +283,7 @@ export async function findPackageRefs(packid, useridExclude = null) {
     //
     const aUserKeys = [];
     //
-    const aShelfContentSet = await AppDB.getAll("shelves");
+    const aShelfContentSet = await appdb.getAll("shelves");
     for (let i = 0; i < aShelfContentSet.length; i++) {
         const recShelf = aShelfContentSet[i];
         if (!useridExclude || recShelf.userid != useridExclude) {
@@ -293,14 +293,14 @@ export async function findPackageRefs(packid, useridExclude = null) {
         }
     }
     //
-    let users = await AppDB.getByKeys("users", aUserKeys);
+    let users = await appdb.getByKeys("users", aUserKeys);
     //
     return users;
 }
 export async function findPackageByFile(criteria) {
     return new Promise(async (resolve, reject) => {
         try {
-            let adb = await AppDB.useDB();
+            let adb = await appdb.useDB();
             let transaction = adb.transaction("packages", "readonly");
             let store = transaction.objectStore("packages");
             //
@@ -325,13 +325,13 @@ export async function findPackageByFile(criteria) {
             reject(err);
         }
         finally {
-            AppDB.releaseDB();
+            appdb.releaseDB();
         }
     });
 }
 // ----------------------------------------------------------------
 export async function initializeAsync(refBookMan) {
     _refBookMan = refBookMan;
-    await H5PEnv.initializeAsync(_refBookMan);
+    await h5penv.initializeAsync(_refBookMan);
 }
 //# sourceMappingURL=manager.js.map

@@ -1,0 +1,160 @@
+﻿/* ==============================================
+    Radzen (correction for this layout)
+// ============================================== */
+
+:root {
+    /* Reset the capitalization of the Badge text */
+    --rz-badge-text-transform: none;
+}
+
+.rz-body {
+    --rz-body-padding: 0;
+}
+
+/* --------------------------------------- */
+/* RadzenPanelMenu item top/bottom divider */
+
+.rz-panel-menu .rz-navigation-item.ui-divider-t {
+    border-top: 1px solid var(--rz-base-500);
+}
+
+.rz-panel-menu .rz-navigation-item.ui-divider-b {
+    border-bottom: 1px solid var(--rz-base-500);
+}
+
+.rz-panel-menu .rz-navigation-item-link {
+    background: unset;
+}
+
+/* ------------------------------------------- */
+/* Reset the capitalization of the button text */
+
+.rz-button-text {
+    text-transform: none;
+}
+
+.rz-button-box {
+    text-transform: none;
+}
+
+.rz-text-button {
+    text-transform: none;
+}
+
+/* ------------------------------------------------------ */
+/* Slightly increase the size of the icons on the buttons */
+
+.rz-button-sm.ui-icon-larder .rzi {
+    font-size: 1.25rem;
+}
+
+.rz-button-md.ui-icon-larder .rzi {
+    font-size: 1.5rem;
+}
+
+.rz-button-lg.ui-icon-larder .rzi {
+    font-size: 1.75rem;
+}
+
+/* ----- */
+/* Label */
+
+.rz-label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* --------------------------------- */
+/* RadzenSplitButton for large image */
+
+.rz-splitbutton.ui-image-box-tn {
+    width: auto;
+    height: auto;
+}
+
+    .rz-splitbutton.ui-image-box-tn .rz-button:first-child .rzi {
+        width: var(--ui-image-tn);
+        height: var(--ui-image-tn);
+    }
+
+    .rz-splitbutton.ui-image-box-tn .rz-button:first-child .rz-button-text {
+        display: none;
+    }
+
+
+/* ---------------------------------------------- */
+/* Slightly increase the controls of the splitter */
+
+.rz-splitter-bar {
+    font-size: 2rem;
+}
+
+/* ----------------- */
+/* Slightly correct  */
+
+.rz-alert-content {
+    text-wrap: wrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* We shift the validation pop-up message closer to the target field. */
+.rz-form {
+    --rz-validator-transform: translateY(var(--rz-validator-pointer-size));
+}
+
+
+/* -------------------------------------------- */
+/* Slight correction of the RadzenFieldset area */
+
+.rz-fieldset {
+    border: var(--rz-border-base-500);
+}
+
+    .rz-fieldset > .rz-fieldset-legend {
+        margin: 0 0 0.25rem 0.5rem;
+    }
+
+.rz-fieldset-legend > .rz-fieldset-legend-text {
+    font-size: var(--rz-text-body2-font-size);
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    color: var(--rz-text-title-color);
+}
+
+/* ------------------------------------------------------------------- */
+/* Panel height correction up to 100% for RadzenTabs (by .panel-h-100) */
+
+.rz-tabview.panel-h-100 .rz-tabview-panel {
+    height: 100%;
+}
+
+/* --------------------------------------------------- */
+/* Symbolic font support (adjusted analog .rzi, i.rzi) */
+.fsym {
+    font-family: var(--rz-icon-font-family) !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    display: block;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ----------------------------------------------------------------------- */
+/* Adaptation of some RadzenButton to the smallest screens with .ui-xs-btn */
+
+@media (max-width: 575.98px) {
+    .rz-button.ui-xs-btn .rz-button-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .rz-button.ui-xs-btn-notext .rz-button-box .rz-button-text {
+        display: none;
+    }
+}

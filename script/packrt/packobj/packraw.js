@@ -1,6 +1,6 @@
 import { Helper } from "../../helper.js";
 import { LearningPackType, } from "../abstraction.js";
-import * as H5PEnv from "../h5penv.js";
+import * as h5penv from "../h5penv.js";
 import { PackageCase } from "./packcase.js";
 export class PackageRaw {
     _fileinfo;
@@ -15,7 +15,7 @@ export class PackageRaw {
             this._internals = internals;
             //
             const objMainLib = internals.metadata.preloadedDependencies.find((item) => { return item.machineName === internals.metadata.mainLibrary; });
-            const strMainLibToken = H5PEnv.makeLibraryToken(objMainLib);
+            const strMainLibToken = h5penv.makeLibraryToken(objMainLib);
             //
             this._objPackage = {
                 id: undefined,
@@ -87,7 +87,7 @@ export class PackageRaw {
             const aPreloaded = internals.metadata.preloadedDependencies;
             if (Helper.isArray(aPreloaded)) {
                 for (let i = 0; i < aPreloaded.length; i++) {
-                    let libtoken = H5PEnv.makeLibraryToken(aPreloaded[i]);
+                    let libtoken = h5penv.makeLibraryToken(aPreloaded[i]);
                     this._objPackage.dependencies.push(libtoken);
                 }
             }

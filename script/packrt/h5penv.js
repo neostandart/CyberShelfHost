@@ -1,5 +1,5 @@
 import { Helper } from "../helper.js";
-import { AppDB } from "../appdb.js";
+import * as appdb from "../appdb.js";
 import { SimpleTranslator } from "./localization/translator.js";
 import { Localizer } from "./localization/localizer.js";
 import * as pipe from "../pipe.js";
@@ -34,7 +34,7 @@ export async function getUserId() {
 export async function getUser() {
     const userid = await getUserId();
     if (userid) {
-        const user = await AppDB.get("users", userid);
+        const user = await appdb.get("users", userid);
         return user;
     }
     //
@@ -64,7 +64,7 @@ export async function regAddonLibrary(librec) {
     }
     //
     _addons[librec.machineName] = { token: librec.token, version: librec.version, addTo: librec.metadata.addTo };
-    await AppDB.put("_system", _addons, "addons");
+    await appdb.put("_system", _addons, "addons");
 }
 export function getAddonsForContent(data) {
     const aAddons = [];
@@ -277,7 +277,7 @@ export async function initializeAsync(refBookMan) {
         "vendor/h5p/core/js/request-queue.js"
     ];
     //
-    _addons = await AppDB.get("_system", "addons") || {};
+    _addons = await appdb.get("_system", "addons") || {};
     //
     // We are preparing localization
     //

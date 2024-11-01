@@ -1,9 +1,9 @@
 import { Helper } from "../../helper.js";
-import { AppDB } from "../../appdb.js";
+import * as appdb from "../../appdb.js";
 import { PackageCase } from "../packobj/packcase.js";
 import { BlobDelegate } from "./file.js";
 import { LibraryPool } from "./activelib.js";
-import * as H5PEnv from "../h5penv.js";
+import * as h5penv from "../h5penv.js";
 import { PackageWnd } from "./packwnd.js";
 export class ActivePackage {
     _packid;
@@ -124,12 +124,12 @@ export class ActivePackage {
         this._mapDelegates = new Map();
     }
     async showAsync() {
-        this._recPack = await AppDB.get("packages", this._packid);
+        this._recPack = await appdb.get("packages", this._packid);
         if (!this._recPack) {
             throw new Error(`The package with the specified recordKey (${this._packid}) not found!`);
         }
         //
-        this._recContent = await AppDB.get("content", this._recPack.id);
+        this._recContent = await appdb.get("content", this._recPack.id);
         //
         const aPreloaded = this._recPack.metadata.preloadedDependencies;
         //
@@ -137,12 +137,12 @@ export class ActivePackage {
         if (!objLibMaiInfo) {
             throw new Error(`ActivePackage.initializeAsync (${this._recPack.name}): The Main Library (${this._recPack.metadata.mainLibrary}) was not found in the dependencies!`);
         }
-        const tokenLibMain = H5PEnv.makeLibraryToken(objLibMaiInfo);
+        const tokenLibMain = h5penv.makeLibraryToken(objLibMaiInfo);
         this._libMain = await this.accessLibrary(tokenLibMain);
         //
         if (aPreloaded) {
             for (let i = 0; i < aPreloaded.length; i++) {
-                let libtoken = H5PEnv.makeLibraryToken(aPreloaded[i]);
+                let libtoken = h5penv.makeLibraryToken(aPreloaded[i]);
                 if (this._aDependencyLibTokens.indexOf(libtoken) < 0) {
                     await this.processLibDependencies(libtoken, this._aDependencyLibTokens);
                 }
@@ -150,7 +150,7 @@ export class ActivePackage {
         }
         //
         // Checking the Addons
-        const addons = H5PEnv.getAddonsForContent(this._recContent.data);
+        const addons = h5penv.getAddonsForContent(this._recContent.data);
         for (const addoninfo of addons) {
             await this.processLibDependencies(addoninfo.token, this._aDependencyLibTokens);
         }
@@ -166,15 +166,15 @@ export class ActivePackage {
         //
         //
         this._wnd.presenter.addEventListener("invokeclose", () => {
-            H5PEnv.getBookMan().invokeMethodAsync("invokeClosePackage", this.Id);
+            h5penv.getBookMan().invokeMethodAsync("invokeClosePackage", this.Id);
         });
         this._wnd.presenter.addEventListener("minimized", () => {
             const packcase = new PackageCase(this._recPack);
-            H5PEnv.getBookMan().invokeMethodAsync("informMinimized", packcase);
+            h5penv.getBookMan().invokeMethodAsync("informMinimized", packcase);
         });
         this._wnd.presenter.addEventListener("restored", () => {
             const packcase = new PackageCase(this._recPack);
-            H5PEnv.getBookMan().invokeMethodAsync("informRestored", packcase);
+            h5penv.getBookMan().invokeMethodAsync("informRestored", packcase);
         });
         //
         /*
@@ -192,7 +192,7 @@ export class ActivePackage {
         });
         //
         const packcase = new PackageCase(this._recPack);
-        H5PEnv.getBookMan().invokeMethodAsync("informOpened", packcase);
+        h5penv.getBookMan().invokeMethodAsync("informOpened", packcase);
     }
     async buildAsync() {
         // The list of dependent libraries has been prepared.
@@ -206,18 +206,18 @@ export class ActivePackage {
             aCSSRefs.push(...aPreloadedCss);
             aJSRefs.push(...aPreloadedJs);
         }
-        aCSSRefs = H5PEnv.getCoreCssPaths().concat(aCSSRefs);
-        aJSRefs = H5PEnv.getCoreJsPaths().concat(aJSRefs);
+        aCSSRefs = h5penv.getCoreCssPaths().concat(aCSSRefs);
+        aJSRefs = h5penv.getCoreJsPaths().concat(aJSRefs);
         console.log("Все включаемые файлы подготовлены!");
-        const objIntegration = await H5PEnv.prepareIntegration(this._recPack.id, this._recContent.data, "", this._recPack.metadata, this._libMain.libname, aCSSRefs, aJSRefs, false, H5PEnv.getLanguage());
+        const objIntegration = await h5penv.prepareIntegration(this._recPack.id, this._recContent.data, "", this._recPack.metadata, this._libMain.libname, aCSSRefs, aJSRefs, false, h5penv.getLanguage());
         const model = {
-            viewportScale: (H5PEnv.isViewportXSmall() ? "0.9" : "1.0"),
+            viewportScale: (h5penv.isViewportXSmall() ? "0.9" : "1.0"),
             contentId: this._recPack.id,
             styles: aCSSRefs,
             scripts: aJSRefs,
             integration: objIntegration
         };
-        let htmlPage = H5PEnv.buildHTMLPage(model);
+        let htmlPage = h5penv.buildHTMLPage(model);
         //
         this._libRuntime = Array.from(this._mapActiveLibs.values()).find((item) => {
             return item.libname.startsWith("VMB.Runtime");
@@ -243,7 +243,7 @@ export class ActivePackage {
         //
         //
         const packcase = new PackageCase(this._recPack);
-        H5PEnv.getBookMan().invokeMethodAsync("informClosed", packcase);
+        h5penv.getBookMan().invokeMethodAsync("informClosed", packcase);
     }
 } // class ActivePackage
 // ====================================================================

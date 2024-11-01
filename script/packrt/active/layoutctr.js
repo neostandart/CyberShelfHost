@@ -1,6 +1,6 @@
 import { Helper } from "../../helper.js";
 import { Position } from "../abstraction.js";
-import * as H5PEnv from "../h5penv.js";
+import * as h5penv from "../h5penv.js";
 import { LocaleStrings } from "../manager.js";
 export class PackLayoutCtr {
     //#region Defs & Vars
@@ -70,7 +70,7 @@ export class PackLayoutCtr {
     static createPresenter() {
         if (!this._template) {
             this._template = document.createElement("template");
-            this._template.innerHTML = H5PEnv.getLayoutCtrTemplateHtml();
+            this._template.innerHTML = h5penv.getLayoutCtrTemplateHtml();
         }
         //
         return this._template.content.cloneNode(true);
