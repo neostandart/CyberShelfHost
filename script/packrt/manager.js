@@ -9,7 +9,7 @@ export async function attachFrameHost(hteFrameHost) {
     _hteFrameHost = hteFrameHost;
     //
     const alocaleKeys = ["width", "height", "position"];
-    const mapSrc = await h5penv.DotNet.invokeMethodAsync("CyberShelf-PWA", "getLocaleStrings", alocaleKeys);
+    const mapSrc = await h5penv.DotNet.invokeMethodAsync("CyberShelf", "getLocaleStrings", alocaleKeys);
     for (const key in mapSrc) {
         LocaleStrings.set(key, mapSrc[key]);
     }
