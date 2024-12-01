@@ -8,11 +8,11 @@
 
     {1}
 
-    <link rel="stylesheet" href="css/packframe.css">
+    <link rel="stylesheet" href="player/packframe.css">
 
     {2}
 
-    <script src="script/h5p-stub.js"></script>
+    <script src="player/h5p-stub.js"></script>
 
     <script>
         window.H5PIntegration = {3};

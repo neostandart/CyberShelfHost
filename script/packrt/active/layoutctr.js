@@ -1,7 +1,6 @@
 import { Helper } from "../../helper.js";
 import { Position } from "../abstraction.js";
 import * as h5penv from "../h5penv.js";
-import { LocaleStrings } from "../manager.js";
 export class PackLayoutCtr {
     //#region Defs & Vars
     _presenter;
@@ -22,36 +21,26 @@ export class PackLayoutCtr {
         const fragPresenter = PackLayoutCtr.createPresenter();
         this._presenter = fragPresenter.firstElementChild;
         this._presenter.classList.add("packlayout-ctr");
-        //
         this._hteTarget = hteTarget;
-        //
         this._layout = this.layoutDefault;
-        //
         // Width set buttons
         let listButtons = fragPresenter.querySelectorAll("#WidthDefPanel button");
         listButtons.forEach((hteBtn) => {
-            hteBtn.onclick = (ev) => { this._onWidthSetClick(ev.target); };
-            //
+            hteBtn.onclick = (ev) => { this._onWidthSetClick(hteBtn); };
             this._aWidthSetButtons.push(hteBtn);
         });
         // Height set buttons
         listButtons = fragPresenter.querySelectorAll("#HeightDefPanel button");
         listButtons.forEach((hteBtn) => {
-            hteBtn.onclick = (ev) => { this._onHeightSetClick(ev.target); };
-            //
+            hteBtn.onclick = (ev) => { this._onHeightSetClick(hteBtn); };
             this._aHeightSetButtons.push(hteBtn);
         });
         // Position set radio buttons (inputs)
         const listRadioButtons = fragPresenter.querySelectorAll("#PositionDefPanel input");
         listRadioButtons.forEach((hteBtn) => {
-            hteBtn.onclick = (ev) => { this._onPositionSetClick(ev.target); };
-            //
+            hteBtn.onclick = (ev) => { this._onPositionSetClick(hteBtn); };
             this._aPositionSetButtons.push(hteBtn);
         });
-        // Position caption
-        const htePosCap = fragPresenter.querySelector("#PositionCap");
-        htePosCap.innerText = LocaleStrings.get("W_position");
-        //
         const btnClose = fragPresenter.getElementById("CloseBtn");
         btnClose.addEventListener("click", () => {
             this.close();
@@ -60,7 +49,6 @@ export class PackLayoutCtr {
         window.addEventListener("resize", (ev) => {
             this.ensureView();
         });
-        //
         this._bIsOpened = false;
         this._parent = null;
     }

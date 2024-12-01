@@ -1,0 +1,196 @@
+﻿/* ---------------------------------- */
+/* PackageWnd (Package Window) */
+
+.package-wnd {
+    position: absolute;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    border: 4px solid var(--book-color);
+    background: #fefefe;
+    pointer-events: auto;
+    transition: opacity 0.2s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+    .package-wnd.visible {
+        opacity: 1;
+    }
+
+
+    .package-wnd > #Header {
+        position: relative;
+        grid-row: 1;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0 0 4px 0;
+        border: none;
+        background-color: var(--book-color);
+    }
+
+        .package-wnd > #Header > #LayoutBtn {
+            min-width: 80px;
+            margin: auto 0.5rem auto 0;
+            font-size: var(--rz-icon-size);
+            padding: 0;
+        }
+
+        /* Miminize Package Window Button */
+        .package-wnd > #Header > #MinimizeBtn {
+            min-width: 40px;
+            cursor: pointer;
+            margin: auto 1rem auto auto;
+        }
+
+        /* Fullscreen Package Window Button */
+        .package-wnd > #Header > #MaxSizeBtn {
+            min-width: 40px;
+            cursor: pointer;
+            margin: auto 1.5rem auto 0;
+        }
+
+        /* Close Package Window Button */
+        .package-wnd > #Header > #CloseBtn {
+            margin: auto 0 auto 0;
+            min-width: 40px;
+            cursor: pointer;
+        }
+
+    .package-wnd > #ClientArea {
+        position: relative;
+        overflow: hidden;
+        grid-row: 2;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+
+        .package-wnd > #ClientArea > #Frame {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+
+    .package-wnd.minimized #ClientArea > #Frame {
+        visibility: hidden;
+    }
+
+    .package-wnd.minimized {
+        animation: 0.4s ease-in 0s forwards kf-package-wnd-minimize;
+    }
+
+@keyframes kf-package-wnd-minimize {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        top: 100%;
+        opacity: 0;
+        transform: scale(0.2);
+        visibility: hidden;
+    }
+}
+
+/* Adaptation to the smallest screens */
+
+@media (max-width: 575.98px) {
+    .package-wnd > #Header > #LayoutBtn {
+        min-width: 48px;
+    }
+
+    .package-wnd > #Header > #MinimizeBtn {
+        min-width: 36px;
+        margin: auto 0.5rem auto auto;
+    }
+
+    .package-wnd > #Header > #MaxSizeBtn {
+        margin: auto 1rem auto 0;
+    }
+
+    .package-wnd > #Header > #CloseBtn {
+        min-width: 36px;
+    }
+
+    .package-wnd .packlayout-ctr .no-smallest {
+        display: none;
+    }
+}
+
+
+/* PackLayoutCtr */
+
+.package-wnd .packlayout-ctr {
+    --rz-primary: var(--book-color);
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 100%;
+    max-height: 100%;
+    border: 2px solid var(--book-color);
+    background-color: ivory;
+    padding: 0.5rem;
+    overflow: hidden;
+}
+
+.packlayout-ctr #RootLayout {
+    --rz-button-focus-gradient: none;
+    flex: 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: auto 1fr;
+    overflow: auto;
+    scrollbar-width: thin;
+}
+
+.packlayout-ctr .wnd-size-btn {
+    padding: 0;
+    width: 3em;
+}
+
+    .packlayout-ctr #PositionDefPanel {
+        --cell-size: 28px;
+        /* *** */
+        grid-row: 2;
+        grid-column: 2;
+        display: grid;
+        grid-template-rows: var(--cell-size) var(--cell-size) var(--cell-size);
+        grid-template-columns: var(--cell-size) var(--cell-size) var(--cell-size);
+        padding: 0.25rem;
+        border: 1px solid var(--rz-primary);
+    }
+
+        .packlayout-ctr #PositionDefPanel .input-box {
+            margin: auto;
+        }
+
+        .packlayout-ctr #PositionDefPanel input[type="radio"] {
+            -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+            accent-color: var(--rz-primary);
+        }
+
+    /* Close Button */
+   .packlayout-ctr #CloseBtn {
+        display: block;
+        margin-left: auto;
+        margin-top: 1rem;
+        max-width: 48px;
+        padding: 0 0.25rem 0 0.25rem;
+        font-size: var(--rz-icon-size);
+        cursor: pointer;
+    }

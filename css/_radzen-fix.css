@@ -102,6 +102,16 @@
     --rz-validator-transform: translateY(var(--rz-validator-pointer-size));
 }
 
+/* -------------------------------------------- */
+/* Slight correction of the NotificationMessage */
+.rz-notification-item-wrapper {
+    width: 300px;
+    min-width: 20rem;
+}
+
+    .rz-notification-item-wrapper .rz-notification-icon {
+        --rz-icon-size: 2rem;
+    }
 
 /* -------------------------------------------- */
 /* Slight correction of the RadzenFieldset area */
@@ -126,21 +136,6 @@
 
 .rz-tabview.panel-h-100 .rz-tabview-panel {
     height: 100%;
-}
-
-/* --------------------------------------------------- */
-/* Symbolic font support (adjusted analog .rzi, i.rzi) */
-.fsym {
-    font-family: var(--rz-icon-font-family) !important;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    display: block;
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 /* ----------------------------------------------------------------------- */

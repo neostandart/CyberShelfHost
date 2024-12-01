@@ -1,6 +1,7 @@
 
-@import "./_blazor-def.css";
 @import "./_radzen-fix.css";
+@import "./animations.css";
+@import "./packwnd.css";
 
 /* ==============================================================
     Initial initialization 
@@ -12,27 +13,12 @@
     }
 }
 
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-html,
-body,
-#Application {
-    height: 100%;
-    width: 100%;
-    padding: 0px;
-    margin: 0px;
-    overflow: hidden;
-}
-
-#Application {
+:root {
     font-family: var(--rz-text-font-family);
     color: var(--rz-text-color);
     font-size: var(--rz-body-font-size);
     line-height: var(--rz-body-line-height);
     background-color: var(--rz-body-background-color);
-    /*visibility: hidden;*/
     /* *** */
     font-size: var(--rz-root-font-size);
     /* *** */
@@ -75,15 +61,35 @@ body,
     --folder-color-dark: #B8860B;
     --suite-color: #b8860b;
     --book-color: #5C2D91;
+    --book-color-lighter: #AA92C4;
     --book-color-bg: #f5f1f8;
     --package-color: #2475BE;
     --selitem-color-bg: #DFDFF1;
     --selitem-color-br: #4340D2;
 }
 
-    #Application.running {
-        visibility: visible;
-    }
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#Application {
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--rz-text-font-family);
+    color: var(--rz-text-color);
+    font-size: var(--rz-body-font-size);
+    line-height: var(--rz-body-line-height);
+    background-color: var(--rz-body-background-color);
+}
 
 /* --------------------------------------------------------- */
 /* Validation (for FieldValidator.razor and its derivatives) */
@@ -113,6 +119,20 @@ body,
         transform: translate(var(--rz-validator-pointer-size), -100%);
     }
 
+/* --------------------------------------------------- */
+/* Symbolic font support (adjusted analog .rzi, i.rzi) */
+.fsym {
+    font-family: var(--rz-icon-font-family) !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    display: block;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
 /* ==============================================
     User interface
