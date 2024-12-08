@@ -278,25 +278,6 @@ export async function hasPackageRefs(packid, useridExclude = null) {
     //
     return false;
 }
-export async function findPackageRefs(packid, useridExclude = null) {
-    const regex = new RegExp(`PackageId=("|\')${packid}`);
-    //
-    const aUserKeys = [];
-    //
-    const aShelfContentSet = await appdb.getAll("shelves");
-    for (let i = 0; i < aShelfContentSet.length; i++) {
-        const recShelf = aShelfContentSet[i];
-        if (!useridExclude || recShelf.userid != useridExclude) {
-            if (regex.test(recShelf.data)) {
-                aUserKeys.push(recShelf.userid);
-            }
-        }
-    }
-    //
-    let users = await appdb.getByKeys("users", aUserKeys);
-    //
-    return users;
-}
 export async function findPackageByFile(criteria) {
     return new Promise(async (resolve, reject) => {
         try {

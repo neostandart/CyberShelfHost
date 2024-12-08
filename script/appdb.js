@@ -220,7 +220,7 @@ export async function delUser(userid) {
             const storeWincache = transaction.objectStore("wincache");
             const recUser = await _processStoreRequest(storeUsers.get(userid));
             if (recUser) {
-                const deletedUser = { id: recUser.id, displayName: recUser.displayName, email: recUser.email };
+                const deletedUser = recUser;
                 storeUsers.delete(userid);
                 storeShelves.delete(userid);
                 storeStuffs.delete(userid);

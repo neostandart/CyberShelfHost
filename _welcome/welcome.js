@@ -12,18 +12,14 @@ class CyberShelfAgent {
     }
 
     getMinTime() {
-        return 3500;
+        return 3800;
     }
-
-    //
 
     die() {
         this._bDead = true;
         if (this._hteWelcome && this._hteWelcome.parentElement) {
             this._hteWelcome.parentElement.removeChild(this._hteWelcome);
         }
-        //
-        // the window.CyberShelfAgent object is not deleted
     }
 
     stop() {
@@ -41,28 +37,19 @@ class CyberShelfAgent {
         }
     }
 
-    //
-
     _onMutation = (mutationList, observer) => {
         if (this._observer) {
             for (const mutation of mutationList) {
                 if (mutation.type === 'childList') {
                     observer.disconnect();
                     this._observer = null;
-
-                    if (this._bReleased) {
-                        this.stop();
-                    } else {
-                        this._bReleased = true;
-                    }
-
+                    //
+                    window.DotNet.invokeMethodAsync("CyberShelf", "informAppReady", this.getStartTime(), this.getMinTime());
                     return;
                 }
             }
         }
     };
-
-    //
 
     async start() {
         this._nStartTime = Date.now();
@@ -79,14 +66,6 @@ class CyberShelfAgent {
                 setTimeout(() => {
                     this._hteWelcome.classList.add("fadein");
                 }, 10);
-
-                setTimeout(() => {
-                    if (this._bReleased) {
-                        this.stop();
-                    } else {
-                        this._bReleased = true;
-                    }
-                }, this.getMinTime());
             }
             else {
                 throw new Error("Incorrect structure the index.html (Welcome or Application elements not found)!");
