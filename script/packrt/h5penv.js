@@ -10,19 +10,6 @@ let _localizer;
 let _objStringsDefault;
 let _strPlayerTemplate;
 let _strLayoutCtrTemplate;
-/*
-    Что касается Addon(ов). Это отдельные библиотеки, которые могут динамически обрабатывать контент без их явного включения в пакет.
-    Например, отображать формулы если в тексте присутствует соответствующая разметка. Аддоны (по идее) устанавливаются отдельно, как
-    самостоятельные элементы (но возможно могут включаться и в пакеты ИМХО).
-    Видимо надо сделать отдельную возможность устанавливать Аддоны в программу. Возможно ставить их в те же таблицы, что и
-    обычные библиотеки, но где-то вести их отдельный список.
-    В общем, это отдельная задача, которую надо реализовать.
-    
-    (из документации H5P)
-    https://docs.lumi.education/advanced-usage/addons
-    
-*/
-// --------------------------------------------------------
 export const DotNet = window.DotNet;
 let _refBookMan;
 export function getBookMan() {
@@ -37,11 +24,10 @@ export async function getUser() {
         const user = await appdb.get("users", userid);
         return user;
     }
-    //
     return null;
 }
 export function getLanguage() {
-    return "en"; // пока так.
+    return "en";
 }
 export function getStringsDefault() {
     return _objStringsDefault;
@@ -55,45 +41,34 @@ export function getLocalizer() {
 export function getLayoutCtrTemplateHtml() {
     return _strLayoutCtrTemplate;
 }
-//
 export async function regAddonLibrary(librec) {
     if (_addons[librec.machineName]) {
         const existing = _addons[librec.machineName];
         if (compareVersion(librec.version, existing.version) != 1)
             return;
     }
-    //
     _addons[librec.machineName] = { token: librec.token, version: librec.version, addTo: librec.metadata.addTo };
     await appdb.put("_system", _addons, "addons");
 }
 export function getAddonsForContent(data) {
     const aAddons = [];
-    //
     for (const key in _addons) {
         const addoninfo = _addons[key];
         for (const typeitem of addoninfo.addTo.content.types) {
-            // Grigory. Taken from the "H5P-Nodejs-Library" (Lumi Education) (Thanks to the developers!)
             if (typeitem.text) {
-                // The regex pattern in the metadata is specified like this:
-                // /mypattern/ or /mypattern/g
-                // Because of this we must extract the actual pattern and
-                // the flags and pass them to the constructor of RegExp.
                 const matches = /^\/(.+?)\/([gimy]+)?$/.exec(typeitem.text.regex);
                 if (matches.length < 1) {
                     console.error(`The addon ${addoninfo.token} contains an invalid regexp pattern in the addTo selector: ${typeitem.text.regex}. This will be silently ignored, but the addon will never be used!`);
                     continue;
                 }
-                //
                 if (new RegExp(matches[1], matches[2]).test(data)) {
                     aAddons.push(addoninfo);
                 }
-            } // if (typeitem.text)
+            }
         }
     }
-    //
     return aAddons;
 }
-//
 export function getCoreCssPaths() {
     return _aCoreCss;
 }
@@ -101,9 +76,8 @@ export function getCoreJsPaths() {
     return _aCoreJs;
 }
 export function getContentTypeImage(machinename) {
-    return "assets/images/svg/library.svg";
+    return "assets/images/etc/library.svg";
 }
-//
 export function generateContentId() {
     return Math.random().toString(36).substring(2, 11);
 }
@@ -121,27 +95,21 @@ export function extractLibraryVersion(obj) {
 export function compareVersion(ver1, ver2) {
     if (ver1 === ver2)
         return 0;
-    //
     const aVer1 = ver1.split(".").map((val) => Number(val));
     const aVer2 = ver2.split(".").map((val) => Number(val));
-    //
     let nResult = 0;
-    //
     let i = 0;
     for (; i < aVer1.length; i++) {
         if (aVer1[i] == aVer2[i])
             continue;
-        //
         if (aVer1[i] > aVer2[i]) {
             nResult = 1;
         }
         else {
             nResult = -1;
         }
-        //
         break;
     }
-    //
     if (i < aVer2.length) {
         for (; i < aVer2.length; i++) {
             if (aVer2[i] === 0)
@@ -150,13 +118,10 @@ export function compareVersion(ver1, ver2) {
             break;
         }
     }
-    //
     return nResult;
 }
-//
-//#region (for Integration build)
 export function getAjaxEndpoint(user) {
-    return ""; // IIntegration.ajaxPath — no longer used.
+    return "";
 }
 export function getFinishedEndpoint(user) {
     return "";
@@ -165,16 +130,13 @@ export function getContentDataEndpoint(user) {
     return "";
 }
 export function getUniqueContentUrl(contentId) {
-    return contentId; // So far like this, I'll see later...
+    return contentId;
 }
 export function getPathForIntegration() {
-    return ""; // Helper.cutEnd(Environment.pathH5P, "/");
+    return "";
 }
-export async function prepareIntegration(contentId, jsonContent, contentUrl, // ф. H5P.getPath изменена на работу с Blob, поэтому "contentUrl" не используется.
-objMetadata, mainlib, aLibCssRefs, aLibJsRefs, canFullscreen, language) {
-    //
+export async function prepareIntegration(contentId, jsonContent, contentUrl, objMetadata, mainlib, aLibCssRefs, aLibJsRefs, canFullscreen, language) {
     const user = await getUser();
-    //
     return {
         baseUrl: undefined,
         url: getPathForIntegration(),
@@ -194,11 +156,11 @@ objMetadata, mainlib, aLibCssRefs, aLibJsRefs, canFullscreen, language) {
         l10n: {
             H5P: getLocalizer().localize(getStringsDefault(), language, true)
         },
-        loadedJs: [], // ?
-        loadedCss: [], // ?
+        loadedJs: [],
+        loadedCss: [],
         core: {
-            scripts: [] /*H5PJet.aCoreJs*/,
-            styles: [] /*H5PJet.aCoreCss*/
+            scripts: [],
+            styles: []
         },
         libraryConfig: {
             "H5P.MathDisplay": {
@@ -214,7 +176,6 @@ objMetadata, mainlib, aLibCssRefs, aLibJsRefs, canFullscreen, language) {
                             showMathMenu: false,
                             jax: ['input/TeX', 'output/HTML-CSS'],
                             tex2jax: {
-                                // Important, otherwise MathJax will be rendered inside CKEditor
                                 ignoreClass: "ckeditor"
                             },
                             messageStyle: 'none'
@@ -237,9 +198,9 @@ objMetadata, mainlib, aLibCssRefs, aLibJsRefs, canFullscreen, language) {
                     copyright: false,
                     icon: false
                 },
-                styles: [] /*aLibCssRefs*/ /* Grigory. Для одн. элемента это необязательно */,
-                scripts: [] /*aLibJsRefs*/,
-                contentUrl: contentUrl /* используется в H5P.getPath*/,
+                styles: [],
+                scripts: [],
+                contentUrl: contentUrl,
                 metadata: {
                     license: objMetadata.license || 'U',
                     title: objMetadata.title || '',
@@ -249,7 +210,6 @@ objMetadata, mainlib, aLibCssRefs, aLibJsRefs, canFullscreen, language) {
         }
     };
 }
-//#endregion (for Integration build)
 export function buildHTMLPage(model) {
     let strStyles = model.styles.map((style) => `\t\t<link rel="stylesheet" href="${style}"/>`).join('\n    ');
     let strScripts = model.scripts.map((script) => `\t\t<script src="${script}"></script>`).join('\n    ');
@@ -257,7 +217,35 @@ export function buildHTMLPage(model) {
     let strPlayer = Helper.formatString(_strPlayerTemplate, model.viewportScale, strStyles, strScripts, strIntegration, model.contentId);
     return strPlayer;
 }
-// --------------------------------------------------------
+let _cryptoKey = undefined;
+export var RawContentKind;
+(function (RawContentKind) {
+    RawContentKind[RawContentKind["Text"] = 0] = "Text";
+    RawContentKind[RawContentKind["Image"] = 1] = "Image";
+    RawContentKind[RawContentKind["Sound"] = 2] = "Sound";
+    RawContentKind[RawContentKind["Video"] = 3] = "Video";
+})(RawContentKind || (RawContentKind = {}));
+export function HasCryptoKey() {
+    return !!_cryptoKey;
+}
+export async function importCryptoKey(keydata) {
+    const rawKey = Helper.convertBase64ToArrayBuffer(keydata);
+    const algparams = "AES-GCM";
+    _cryptoKey = await window.crypto.subtle.importKey("raw", rawKey, algparams, true, [
+        "encrypt",
+        "decrypt"
+    ]);
+}
+export async function discardCryptoKey() {
+    _cryptoKey = undefined;
+}
+export async function decrypt(data, rawKind) {
+    if (!_cryptoKey)
+        throw new Error("The decryption key is missing!");
+    const algorithm = { name: "RSA-OAEP" };
+    const res = await window.crypto.subtle.decrypt(algorithm, _cryptoKey, data);
+    return res;
+}
 export async function initializeAsync(refBookMan) {
     _refBookMan = refBookMan;
     _aCoreCss = [
@@ -276,25 +264,13 @@ export async function initializeAsync(refBookMan) {
         "vendor/h5p/core/js/h5p-action-bar.js",
         "vendor/h5p/core/js/request-queue.js"
     ];
-    //
     _addons = await appdb.get("_system", "addons") || {};
-    //
-    // We are preparing localization
-    //
     const pathStringsDefault = "assets/h5p-strings/default.json";
     _objStringsDefault = await pipe.fetchJson(pathStringsDefault);
-    //
     let pathStringsEnglish = "assets/h5p-strings/en.json";
     let objStringsEnglish = await pipe.fetchJson(pathStringsEnglish);
-    //
     _localizer = new Localizer(new SimpleTranslator({ client: objStringsEnglish }).t);
-    //
-    // H5P Player template
-    //
     _strPlayerTemplate = await pipe.fetchTextFile("assets/templates/h5pplayer.txt");
-    //
-    // LayoutCtr (window) template
-    //
     _strLayoutCtrTemplate = await pipe.fetchTextFile("assets/templates/layoutctr.txt");
 }
 //# sourceMappingURL=h5penv.js.map

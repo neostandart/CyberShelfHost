@@ -1,15 +1,38 @@
-/*
-    Grigory.
-    I have not found a way to connect the zip library to the project.js as a module.
-    Therefore, I stupidly load it in the code (see below).
-    After downloading, the global variable "zip" is created.
-*/
 import { Helper } from "../helper.js";
 import * as appdb from "../appdb.js";
-import * as h5penv from "./h5penv.js";
+import * as h5penv from "./render/h5penv.js";
+let _cryptoKey = undefined;
+export var RawContentKind;
+(function (RawContentKind) {
+    RawContentKind[RawContentKind["Text"] = 0] = "Text";
+    RawContentKind[RawContentKind["Image"] = 1] = "Image";
+    RawContentKind[RawContentKind["Sound"] = 2] = "Sound";
+    RawContentKind[RawContentKind["Video"] = 3] = "Video";
+})(RawContentKind || (RawContentKind = {}));
+export function HasCryptoKey() {
+    return !!_cryptoKey;
+}
+export async function importCryptoKey(keydata) {
+    const rawKey = Helper.convertBase64ToArrayBuffer(keydata);
+    const algparams = "AES-CBC";
+    _cryptoKey = await window.crypto.subtle.importKey("raw", rawKey, algparams, true, [
+        "encrypt",
+        "decrypt"
+    ]);
+}
+export async function discardCryptoKey() {
+    _cryptoKey = undefined;
+}
+export async function decrypt(iv, data) {
+    if (!_cryptoKey)
+        throw new Error("The decryption key is missing!");
+    const algorithm = { name: "AES-CBC", iv };
+    return await window.crypto.subtle.decrypt(algorithm, _cryptoKey, data);
+}
 class KnownNames {
     static PackageMain = "h5p.json";
     static ContentFolder = "content";
+    static ContentEntry = "content/content.json";
     static ContentFile = "content.json";
     static LibraryFile = "library.json";
     static UpgradesFile = "upgrades.js";
@@ -56,48 +79,51 @@ export async function parsePackageFile(filePackage, progress) {
             license: "",
             licenseExtras: "",
             preloadedDependencies: [],
+            changes: [],
             authors: [],
             authorComments: ""
         },
-        content: { packid: "", data: "", files: [] },
-        newlibs: new Map() // Только новые библиотеки!!! Надо бы: newlibs или newLibs
+        content: { packid: "", data: "", files: [], iv: undefined },
+        newlibs: new Map()
     };
-    //
     const readerBlob = new zip.BlobReader(filePackage);
     const readerZip = new zip.ZipReader(readerBlob);
     const aEntries = await readerZip.getEntries();
-    // добавляем к количеству вхождений в ZIP файл ещё два шага 
     progress.setStepMax(aEntries.length + 3);
-    //
-    // Первым делом из архива пакета извлекаем файл контента
-    //
-    const entryContentMain = aEntries.find((entryItem) => {
-        // we are looking for the package content file (in JSON format)
-        return (entryItem.filename && entryItem.filename === "content/content.json");
+    const entryContentFile = aEntries.find((entryItem) => {
+        return (entryItem.filename && entryItem.filename.startsWith(KnownNames.ContentEntry));
     });
-    if (!entryContentMain) {
-        // This is an obvious glitch!
+    if (!entryContentFile) {
         throw new Error(`The "content.json" file was not found in the package!`);
     }
-    result.content.data = await fetchTextFromEntry(entryContentMain);
-    progress.doStep(); // Additional step 1
-    //
-    // В JSON файле контента (пакета H5P) мы ищем все элементы с ключом "vmbraw" являющиеся ссылками на
-    // ZIP файлы содержащие специализированные данные (контент) в формате виртуального учебника (если такие есть).
-    // Далее каждый такой файл будет отдельно распакован и конечные файлы из его состава будут добавлены к общему
-    // объёму файлов контента по специально сформированному пути (для последующего их нахождения при отображении контента)
-    //
+    let strTheContent;
+    const strSuffixContent = entryContentFile.filename.substring(KnownNames.ContentEntry.length);
+    if (strSuffixContent.length > 0) {
+        const iv = Helper.convertBase64ToArrayBuffer(strSuffixContent.split(".", 1)[0].replace("_", "//"));
+        let aContentBynary = await fetchBinaryFromEntry(entryContentFile);
+        try {
+            const decrypted = await decrypt(iv, aContentBynary);
+            result.content.data = aContentBynary;
+            result.content.iv = iv;
+            strTheContent = (new TextDecoder()).decode(decrypted);
+        }
+        catch (err) {
+            let message = Helper.extractMessage(err);
+            console.error(message);
+        }
+    }
+    else {
+        strTheContent = await fetchTextFromEntry(entryContentFile);
+        result.content.data = strTheContent;
+    }
+    progress.doStep();
     const mapVmbContentEntries = new Map();
-    prepareVmbContentMap(result.content.data, mapVmbContentEntries);
-    progress.doStep(); // Additional step 2
-    //
-    // Начинаем главный цикл по вхождениям в ZIP файл пакета
-    //
+    prepareVmbContentMap(strTheContent, mapVmbContentEntries);
+    progress.doStep();
     const aInstalledLibs = await appdb.getAll("libs");
     for (let i = 0; i < aEntries.length; i++) {
         const entry = aEntries[i];
         const parsed = parseEntry(entry);
-        //
         switch (parsed.status) {
             case EntryStatus.RootFile: {
                 if (parsed.filename == KnownNames.PackageMain) {
@@ -106,11 +132,9 @@ export async function parsePackageFile(filePackage, progress) {
                 else {
                     console.error(`Unknown entry in the root of the H5P package (entry: "${entry.filename}"), (package file: "${filePackage.name}").`);
                 }
-                //
                 break;
             }
             case EntryStatus.ContentPart: {
-                // the file "content/content.json" is ignored here
                 if (mapVmbContentEntries.has(parsed.localpath)) {
                     mapVmbContentEntries.set(parsed.localpath, parsed.entry);
                 }
@@ -118,30 +142,22 @@ export async function parsePackageFile(filePackage, progress) {
                     const lfile = await makeLinkedFile(parsed);
                     result.content.files.push(lfile);
                 }
-                //
                 break;
             }
             case EntryStatus.LibraryPart: {
-                // The library folder name is used as the libtoken
                 const libtoken = parsed.rootParent;
-                // Убеждаемся что библиотека которой принадлежит этот файл ещё не установлена в систему
                 if (aInstalledLibs.findIndex((value) => { return (value.token == libtoken); }) < 0) {
-                    // Объект для новой (устанавливаемой) библиотеки уже создан?
                     let newlib = result.newlibs.get(libtoken);
                     if (!newlib) {
-                        // ... если нет, то создаём
                         newlib = { token: libtoken, files: [] };
                         result.newlibs.set(libtoken, newlib);
                     }
                     const lfile = await makeLinkedFile(parsed);
                     newlib.files.push(lfile);
-                    // we save the texts of some service files for convenience
                     switch (parsed.filename) {
                         case KnownNames.LibraryFile: {
-                            //
                             const strMetadata = await fetchTextFromEntry(parsed.entry);
                             newlib.metadata = JSON.parse(strMetadata);
-                            //
                             newlib.machineName = newlib.metadata.machineName;
                             newlib.majorVersion = newlib.metadata.majorVersion;
                             newlib.minorVersion = newlib.metadata.minorVersion;
@@ -150,12 +166,10 @@ export async function parsePackageFile(filePackage, progress) {
                                 newlib.majorVersionCore = newlib.metadata.coreApi.majorVersion;
                                 newlib.minorVersionCore = newlib.metadata.coreApi.minorVersion;
                             }
-                            //
                             newlib.isAddon = (newlib.metadata.addTo) ? true : false;
                             if (newlib.isAddon) {
                                 h5penv.regAddonLibrary(newlib);
                             }
-                            //
                             break;
                         }
                         case KnownNames.UpgradesFile: {
@@ -166,54 +180,42 @@ export async function parsePackageFile(filePackage, progress) {
                             newlib.textPresave = await fetchTextFromEntry(parsed.entry);
                             break;
                         }
-                    } // switch (resEntryParse.filename)
+                    }
                 }
-                //
                 break;
             }
             case EntryStatus.Ignore: {
-                // just ignore it
                 break;
             }
             case EntryStatus.Directory: {
-                // just ignore it
                 break;
             }
             case EntryStatus.Undef: {
                 console.error(`Unrecognized entry status (entry: "${entry.filename}"), (package file: "${filePackage.name}").`);
                 break;
             }
-        } // switch (parsed.status)
+        }
         progress.doStep();
-    } // for (let i = 0; i < aEntries.length; i++)
+    }
     await readerZip.close();
-    //
-    // Installing vmb content files
-    //
     for (let pair of mapVmbContentEntries.entries()) {
         var writer = new zip.Uint8ArrayWriter();
         const data = await pair[1].getData(writer);
         const blob = new Blob([data]);
         const readerBlob = new zip.BlobReader(blob);
         const readerZip = new zip.ZipReader(readerBlob);
-        //
         const aRawEntries = await readerZip.getEntries();
         for (let i = 0; i < aRawEntries.length; i++) {
             const entry = aRawEntries[i];
             if (entry.directory)
                 continue;
-            //
             const lfile = await makeVmbLinkedFile(Helper.extractFileName(pair[0]), entry);
             result.content.files.push(lfile);
-        } // for
-        //
+        }
     }
-    //
     progress.endSegment();
-    //
     return result;
 }
-//
 export async function parseLibraryFile(fileLibrary) {
     const newlib = {};
     const aFiles = [];
@@ -222,24 +224,19 @@ export async function parseLibraryFile(fileLibrary) {
     const aEntries = await readerZip.getEntries();
     for (let i = 0; i < aEntries.length; i++) {
         const entry = aEntries[i];
-        //
         const resEntryParse = parseEntry(entry);
         switch (resEntryParse.status) {
             case EntryStatus.LibraryPart: {
                 const lfile = await makeLinkedFile(resEntryParse);
                 aFiles.push(lfile);
-                //
-                // we save the texts of some service files for convenience
                 switch (resEntryParse.filename) {
                     case KnownNames.LibraryFile: {
                         if (newlib.token) {
                             throw new Error("Incorrect structure of the H5P library file. More than one nested directory was found!");
                         }
-                        //
                         newlib.token = resEntryParse.rootParent;
                         const strMetadata = await fetchTextFromEntry(resEntryParse.entry);
                         newlib.metadata = JSON.parse(strMetadata);
-                        //
                         newlib.machineName = newlib.metadata.machineName;
                         newlib.majorVersion = newlib.metadata.majorVersion;
                         newlib.minorVersion = newlib.metadata.minorVersion;
@@ -248,12 +245,10 @@ export async function parseLibraryFile(fileLibrary) {
                             newlib.majorVersionCore = newlib.metadata.coreApi.majorVersion;
                             newlib.minorVersionCore = newlib.metadata.coreApi.minorVersion;
                         }
-                        //
                         newlib.isAddon = (newlib.metadata.addTo) ? true : false;
                         if (newlib.isAddon) {
                             h5penv.regAddonLibrary(newlib);
                         }
-                        //
                         break;
                     }
                     case KnownNames.UpgradesFile: {
@@ -264,47 +259,61 @@ export async function parseLibraryFile(fileLibrary) {
                         newlib.textPresave = await fetchTextFromEntry(resEntryParse.entry);
                         break;
                     }
-                } // switch (resEntryParse.filename)
+                }
                 break;
             }
-        } // switch
-    } // for (let i = 0; i < aEntries.length; i++)
+        }
+    }
     await readerZip.close();
     return { library: newlib, files: { libtoken: newlib.token, files: aFiles } };
 }
-//
-// Vmb Content Process
-//
 function prepareVmbContentMap(content, mapVmbContentEntries) {
-    const objContent = (typeof content === "string") ? JSON.parse(content) : content;
-    if (Array.isArray(objContent)) {
-        for (let i = 0; i < objContent.length; i++) {
-            const item = objContent[i];
-            prepareVmbContentMap(item, mapVmbContentEntries);
+    function __processEntry(entry) {
+        const objEntry = JSON.parse(entry);
+        const objVmbraw = objEntry.vmbraw;
+        if (objVmbraw.path) {
+            mapVmbContentEntries.set(objVmbraw.path, objEntry);
+        }
+        else {
+            console.error("CyberShelf Parser: Incorrect \"wmbraw \" format!");
         }
     }
-    else if (objContent instanceof Object) {
-        const aKeys = Object.keys(objContent);
-        for (let i = 0; i < aKeys.length; i++) {
-            const key = aKeys[i];
-            if (key === "vmbraw") {
-                // we believe that all values of the "path" field (created by the H5P editor) 
-                // are unique to the current package.
-                const strFilePath = objContent[key]["path"];
-                mapVmbContentEntries.set(strFilePath, null);
-            }
-            else {
-                const item = objContent[key];
-                if (Array.isArray(item) || item instanceof Object) {
-                    prepareVmbContentMap(item, mapVmbContentEntries);
+    let nPosStart = content.indexOf("\"vmbraw\"");
+    let nPosNow = nPosStart;
+    while (nPosNow > 0) {
+        let bIgnore = false;
+        let nOpeningCurlys = 0;
+        let nClosingCurlys = 0;
+        let charCur = "";
+        let charPrev = "";
+        for (let i = nPosNow; i < content.length; i++) {
+            charPrev = charCur;
+            charCur = content[i];
+            switch (charCur) {
+                case "\"": {
+                    if (charPrev !== "\\")
+                        bIgnore = !bIgnore;
+                    break;
                 }
+                case "{":
+                    if (!bIgnore)
+                        nOpeningCurlys++;
+                    break;
+                case "}":
+                    if (!bIgnore)
+                        nClosingCurlys++;
+                    break;
+            }
+            if (nClosingCurlys > 0 && nOpeningCurlys === nClosingCurlys) {
+                nPosNow = i + 1;
+                __processEntry("{" + content.substring(nPosStart, nPosNow) + "}");
+                break;
             }
         }
+        nPosStart = content.indexOf("\"vmbraw\"", nPosNow);
+        nPosNow = nPosStart;
     }
 }
-//
-// Utilities
-//
 function parseEntry(entry) {
     const res = { status: EntryStatus.Undef, entry: entry };
     if (entry.directory) {
@@ -341,21 +350,24 @@ function parseEntry(entry) {
                     }
                 }
             }
-        } // if (aPath.length !== 0)
+        }
     }
     return res;
-    // inline
     function __getFileNameParts(filename) {
         const res = ["", ""];
         const nIndex = filename.lastIndexOf(".");
         if (nIndex <= 0 || nIndex === (filename.length - 1))
             return ["", ""];
-        //
         return [filename.substring(0, nIndex), filename.substring(nIndex + 1)];
     }
 }
 async function fetchTextFromEntry(entry) {
     const writer = new zip.TextWriter();
+    await entry.getData(writer);
+    return await writer.getData();
+}
+async function fetchBinaryFromEntry(entry) {
+    const writer = new zip.Uint8ArrayWriter();
     await entry.getData(writer);
     return await writer.getData();
 }
@@ -400,9 +412,8 @@ async function makeLinkedFile(parse) {
             }
             break;
         }
-    } // switch (parse.status)
+    }
     return lfile;
-    // inline
     async function __writeData() {
         var writer = new zip.Uint8ArrayWriter();
         await parse.entry.getData(writer);

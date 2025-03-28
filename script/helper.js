@@ -1,85 +1,42 @@
 export class Helper {
-    //#region Version
-    static isVerMajorNewer(strVerNew, strVerOld) {
-        const aPartsNew = strVerNew.split(".");
-        const aPartsOld = strVerOld.split(".");
-        //
-        if (aPartsOld.length > 0 && aPartsNew.length > 0) {
-            const nMajorOld = parseInt(aPartsOld[0], 10);
-            const nMajorNew = parseInt(aPartsNew[0], 10);
-            return (nMajorNew > nMajorOld);
-        }
-        //
-        return (aPartsNew.length > 0);
+    static VERLENGTH = 4;
+    static parseVersion(strVersion) {
+        let aVersion = strVersion.split(".").map((item) => parseInt(item));
+        while (aVersion.length < this.VERLENGTH)
+            aVersion.push(0);
+        aVersion.length = this.VERLENGTH;
+        return aVersion;
     }
-    // ОПТИМИЗИРОВАТЬ!!! Grigory
-    static isVersionEqual(strVerTarget, strVerAnother) {
-        const VERLENGTH = 3;
-        //
-        const aPartsTarget = strVerTarget.split(".");
-        if (aPartsTarget.length < VERLENGTH) {
-            while (aPartsTarget.length === VERLENGTH) {
-                aPartsTarget.push("0");
-            }
-        }
-        const aPartsAnother = strVerAnother.split(".");
-        if (aPartsAnother.length < VERLENGTH) {
-            while (aPartsAnother.length === VERLENGTH) {
-                aPartsAnother.push("0");
-            }
-        }
-        for (let i = 0; i < aPartsTarget.length; i++) {
-            let nTarget = parseInt(aPartsTarget[i]);
-            if (Number.isNaN(nTarget))
-                nTarget = 0;
-            //
-            let nAnother = parseInt(aPartsAnother[i]);
-            if (Number.isNaN(nAnother))
-                nAnother = 0;
-            //
-            if (nTarget !== nAnother)
+    static isBaseVersionEqual(strVerTarget, strVerAnother) {
+        const aTarget = this.parseVersion(strVerTarget);
+        const aAnother = this.parseVersion(strVerAnother);
+        for (let i = 0; i < 2; i++) {
+            if (aTarget[i] !== aAnother[i])
                 return false;
         }
         return true;
     }
     static compareVersion(strVerTarget, strVerAnother) {
-        const VERLENGTH = 3;
-        //
-        const aPartsTarget = strVerTarget.split(".");
-        if (aPartsTarget.length < VERLENGTH) {
-            while (aPartsTarget.length === VERLENGTH) {
-                aPartsTarget.push("0");
-            }
-        }
-        const aPartsAnother = strVerAnother.split(".");
-        if (aPartsAnother.length < VERLENGTH) {
-            while (aPartsAnother.length === VERLENGTH) {
-                aPartsAnother.push("0");
-            }
-        }
-        for (let i = 0; i < aPartsTarget.length; i++) {
-            let nTarget = parseInt(aPartsTarget[i]);
-            if (Number.isNaN(nTarget))
-                nTarget = 0;
-            //
-            let nAnother = parseInt(aPartsAnother[i]);
-            if (Number.isNaN(nAnother))
-                nAnother = 0;
-            //
-            if (nTarget === nAnother)
+        const aTarget = this.parseVersion(strVerTarget);
+        const aAnother = this.parseVersion(strVerAnother);
+        for (let i = 0; i < this.VERLENGTH; i++) {
+            if (aTarget[i] === aAnother[i])
                 continue;
-            //
-            return (nTarget < nAnother) ? -1 : 1;
+            return (aTarget[i] < aAnother[i]) ? -1 : 1;
         }
         return 0;
     }
-    //#endregion (Version)
-    //#region Crypto
     static createDynamicID() {
         return Date.now().toString();
     }
-    //#endregion Crypto()
-    //#region Date/Time
+    static convertBase64ToArrayBuffer(strdata) {
+        var binaryString = atob(strdata);
+        var bytes = new Uint8Array(binaryString.length);
+        for (var i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
     static convertDateToString(theDate) {
         let yyyy = theDate.getFullYear().toString();
         let nmm = theDate.getMonth() + 1;
@@ -95,7 +52,6 @@ export class Helper {
         let ndd = theDate.getDate();
         let dd = (ndd < 10) ? `0${ndd}` : `${ndd}`;
         let mm = (nmm < 10) ? `0${nmm}` : `${nmm}`;
-        //
         let nh = theDate.getHours();
         let nm = theDate.getMinutes();
         let ns = theDate.getSeconds();
@@ -105,28 +61,25 @@ export class Helper {
         let strDateTime = yyyy + "-" + mm + "-" + dd + " " + h + ":" + m + ":" + s;
         return strDateTime;
     }
-    //#endregion (Date/Time)
-    //#region String
+    static convertDateToTimestamp(date) {
+        return date.getTime();
+    }
     static formatString(str, ...args) {
         if (!str) {
             return "undefined!";
         }
-        //
         let a = Array.prototype.slice.call(args, 0);
         if (a.length === 0) {
             return str;
         }
-        //
         if (Array.isArray(a[0])) {
             a = a[0];
         }
-        //
         return str.replace(/\{(\d+)\}/g, (match, index) => {
             const param = a[index];
             if (param !== undefined && param !== null) {
                 return (param.toString());
             }
-            //
             return "";
         });
     }
@@ -140,7 +93,6 @@ export class Helper {
         if (this.isString(val)) {
             return val;
         }
-        //
         return "";
     }
     static ensureStartsWith(strTarget, strStart) {
@@ -153,7 +105,6 @@ export class Helper {
         if (strTarget.endsWith(strEnd)) {
             strTarget = strTarget.substring(0, strTarget.length - strEnd.length);
         }
-        //
         return strTarget;
     }
     static cutFromEnd(strTarget, strSubj) {
@@ -161,22 +112,18 @@ export class Helper {
         if (nPos >= 0) {
             strTarget = strTarget.substring(0, nPos);
         }
-        //
         return strTarget;
     }
     static cutStart(strTarget, strStart, bUntil) {
         if (strTarget.startsWith(strStart)) {
             __execute();
         }
-        //
         if (bUntil) {
             while (strTarget.startsWith(strStart)) {
                 __execute();
             }
         }
-        //
         return strTarget;
-        //
         function __execute() {
             strTarget = strTarget.substring(strStart.length);
         }
@@ -186,7 +133,6 @@ export class Helper {
         if (nPos < 0) {
             return null;
         }
-        //
         nPos += strSubj.length;
         strTarget = strTarget.substring(nPos);
         return strTarget;
@@ -200,14 +146,9 @@ export class Helper {
     static compareStringsForced(str1, str2) {
         return (str1.replace(/\s+/g, '').toLowerCase()) === (str2.replace(/\s+/g, '').toLowerCase());
     }
-    //#endregion (String)
-    //#region Type
     static isString(str) {
         return (typeof str === "string");
     }
-    //public static isNotEmptyString(str: unknown): boolean {
-    //    return ((typeof str === "string") && ((<string>str).length > 0));
-    //}
     static isNumber(val) {
         return (typeof val === "number");
     }
@@ -220,109 +161,40 @@ export class Helper {
     static isBoolean(val) {
         return (val instanceof Boolean);
     }
-    static hasValue(target) {
-        if (target == null || target == undefined)
-            return false;
-        //
-        if (this.isString(target))
-            return target.trim().length > 0;
-        //
-        if (this.isArray(target))
-            return target.length > 0;
-        //
-        return true;
-    }
     static asType(a) {
         return a;
     }
-    //#endregion (Type)
-    //#region Enumeration
     static parseEnum(enm, valueKey, bCaseSensitive = false) {
         if (!valueKey)
             return undefined;
-        /*
-        Grigory. While working on this feature, I revealed an unpleasant problem.
-        In the case when the values of the enum type are numbers, for example:
-        export enum ESide {
-            Top,
-            Left,
-            Right,
-            Bottom
-        }
-
-        then the operation "(Object.values(end))" returns an array of such content:
-        0: 'Top'
-        1: 'Left'
-        2: 'Right'
-        3: 'Bottom'
-        4: 0
-        5: 1
-        6: 2
-        7: 3
-
-        and if the values of the enum type are strings, for example:
-        export enum EMessageKind {
-            Undef = "Undef",
-            Info = "Info",
-            Question = "Question",
-            Success = "Success",
-            Failure = "Failure",
-            Warning = "Warning",
-            Danger = "Danger",
-            Error = "Error"
-        }
-
-        then the operation "(Object.values(en))" in this case, returns an array of such content:
-        0: 'Undef'
-        1: 'Info'
-        2: 'Question'
-        3: 'Success'
-        4: 'Failure'
-        5: 'Warning'
-        6: 'Danger'
-        7: 'Error'
-
-        Therefore, we have to use different approaches in finding the key and getting the enumeration value.
-        */
         if (valueKey === undefined || valueKey === null)
             return undefined;
-        //
         const a = (Object.values(enm));
         const bNumberType = this.isNumber(a[a.length - 1]);
         const aKeys = (bNumberType) ? (a.slice(0, a.length / 2)) : Object.keys(enm);
-        //
         const nPos = (bCaseSensitive) ?
             aKeys.indexOf(valueKey) :
             aKeys.findIndex((strKey) => { return strKey.toLowerCase() === valueKey.toLowerCase(); });
-        //
         return (nPos >= 0) ? (bNumberType ? a[nPos + aKeys.length] : a[nPos]) : undefined;
     }
     static parseEnumEnsure(enm, valueKey, def, bCaseSensitive = false) {
-        /* Example:
-            const kind: EMessageKind = Helper.parseEnumEnsure(EMessageKind, "Warning", EMessageKind.Info);
-        */
         if (valueKey === undefined || valueKey === null)
             return def;
-        //
         const a = (Object.values(enm));
         const bNumberType = this.isNumber(a[a.length - 1]);
         const aKeys = (bNumberType) ? (a.slice(0, a.length / 2)) : Object.keys(enm);
-        //
         const nPos = (bCaseSensitive) ?
             aKeys.indexOf(valueKey) :
             aKeys.findIndex((strKey) => { return strKey.toLowerCase() === valueKey.toLowerCase(); });
-        //
         return (nPos >= 0) ? (bNumberType ? a[nPos + aKeys.length] : a[nPos]) : def;
     }
     static extractEnumKeys(obj) {
         return Object.keys(obj).filter((k) => Number.isNaN(+k));
     }
-    // не протестирована
     static convertEnumToString(value, enumType) {
         let keys = Object.keys(enumType);
         let strKey = value.toString();
         let nThreshold = keys.length / 2;
-        //
         let nValIndex = 0;
         for (let i = 0; i < nThreshold; i++) {
             if (keys[i] === strKey) {
@@ -330,29 +202,22 @@ export class Helper {
                 break;
             }
         }
-        //
         let nKeyIndex = nValIndex + nThreshold;
         return keys[nKeyIndex];
     }
-    //#endregion (Enumeration)
-    //#region Object
     static getObjectName(obj) {
         if (obj && obj.constructor) {
             return obj.constructor.name;
         }
-        //
         return "Unknown";
     }
     static isObjectEmpty(obj) {
         return (this.isObject(obj)) ? Object.keys(obj).length === 0 : true;
     }
-    //#endregion (Object)
-    //#region Path
     static extractUrlRoot(location) {
         let root = this.cutFromEnd(location.href, "?");
         root = this.cutFromEnd(location.href, "index.");
         root = this.ensureEndsWith(root, "/");
-        //
         return root;
     }
     static combinePath(path1, path2) {
@@ -373,22 +238,16 @@ export class Helper {
         let iIndex = path.lastIndexOf(".");
         return (iIndex > 0) ? path.substring(iIndex + 1) : "";
     }
-    /**
-     * @param strNew — new file extension without the dot
-     */
     static changeExtension(path, strNew) {
         const strCurrent = this.extractExtension(path);
         if (strCurrent === strNew)
             return path;
-        //
         if (strCurrent.length > 0) {
             path = path.substring(0, path.length - (strCurrent.length + 1));
         }
-        //
         if (strNew.length > 0) {
             path = path + "." + strNew;
         }
-        //
         return path;
     }
     static isAbsoluteUri(uri) {
@@ -404,7 +263,6 @@ export class Helper {
             if (pos < 0) {
                 pos = path.lastIndexOf("\\");
             }
-            //
             return (pos > path.lastIndexOf(".")) ?
                 path :
                 path.substring(0, pos + 1);
@@ -417,15 +275,11 @@ export class Helper {
         const nIndexDot = path.lastIndexOf(".");
         if (nIndexDot < 0)
             return path;
-        //
         const nIndexSep = path.lastIndexOf("/");
         if (nIndexDot < nIndexSep)
             return path;
-        //
         return path.substring(0, nIndexDot);
     }
-    //#endregion (Path)
-    //#region HTML
     static clearHTMLElement(hte) {
         if (hte) {
             while (hte.firstChild) {
@@ -447,14 +301,11 @@ export class Helper {
             }
         }
     }
-    //#endregion (HTML)
-    //#region Animation
     static applyAnimation(hteTarget, strClassStart, strClassFinish, bSaveAnimation = false) {
         return new Promise((resolve, reject) => {
             let _strClassStart = strClassStart;
             let _strClassFinish = strClassFinish;
             let _bSaveAnimation = bSaveAnimation;
-            //
             let onAnimationEnd = (ev) => {
                 if (strClassFinish) {
                     hteTarget.classList.add(strClassFinish);
@@ -469,20 +320,15 @@ export class Helper {
             function clear() {
                 hteTarget.removeEventListener("animationcancel", onAnimationCancel);
                 hteTarget.removeEventListener("animationend", onAnimationEnd);
-                //
                 if (!_bSaveAnimation) {
                     hteTarget.classList.remove(strClassStart);
                 }
             }
-            //
             hteTarget.addEventListener("animationend", onAnimationEnd);
             hteTarget.addEventListener("animationcancel", onAnimationCancel);
-            //
             hteTarget.classList.add(strClassStart);
         });
     }
-    //#endregion (Animation)
-    //#region Media
     static MIMEMap = new Map([
         ["css", "text/css"],
         ["js", "application/x-javascript"],
@@ -506,11 +352,8 @@ export class Helper {
             return null;
         return [a[0], a[1]];
     }
-    //#endregion (Media)
-    //#region Utils
     static extractMessage(errcase) {
         let strMessage = "";
-        //
         if (errcase instanceof Event) {
             if (errcase.target instanceof IDBOpenDBRequest) {
                 const target = errcase.target;
@@ -540,31 +383,25 @@ export class Helper {
                 if (errcase && errcase.name) {
                     strMessage = __addSection(errcase.name);
                 }
-                //
                 if (errcase && errcase.status) {
                     strMessage = __addSection(`status=${errcase.status}`);
                 }
-                //
                 if (errcase && errcase.statusText) {
                     strMessage = __addSection(`statusText=${errcase.statusText}`);
                 }
             }
         }
-        //
         return strMessage;
-        //
         function __addSection(section) {
             return (strMessage.length > 0) ? strMessage += ` | ${section}` : section;
         }
     }
     static flatten(target, opts) {
         opts = opts || {};
-        //
         const delimiter = opts.delimiter || '.';
         const maxDepth = opts.maxDepth;
         const transformKey = opts.transformKey || keyIdentity;
         const output = {};
-        //
         function isBuffer(obj) {
             return obj &&
                 obj.constructor &&
@@ -599,8 +436,6 @@ export class Helper {
     static sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-    //#endregion (Utils)
-    //#region Screen
     static getOrientation() {
         return Math.abs(screen.orientation.angle) - 90 == 0 ? "landscape" : "portrait";
     }
@@ -615,10 +450,7 @@ export class Helper {
     ;
     static get isExtraSmall() {
         const nThreshold = 576;
-        //return (window.visualViewport.width < nThreshold || window.visualViewport.height < screen.availWidth);
-        //return (screen.availWidth < nThreshold || screen.availHeight < screen.availWidth);
-        // so far, this is an option
         return (window.visualViewport.width < nThreshold);
     }
-} // class Helper
+}
 //# sourceMappingURL=helper.js.map

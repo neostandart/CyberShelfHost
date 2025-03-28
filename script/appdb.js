@@ -3,7 +3,6 @@ let _name = undefined;
 let _ver = undefined;
 let _nRequestCounter = 0;
 let _adb = null;
-// --------------------------------------------------------
 function _onUpgradeAppDB(ev) {
     let request = ev.target;
     let adb = request.result;
@@ -12,34 +11,28 @@ function _onUpgradeAppDB(ev) {
         __createDB();
     }
     else {
-        // if version 3 and higher, we are not doing anything yet.
     }
-    // inline
     function __createDB() {
         adb.createObjectStore("_system");
-        //
         adb.createObjectStore("shared");
-        //
         adb.createObjectStore("users");
         adb.createObjectStore("shelves");
-        adb.createObjectStore("stuffs"); // user stuffs 
+        adb.createObjectStore("stuffs");
         adb.createObjectStore("results");
-        //
         adb.createObjectStore("suites");
-        adb.createObjectStore("packages");
-        adb.createObjectStore("packext"); // for additional/operational information such as annotations, etc.
-        adb.createObjectStore("content");
+        adb.createObjectStore("packs");
+        adb.createObjectStore("packcont");
+        adb.createObjectStore("packext");
         const storeWincache = adb.createObjectStore("wincache");
         storeWincache.createIndex("user_idx", "userid");
         storeWincache.createIndex("pack_idx", "packid");
-        //
         adb.createObjectStore("libs");
         adb.createObjectStore("libfiles");
     }
     function __clearDB() {
         const listStoreNames = adb.objectStoreNames;
-        for (const strStoreName of listStoreNames) {
-            adb.deleteObjectStore(strStoreName);
+        for (let i = 0; i < listStoreNames.length; i++) {
+            adb.deleteObjectStore(listStoreNames[i]);
         }
     }
 }
@@ -54,16 +47,13 @@ function _processStoreRequest(request) {
                 resolve(undefined);
             }
         };
-        //
         request.onerror = (ev) => {
             reject(ev);
         };
     });
 }
-// --------------------------------------------------------
 export function useDB() {
     _nRequestCounter++;
-    //
     return new Promise((resolve, reject) => {
         if (_adb) {
             resolve(_adb);
@@ -98,7 +88,6 @@ export function releaseDB() {
             _adb = null;
         }
         else {
-            // this is an abnormal situation, but we are not processing it yet...
         }
     }
 }
@@ -108,7 +97,6 @@ export async function get(storename, key) {
         let adb = await useDB();
         let transaction = adb.transaction(storename, "readonly");
         let store = transaction.objectStore(storename);
-        //
         record = await _processStoreRequest(store.get(key));
     }
     finally {
@@ -126,11 +114,9 @@ export async function getByKeys(storename, keys) {
         request.onsuccess = (event) => {
             const cursor = event.target.result;
             if (cursor) {
-                //
                 if (keys.findIndex(value => cursor.key == value) >= 0) {
                     aResult.push(cursor.value);
                 }
-                //
                 cursor.continue();
             }
             else {
@@ -150,7 +136,6 @@ export async function getAll(storename) {
         let adb = await useDB();
         let transaction = adb.transaction(storename, "readonly");
         let store = transaction.objectStore(storename);
-        //
         result = await _processStoreRequest(store.getAll());
     }
     finally {
@@ -169,7 +154,7 @@ export function getKeysByIndex(storename, indexname, value) {
         request.onsuccess = function () {
             var cursor = request.result;
             if (cursor) {
-                aKeys.push(cursor.primaryKey); // we assume that string type
+                aKeys.push(cursor.primaryKey);
                 cursor.continue();
             }
             else {
@@ -188,7 +173,6 @@ export async function put(storename, value, key) {
         let adb = await useDB();
         let transaction = adb.transaction(storename, "readwrite");
         let store = transaction.objectStore(storename);
-        //
         await _processStoreRequest(store.put(value, key));
     }
     finally {
@@ -206,11 +190,9 @@ export async function delObject(storename, key) {
         releaseDB();
     }
 }
-// --------------------------------------------------------
 export async function delUser(userid) {
     return new Promise(async (resolve, reject) => {
         try {
-            // since "await" is used, we need to get this data before the transaction starts
             const aCachedDataKeys = await getKeysByIndex("wincache", "user_idx", userid);
             const database = await useDB();
             const transaction = database.transaction(["users", "shelves", "stuffs", "wincache"], "readwrite");
@@ -258,29 +240,6 @@ export async function setWinCache(userid, packid, data) {
     const key = userid + "_" + packid;
     await put("wincache", { userid: userid, packid: packid, data: data }, key);
 }
-/**
- * @description This function is not used yet (see: uninstallPackage and deleteUser)
- */
-export async function deleteWinCacheAll(indexname, value) {
-    const adb = await useDB();
-    //
-    const transaction = adb.transaction("wincache", "readwrite");
-    const wincache = transaction.objectStore("wincache");
-    const index = wincache.index(indexname);
-    //
-    const request = index.openKeyCursor(IDBKeyRange.only(value));
-    request.onsuccess = function () {
-        var cursor = request.result;
-        if (cursor) {
-            wincache.delete(cursor.primaryKey);
-            cursor.continue();
-        }
-        else {
-            releaseDB();
-        }
-    };
-}
-// --------------------------------------------------------
 export function initializeAsync(name, ver) {
     return new Promise((resolve) => {
         _name = name;

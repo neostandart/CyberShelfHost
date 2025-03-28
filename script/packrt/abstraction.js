@@ -1,9 +1,8 @@
 export * from "./defs.js";
-export var LearningPackType;
-(function (LearningPackType) {
-    LearningPackType[LearningPackType["Regular"] = 0] = "Regular";
-    LearningPackType[LearningPackType["Book"] = 1] = "Book";
-    LearningPackType[LearningPackType["VMBook"] = 2] = "VMBook"; // the package represents an interactive VMBook element (Virtual Managed Book)
-})(LearningPackType || (LearningPackType = {}));
-//#endregion (AppDB objects)
+export var MCPackType;
+(function (MCPackType) {
+    MCPackType[MCPackType["Classic"] = 0] = "Classic";
+    MCPackType[MCPackType["Book"] = 1] = "Book";
+    MCPackType[MCPackType["VMBook"] = 2] = "VMBook";
+})(MCPackType || (MCPackType = {}));
 //# sourceMappingURL=abstraction.js.map

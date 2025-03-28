@@ -1,7 +1,7 @@
 
 @import "./_radzen-fix.css";
 @import "./animations.css";
-@import "./packwnd.css";
+/*@import "./packwnd.css";*/
 
 /* ==============================================================
     Initial initialization 
@@ -47,14 +47,15 @@
     --ui-btn-tn: 18px;
     --ui-btn-sm: 26px;
     --ui-btn-md: 34px;
+    --ui-btn-md-r: 42px;
     --ui-btn-lg: 52px;
     --ui-btn-hg: 70px;
     --ui-btn-gn: 92px;
     /* *** */
     --ui-color-info-bg: #e4edfe;
     /* *** */
-    --ui-packctr-width: 360px;
-    --ui-packctr-width-xs: 320px;
+    --ui-packctr-width: 380px;
+    --ui-packctr-width-xs: 340px;
     --ui-packctr-list-max-height: 500px;
     /* *** */
     --folder-color: goldenrod;
@@ -66,6 +67,7 @@
     --package-color: #2475BE;
     --selitem-color-bg: #DFDFF1;
     --selitem-color-br: #4340D2;
+    --item-focus-color: green;
 }
 
 

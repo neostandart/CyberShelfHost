@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Package Kind="{0}" PackageId="{1}" OrigId="{2}" Name="{3}" Version="{4}" FileName="{5}" IsPopup="{6}">
+	<Annotation>{7}</Annotation>
+	<Notes></Notes>
+</Package>

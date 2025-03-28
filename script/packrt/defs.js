@@ -1,5 +1,3 @@
-////////////////////////////////////////////////////////////////////////
-//#region Common
 export var TransDirection;
 (function (TransDirection) {
     TransDirection[TransDirection["None"] = 0] = "None";
@@ -61,6 +59,4 @@ export var DeliveryMethod;
     DeliveryMethod[DeliveryMethod["Link"] = 1] = "Link";
     DeliveryMethod[DeliveryMethod["Store"] = 2] = "Store";
 })(DeliveryMethod || (DeliveryMethod = {}));
-//#endregion (Common)
-////////////////////////////////////////////////////////////////////////
 //# sourceMappingURL=defs.js.map

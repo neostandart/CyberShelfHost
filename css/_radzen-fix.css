@@ -131,12 +131,27 @@
     color: var(--rz-text-title-color);
 }
 
-/* ------------------------------------------------------------------- */
-/* Panel height correction up to 100% for RadzenTabs (by .panel-h-100) */
 
-.rz-tabview.panel-h-100 .rz-tabview-panel {
+/* ------------------------------------------------------------------- */
+/* RadzenTabs for Extra Small Display Size */
+
+.rz-tabview.extrasmall {
+    --rz-tabs-padding: 0.5rem 0;
+    --rz-tabs-tab-padding-inline: 0.5rem;
+    --rz-panel-padding: 0.5rem;
+    --rz-tabs-tab-font-size: 0.8rem;
+}
+
+/* ------------------------------------------------------------------- */
+/* Panel height correction up to 100% for RadzenTabs (by .content-h-100) */
+
+.rz-tabview.content-h-100 .rz-tabview-panel {
     height: 100%;
 }
+.rz-tabview.content-h-100 .rz-tabview-panel > * {
+    height: 100%;
+}
+
 
 /* ----------------------------------------------------------------------- */
 /* Adaptation of some RadzenButton to the smallest screens with .ui-xs-btn */

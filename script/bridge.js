@@ -1,11 +1,11 @@
 import { fetchTextFile } from "./pipe.js";
-//#region Variables
+export { regDragable, unregDragable, regDragLocking, unregDragLocking } from "./utils/drag.js";
 const _parser = new DOMParser();
 class VisibilityObserver {
     _element;
     _key;
     _objDotNet;
-    _strCallbackName; // DotNet-level callback function name
+    _strCallbackName;
     _observer = null;
     _configObserver = { attributes: true, childList: false, subtree: false };
     _origDisplay;
@@ -13,14 +13,11 @@ class VisibilityObserver {
     constructor(element, key, objDotNet, strCallbackName) {
         this._element = element;
         this._key = key;
-        //
         this._objDotNet = objDotNet;
         this._strCallbackName = strCallbackName;
-        //
         const compStyles = window.getComputedStyle(element);
         this._origDisplay = compStyles.getPropertyValue("display");
         this._origVisibility = compStyles.getPropertyValue("visibility");
-        //
         this._observer = new MutationObserver(this.callback);
         this._observer.observe(this._element, this._configObserver);
     }
@@ -30,18 +27,13 @@ class VisibilityObserver {
         }
         this._observer = null;
     }
-    //
-    //
     callback = (mutationList, observer) => {
         let info = null;
-        //
         for (const mutation of mutationList) {
-            //if (mutation.type === "attributes" && mutation.attributeName === "style") {
             if (mutation.type === "attributes") {
                 const compStyles = window.getComputedStyle(this._element);
                 const actualDisplay = compStyles.getPropertyValue("display");
                 const actualVisibility = compStyles.getPropertyValue("visibility");
-                //
                 if (actualDisplay !== this._origDisplay || actualVisibility !== this._origVisibility) {
                     info = { isDisplay: (actualDisplay != "none"), visibility: actualVisibility };
                     this._origDisplay = actualDisplay;
@@ -50,16 +42,14 @@ class VisibilityObserver {
                 break;
             }
         }
-        //
         if (info) {
             this._objDotNet.invokeMethodAsync(this._strCallbackName, this._key, info);
         }
     };
-} // class VisibilityObserver
+}
 var mapVisibilityObservers = new Map();
 export function subVisibilityObserve(element, key, objDotNet, strCallbackName) {
     if (mapVisibilityObservers.has(key)) {
-        // this shouldn't be happening!
         throw new Error("The HTMLElement with key \"${key}\" is already being observed!");
     }
     else {
@@ -79,41 +69,34 @@ class MouseCapture {
     _key;
     _bOutsideOnly;
     _objDotNet;
-    _strCallbackName; // DotNet-level callback function name
+    _strCallbackName;
     constructor(element, key, bOutsideOnly, objDotNet, strCallbackName) {
         this._element = element;
         this._key = key;
         this._bOutsideOnly = bOutsideOnly;
-        //
         this._objDotNet = objDotNet;
         this._strCallbackName = strCallbackName;
-        //
         window.addEventListener("click", this.onClick, true);
     }
     dispose() {
         window.removeEventListener("click", this.onClick, true);
     }
-    //
-    //
     onClick = (ev) => {
         var bOutsideClick = (ev.target instanceof Node) ? !this._element.contains(ev.target) : true;
         if (this._bOutsideOnly && !bOutsideClick)
             return;
-        //
         var info = {
             idTarget: (ev.target instanceof HTMLElement) ? ev.target.id : "",
             idCurrentTarget: (ev.currentTarget instanceof HTMLElement) ? ev.currentTarget.id : "",
             idRelatedTarget: (ev.relatedTarget instanceof HTMLElement) ? ev.relatedTarget.id : "",
             bOutside: bOutsideClick
         };
-        //
         this._objDotNet.invokeMethodAsync(this._strCallbackName, this._key, info);
     };
-} // class MouseCapture
+}
 var mapMouseCaptures = new Map();
 export function subMouseCapture(element, key, bOutsideOnly, objDotNet, strCallbackName) {
     if (mapMouseCaptures.has(key)) {
-        // this shouldn't be happening!
         throw new Error("The HTMLElement with key \"${key}\" has already captured the mouse!");
     }
     else {
@@ -128,8 +111,6 @@ export function unsubMouseCapture(key) {
         mapMouseCaptures.delete(key);
     }
 }
-//#endregion (Mouse Capture)
-// ***** Attribute *****
 export function getAttribute(element, strAttributeName) {
     return (element.hasAttribute(strAttributeName)) ? element.getAttribute(strAttributeName) : null;
 }
@@ -139,7 +120,6 @@ export function setAttribute(element, strAttributeName, strValue) {
 export function removeAttribute(element, strAttributeName) {
     element.removeAttribute(strAttributeName);
 }
-// ***** Property *****
 export function getProperty(element, strPropertyName) {
     return element[strPropertyName];
 }
@@ -154,7 +134,6 @@ export function getPropertyByPath(element, strPropertyPath) {
         }
         strPropertyPath = aPath[aPath.length - 1];
     }
-    //
     return element[strPropertyPath];
 }
 export function setPropertyByPath(element, strPropertyPath, objValue) {
@@ -165,10 +144,8 @@ export function setPropertyByPath(element, strPropertyPath, objValue) {
         }
         strPropertyPath = aPath[aPath.length - 1];
     }
-    //
     element[strPropertyPath] = objValue;
 }
-// ***** Class *****
 export function addClass(element, strClass) {
     element.classList.add(strClass);
 }
@@ -178,7 +155,6 @@ export function removeClass(element, strClass) {
 export function hasClass(element, strClass) {
     return element.classList.contains(strClass);
 }
-// ***** CSS *****
 export function getCssVariable(element, varname) {
     return element.style.getPropertyValue(varname);
 }
@@ -191,7 +167,6 @@ export function getStyleProperty(element, propame) {
 export function setStyleProperty(element, propname, value) {
     element.style[propname] = value;
 }
-// ***** Method call *****
 export function callVoidMethod(element, strMethodName) {
     element[strMethodName]();
 }
@@ -216,7 +191,6 @@ export function callVoidMethodWithinScope(hteStart, selectorScopeRoot, selectorT
         }
     }
 }
-// ***** Layout & Measurements *****
 export function getBoundingClientRect(element) {
     return element.getBoundingClientRect();
 }
@@ -235,18 +209,8 @@ export function fetchBoundingClientRects(targets, scope = null) {
             aResult.push(target.getBoundingClientRect());
         }
     });
-    //
     return aResult;
 }
-// ***** Position *****
-/*
-To get the width and height of a viewport, we can use the innerWidth and innerHeight properties of the window object.
-
-Example:
-const width = window.innerWidth;
-const height = window.innerHeight;
-console.log(`The viewport's width is ${width} and the height is ${height}.`);
-*/
 export function centerElementRelativeTarget(hteCentering, hteTarget, bHorizontal = true) {
     const rcCentering = hteCentering.getBoundingClientRect();
     const rcCenteringParent = hteCentering.offsetParent.getBoundingClientRect();
@@ -255,18 +219,10 @@ export function centerElementRelativeTarget(hteCentering, hteTarget, bHorizontal
     nLeftNew -= rcCenteringParent.left;
     hteCentering.style.left = (nLeftNew + "px");
 }
-/**
- *
- * @param side {string}: "top" | "right" | "bottom" | "left"
- * @param align {string}: "start" | "center" | "end"
- * @param indent {number}: the value of the indentation in pixels
- */
 export function bindPositionTo(element, target, side = "bottom", align = "start", indent = 0, bWithinViewport = false) {
     const rcTarget = target.getBoundingClientRect();
-    //
     const rcElement = element.getBoundingClientRect();
     const rcElementParent = element.offsetParent.getBoundingClientRect();
-    //
     let nLeftNew = 0;
     let nTopNew = 0;
     let bAlignHorz = false;
@@ -274,11 +230,9 @@ export function bindPositionTo(element, target, side = "bottom", align = "start"
         case "bottom": {
             bAlignHorz = true;
             nTopNew = (rcTarget.bottom - rcElementParent.y) + indent;
-            //
             break;
         }
-        // so far only "bottom"
-    } // switch (side)
+    }
     switch (align) {
         case "start": {
             if (bAlignHorz) {
@@ -292,15 +246,12 @@ export function bindPositionTo(element, target, side = "bottom", align = "start"
             }
             else {
             }
-            //
             break;
         }
-        // so far only "start"
-    } // switch (align)
+    }
     element.style.top = nTopNew + "px";
     element.style.left = nLeftNew + "px";
 }
-//#region DOM tree
 export function getGlobalObject(strObjectName) {
     return window[strObjectName];
 }
@@ -313,162 +264,30 @@ export function removeChild(hteParent, hteChild) {
 export async function fetchSvgFromFile(path, strId, strClass) {
     const strSvgSource = await fetchTextFile(path);
     const svg = _parser.parseFromString(strSvgSource, "image/svg+xml").firstElementChild;
-    //
     if (strId) {
         svg.setAttribute("id", strId);
     }
     if (strClass) {
         svg.classList.add(...strClass.split(" "));
     }
-    //
     return svg;
 }
-export async function loadSvgBox(hteBox, pathSvg, strId, strClass) {
-    const strSvgSource = await fetchTextFile(pathSvg);
-    const svg = _parser.parseFromString(strSvgSource, "image/svg+xml").rootElement;
-    //
-    if (strId) {
-        svg.setAttribute("id", strId);
-    }
-    if (strClass) {
-        svg.classList.add(...strClass.split(" "));
-    }
-    //
-    hteBox.appendChild(svg);
-}
-//#endregion (DOM tree)
-//#region Dragable
-// This code has not been tested yet!
-//and _ensureView() is not implemented
-var DragStatus;
-(function (DragStatus) {
-    DragStatus[DragStatus["No"] = 0] = "No";
-    DragStatus[DragStatus["Mouse"] = 1] = "Mouse";
-    DragStatus[DragStatus["Touch"] = 2] = "Touch";
-})(DragStatus || (DragStatus = {}));
-class Dragable {
-    _hteDragable;
-    _hteCaptureZone;
-    _hteArea;
-    _dragStatus = DragStatus.No;
-    _ptLastDragPos = new DOMPoint();
-    constructor(hteDragable, hteCaptureZone, hteArea) {
-        this._hteDragable = hteDragable;
-        this._hteCaptureZone = hteCaptureZone;
-        this._hteArea = hteArea || hteDragable.offsetParent;
-        //
-        this._hteCaptureZone.addEventListener("mousedown", this._onCaptureZoneMouseDown);
-        this._hteCaptureZone.addEventListener("touchstart", this._onCaptureZoneTouchStart);
-    }
-    get element() {
-        return this._hteDragable;
-    }
-    get zone() {
-        return this._hteCaptureZone;
-    }
-    get area() {
-        return this._hteArea;
-    }
-    //
-    _ensureView() {
-    }
-    //
-    _onCaptureZoneMouseDown = (ev) => {
-        if (ev.target && ev.target.closest("button")) {
-            return;
-        }
-        //
-        if (this._dragStatus === DragStatus.No) {
-            ev.preventDefault();
-            this._dragStatus = DragStatus.Mouse;
-            document.addEventListener("mousemove", this._onMouseMove, { capture: true });
-            document.addEventListener("mouseup", this._onMouseUp, { capture: true });
-            this._startDrag(ev.clientX, ev.clientY);
-        }
-    };
-    _onCaptureZoneTouchStart = (ev) => {
-        if (this._dragStatus === DragStatus.No) {
-            this._dragStatus = DragStatus.Touch;
-            document.addEventListener("touchmove", this._onTouchMove, { capture: true });
-            document.addEventListener("touchend", this._onTouchEnd, { capture: true });
-            this._startDrag(ev.touches[0].clientX, ev.touches[0].clientY);
-        }
-    };
-    //
-    _onMouseMove = (ev) => {
-        if (this._dragStatus === DragStatus.Mouse) {
-            ev.preventDefault();
-            this._drag(ev.clientX, ev.clientY);
-        }
-    };
-    _onMouseUp = (ev) => {
-        if (this._dragStatus === DragStatus.Mouse) {
-            ev.preventDefault();
-            //
-            this._endDrag();
-        }
-    };
-    _onTouchMove = (ev) => {
-        if (this._dragStatus === DragStatus.Touch) {
-            this._drag(ev.touches[0].clientX, ev.touches[0].clientY);
-        }
-    };
-    _onTouchEnd = (ev) => {
-        if (this._dragStatus === DragStatus.Touch) {
-            //
-            this._endDrag();
-        }
-    };
-    //
-    _startDrag(x, y) {
-        this._ptLastDragPos.x = x;
-        this._ptLastDragPos.y = y;
-    }
-    _drag(x, y) {
-        let nNewX = this._ptLastDragPos.x - x;
-        let nNewY = this._ptLastDragPos.y - y;
-        this._ptLastDragPos.x = x;
-        this._ptLastDragPos.y = y;
-        this._hteDragable.style.top = (this._hteDragable.offsetTop - nNewY) + "px";
-        this._hteDragable.style.left = (this._hteDragable.offsetLeft - nNewX) + "px";
-    }
-    _endDrag() {
-        if (this._dragStatus !== DragStatus.No) {
-            switch (this._dragStatus) {
-                case DragStatus.Mouse: {
-                    document.removeEventListener("mousemove", this._onMouseMove);
-                    document.removeEventListener("mouseup", this._onMouseUp);
-                    break;
-                }
-                case DragStatus.Touch: {
-                    document.removeEventListener("touchmove", this._onTouchMove);
-                    document.removeEventListener("touchend", this._onTouchEnd);
-                    break;
-                }
-            }
-            this._ensureView();
-            this._dragStatus = DragStatus.No;
-        }
-    }
-} // class Dragable
-const _aDragables = [];
-function _findDragable(hteDragable) {
-    return _aDragables.find(item => item.element === hteDragable);
-}
-function _findDragableIndex(hteDragable) {
-    return _aDragables.findIndex(item => item.element === hteDragable);
-}
-export function regDragable(hteDragable, hteCaptureZone, hteArea = null) {
-    const objExisting = _findDragable(hteDragable);
-    if (!objExisting) {
-        _aDragables.push(new Dragable(hteDragable, hteCaptureZone, hteArea));
+export function writeToIFrame(refIFrame, strContent) {
+    if (refIFrame instanceof HTMLIFrameElement) {
+        const iframeDoc = refIFrame.contentWindow.document;
+        if (iframeDoc.documentElement)
+            iframeDoc.documentElement.remove();
+        iframeDoc.write(strContent);
+        iframeDoc.close();
     }
 }
-export function unregDragable(hteDragable) {
-    const nIndex = _findDragableIndex(hteDragable);
-    if (nIndex >= 0) {
-        _aDragables.splice(nIndex, 1);
+export function clickElement(refElement, path) {
+    if (refElement instanceof HTMLElement) {
+        let hte = refElement;
+        if (path) {
+            hte = hte.querySelector(path) || hte;
+        }
+        hte.click();
     }
 }
-//#endregion (Dragable)
 //# sourceMappingURL=bridge.js.map
