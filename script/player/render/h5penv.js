@@ -38,9 +38,6 @@ export function isViewportXSmall() {
 export function getLocalizer() {
     return _localizer;
 }
-export function getLayoutCtrTemplateHtml() {
-    return _strLayoutCtrTemplate;
-}
 export async function regAddonLibrary(librec) {
     const existing = _addons[librec.machineName];
     if (existing) {
@@ -205,6 +202,5 @@ export async function initializeAsync(refBookMan) {
     let objStringsEnglish = await pipe.fetchJson(pathStringsEnglish);
     _localizer = new Localizer(new SimpleTranslator({ client: objStringsEnglish }).t);
     _strPlayerTemplate = await pipe.fetchTextFile("assets/templates/h5pplayer.txt");
-    _strLayoutCtrTemplate = await pipe.fetchTextFile("assets/templates/layoutctr.txt");
 }
 //# sourceMappingURL=h5penv.js.map

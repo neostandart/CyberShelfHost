@@ -28,8 +28,6 @@
 
     {2}
 
-    <script src="player/h5p-stub.js"></script>
-
     <script>
         window.H5PIntegration = {3};
 
