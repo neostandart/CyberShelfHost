@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "qquklAaG",
+  "version": "iQ7KyAIo",
   "assets": [
     {
       "hash": "sha256-vnxHsBMPioSElXgXpRLfQUv7q/l+nxnOeYglnu06wxk=",
@@ -150,7 +150,7 @@ self.assetsManifest = {
       "url": "_content/Radzen.Blazor/fonts/SourceSans3VF-Upright.ttf.woff2"
     },
     {
-      "hash": "sha256-96pbWIEdwDqCsbJXCmP53s/QtrPerQbf0RORN+zkhZg=",
+      "hash": "sha256-uamGiVOqhpWvfEXfaq/jXCBpQ4UJB7H35ptEFNx3O3o=",
       "url": "_framework/CyberShelf.wasm"
     },
     {
@@ -426,7 +426,7 @@ self.assetsManifest = {
       "url": "_framework/System.wasm"
     },
     {
-      "hash": "sha256-BDPWcGYw0mq/IxxiOcqiuK4Y5rIYK+qkOazbLMwFTuw=",
+      "hash": "sha256-Ixbsp8P7GDmLHLaGA564wxSMblVejzzW29XulyIlkhA=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -454,7 +454,7 @@ self.assetsManifest = {
       "url": "_framework/icudt.dat"
     },
     {
-      "hash": "sha256-St4BY8v8NSr96UZT3yY/IhnW1jaJYRocTHx+sHx6OnQ=",
+      "hash": "sha256-1DU0bVgDxouFkd/dJH6/r3FWvehOyi8c4KCJw243sp0=",
       "url": "_framework/ru/CyberShelf.resources.wasm"
     },
     {
@@ -1898,11 +1898,11 @@ self.assetsManifest = {
       "url": "script/player/render/file.js.map"
     },
     {
-      "hash": "sha256-18asrhaU/3fNzEvtHyA0+apkp4HsbZJzPNMkPR5DGcE=",
+      "hash": "sha256-pQylbr8GvPvhB96gTgdQVawzgpEBT8YNAc4lma5k6lQ=",
       "url": "script/player/render/h5penv.js"
     },
     {
-      "hash": "sha256-I91JFGQXttsQpFG8hG4TBrLwJN3CAI4lvH5UHILZg/c=",
+      "hash": "sha256-YIBLBRrn9eDhhi/B/hIn8JI7CD9DsvsMbB6mXUFZqEY=",
       "url": "script/player/render/h5penv.js.map"
     },
     {
@@ -1926,7 +1926,7 @@ self.assetsManifest = {
       "url": "vendor/h5p/fonts/h5p-core-29.eot"
     },
     {
-      "hash": "sha256-awQjE+DL5coHOcIt08iuTAHR65fWGFFABWzCSBFENDc=",
+      "hash": "sha256-EYcEAhomge1xbBD4rR72Hk6jarf7vWifoEKx1jAw7qU=",
       "url": "vendor/h5p/fonts/h5p-core-29.svg"
     },
     {
@@ -1946,7 +1946,7 @@ self.assetsManifest = {
       "url": "vendor/h5p/fonts/h5p-core-30.eot"
     },
     {
-      "hash": "sha256-npiMl6mpz/Tt/a6mu7gk2kEw+gNjDSx+587pwlKteTs=",
+      "hash": "sha256-SBQZjmIN0Kro1GUNAEoAUM5SfkPUJaWAvFHY1Nl1JT4=",
       "url": "vendor/h5p/fonts/h5p-core-30.svg"
     },
     {
@@ -1966,7 +1966,7 @@ self.assetsManifest = {
       "url": "vendor/h5p/fonts/h5p-hub-publish.eot"
     },
     {
-      "hash": "sha256-fKISI3NKqPriAlF/47/JugNgJFp4UGgkqiAiLYdwnwY=",
+      "hash": "sha256-2brsrAkktIi9NilQNTT8ppOc5Gbl17tffhdX0aeFCoI=",
       "url": "vendor/h5p/fonts/h5p-hub-publish.svg"
     },
     {
@@ -1978,7 +1978,7 @@ self.assetsManifest = {
       "url": "vendor/h5p/fonts/h5p-hub-publish.woff"
     },
     {
-      "hash": "sha256-Pd+b5cKP4n2tFDpdx27qJSIq0d1ok0oEcGTlbtL6QMU=",
+      "hash": "sha256-z8d0m5b2O9McPEK1xHG/dWgUBT6EfBDz6wA0F7xSPTA=",
       "url": "vendor/h5p/fonts/open-sans/LICENSE-2.0.txt"
     },
     {
@@ -2046,11 +2046,11 @@ self.assetsManifest = {
       "url": "vendor/h5p/fonts/open-sans/opensans-italic-400-600-700-v28-vietnamese.woff2"
     },
     {
-      "hash": "sha256-fvFAegekMqwM+MmcWlJK7y4xbZMphSzkAUCOzbwyYFw=",
-      "url": "vendor/h5p/frame.bundle.js"
+      "hash": "sha256-gOVGaUYvZjb8ZYpV88r5wFeASS805okoeUZwz7KJNiI=",
+      "url": "vendor/h5p/h5p.bundle.js"
     },
     {
-      "hash": "sha256-uOxMrprtoVTGhyYokeiQQUTeV/+fJb5it4KIvy0kaU4=",
+      "hash": "sha256-2vuyZhqw08V+YzegMK+qs1nqe8AeOg9hr7JljIQEnvA=",
       "url": "vendor/h5p/images/h5p.svg"
     },
     {
@@ -2058,12 +2058,12 @@ self.assetsManifest = {
       "url": "vendor/h5p/images/throbber.gif"
     },
     {
-      "hash": "sha256-6bUxjblIQGa6yNU0y/uOglgS05oiO7sdbWne13HBrtk=",
+      "hash": "sha256-BTjolmbpRSjSbca4ctxR/yakinfRqkqShRUZGd2a81g=",
       "url": "vendor/h5p/styles/font-open-sans.css"
     },
     {
-      "hash": "sha256-8Yw+frQQuW1L6naW8LZ8fj83iOhgo28DYRX0uXT7sx8=",
-      "url": "vendor/h5p/styles/h5p.css"
+      "hash": "sha256-xc7qqy57v8TIVOMH/rqjcVMMHuVgvH3nIWtQEEf/Hqw=",
+      "url": "vendor/h5p/styles/h5p.bundle.css"
     },
     {
       "hash": "sha256-1CldwzdEg2k1wTmf7s5RWVd7NMXI/7nxxjJM2C4DqII=",

@@ -105,7 +105,7 @@ export function getPathForIntegration() {
     return "";
 }
 export async function prepareIntegration(contentId, jsonContent, contentUrl, objMetadata, mainlib, aLibCssRefs, aLibJsRefs, canFullscreen, language) {
-    const user = await getUser();
+    const user = undefined;
     return {
         baseUrl: undefined,
         url: getPathForIntegration(),
@@ -190,10 +190,10 @@ export async function initializeAsync(refBookMan) {
     _refBookMan = refBookMan;
     _aCoreCss = [
         "vendor/h5p/styles/font-open-sans.css",
-        "vendor/h5p/styles/h5p.css"
+        "vendor/h5p/styles/h5p.bundle.css"
     ];
     _aCoreJs = [
-        "vendor/h5p/frame.bundle.js"
+        "vendor/h5p/h5p.bundle.js"
     ];
     _addons = await appdb.get("_system", "addons") || {};
     const pathStringsDefault = "assets/h5p-strings/default.json";
