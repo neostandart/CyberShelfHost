@@ -49,6 +49,23 @@ async function fetchBLOBAsync(url, apiKey, progress) {
     progress.done();
     return [fileInfo, await resp.blob()];
 }
+async function leaveOnlyNewLibraries(candidateLibs) {
+    function __checkNewest(existingLib, incomingLib) {
+        const nPatchExisting = Number(existingLib.metadata.patchVersion);
+        const nPatchIncoming = Number(incomingLib.metadata.patchVersion);
+        switch (true) {
+            case Number.isInteger(nPatchIncoming):
+                return (Number.isInteger(nPatchExisting)) ? nPatchIncoming > nPatchExisting : true;
+            default:
+                return false;
+        }
+    }
+    const aInstalledLibs = await appdb.getAll("libs");
+    return new Map([...candidateLibs.entries()].filter(([key, value]) => {
+        const installedLib = aInstalledLibs.find(lib => lib.token === key);
+        return (installedLib) ? __checkNewest(installedLib, value) : true;
+    }));
+}
 async function storePackage(packraw, progress) {
     function _onTransComplete(ev) {
         transaction = null;
@@ -79,7 +96,7 @@ async function storePackage(packraw, progress) {
         transaction.oncomplete = _onTransComplete;
         for (const [token, newlib] of packraw.newlibs) {
             const files = newlib.files;
-            newlib.files = undefined;
+            delete newlib.files;
             let storeLibs = transaction.objectStore("libs");
             storeLibs.put(newlib, token);
             const objLibFiles = { libtoken: token, files: files };
@@ -263,6 +280,7 @@ async function onInputPackageChange() {
             let internals = undefined;
             try {
                 internals = await parser.parsePackageFile(filePackage, progress);
+                internals.newlibs = await leaveOnlyNewLibraries(internals.newlibs);
             }
             catch (err) {
                 _refBookMan.invokeMethodAsync("informInstallError", Helper.extractMessage(err));
@@ -377,6 +395,7 @@ export async function installFromService(uri, book, serviceUrl, apiKey) {
             type: blobPackage.type,
         });
         internals = await parser.parsePackageFile(file, progress);
+        internals.newlibs = await leaveOnlyNewLibraries(internals.newlibs);
         progress.setSegment(30);
         const candidateRaw = new PackageRaw(fileInfo, internals, DeliveryMethod.Store, book, serviceUrl);
         if (!candidateRaw.isCorrect) {
@@ -420,6 +439,7 @@ export async function updateFromService(uri, book, serviceUrl, apiKey) {
             type: blobPackage.type,
         });
         internals = await parser.parsePackageFile(file, progress);
+        internals.newlibs = await leaveOnlyNewLibraries(internals.newlibs);
         progress.setSegment(30);
         const candidateRaw = new PackageRaw(fileInfo, internals, DeliveryMethod.Store, book, serviceUrl);
         if (!candidateRaw.isCorrect) {

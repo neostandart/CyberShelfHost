@@ -31,9 +31,7 @@ export class ActivePack {
             let exact = aPreloaded.find((item) => item.machineName === preload.machineName &&
                 item.majorVersion === preload.majorVersion &&
                 item.minorVersion === preload.minorVersion);
-            if (exact)
-                return exact.token;
-            return aPreloaded.find((item) => item.machineName === preload.machineName).token;
+            return exact?.token || aPreloaded.find((item) => item.machineName === preload.machineName).token;
         }
         const libtoken = __actualLibToken(preloadLib, this._aPreloaded);
         const libActive = await this.accessLibrary(libtoken);
@@ -46,7 +44,7 @@ export class ActivePack {
             }
         }
         if (aDependencyTokens.indexOf(libtoken) >= 0) {
-            throw new Error(`processLibDependencies: It looks like a loop!!! Token=${libtoken}`);
+            throw new Error(`processLibDependencies: It looks like a loop! Token=${libtoken}`);
         }
         aDependencyTokens.push(libtoken);
     }
@@ -80,7 +78,7 @@ export class ActivePack {
         try {
             this._recPack = await appdb.get("packs", this._packId);
             if (!this._recPack)
-                throw new Error(`The package with the specified recordKey (${this._packId}) not found!`);
+                throw new Error(`The package with "${this._packId}" record key was not found!`);
             this._aPreloaded = (this._recPack.metadata.preloadedDependencies || []).map((item) => ({ machineName: item.machineName, majorVersion: item.majorVersion, minorVersion: item.minorVersion, token: h5penv.makeLibraryToken(item) }));
             const objLibMaiInfo = this._aPreloaded.find((preloadedinfo) => { return (preloadedinfo.machineName == this._recPack.metadata.mainLibrary); });
             if (!objLibMaiInfo)
@@ -101,7 +99,7 @@ export class ActivePack {
                     strTheContent = (new TextDecoder()).decode(decrypted);
                 }
                 else {
-                    throw new Error("The current user is not allowed to view protected content.");
+                    throw new Error("The current user is not allowed to view protected content!");
                 }
             }
             else {
@@ -111,6 +109,7 @@ export class ActivePack {
             for (const addoninfo of addons) {
                 await this.processLibDependencies(addoninfo, this._aDependencyLibTokens);
             }
+            this._iframe.contentWindow.VMB = { isBookRT: true };
             const htmlContent = await this.createContent(strTheContent);
             const iframeDoc = this._iframe.contentWindow.document;
             if (iframeDoc) {
@@ -118,7 +117,7 @@ export class ActivePack {
                 iframeDoc.close();
             }
             else {
-                throw new Error("The correct iframe element for the H5P content could not be created.");
+                throw new Error("The iframe element with the correct structure was not created.");
             }
             this._iframe.contentWindow.ActivePackage = this;
             this._iframe.addEventListener("load", (ev) => {
@@ -127,7 +126,7 @@ export class ActivePack {
                     contwnd.H5P.externalDispatcher.on("xAPI", this._onH5PxAPI.bind(this));
                 }
                 else {
-                    console.error("ActivePackage.showAsync: Error initializing the H5P work environment!");
+                    console.error("ActivePackage.build: Error initializing the H5P work environment!");
                 }
             });
             await this._refBookWnd.invokeMethodAsync("notifyRenderComplete");
@@ -143,7 +142,7 @@ export class ActivePack {
                 return value.path === localpath;
             });
             if (!lfile) {
-                throw new Error(`ActivePackage.getObjectURL: Файл "${localpath}" не найден в составе пакета "${this._recPack.name}"!`);
+                throw new Error(`ActivePackage.getObjectURL: The "${localpath}" file was not found in the "${this._recPack.name}" package!`);
             }
             delegate = new BlobDelegate(lfile.data, Helper.MIMEMap.get(lfile.extension));
             this._mapDelegates.set(localpath, delegate);

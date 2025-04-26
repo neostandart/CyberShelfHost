@@ -164,13 +164,24 @@ export async function fetchSvgFromFile(path, strId, strClass) {
     }
     return svg;
 }
-export function writeToIFrame(refIFrame, strContent) {
+function hasProtocol(path) {
+    return path ? path.match(/^[a-z0-9]+:\/\//i) !== null : false;
+}
+;
+export function writeToIFrame(refIFrame, strContent, bForceBlankTarget = false) {
     if (refIFrame instanceof HTMLIFrameElement) {
         const iframeDoc = refIFrame.contentWindow.document;
         if (iframeDoc.documentElement)
             iframeDoc.documentElement.remove();
         iframeDoc.write(strContent);
         iframeDoc.close();
+        if (bForceBlankTarget) {
+            let nCount = iframeDoc.querySelectorAll("a").length;
+            iframeDoc.querySelectorAll("a").forEach((a) => {
+                if (hasProtocol(a.href))
+                    a.setAttribute("target", "_blank");
+            });
+        }
     }
 }
 export function clickElement(refElement, path) {

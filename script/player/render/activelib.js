@@ -36,7 +36,7 @@ export class ActiveLibrary {
                 return value.path === localpath;
             });
             if (!lfile) {
-                return "";
+                throw new Error(`ActiveLibrary.getObjectURL: The "${localpath}" file was not found in the "${this.token}" library!`);
             }
             if (lfile.preproc === PreprocType.CssUrl) {
                 const strProcessed = Preprocessor.processCssUrl(lfile.text, this, (rawpath) => {
@@ -71,7 +71,7 @@ export class ActiveLibrary {
         return this._lib.metadata;
     }
     getPreloadedUrl(aPreloadedInfo) {
-        return (aPreloadedInfo) ? aPreloadedInfo.map((item) => this.getObjectURL(item.path)) : [];
+        return (aPreloadedInfo) ? aPreloadedInfo.filter((item) => item.render !== false).map((item) => this.getObjectURL(item.path)) : [];
     }
 }
 export class LibraryPool {
@@ -84,7 +84,7 @@ export class LibraryPool {
         if (!libnest) {
             const storedlib = await appdb.get("libs", libtoken);
             if (!storedlib) {
-                throw new Error(`LibraryPool.getLibrary: The library "${libtoken} was not found!"`);
+                throw new Error(`LibraryPool.getLibrary: The "${libtoken}" library was not found!`);
             }
             const libfiles = await appdb.get("libfiles", libtoken);
             const activelib = new ActiveLibrary(storedlib, libfiles);

@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "iQ7KyAIo",
+  "version": "fam18NoU",
   "assets": [
     {
       "hash": "sha256-vnxHsBMPioSElXgXpRLfQUv7q/l+nxnOeYglnu06wxk=",
@@ -150,7 +150,7 @@ self.assetsManifest = {
       "url": "_content/Radzen.Blazor/fonts/SourceSans3VF-Upright.ttf.woff2"
     },
     {
-      "hash": "sha256-uamGiVOqhpWvfEXfaq/jXCBpQ4UJB7H35ptEFNx3O3o=",
+      "hash": "sha256-p9MScwR/8r+5UteukL2EnGAITSDT7sIseQ5TKyaqod4=",
       "url": "_framework/CyberShelf.wasm"
     },
     {
@@ -426,7 +426,7 @@ self.assetsManifest = {
       "url": "_framework/System.wasm"
     },
     {
-      "hash": "sha256-Ixbsp8P7GDmLHLaGA564wxSMblVejzzW29XulyIlkhA=",
+      "hash": "sha256-4wlLOi/wm1heROFE0g6M7R9MvIHCsgj4h7ja0oylPKg=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -454,7 +454,7 @@ self.assetsManifest = {
       "url": "_framework/icudt.dat"
     },
     {
-      "hash": "sha256-1DU0bVgDxouFkd/dJH6/r3FWvehOyi8c4KCJw243sp0=",
+      "hash": "sha256-kjd57pQCop0Kdl2L2x+j1nBgn8eQMRGJYEa2BxUVFw4=",
       "url": "_framework/ru/CyberShelf.resources.wasm"
     },
     {
@@ -1694,7 +1694,7 @@ self.assetsManifest = {
       "url": "css/animations.css"
     },
     {
-      "hash": "sha256-m1CiAGzGV4w8nXDQANWznRccDsndWucm1p3vt3m4KOs=",
+      "hash": "sha256-/Fm50zzysHXYi3OD1YcbkGr57sNDFoYcV6BxHJgj98U=",
       "url": "css/app.css"
     },
     {
@@ -1722,11 +1722,11 @@ self.assetsManifest = {
       "url": "script/_shared/common.js.map"
     },
     {
-      "hash": "sha256-EsuKGm8FzbN+9cbGFkjrHv+PeoyFZxJ/P827JgA5M5M=",
+      "hash": "sha256-X1Ul3RHhFMvGIYBfFMbtWuUsPmarAWq16RCWOFbUnwU=",
       "url": "script/_shared/helper.js"
     },
     {
-      "hash": "sha256-HebZ8A9eZDDK/T3ksmtiCIpOS2828TCf7ivXp0+lwCY=",
+      "hash": "sha256-G5xIKq3BA7Mvd+eDcTweunghTFIr5cEniBP8MwOWXd8=",
       "url": "script/_shared/helper.js.map"
     },
     {
@@ -1786,11 +1786,11 @@ self.assetsManifest = {
       "url": "script/bridge/lib/visobs.js.map"
     },
     {
-      "hash": "sha256-WDWzkwXyGxKp7OEpvBRjAMYBGeWZsR0UAsOZk5dzFP0=",
+      "hash": "sha256-07ifsL8NRwn+3JnGWkuwr0XX1AwKmW+zcoo8X//+8s0=",
       "url": "script/bridge/utils.js"
     },
     {
-      "hash": "sha256-PIuSyf/rGK4Z1LqzwjekZpI4kzRkI21EKoAWPkhdEQ4=",
+      "hash": "sha256-AvctA3lQ2qM/cqV+upKEnUJENmhvX9Hgt5Y+RtCAaCM=",
       "url": "script/bridge/utils.js.map"
     },
     {
@@ -1798,7 +1798,7 @@ self.assetsManifest = {
       "url": "script/player/abstraction.js"
     },
     {
-      "hash": "sha256-hSm9r2qJu5p1MD3jUoC9LjoAWUOmnYgJMxd9Htra8/I=",
+      "hash": "sha256-ZqlLghiez5MdYMsQ43jLbZqqjdHodRFkFJ3D4vsQ6R4=",
       "url": "script/player/abstraction.js.map"
     },
     {
@@ -1806,7 +1806,7 @@ self.assetsManifest = {
       "url": "script/player/activepool.js"
     },
     {
-      "hash": "sha256-qfJWHUEOGdXBNjYNT33Y5QJHkqeWQsxLBLIva73r6Qk=",
+      "hash": "sha256-3BVm0s5pFzei6Ql5HXC2fpPWvIxYdzwoQAd9OpH7cVg=",
       "url": "script/player/activepool.js.map"
     },
     {
@@ -1826,11 +1826,11 @@ self.assetsManifest = {
       "url": "script/player/datatypes/packraw.js.map"
     },
     {
-      "hash": "sha256-q9wZQJQ/YR8hc+POre6V5gdWgT4z2MDJgqd2nDqPTCI=",
+      "hash": "sha256-wGpbmcb8n3DGLhf6Q1huhZSQD660WyWH+8Rd5ct1vAo=",
       "url": "script/player/installer.js"
     },
     {
-      "hash": "sha256-tGp40zb7VTQjLevchSQfqUvRT3s66TdNsmb+AQfF4sk=",
+      "hash": "sha256-sC2wQXX794/NqiY0r+5Ul3fyiJMlj38+POp0f5x4boU=",
       "url": "script/player/installer.js.map"
     },
     {
@@ -1866,27 +1866,27 @@ self.assetsManifest = {
       "url": "script/player/parsing/codeadapt.js.map"
     },
     {
-      "hash": "sha256-rW41DfWNF8YVmAI93NAXJJuiOCSOGBO9pyqUGGa8YKI=",
+      "hash": "sha256-BlW1GR1zJ4AtAytsOUTjckwNbls0nuo5F1INBFBsGBE=",
       "url": "script/player/parsing/parser.js"
     },
     {
-      "hash": "sha256-MhA5SOP9vPYlfggVeqhrz+s+DFSlXrakwxx8TlI/ipk=",
+      "hash": "sha256-PZ+xvl/MpaUHHGmGBjilld8uInHMPzqBM4EAnmYK5mE=",
       "url": "script/player/parsing/parser.js.map"
     },
     {
-      "hash": "sha256-jju7r/1rRjxuCUUoIpys8x2CQKpUeFa7smQ4KKX2/3M=",
+      "hash": "sha256-Z1GaJY4DEvyn2likVFahZyMNL+y0r9E0bepRyQC50rE=",
       "url": "script/player/render/activelib.js"
     },
     {
-      "hash": "sha256-dSdeMNATtZ7E8Jot4AmanxiQJnoGmRTDUNgnCkhhS3Q=",
+      "hash": "sha256-JvDctwizvlM2S/9uds4259rdInKqWGkh648PbQ37aA0=",
       "url": "script/player/render/activelib.js.map"
     },
     {
-      "hash": "sha256-BjMVgQT2DZ4VcBmKv4//66kZvJ64Q5qfEuxuIWG9KcQ=",
+      "hash": "sha256-xI0gLmTGZzxS4QuaqBiNfy5XghbdbMX+55pv/Os8u4c=",
       "url": "script/player/render/activepack.js"
     },
     {
-      "hash": "sha256-OPiq4+YzpxvMcaqowt+UtAHeMaqaE3f4CgowL1yx+LE=",
+      "hash": "sha256-xHpqgDYdqvI9Yi/++P60sXLqLLNNdygoSxXZ37YZwGA=",
       "url": "script/player/render/activepack.js.map"
     },
     {

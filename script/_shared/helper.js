@@ -95,6 +95,9 @@ export class Helper {
         }
         return "";
     }
+    static startsWith(str, value) {
+        return (typeof str === "string") ? str.startsWith(value) : false;
+    }
     static ensureStartsWith(strTarget, strStart) {
         return (strTarget.startsWith(strStart)) ? strTarget : (strStart + strTarget);
     }

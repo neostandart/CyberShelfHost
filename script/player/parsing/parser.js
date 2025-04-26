@@ -1,5 +1,4 @@
 import { Helper } from "../../_shared/helper.js";
-import * as appdb from "../../_shared/appdb.js";
 import { PreprocType, } from "../abstraction.js";
 import * as h5penv from "../render/h5penv.js";
 import * as codeadapt from "./codeadapt.js";
@@ -122,7 +121,6 @@ export async function parsePackageFile(filePackage, progress) {
     const mapVmbContentEntries = new Map();
     prepareVmbContentMap(strTheContent, mapVmbContentEntries);
     progress.doStep();
-    const aInstalledLibs = await appdb.getAll("libs");
     for (let i = 0; i < aEntries.length; i++) {
         const entry = aEntries[i];
         const parsed = parseEntry(entry);
@@ -148,40 +146,38 @@ export async function parsePackageFile(filePackage, progress) {
             }
             case EntryStatus.LibraryPart: {
                 const libtoken = parsed.rootParent;
-                if (aInstalledLibs.findIndex((value) => { return (value.token == libtoken); }) < 0) {
-                    let newlib = result.newlibs.get(libtoken);
-                    if (!newlib) {
-                        newlib = { token: libtoken, files: [] };
-                        result.newlibs.set(libtoken, newlib);
+                let newlib = result.newlibs.get(libtoken);
+                if (!newlib) {
+                    newlib = { token: libtoken, files: [] };
+                    result.newlibs.set(libtoken, newlib);
+                }
+                const lfile = await makeLinkedFile(parsed, newlib);
+                newlib.files.push(lfile);
+                switch (parsed.filename) {
+                    case KnownNames.LibraryFile: {
+                        const strMetadata = await fetchTextFromEntry(parsed.entry);
+                        newlib.metadata = JSON.parse(strMetadata);
+                        newlib.machineName = newlib.metadata.machineName;
+                        newlib.majorVersion = newlib.metadata.majorVersion;
+                        newlib.minorVersion = newlib.metadata.minorVersion;
+                        newlib.version = h5penv.getVersionFromObject(newlib.metadata);
+                        if (newlib.metadata.coreApi) {
+                            newlib.majorVersionCore = newlib.metadata.coreApi.majorVersion;
+                            newlib.minorVersionCore = newlib.metadata.coreApi.minorVersion;
+                        }
+                        newlib.isAddon = (newlib.metadata.addTo) ? true : false;
+                        if (newlib.isAddon) {
+                            h5penv.regAddonLibrary(newlib);
+                        }
+                        break;
                     }
-                    const lfile = await makeLinkedFile(parsed, newlib);
-                    newlib.files.push(lfile);
-                    switch (parsed.filename) {
-                        case KnownNames.LibraryFile: {
-                            const strMetadata = await fetchTextFromEntry(parsed.entry);
-                            newlib.metadata = JSON.parse(strMetadata);
-                            newlib.machineName = newlib.metadata.machineName;
-                            newlib.majorVersion = newlib.metadata.majorVersion;
-                            newlib.minorVersion = newlib.metadata.minorVersion;
-                            newlib.version = h5penv.getVersionFromObject(newlib.metadata);
-                            if (newlib.metadata.coreApi) {
-                                newlib.majorVersionCore = newlib.metadata.coreApi.majorVersion;
-                                newlib.minorVersionCore = newlib.metadata.coreApi.minorVersion;
-                            }
-                            newlib.isAddon = (newlib.metadata.addTo) ? true : false;
-                            if (newlib.isAddon) {
-                                h5penv.regAddonLibrary(newlib);
-                            }
-                            break;
-                        }
-                        case KnownNames.UpgradesFile: {
-                            newlib.textUpgrades = await fetchTextFromEntry(parsed.entry);
-                            break;
-                        }
-                        case KnownNames.PresaveFile: {
-                            newlib.textPresave = await fetchTextFromEntry(parsed.entry);
-                            break;
-                        }
+                    case KnownNames.UpgradesFile: {
+                        newlib.textUpgrades = await fetchTextFromEntry(parsed.entry);
+                        break;
+                    }
+                    case KnownNames.PresaveFile: {
+                        newlib.textPresave = await fetchTextFromEntry(parsed.entry);
+                        break;
                     }
                 }
                 break;
@@ -201,18 +197,23 @@ export async function parsePackageFile(filePackage, progress) {
     }
     await readerZip.close();
     for (let pair of mapVmbContentEntries.entries()) {
-        var writer = new zip.Uint8ArrayWriter();
-        const data = await pair[1].getData(writer);
-        const blob = new Blob([data]);
-        const readerBlob = new zip.BlobReader(blob);
-        const readerZip = new zip.ZipReader(readerBlob);
-        const aRawEntries = await readerZip.getEntries();
-        for (let i = 0; i < aRawEntries.length; i++) {
-            const entry = aRawEntries[i];
-            if (entry.directory)
-                continue;
-            const lfile = await makeVmbLinkedFile(Helper.extractFileName(pair[0]), entry);
-            result.content.files.push(lfile);
+        if (typeof pair[1].getData === "function") {
+            var writer = new zip.Uint8ArrayWriter();
+            const data = await pair[1].getData(writer);
+            const blob = new Blob([data]);
+            const readerBlob = new zip.BlobReader(blob);
+            const readerZip = new zip.ZipReader(readerBlob);
+            const aRawEntries = await readerZip.getEntries();
+            for (let i = 0; i < aRawEntries.length; i++) {
+                const entry = aRawEntries[i];
+                if (entry.directory)
+                    continue;
+                const lfile = await makeVmbLinkedFile(Helper.extractFileName(pair[0]), entry);
+                result.content.files.push(lfile);
+            }
+        }
+        else {
+            throw new Error(`Incorrect format of the Raw VMB content file "${pair[0]}": The corresponding Zip was not found!`);
         }
     }
     progress.endSegment();

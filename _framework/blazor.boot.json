@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "CyberShelf",
   "resources": {
-    "hash": "sha256-HkbvCN61Z/AshqKLY/pXoBmBAetnjW64RIOwEZQngbQ=",
+    "hash": "sha256-q9yb4Fc2/9XaZ8yjMQOMMTlZoA7spuyNBcntm+VJsEI=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-DTUQS6Jc6BNnS7sYYezFfaUKVmQq0/lanhQuJfygH/k="
     },
@@ -16,7 +16,7 @@
     },
     "coreAssembly": {},
     "assembly": {
-      "CyberShelf.wasm": "sha256-uamGiVOqhpWvfEXfaq/jXCBpQ4UJB7H35ptEFNx3O3o=",
+      "CyberShelf.wasm": "sha256-p9MScwR/8r+5UteukL2EnGAITSDT7sIseQ5TKyaqod4=",
       "Microsoft.AspNetCore.Authorization.wasm": "sha256-/cKBWEfyhBsp1Wpnq7v9QPQnA6UzOCumzB0j8/tFFS8=",
       "Microsoft.AspNetCore.Components.Authorization.wasm": "sha256-gLKMuKiF9yNQ3h1bNL+4DUxKWB+ep3yqYq8zWpt5Crg=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-TFX7HDrfxqDRfuEQ92RI6SWO3kMk6zKl9G9Rv+e+rXM=",
@@ -88,7 +88,7 @@
     },
     "satelliteResources": {
       "ru": {
-        "CyberShelf.resources.wasm": "sha256-1DU0bVgDxouFkd/dJH6/r3FWvehOyi8c4KCJw243sp0="
+        "CyberShelf.resources.wasm": "sha256-kjd57pQCop0Kdl2L2x+j1nBgn8eQMRGJYEa2BxUVFw4="
       }
     }
   },
