@@ -103,6 +103,26 @@ export function fetchBoundingClientRects(targets, scope = null) {
     });
     return aResult;
 }
+export function adjustRelWidth(hteContainer, hteTarget, options) {
+    return new Promise((resolve) => {
+        const nContainerWidth = hteContainer?.clientWidth || 0;
+        let nTargetWidth = 0;
+        if (nContainerWidth > 0) {
+            if (Number.isInteger(options.min) && nContainerWidth <= options.min) {
+                nTargetWidth = nContainerWidth;
+            }
+            else {
+                const nTargetWish = Number(options.wish);
+                nTargetWidth = Number.isInteger(nTargetWish) ? (Math.round((nContainerWidth / 100) * nTargetWish)) : nContainerWidth;
+                if (Number.isInteger(options.max) && nTargetWidth > options.max)
+                    nTargetWidth = options.max;
+            }
+            if (nTargetWidth > 0)
+                hteTarget.style.width = nTargetWidth + "px";
+            resolve();
+        }
+    });
+}
 export function centerElementRelativeTarget(hteCentering, hteTarget, bHorizontal = true) {
     const rcCentering = hteCentering.getBoundingClientRect();
     const rcCenteringParent = hteCentering.offsetParent.getBoundingClientRect();

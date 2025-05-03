@@ -14,7 +14,9 @@
     <script src="_welcome/welcome.js"></script>
     <!---->
     <link href="manifest.webmanifest" rel="manifest" />
-
+    <!---->
+    <script src="_content/Fluxor.Blazor.Web/scripts/index.js"></script>
+    <!---->
     <style>
         .valid.modified:not([type=checkbox]) {
             outline: 1px solid #26b050;
@@ -155,6 +157,21 @@
 
     <!-- Application inline scripts -->
     <script>
+        window.network = {
+            initialize: function (interop) {
+                function handler() {
+                    interop.invokeMethodAsync("Network.StatusChanged", navigator.onLine);
+                }
+
+                window.addEventListener('online', handler);
+                window.addEventListener('offline', handler);
+
+                setTimeout(() => {
+                    handler();
+                }, 0);
+            }
+        };
+
         window.addClass = (element, classname) => {
             if (element instanceof HTMLElement) {
                 element.classList.add(classname);
@@ -179,7 +196,6 @@
                 target.classList.add(classname);
             }
         };
-
     </script>
 </body>
 
