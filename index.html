@@ -15,8 +15,7 @@
     <!---->
     <link href="manifest.webmanifest" rel="manifest" />
     <!---->
-    <script src="_content/Fluxor.Blazor.Web/scripts/index.js"></script>
-    <!---->
+
     <style>
         .valid.modified:not([type=checkbox]) {
             outline: 1px solid #26b050;
@@ -196,6 +195,24 @@
                 target.classList.add(classname);
             }
         };
+
+        //
+
+        window.addEventListener("beforeunload", function (e) {
+            var bPrevetn = DotNet.invokeMethod("CyberShelf", "requestSafeExit");
+            if (bPrevetn === true) {
+                e.preventDefault(); // for dialog show
+            }
+        });
+
+        window.addEventListener("pagehide", (event) => {
+            if (!event.persisted) {
+                DotNet.invokeMethod("CyberShelf", "informAppExit");
+            }
+        },
+            false,
+        );
+
     </script>
 </body>
 

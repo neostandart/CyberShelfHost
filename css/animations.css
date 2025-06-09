@@ -42,6 +42,15 @@
     }
 }
 
+@keyframes kf-fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
 
 /* --------------------------------------------------------- */
 /* Exits */
@@ -56,6 +65,15 @@
     }
 
     100% {
+        opacity: 0;
         display: none;
     }
+}
+
+
+/* --------------------------------------------------------- */
+/* Service Classes */
+
+.fadeIn-usual {
+    animation: 0.3s ease-in 0s forwards kf-fadeIn;
 }

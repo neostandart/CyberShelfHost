@@ -2,7 +2,7 @@ import { DeliveryMethod } from "../_shared/common.js";
 import { Helper } from "../_shared/helper.js";
 import * as appdb from "../_shared/appdb.js";
 import { ProgressControl } from "../_shared/progress.js";
-import { MCPackType } from "./abstraction.js";
+import { ContentPackType } from "./abstraction.js";
 import * as parser from "./parsing/parser.js";
 import { PackageRaw } from "./datatypes/packraw.js";
 import { BookCase } from "./datatypes/bookcase.js";
@@ -209,7 +209,7 @@ async function findUpdateCandidate(packNew) {
                 const cursor = event.target.result;
                 if (cursor) {
                     const packCurrent = cursor.value;
-                    if (packCurrent.packtype === MCPackType.Classic) {
+                    if (packCurrent.packtype === ContentPackType.Classic) {
                         if (packNew.fileinfo.fullname === packCurrent.fileinfo.fullname) {
                             packStored = packCurrent;
                             bMatch = (packNew.fileinfo.size === packCurrent.fileinfo.size) && (packNew.fileinfo.modified === packCurrent.fileinfo.modified);
@@ -397,7 +397,7 @@ export async function installFromService(uri, book, serviceUrl, apiKey) {
         internals = await parser.parsePackageFile(file, progress);
         internals.newlibs = await leaveOnlyNewLibraries(internals.newlibs);
         progress.setSegment(30);
-        const candidateRaw = new PackageRaw(fileInfo, internals, DeliveryMethod.Store, book, serviceUrl);
+        const candidateRaw = new PackageRaw(fileInfo, internals, DeliveryMethod.Service, book, serviceUrl);
         if (!candidateRaw.isCorrect) {
             _refBookMan.invokeMethodAsync("informInstallError", candidateRaw.incorrectMessage);
             return;
@@ -441,7 +441,7 @@ export async function updateFromService(uri, book, serviceUrl, apiKey) {
         internals = await parser.parsePackageFile(file, progress);
         internals.newlibs = await leaveOnlyNewLibraries(internals.newlibs);
         progress.setSegment(30);
-        const candidateRaw = new PackageRaw(fileInfo, internals, DeliveryMethod.Store, book, serviceUrl);
+        const candidateRaw = new PackageRaw(fileInfo, internals, DeliveryMethod.Service, book, serviceUrl);
         if (!candidateRaw.isCorrect) {
             _refBookMan.invokeMethodAsync("informUpdateError", candidateRaw.incorrectMessage);
             return;

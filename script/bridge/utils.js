@@ -184,24 +184,40 @@ export async function fetchSvgFromFile(path, strId, strClass) {
     }
     return svg;
 }
+const _aEventNotifyListeners = [];
+export function subEventNotify(eventSource, query, eventName, listener, callbackName) {
+    let target = (query) ? eventSource.querySelector(query) : eventSource;
+    if (target) {
+        const item = {
+            target: target,
+            listener: listener,
+            handler: (ev) => {
+                listener.invokeMethodAsync(callbackName);
+            }
+        };
+        item.target.addEventListener(eventName, item.handler);
+        _aEventNotifyListeners.push(item);
+    }
+}
+export function unsubEventNotify(eventSource, query, listener) {
+    let target = (query) ? eventSource.querySelector(query) : eventSource;
+    if (target) {
+        const iIndex = _aEventNotifyListeners.findIndex((item) => item.target === target && item.listener._id === listener._id);
+        if (iIndex >= 0)
+            _aEventNotifyListeners.splice(iIndex, 1);
+    }
+}
 function hasProtocol(path) {
     return path ? path.match(/^[a-z0-9]+:\/\//i) !== null : false;
 }
 ;
-export function writeToIFrame(refIFrame, strContent, bForceBlankTarget = false) {
+export function fillFrameDoc(refIFrame, strContent) {
     if (refIFrame instanceof HTMLIFrameElement) {
-        const iframeDoc = refIFrame.contentWindow.document;
-        if (iframeDoc.documentElement)
-            iframeDoc.documentElement.remove();
-        iframeDoc.write(strContent);
-        iframeDoc.close();
-        if (bForceBlankTarget) {
-            let nCount = iframeDoc.querySelectorAll("a").length;
-            iframeDoc.querySelectorAll("a").forEach((a) => {
-                if (hasProtocol(a.href))
-                    a.setAttribute("target", "_blank");
-            });
-        }
+        setTimeout((frame) => {
+            if (frame instanceof HTMLIFrameElement) {
+                frame.srcdoc = strContent;
+            }
+        }, 0, refIFrame);
     }
 }
 export function clickElement(refElement, path) {

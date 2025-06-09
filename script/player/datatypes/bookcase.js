@@ -1,4 +1,4 @@
-import { MCPackType } from "../abstraction.js";
+import { ContentPackType } from "../abstraction.js";
 export class BookCase {
     id;
     origId;
@@ -18,7 +18,7 @@ export class BookCase {
         this.name = stored.name;
         this.version = stored.version;
         this.isPopup = stored.isPopup;
-        this.packtype = stored.packtype || MCPackType.Classic;
+        this.packtype = stored.packtype || ContentPackType.Classic;
         this.delivery = stored.delivery;
         this.suiteid = stored.suiteid;
         this.filename = stored.fileinfo.fullname;

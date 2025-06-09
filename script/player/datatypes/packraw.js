@@ -1,5 +1,5 @@
 import { Helper } from "../../_shared/helper.js";
-import { MCPackType, } from "../abstraction.js";
+import { ContentPackType, } from "../abstraction.js";
 import * as h5penv from "../render/h5penv.js";
 import { BookCase } from "./bookcase.js";
 export class PackageRaw {
@@ -43,7 +43,7 @@ export class PackageRaw {
                 name: internals.metadata.title,
                 version: "0.0.0.0",
                 isPopup: false,
-                packtype: MCPackType.Classic,
+                packtype: ContentPackType.Classic,
                 delivery: delivery,
                 sourceid: servbook?.distributorId || "",
                 sourceurl: serviceUrl || "",
@@ -61,14 +61,14 @@ export class PackageRaw {
             if (servbook) {
                 this._objPackage.id = servbook.id;
                 this._objPackage.version = servbook.version;
-                this._objPackage.packtype = MCPackType.Book;
+                this._objPackage.packtype = ContentPackType.Book;
             }
             else {
                 let packId = this.extractId(this._objPackage.metadata.authorComments);
                 if (packId) {
                     this._objPackage.id = packId;
                     this._objPackage.version = this.extractVersion(this._objPackage.metadata.changes) || this._objPackage.version;
-                    this._objPackage.packtype = MCPackType.Book;
+                    this._objPackage.packtype = ContentPackType.Book;
                 }
                 else {
                     this._objPackage.id = "h5p-" + Helper.createDynamicID();
@@ -95,10 +95,10 @@ export class PackageRaw {
         return this._isCorrect;
     }
     get isRegular() {
-        return this._objPackage.packtype === MCPackType.Classic;
+        return this._objPackage.packtype === ContentPackType.Classic;
     }
     get isBook() {
-        return this._objPackage.packtype !== MCPackType.Classic;
+        return this._objPackage.packtype !== ContentPackType.Classic;
     }
     get incorrectMessage() {
         return this._strIncorrectMessage;
@@ -124,7 +124,7 @@ export class PackageRaw {
     }
     changeId(idNew) {
         this._objPackage.id = idNew;
-        if (this._objPackage.packtype === MCPackType.Classic) {
+        if (this._objPackage.packtype === ContentPackType.Classic) {
             this._objPackage.origId = idNew;
         }
     }

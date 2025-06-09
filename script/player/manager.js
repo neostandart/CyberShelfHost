@@ -107,6 +107,10 @@ export async function fetchBookCases() {
         }
     });
 }
+export async function hasBookAnnotation(packid) {
+    const packext = await appdb.get("packext", packid);
+    return packext?.annotation ? true : false;
+}
 export async function fetchBookAnnotation(packid) {
     const packext = await appdb.get("packext", packid);
     return packext.annotation || "";

@@ -18,6 +18,22 @@
             padding: 1rem 0.5rem;
         }
 
+        /* Slight correction the Quiz (Question Set) style within InteractiveBook */
+        .h5p-no-frame .h5p-column-content .questionset
+        {
+            padding-top: 0.5rem;
+        }
+
+	    .h5p-no-frame .h5p-column-content .questionset .h5p-question > *:not(.h5p-question-video)
+        {
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .h5p-interactive-book-cover-graphics.h5p-image > img {
+            min-width: auto;
+        }
+
         /* Small devices (landscape phones, 576px and up) */
         @media (min-width: 576px) {
             .h5p-container:not(.h5p-interactive-book) {

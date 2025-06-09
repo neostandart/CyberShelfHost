@@ -57,6 +57,7 @@ export var DeliveryMethod;
 (function (DeliveryMethod) {
     DeliveryMethod[DeliveryMethod["Local"] = 0] = "Local";
     DeliveryMethod[DeliveryMethod["Link"] = 1] = "Link";
-    DeliveryMethod[DeliveryMethod["Store"] = 2] = "Store";
+    DeliveryMethod[DeliveryMethod["Storage"] = 2] = "Storage";
+    DeliveryMethod[DeliveryMethod["Service"] = 3] = "Service";
 })(DeliveryMethod || (DeliveryMethod = {}));
 //# sourceMappingURL=common.js.map
