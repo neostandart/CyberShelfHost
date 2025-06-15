@@ -188,10 +188,12 @@ const _aEventNotifyListeners = [];
 export function subEventNotify(eventSource, query, eventName, listener, callbackName) {
     let target = (query) ? eventSource.querySelector(query) : eventSource;
     if (target) {
+        console.log("utils.js subEventNotify eventName=" + eventName);
         const item = {
             target: target,
             listener: listener,
             handler: (ev) => {
+                console.log("utils.js subEventNotify СРАБОТАЛО! eventName=" + eventName);
                 listener.invokeMethodAsync(callbackName);
             }
         };
@@ -203,8 +205,10 @@ export function unsubEventNotify(eventSource, query, listener) {
     let target = (query) ? eventSource.querySelector(query) : eventSource;
     if (target) {
         const iIndex = _aEventNotifyListeners.findIndex((item) => item.target === target && item.listener._id === listener._id);
-        if (iIndex >= 0)
+        if (iIndex >= 0) {
+            console.log("utils.js unsubEventNotify query=" + query);
             _aEventNotifyListeners.splice(iIndex, 1);
+        }
     }
 }
 function hasProtocol(path) {

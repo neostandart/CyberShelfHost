@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "IDfim1Z9",
+  "version": "vnfKx9kp",
   "assets": [
     {
-      "hash": "sha256-SJDr+fn9s3HEQRtAMMp4FiRNWrd6RuVfLgddz6QFteM=",
+      "hash": "sha256-a3leKqpAJzh1pOH3k3ZzXEHq7extAoKO7DiB0RxdM0c=",
       "url": "CyberShelf.styles.css"
     },
     {
@@ -186,7 +186,7 @@ self.assetsManifest = {
       "url": "_content/Radzen.Blazor/fonts/SourceSans3VF-Upright.ttf.woff2"
     },
     {
-      "hash": "sha256-TrMywvTOtq/TFQr7DjA/D3m1G3fFo1XNYF+drwY2kFc=",
+      "hash": "sha256-fGFlDBTcOJF9UXl5z79qwm7Y3lLg75Cb6zp1jmMZhoE=",
       "url": "_framework/CyberShelf.wasm"
     },
     {
@@ -530,7 +530,7 @@ self.assetsManifest = {
       "url": "_framework/System.wasm"
     },
     {
-      "hash": "sha256-waSKQso2sDjSY8+77ZWRuvAvs0fiPNM+5d5hZxUvWmI=",
+      "hash": "sha256-pbvKBevw6MfJKmMvv8dgq3akdxUtpUvTxXAq2tJ4FRw=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -630,7 +630,7 @@ self.assetsManifest = {
       "url": "_framework/pt-BR/Microsoft.CodeAnalysis.resources.wasm"
     },
     {
-      "hash": "sha256-Fv/TbAPrt0vjUtZ2fLMOpQNWEXesxaQtZ3lWkHmwD4c=",
+      "hash": "sha256-4PYQWnRHthTPAKDCOtvNZ4/dnv8WdMn+6WxokFOxdFE=",
       "url": "_framework/ru/CyberShelf.resources.wasm"
     },
     {
@@ -686,11 +686,19 @@ self.assetsManifest = {
       "url": "appsettings.json"
     },
     {
+      "hash": "sha256-nqgz38BzEuFd/Rh5vGSz/gIq4zYFkxKoGYN6+IeEUes=",
+      "url": "assets/about/egor-avatar-square.png"
+    },
+    {
+      "hash": "sha256-ykKcE46lCtVmU117HctNJ1cGRA7lLd6NGQiqb2dQ10M=",
+      "url": "assets/about/grigory-avatar-square.png"
+    },
+    {
       "hash": "sha256-9zB85X8JGJ2Xv1RRXZdvMSMd+JOeXGvWXyGrXKwwlZo=",
       "url": "assets/about/logo-neostandart.png"
     },
     {
-      "hash": "sha256-h3XEVFONjs7eIR2RmJAi8CXIys+bTdl5MjALc1CX4/M=",
+      "hash": "sha256-0oaNqnXVHlELgtvglOnqqlNhKavgYCgXyM1FcdiRZlc=",
       "url": "assets/about/logo-uppercode.svg"
     },
     {
@@ -2006,11 +2014,11 @@ self.assetsManifest = {
       "url": "script/bridge/lib/visobs.js.map"
     },
     {
-      "hash": "sha256-6rDx4cu9rP8JlPxVQDEG5M3cGUcCuPiLK5rIwOm65lk=",
+      "hash": "sha256-Pcuizog6ON/RKLOs+sI7wnA4Nl6ue5A6Sbc4oF2iYwQ=",
       "url": "script/bridge/utils.js"
     },
     {
-      "hash": "sha256-InRYhH5CLAF17rBayRMEJ816dxsaqpBrXMiQ2UQfkRk=",
+      "hash": "sha256-zTZTX+hUrMDDp+BXhABeAGSAyAyZEYtt8Uom+IOYDnE=",
       "url": "script/bridge/utils.js.map"
     },
     {

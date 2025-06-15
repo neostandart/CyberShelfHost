@@ -1614,6 +1614,41 @@ h1[b-w4b4g52xeq] {
     padding: 0.25rem;
 }
 
+[b-w4b4g52xeq] #AboutSection {
+    --rz-accordion-item-background-color: transparent;
+    background-color: var(--rz-primary-lighter);
+    --rz-accordion-content-padding-block: 0 1rem;
+}
+
+    [b-w4b4g52xeq] #AboutSection .logoimg {
+        max-height: 80px;
+        align-self: self-start;
+    }
+
+    [b-w4b4g52xeq] #AboutSection .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+    }
+
+    [b-w4b4g52xeq] #AboutSection #Copyright {
+        margin-top: 0.25rem;
+        align-self: center;
+    }
+
+
+/* Adaptation to the smallest screens */
+@media (max-width: 575.98px) {
+    [b-w4b4g52xeq] #AboutSection .logoimg {
+        max-height: 70px;
+    }
+
+    [b-w4b4g52xeq] #AboutSection .avatar {
+        width: 70px;
+        height: 70px;
+    }
+
+}
 /* /Pages/Home/HomePage.razor.rz.scp.css */
 /* /Pages/Home/Stuff/EnterControl.razor.rz.scp.css */
 
@@ -1625,6 +1660,14 @@ article[b-v1229qkoaa] {
 article.entrance[b-v1229qkoaa] {
     display: initial;
     animation: .75s linear 0.2s forwards kf-bounceIn;
+}
+
+#EnterBtnBox[b-v1229qkoaa] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--rz-primary);
 }
 
 /* /Pages/Settings/SettingsPage.razor.rz.scp.css */
