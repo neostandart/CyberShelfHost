@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "CyberShelf",
   "resources": {
-    "hash": "sha256-qQrUOnXVFDUQ1bto7BXwS/fMCGh32fJhdXjAJxvjP90=",
+    "hash": "sha256-6ZXyvhTsi2ljcQAIDT4AVDgY2qKw5PnEAI+aw/4O09E=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-RiGT44TFZmHOY+Oqvb8o8r+BJVWex6+dPxFxrOiWvFY="
     },
@@ -101,7 +101,7 @@
       "System.Xml.XPath.XDocument.wasm": "sha256-aulMjAdZSPHscYCwf8Txy3mdYhIcdyS81le0Wx3X9gw=",
       "System.wasm": "sha256-pAY9GZZ7nipBlYcbrQukH9oxvgW24CQewcWTkItVHOs=",
       "System.Private.CoreLib.wasm": "sha256-eq1x5y343e0z1hK6xpgBoZdbUGuML09XLEbbRWIvLiY=",
-      "CyberShelf.wasm": "sha256-fGFlDBTcOJF9UXl5z79qwm7Y3lLg75Cb6zp1jmMZhoE="
+      "CyberShelf.wasm": "sha256-Ukp+R+kHsKIy7o6mdn0xIIpF4PakQeLA0scat+s6euA="
     },
     "satelliteResources": {
       "cs": {
@@ -143,7 +143,7 @@
       "ru": {
         "Microsoft.CodeAnalysis.resources.wasm": "sha256-+7mZeRjGc2M6hJ1qiMRJ8OEm5UyZWf3qPw/Z0sZUQcc=",
         "Microsoft.CodeAnalysis.CSharp.resources.wasm": "sha256-gyvuLjq56xJ52UJ4PYF5kNrg/0o7U+fwNd7Y/ymQ6KA=",
-        "CyberShelf.resources.wasm": "sha256-4PYQWnRHthTPAKDCOtvNZ4/dnv8WdMn+6WxokFOxdFE="
+        "CyberShelf.resources.wasm": "sha256-NJ6Q0R7CWYfQZDF3fl7s6VENTiqVBZkYoKfeK78SvDw="
       },
       "tr": {
         "Microsoft.CodeAnalysis.resources.wasm": "sha256-gqd81F4jNypiqxlOrU8EwRHawcFDnr4kBcOs+jTsGpg=",

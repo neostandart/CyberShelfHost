@@ -105,22 +105,24 @@ export function fetchBoundingClientRects(targets, scope = null) {
 }
 export function adjustRelWidth(hteContainer, hteTarget, options) {
     return new Promise((resolve) => {
-        const nContainerWidth = hteContainer?.clientWidth || 0;
-        let nTargetWidth = 0;
-        if (nContainerWidth > 0) {
-            if (Number.isInteger(options.min) && nContainerWidth <= options.min) {
-                nTargetWidth = nContainerWidth;
+        if (hteContainer && hteTarget) {
+            const nContainerWidth = hteContainer?.clientWidth || 0;
+            let nTargetWidth = 0;
+            if (nContainerWidth > 0) {
+                if (Number.isInteger(options.min) && nContainerWidth <= options.min) {
+                    nTargetWidth = nContainerWidth;
+                }
+                else {
+                    const nTargetWish = Number(options.wish);
+                    nTargetWidth = Number.isInteger(nTargetWish) ? (Math.round((nContainerWidth / 100) * nTargetWish)) : nContainerWidth;
+                    if (Number.isInteger(options.max) && nTargetWidth > options.max)
+                        nTargetWidth = options.max;
+                }
+                if (nTargetWidth > 0)
+                    hteTarget.style.width = nTargetWidth + "px";
             }
-            else {
-                const nTargetWish = Number(options.wish);
-                nTargetWidth = Number.isInteger(nTargetWish) ? (Math.round((nContainerWidth / 100) * nTargetWish)) : nContainerWidth;
-                if (Number.isInteger(options.max) && nTargetWidth > options.max)
-                    nTargetWidth = options.max;
-            }
-            if (nTargetWidth > 0)
-                hteTarget.style.width = nTargetWidth + "px";
-            resolve();
         }
+        resolve();
     });
 }
 export function centerElementRelativeTarget(hteCentering, hteTarget, bHorizontal = true) {
@@ -188,12 +190,10 @@ const _aEventNotifyListeners = [];
 export function subEventNotify(eventSource, query, eventName, listener, callbackName) {
     let target = (query) ? eventSource.querySelector(query) : eventSource;
     if (target) {
-        console.log("utils.js subEventNotify eventName=" + eventName);
         const item = {
             target: target,
             listener: listener,
             handler: (ev) => {
-                console.log("utils.js subEventNotify СРАБОТАЛО! eventName=" + eventName);
                 listener.invokeMethodAsync(callbackName);
             }
         };
@@ -205,10 +205,8 @@ export function unsubEventNotify(eventSource, query, listener) {
     let target = (query) ? eventSource.querySelector(query) : eventSource;
     if (target) {
         const iIndex = _aEventNotifyListeners.findIndex((item) => item.target === target && item.listener._id === listener._id);
-        if (iIndex >= 0) {
-            console.log("utils.js unsubEventNotify query=" + query);
+        if (iIndex >= 0)
             _aEventNotifyListeners.splice(iIndex, 1);
-        }
     }
 }
 function hasProtocol(path) {
@@ -216,13 +214,12 @@ function hasProtocol(path) {
 }
 ;
 export function fillFrameDoc(refIFrame, strContent) {
-    if (refIFrame instanceof HTMLIFrameElement) {
-        setTimeout((frame) => {
-            if (frame instanceof HTMLIFrameElement) {
-                frame.srcdoc = strContent;
-            }
-        }, 0, refIFrame);
-    }
+    return new Promise((resolve) => {
+        if (refIFrame instanceof HTMLIFrameElement) {
+            refIFrame.srcdoc = strContent;
+        }
+        resolve();
+    });
 }
 export function clickElement(refElement, path) {
     if (refElement instanceof HTMLElement) {

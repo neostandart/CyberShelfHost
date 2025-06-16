@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "vnfKx9kp",
+  "version": "tneDewNn",
   "assets": [
     {
       "hash": "sha256-a3leKqpAJzh1pOH3k3ZzXEHq7extAoKO7DiB0RxdM0c=",
@@ -186,7 +186,7 @@ self.assetsManifest = {
       "url": "_content/Radzen.Blazor/fonts/SourceSans3VF-Upright.ttf.woff2"
     },
     {
-      "hash": "sha256-fGFlDBTcOJF9UXl5z79qwm7Y3lLg75Cb6zp1jmMZhoE=",
+      "hash": "sha256-Ukp+R+kHsKIy7o6mdn0xIIpF4PakQeLA0scat+s6euA=",
       "url": "_framework/CyberShelf.wasm"
     },
     {
@@ -530,7 +530,7 @@ self.assetsManifest = {
       "url": "_framework/System.wasm"
     },
     {
-      "hash": "sha256-pbvKBevw6MfJKmMvv8dgq3akdxUtpUvTxXAq2tJ4FRw=",
+      "hash": "sha256-74HmNM4MdiRB3BTaCbHglLt2c1Lhsy3HAM56PtAe3mg=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -630,7 +630,7 @@ self.assetsManifest = {
       "url": "_framework/pt-BR/Microsoft.CodeAnalysis.resources.wasm"
     },
     {
-      "hash": "sha256-4PYQWnRHthTPAKDCOtvNZ4/dnv8WdMn+6WxokFOxdFE=",
+      "hash": "sha256-NJ6Q0R7CWYfQZDF3fl7s6VENTiqVBZkYoKfeK78SvDw=",
       "url": "_framework/ru/CyberShelf.resources.wasm"
     },
     {
@@ -2014,11 +2014,11 @@ self.assetsManifest = {
       "url": "script/bridge/lib/visobs.js.map"
     },
     {
-      "hash": "sha256-Pcuizog6ON/RKLOs+sI7wnA4Nl6ue5A6Sbc4oF2iYwQ=",
+      "hash": "sha256-HtZJcdVrX/Pk8T5PVBAF197ikx4Qfy/X2THlS8nF9xI=",
       "url": "script/bridge/utils.js"
     },
     {
-      "hash": "sha256-zTZTX+hUrMDDp+BXhABeAGSAyAyZEYtt8Uom+IOYDnE=",
+      "hash": "sha256-uWF0O9BUlPkBQTgQIIdOAwtQFlK7ejDtPMrxXxh2y7w=",
       "url": "script/bridge/utils.js.map"
     },
     {
@@ -2158,11 +2158,11 @@ self.assetsManifest = {
       "url": "script/player/workers/install-worker.js.map"
     },
     {
-      "hash": "sha256-kk6OP7H5pHRrCvVmM9gA6pLCWNsop7yiGttBAVI/1IU=",
+      "hash": "sha256-4duCMP/i2o0p2FkjwuN5SkCcmaDCah44hgtxQxoudf8=",
       "url": "vendor/bootstrap/bootstrap.min.css"
     },
     {
-      "hash": "sha256-Xt+vPCfHWYugn8/ASoGaJokBzjQ/Bw9JW06WthDalUI=",
+      "hash": "sha256-TA5QXz7SP+UX+nJ+WHr2QkhIuD8WXIODo+i6GICGvJc=",
       "url": "vendor/bootstrap/bundle.min.js"
     },
     {
