@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "tneDewNn",
+  "version": "Xmzgz9fx",
   "assets": [
     {
       "hash": "sha256-a3leKqpAJzh1pOH3k3ZzXEHq7extAoKO7DiB0RxdM0c=",
@@ -186,7 +186,7 @@ self.assetsManifest = {
       "url": "_content/Radzen.Blazor/fonts/SourceSans3VF-Upright.ttf.woff2"
     },
     {
-      "hash": "sha256-Ukp+R+kHsKIy7o6mdn0xIIpF4PakQeLA0scat+s6euA=",
+      "hash": "sha256-p1wEtQYJnGJwT0pnFQQZcUVgIvUcoZy3/xAJfMMpETA=",
       "url": "_framework/CyberShelf.wasm"
     },
     {
@@ -530,7 +530,7 @@ self.assetsManifest = {
       "url": "_framework/System.wasm"
     },
     {
-      "hash": "sha256-74HmNM4MdiRB3BTaCbHglLt2c1Lhsy3HAM56PtAe3mg=",
+      "hash": "sha256-1FYxnvhVoClVsvcigV1S9PCLHh5186b+wbbgcteVRSs=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -630,7 +630,7 @@ self.assetsManifest = {
       "url": "_framework/pt-BR/Microsoft.CodeAnalysis.resources.wasm"
     },
     {
-      "hash": "sha256-NJ6Q0R7CWYfQZDF3fl7s6VENTiqVBZkYoKfeK78SvDw=",
+      "hash": "sha256-uqc6hK5MT1HaIDsbouxN6Okc+S6CdM67/kU5UuGllu4=",
       "url": "_framework/ru/CyberShelf.resources.wasm"
     },
     {
