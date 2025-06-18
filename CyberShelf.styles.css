@@ -1373,6 +1373,9 @@ article[b-z636rsmn8k] {
     height: 100%;
 }
 
+/***********************/
+/* Header (Logo, etc.) */
+
 header[b-z636rsmn8k] {
     display: grid;
     grid-template-columns: auto auto 1fr;
@@ -1415,7 +1418,63 @@ header[b-z636rsmn8k] {
     }
 }
 
+/* //////////////////////////////// */
+/* Main Content */
+/* //////////////////////////////// */
 
+#MainContent[b-z636rsmn8k] {
+    position: relative;
+    height: 100%;
+}
+
+/****************************/
+/* Book Info (Sidebar) */
+
+#InfoBar[b-z636rsmn8k] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--rz-info);
+    height: 100%;
+    background-color: var(--rz-sidebar-background-color);
+    z-index: var(--rz-sidebar-z);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-100px);
+}
+
+    #InfoBar.expanded[b-z636rsmn8k] {
+        visibility: visible;
+        transform: translateX(0);
+        opacity: 1;
+        transition: visibility 0s linear 0s, transform 300ms, opacity 300ms;
+    }
+
+    #InfoBar #Header[b-z636rsmn8k] {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--rz-info-lighter);
+        padding: 0.5rem;
+    }
+
+    #InfoBar #BookInfoCaption[b-z636rsmn8k] {
+        margin: 0 0.5rem 0 0;
+    }
+
+
+[b-z636rsmn8k] #BooksContainer {
+    height: 100%;
+    overflow-y: auto;
+    padding: 0.75rem 0.5rem 0 0;
+}
+
+
+/***********************/
+/* Tabs (Main content) */
 
 [b-z636rsmn8k] .rz-tabview {
     overflow: hidden;
@@ -1441,6 +1500,7 @@ header[b-z636rsmn8k] {
     width: auto;
 }
 
+
 [b-z636rsmn8k] .content-frame {
     overflow-y: auto;
     width: 100%;
@@ -1449,6 +1509,7 @@ header[b-z636rsmn8k] {
     padding: 0;
     scrollbar-width: thin;
 }
+
 
 [b-z636rsmn8k] #DataList {
     overflow-y: auto;
@@ -1468,33 +1529,6 @@ header[b-z636rsmn8k] {
     }
 
 
-[b-z636rsmn8k] #BookDetailsView {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    border: 1px solid var(--rz-info);
-    height: 100%;
-}
-
-    [b-z636rsmn8k] #BookDetailsView #Header {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        background-color: var(--rz-info-lighter);
-        padding: 0.5rem;
-    }
-
-    [b-z636rsmn8k] #BookDetailsView #HeaderText {
-        margin: 0 0.5rem 0 0;
-    }
-
-
-[b-z636rsmn8k] #BooksContainer {
-    height: 100%;
-    overflow-y: auto;
-    padding: 0.75rem 0.5rem 0 0;
-}
 /* /Pages/Catalog/Stuff/Master.razor.rz.scp.css */
 article[b-bbhrua9rl9] {
     display: flex;

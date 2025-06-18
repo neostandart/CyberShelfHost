@@ -103,27 +103,23 @@ export function fetchBoundingClientRects(targets, scope = null) {
     });
     return aResult;
 }
-export function adjustRelWidth(hteContainer, hteTarget, options) {
-    return new Promise((resolve) => {
-        if (hteContainer && hteTarget) {
-            const nContainerWidth = hteContainer?.clientWidth || 0;
-            let nTargetWidth = 0;
-            if (nContainerWidth > 0) {
-                if (Number.isInteger(options.min) && nContainerWidth <= options.min) {
-                    nTargetWidth = nContainerWidth;
-                }
-                else {
-                    const nTargetWish = Number(options.wish);
-                    nTargetWidth = Number.isInteger(nTargetWish) ? (Math.round((nContainerWidth / 100) * nTargetWish)) : nContainerWidth;
-                    if (Number.isInteger(options.max) && nTargetWidth > options.max)
-                        nTargetWidth = options.max;
-                }
-                if (nTargetWidth > 0)
-                    hteTarget.style.width = nTargetWidth + "px";
+export async function calcRelativeWidth(hteContainer, hteTarget, options) {
+    let result = 0;
+    if (hteContainer && hteTarget) {
+        const nContainerWidth = hteContainer?.clientWidth || 0;
+        if (nContainerWidth > 0) {
+            if (Number.isInteger(options.min) && nContainerWidth <= options.min) {
+                result = nContainerWidth;
+            }
+            else {
+                const nTargetWish = Number(options.wish);
+                result = Number.isInteger(nTargetWish) ? (Math.round((nContainerWidth / 100) * nTargetWish)) : nContainerWidth;
+                if (Number.isInteger(options.max) && result > options.max)
+                    result = options.max;
             }
         }
-        resolve();
-    });
+    }
+    return result;
 }
 export function centerElementRelativeTarget(hteCentering, hteTarget, bHorizontal = true) {
     const rcCentering = hteCentering.getBoundingClientRect();
@@ -188,10 +184,11 @@ export async function fetchSvgFromFile(path, strId, strClass) {
 }
 const _aEventNotifyListeners = [];
 export function subEventNotify(eventSource, query, eventName, listener, callbackName) {
-    let target = (query) ? eventSource.querySelector(query) : eventSource;
-    if (target) {
+    let emitter = (query) ? eventSource?.querySelector(query) : eventSource;
+    if (emitter && listener) {
         const item = {
-            target: target,
+            target: emitter,
+            eventName: eventName,
             listener: listener,
             handler: (ev) => {
                 listener.invokeMethodAsync(callbackName);
@@ -201,12 +198,45 @@ export function subEventNotify(eventSource, query, eventName, listener, callback
         _aEventNotifyListeners.push(item);
     }
 }
-export function unsubEventNotify(eventSource, query, listener) {
-    let target = (query) ? eventSource.querySelector(query) : eventSource;
-    if (target) {
-        const iIndex = _aEventNotifyListeners.findIndex((item) => item.target === target && item.listener._id === listener._id);
-        if (iIndex >= 0)
+export function unsubEventNotify(eventSource, query, eventName, listener) {
+    let emitter = (query) ? eventSource?.querySelector(query) : eventSource;
+    if (emitter && listener) {
+        const iIndex = _aEventNotifyListeners.findIndex(item => item.target === emitter &&
+            item.eventName === eventName &&
+            item.listener._id === listener._id);
+        if (iIndex >= 0) {
+            const theItem = _aEventNotifyListeners[iIndex];
+            theItem.target.removeEventListener(theItem.eventName, theItem.handler);
             _aEventNotifyListeners.splice(iIndex, 1);
+        }
+    }
+}
+const _aTransitionEndListeners = [];
+export function subTransitionEnd(eventSource, query, propertyName, listener, callbackName) {
+    let emitter = (query) ? eventSource?.querySelector(query) : eventSource;
+    if (emitter && listener) {
+        const item = {
+            emitter: emitter,
+            propertyName: propertyName,
+            listener: listener,
+            handler: function (ev) {
+                if (ev.propertyName == this.propertyName)
+                    listener.invokeMethodAsync(callbackName);
+            }
+        };
+        item.emitter.addEventListener("transitionend", item.handler.bind(item));
+        _aTransitionEndListeners.push(item);
+    }
+}
+export function unsubTransitionEnd(eventSource, query, listener) {
+    let emitter = (query) ? eventSource?.querySelector(query) : eventSource;
+    if (emitter && listener) {
+        const iIndex = _aTransitionEndListeners.findIndex(item => item.emitter === emitter && item.listener._id === listener._id);
+        if (iIndex >= 0) {
+            const theItem = _aTransitionEndListeners[iIndex];
+            theItem.emitter.removeEventListener("transitionend", theItem.handler);
+            _aTransitionEndListeners.splice(iIndex, 1);
+        }
     }
 }
 function hasProtocol(path) {
@@ -218,7 +248,9 @@ export function fillFrameDoc(refIFrame, strContent) {
         if (refIFrame instanceof HTMLIFrameElement) {
             refIFrame.srcdoc = strContent;
         }
-        resolve();
+        setTimeout(() => {
+            resolve();
+        }, 0);
     });
 }
 export function clickElement(refElement, path) {
