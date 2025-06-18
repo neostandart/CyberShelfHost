@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "rmK+1Esy",
+  "version": "plbqVLYD",
   "assets": [
     {
       "hash": "sha256-dsrwFF8+87DzqtNFVg/SQJhn04+jAJkQ3AB7gRIvkzc=",
@@ -530,7 +530,7 @@ self.assetsManifest = {
       "url": "_framework/System.wasm"
     },
     {
-      "hash": "sha256-WV/Q5eWACB1HUNAe9VLg94nApLX/ovHysQX04K2wlys=",
+      "hash": "sha256-jeME5cKgXNZlgeEs1xTvIFUNZun68naIygeSehcRKDI=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -630,7 +630,7 @@ self.assetsManifest = {
       "url": "_framework/pt-BR/Microsoft.CodeAnalysis.resources.wasm"
     },
     {
-      "hash": "sha256-sHKWyyHoGoAKzoFagf3l0hVUvgOTIqlkoH/u8rIbnmE=",
+      "hash": "sha256-Lj+nHUlkjk7gBLZ8voe0Ku70Ak7Q1zO1cHxCtn5qyEE=",
       "url": "_framework/ru/CyberShelf.resources.wasm"
     },
     {
