@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "CyberShelf",
   "resources": {
-    "hash": "sha256-bgTct4JXWld1QoZBh0v4HxRgEpkMJpDc4zZ+3VGNB90=",
+    "hash": "sha256-hk3yhczPHrBsp9mxx5hYnA9FsyG94Ny+pNxFRj0LB8U=",
     "fingerprinting": {
       "Fluxor.spaznd1495.wasm": "Fluxor.wasm",
       "Fluxor.Blazor.Web.cl1oh36s39.wasm": "Fluxor.Blazor.Web.wasm",
@@ -70,13 +70,13 @@
       "System.Xml.XDocument.30glkrhgy8.wasm": "System.Xml.XDocument.wasm",
       "System.cunp5qiwjj.wasm": "System.wasm",
       "System.Private.CoreLib.lvx2iqpxan.wasm": "System.Private.CoreLib.wasm",
-      "CyberShelf.cdpq6x4wju.wasm": "CyberShelf.wasm",
+      "CyberShelf.nt8oypvltl.wasm": "CyberShelf.wasm",
       "dotnet.native.k38p6doric.js": "dotnet.native.js",
       "dotnet.native.ea2d5je3uy.wasm": "dotnet.native.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.runtime.d1pzlaz2ez.js": "dotnet.runtime.js",
       "icudt.oh1zvcfom8.dat": "icudt.dat",
-      "CyberShelf.resources.nyfphc17lg.wasm": "CyberShelf.resources.wasm"
+      "CyberShelf.resources.tdkw3brone.wasm": "CyberShelf.resources.wasm"
     },
     "jsModuleNative": {
       "dotnet.native.k38p6doric.js": "sha256-QE9Croloa10VxZAdJtpTebExba2nDr9M/s+Ef+HUb+o="
@@ -160,11 +160,11 @@
       "System.Xml.Linq.464ny307vp.wasm": "sha256-JH2xrHoPze3JMRfEdHB+v49DP2GBYXfK1SHBHjP/fL4=",
       "System.Xml.XDocument.30glkrhgy8.wasm": "sha256-QzTlKkaCnioLCZev1SoKzlpTi28sbS1hR7WK4rYzJFc=",
       "System.cunp5qiwjj.wasm": "sha256-DM5iEENhrifGKn33Y7cqRzxC0OtHXYOKO13icwIazj8=",
-      "CyberShelf.cdpq6x4wju.wasm": "sha256-8CxLuYFLWPUOztw7d5nZruu8vFKzEnZOvlcupBJyU60="
+      "CyberShelf.nt8oypvltl.wasm": "sha256-q9gBsPGFozgGEeTxf9vDn3RRG+pspCIpLmE+umHizhI="
     },
     "satelliteResources": {
       "ru": {
-        "CyberShelf.resources.nyfphc17lg.wasm": "sha256-8bFybykcGrW+gWwtmUumxR3xTnBBOg039Jc9sfmyxK0="
+        "CyberShelf.resources.tdkw3brone.wasm": "sha256-zzEb8Ve0Noni89rGtd2FZ8/6hTJFGOWMoYkj2lD0IRY="
       }
     }
   },
