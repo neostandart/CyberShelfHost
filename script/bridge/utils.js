@@ -1,7 +1,6 @@
-import { fetchTextFile } from "../_shared/pipe.js";
 export { regDragable, unregDragable, regDragLocking, unregDragLocking } from "./lib/drag.js";
 export { subVisibilityObserve, unsubVisibilityObserve } from "./lib/visobs.js";
-export { subMouseCapture, unsubMouseCapture } from "./lib/mousecapt.js";
+export { subOutsideCapture, unsubOutsideCapture } from "./lib/mousecapt.js";
 const _parser = new DOMParser();
 export function getAttribute(element, strAttributeName) {
     return (element.hasAttribute(strAttributeName)) ? element.getAttribute(strAttributeName) : null;
@@ -170,17 +169,6 @@ export function appendChild(hteParent, hteChild) {
 }
 export function removeChild(hteParent, hteChild) {
     hteParent.removeChild(hteChild);
-}
-export async function fetchSvgFromFile(path, strId, strClass) {
-    const strSvgSource = await fetchTextFile(path);
-    const svg = _parser.parseFromString(strSvgSource, "image/svg+xml").firstElementChild;
-    if (strId) {
-        svg.setAttribute("id", strId);
-    }
-    if (strClass) {
-        svg.classList.add(...strClass.split(" "));
-    }
-    return svg;
 }
 const _aEventNotifyListeners = [];
 export function subEventNotify(eventSource, query, eventName, listener, callbackName) {

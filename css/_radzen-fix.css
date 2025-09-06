@@ -85,9 +85,17 @@
 /* ---------------------------------------------- */
 /* Slightly increase the controls of the splitter */
 
-.rz-splitter-bar {
-    font-size: 2rem;
+.rz-splitter > .rz-splitter-bar {
+    --rz-splitter-bar-color: var(--rz-primary);
+    --rz-splitter-bar-background-color: var(--rz-primary-lighter);
+    font-size: 2.5rem;
+    opacity: 0.7;
 }
+
+    .rz-splitter > .rz-splitter-bar.rz-splitter-bar-collapsed,
+    .rz-splitter > .rz-splitter-bar.rz-splitter-bar-lastresizable {
+        opacity: var(--rz-splitter-bar-hover-opacity);
+    }
 
 /* ----------------- */
 /* Slightly correct  */
@@ -148,9 +156,10 @@
 .rz-tabview.content-h-100 .rz-tabview-panel {
     height: 100%;
 }
-.rz-tabview.content-h-100 .rz-tabview-panel > * {
-    height: 100%;
-}
+
+    .rz-tabview.content-h-100 .rz-tabview-panel > * {
+        height: 100%;
+    }
 
 
 /* ----------------------------------------------------------------------- */

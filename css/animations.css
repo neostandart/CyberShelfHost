@@ -72,8 +72,27 @@
 
 
 /* --------------------------------------------------------- */
+/* Rotation */
+
+@keyframes kf-rot-simple {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+/* --------------------------------------------------------- */
 /* Service Classes */
 
 .fadeIn-usual {
     animation: 0.3s ease-in 0s forwards kf-fadeIn;
+}
+
+.anim-rot-simple {
+    animation: kf-rot-simple 2s linear infinite;
 }
