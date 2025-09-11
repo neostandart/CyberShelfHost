@@ -1594,10 +1594,19 @@ header[b-z636rsmn8k] {
 }
 
 
-[b-z636rsmn8k] #DataList {
-    overflow-y: auto;
-    height: 100%;
+/* Book List */
+
+[b-z636rsmn8k] .book-thumb {
+    width: 96px;
+    height: 128px;
 }
+
+[b-z636rsmn8k] .book-descr-btn {
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+
 
 [b-z636rsmn8k] .commercial-info {
     display: flex;
@@ -1612,6 +1621,13 @@ header[b-z636rsmn8k] {
     }
 
 
+/* for extra small devices */
+@media (max-width: 575.98px) {
+    [b-z636rsmn8k] .book-thumb {
+        width: 64px;
+        height: 80px;
+    }
+}
 /* /Pages/Catalog/Stuff/InstalledCtr.razor.rz.scp.css */
 
 

@@ -610,7 +610,13 @@
             return this._objPackage;
         }
         get annotation() {
-            return (this._outerBook) ? this._outerBook.annotation : "";
+            return this._outerBook.annotation || "";
+        }
+        get thumbnail() {
+            return this._outerBook.thumbnail;
+        }
+        get cover() {
+            return this._outerBook.cover;
         }
         makeUniqueName() {
             const now = new Date().toLocaleString();
@@ -896,7 +902,7 @@
                 await processDBRequest(storePackages.put(packraw.stored, packraw.stored.id));
                 ProgressControl.step();
                 let storeExt = transaction.objectStore("packext");
-                await processDBRequest(storeExt.put({ packId: packraw.stored.id, annotation: packraw.annotation }, packraw.stored.id));
+                await processDBRequest(storeExt.put({ packId: packraw.stored.id, thumbnail: packraw.thumbnail, cover: packraw.cover, annotation: packraw.annotation }, packraw.stored.id));
                 ProgressControl.step();
                 let storeContent = transaction.objectStore("packcont");
                 await processDBRequest(storeContent.put(packraw.content, packraw.stored.id));

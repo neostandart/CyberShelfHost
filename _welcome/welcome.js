@@ -12,7 +12,7 @@ class CyberShelfAgent {
     }
 
     getMinTime() {
-        return 3800;
+        return 4500;
     }
 
     die() {

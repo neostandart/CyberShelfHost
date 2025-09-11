@@ -110,11 +110,19 @@ export async function fetchBookCases() {
 }
 export async function hasBookAnnotation(packId) {
     const packext = await appdb.get("packext", packId);
-    return packext?.annotation ? true : false;
+    return packext.annotation ? true : false;
 }
 export async function fetchBookAnnotation(packId) {
     const packext = await appdb.get("packext", packId);
     return packext.annotation || "";
+}
+export async function fetchBookCover(bookId) {
+    const packext = await appdb.get("packext", bookId);
+    return packext.cover || "";
+}
+export async function getBookOverviewPrompt(bookId) {
+    const packext = await appdb.get("packext", bookId);
+    return { hasOverview: !!packext.annotation, cover: packext.cover };
 }
 export async function fetchLibraryList() {
     return new Promise(async (resolve, reject) => {

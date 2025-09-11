@@ -20,6 +20,10 @@
     z-index: 3000;
     opacity: 0;
     -webkit-transition: opacity 1.5s linear;
+    /***/
+    --animate-duration: 1s;
+    --animate-delay: 1s;
+    --animate-repeat: 1
 }
 
 #Welcome #Background {
@@ -57,29 +61,79 @@
     opacity: 0.3;
 }
 
+/* =========================*/
+/* BGN Welcome Logo (shelf) */
 
-#Welcome #Content #Logo {
-    mask-image: url("./logo.svg");
-    width: 150px;
-    height: 150px;
-    display: block;
+#Logo {
+    width: 370px;
+    height: 240px;
     margin: auto;
-    background-color: var(--welcome-color);
     opacity: 0;
-    animation: 0.3s linear 0.3s forwards kf-fadeInDown;
+    animation: kf-zoomInDown 2.5s ease-in-out 1.25s forwards;
 }
 
-#Welcome #Content #ProgressText {
-    text-align: center;
-    font-weight: bold;
-    font-size: 2rem;
-    color: var(--welcome-color);
-}
-
-    #Welcome #Content #ProgressText:after {
-        content: var(--blazor-load-percentage-text, "Loading");
+@keyframes kf-zoomInDown {
+    from {
+        opacity: 0;
+        transform: scale3d(0.1, 0.1, 0.1) translate3d(0, -1000px, 0);
+        animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
     }
 
+    60% {
+        opacity: 1;
+        transform: scale3d(0.475, 0.475, 0.475) translate3d(0, 60px, 0);
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes kf-bounce {
+    0% {
+        transform: translateY(-11px);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-35px);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-11px);
+        opacity: 1;
+    }
+}
+
+#Logo .bounce {
+    transform: translateY(-11px);
+    animation: kf-bounce 2s ease-in-out 1;
+}
+
+#Logo .bounce:nth-child(2) {
+    animation-delay: 2.4s;
+}
+
+#Logo .bounce:nth-child(3) {
+    animation-delay: 2.6s;
+}
+
+#Logo .bounce:nth-child(4) {
+    animation-delay: 2.8s;
+}
+
+#Logo .bounce:nth-child(5) {
+    animation-delay: 2.4s;
+}
+
+
+/* END Welcome Logo (shelf) */
+/* =========================*/
+
+/*=====================*/
+/* BGN Welcome Spinner */
 
 #Welcome #Spinner {
     width: 150px;
@@ -179,15 +233,22 @@
     }
 }
 
+/* END Welcome Spinner */
+/*=====================*/
 
-@keyframes kf-fadeInDown {
-    from {
-        opacity: 0;
-        transform: translate3d(0, -50%, 0);
-    }
+/*==========================*/
+/* BGN Welcome ProgressText */
 
-    to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
+#Welcome #Content #ProgressText {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    color: var(--welcome-color);
 }
+
+    #Welcome #Content #ProgressText:after {
+        content: var(--blazor-load-percentage-text, "Loading");
+    }
+
+/* END Welcome ProgressText */
+/*==========================*/
