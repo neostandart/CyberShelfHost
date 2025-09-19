@@ -245,48 +245,6 @@
 
     <!-- Application inline scripts -->
     <script>
-        window.network = {
-            initialize: function (interop) {
-                function handler() {
-                    interop.invokeMethodAsync("Network.StatusChanged", navigator.onLine);
-                }
-
-                window.addEventListener('online', handler);
-                window.addEventListener('offline', handler);
-
-                setTimeout(() => {
-                    handler();
-                }, 0);
-            }
-        };
-
-        window.addClass = (element, classname) => {
-            if (element instanceof HTMLElement) {
-                element.classList.add(classname);
-            }
-        };
-
-        window.addClassBySelector = (scope, selector, classname) => {
-            const target = scope.querySelector(selector);
-            if (target instanceof HTMLElement) {
-                target.classList.add(classname);
-            }
-        };
-
-        window.setUniqueClass = (scope, selector, classname) => {
-            const aHasClass = scope.querySelectorAll("." + classname);
-            for (let i = 0; i < aHasClass.length; i++) {
-                aHasClass[i].classList.remove(classname);
-            }
-
-            const target = scope.querySelector(selector);
-            if (target instanceof HTMLElement) {
-                target.classList.add(classname);
-            }
-        };
-
-        //
-
         window.addEventListener("beforeunload", function (e) {
             var bPrevetn = DotNet.invokeMethod("CyberShelf", "requestSafeExit");
             if (bPrevetn === true) {
@@ -301,7 +259,6 @@
         },
             false,
         );
-
     </script>
 </body>
 

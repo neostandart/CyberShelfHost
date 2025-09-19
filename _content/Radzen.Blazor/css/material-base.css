@@ -3,7 +3,7 @@
   position: relative;
   overflow: hidden;
 }
-.rz-button:not(.rz-state-disabled):before {
+.rz-button:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -13,7 +13,10 @@
   transition: background-size 0.8s, opacity 0.8s;
   pointer-events: none;
 }
-.rz-button:not(.rz-state-disabled):active:before {
+.rz-button.rz-state-disabled:before {
+  background: transparent;
+}
+.rz-button:active:before {
   transition: background-size 0s, opacity 0s;
   opacity: 0.32;
   background-size: 0%;
@@ -29,7 +32,7 @@
   position: relative;
   overflow: hidden;
 }
-.sidebar-toggle:not(.rz-state-disabled):before {
+.sidebar-toggle:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -39,7 +42,10 @@
   transition: background-size 0.8s, opacity 0.8s;
   pointer-events: none;
 }
-.sidebar-toggle:not(.rz-state-disabled):active:before {
+.sidebar-toggle.rz-state-disabled:before {
+  background: transparent;
+}
+.sidebar-toggle:active:before {
   transition: background-size 0s, opacity 0s;
   opacity: 0.32;
   background-size: 0%;
@@ -50,8 +56,8 @@
   position: relative;
   overflow: hidden;
 }
-.rz-navigation-item-link:not(.rz-state-disabled):before,
-.rz-menu-toggle:not(.rz-state-disabled):before {
+.rz-navigation-item-link:before,
+.rz-menu-toggle:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -61,8 +67,12 @@
   transition: background-size 0.8s, opacity 0.8s;
   pointer-events: none;
 }
-.rz-navigation-item-link:not(.rz-state-disabled):active:before,
-.rz-menu-toggle:not(.rz-state-disabled):active:before {
+.rz-navigation-item-link.rz-state-disabled:before,
+.rz-menu-toggle.rz-state-disabled:before {
+  background: transparent;
+}
+.rz-navigation-item-link:active:before,
+.rz-menu-toggle:active:before {
   transition: background-size 0s, opacity 0s;
   opacity: 0.32;
   background-size: 0%;
@@ -77,10 +87,13 @@
   transition: background-size 0.8s;
   background: radial-gradient(circle, transparent 1%, var(--rz-base-300) 1%) center/15000%;
 }
-.rz-panel-menu .rz-navigation-item-link:not(.rz-state-disabled):active {
+.rz-panel-menu .rz-navigation-item-link:active {
   background-color: var(--rz-base-300);
   transition: background-size 0s;
   background-size: 0%;
+}
+.rz-panel-menu .rz-navigation-item-link.rz-state-disabled:active {
+  background-color: transparent;
 }
 .rz-panel-menu .rz-navigation-item-wrapper-active:before {
   display: none;
@@ -237,10 +250,13 @@
   transition: background-size 0.8s;
   background: radial-gradient(circle, transparent 1%, rgba(0, 0, 0, 0.12) 1%) center/15000%;
 }
-.rz-fileupload-choose.rz-button:not(.rz-state-disabled):active {
+.rz-fileupload-choose.rz-button:active {
   background-color: rgba(0, 0, 0, 0.12);
   transition: background-size 0s;
   background-size: 0%;
+}
+.rz-fileupload-choose.rz-button.rz-state-disabled:active {
+  background-color: transparent;
 }
 .rz-fileupload-choose.rz-button input {
   z-index: 1;
@@ -321,7 +337,7 @@
   position: relative;
   overflow: hidden;
 }
-.rz-tabview-nav > li > a:not(.rz-state-disabled):before {
+.rz-tabview-nav > li > a:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -331,7 +347,10 @@
   transition: background-size 0.8s, opacity 0.8s;
   pointer-events: none;
 }
-.rz-tabview-nav > li > a:not(.rz-state-disabled):active:before {
+.rz-tabview-nav > li > a.rz-state-disabled:before {
+  background: transparent;
+}
+.rz-tabview-nav > li > a:active:before {
   transition: background-size 0s, opacity 0s;
   opacity: 0.32;
   background-size: 0%;
@@ -393,7 +412,7 @@
   position: relative;
   overflow: hidden;
 }
-.rz-html-editor-toolbar .rz-html-editor-button:not(.rz-state-disabled):before {
+.rz-html-editor-toolbar .rz-html-editor-button:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -403,7 +422,10 @@
   transition: background-size 0.8s, opacity 0.8s;
   pointer-events: none;
 }
-.rz-html-editor-toolbar .rz-html-editor-button:not(.rz-state-disabled):active:before {
+.rz-html-editor-toolbar .rz-html-editor-button.rz-state-disabled:before {
+  background: transparent;
+}
+.rz-html-editor-toolbar .rz-html-editor-button:active:before {
   transition: background-size 0s, opacity 0s;
   opacity: 0.32;
   background-size: 0%;
@@ -413,7 +435,7 @@
   position: relative;
   overflow: hidden;
 }
-.rz-toc-link:not(.rz-state-disabled):before {
+.rz-toc-link:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -423,7 +445,10 @@
   transition: background-size 0.8s, opacity 0.8s;
   pointer-events: none;
 }
-.rz-toc-link:not(.rz-state-disabled):active:before {
+.rz-toc-link.rz-state-disabled:before {
+  background: transparent;
+}
+.rz-toc-link:active:before {
   transition: background-size 0s, opacity 0s;
   opacity: 0.32;
   background-size: 0%;
@@ -439,6 +464,7 @@
   font-family: "Roboto";
   src: url("../fonts/RobotoFlex.woff2") format("woff2 supports variations"), url("../fonts/RobotoFlex.woff2") format("woff2-variations");
   font-weight: 100 1000;
+  font-display: swap;
 }
 [class^=rz-], [class^=rz-]::before, [class^=rz-]::after, [class^=rz-] *, [class^=rz-] *::before, [class^=rz-] *::after,
 [class*=" rz-"],
@@ -4241,7 +4267,7 @@
   position: relative;
   overflow: hidden;
 }
-.rz-ripple:not(.rz-state-disabled):before {
+.rz-ripple:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -4251,7 +4277,10 @@
   transition: background-size 0.8s, opacity 0.8s;
   pointer-events: none;
 }
-.rz-ripple:not(.rz-state-disabled):active:before {
+.rz-ripple.rz-state-disabled:before {
+  background: transparent;
+}
+.rz-ripple:active:before {
   transition: background-size 0s, opacity 0s;
   opacity: 0.32;
   background-size: 0%;
@@ -9575,6 +9604,30 @@ body {
   animation: var(--rz-expander-transition) rz-close;
 }
 
+@keyframes rz-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+@keyframes rz-pulse-subtle {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes rz-wave {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
 h1.rz-heading {
   font-size: 2rem;
   line-height: 1.1875em;
@@ -13603,6 +13656,7 @@ a:focus-visible .rz-fieldset-toggler {
 .rz-multiselect-filter-container .rz-inputtext, .rz-dropdown-filter {
   background-color: transparent;
   color: var(--rz-text-color);
+  font-family: inherit;
 }
 
 .rz-multiselect-header {
@@ -13820,6 +13874,7 @@ a:focus-visible .rz-fieldset-toggler {
   width: 0;
   border: none;
   line-height: var(--rz-input-line-height);
+  font-family: inherit;
 }
 .rz-listbox-filter-container .rz-inputtext:focus, .rz-dropdown-filter-container .rz-inputtext:focus, .rz-multiselect-filter-container .rz-inputtext:focus {
   outline: none;
@@ -14826,8 +14881,14 @@ a:focus-visible .rz-fieldset-toggler {
 .rz-grid-table-striped tbody > tr:not(.rz-expanded-row-content):nth-child(even) > td {
   background-color: var(--rz-grid-stripe-background-color);
 }
+.rz-grid-table-striped tbody > tr:not(.rz-expanded-row-content):nth-child(even) > td.rz-frozen-cell {
+  background-color: var(--rz-grid-frozen-stripe-background-color);
+}
 .rz-grid-table-striped tbody > tr:not(.rz-expanded-row-content):nth-child(odd) > td {
   background-color: var(--rz-grid-stripe-odd-background-color);
+}
+.rz-grid-table-striped tbody > tr:not(.rz-expanded-row-content):nth-child(odd) > td.rz-frozen-cell {
+  background-color: var(--rz-grid-frozen-stripe-odd-background-color);
 }
 
 .rz-grid-table-composite .rz-datatable-thead th, .rz-grid-table-composite.rz-grid-table thead th {
@@ -15028,13 +15089,11 @@ a:focus-visible .rz-fieldset-toggler {
 .rz-selectable tbody tr.rz-data-row .rz-cell-data.rz-frozen-cell-left:after,
 .rz-selectable tbody tr.rz-data-row .rz-cell-data.rz-frozen-cell-left-inner:after {
   z-index: -2;
-  background-color: var(--rz-grid-frozen-cell-background-color);
 }
 .rz-selectable tbody tr.rz-data-row td.rz-frozen-cell-right:before, .rz-selectable tbody tr.rz-data-row td.rz-frozen-cell-right-inner:before,
 .rz-selectable tbody tr.rz-data-row .rz-cell-data.rz-frozen-cell-right:before,
 .rz-selectable tbody tr.rz-data-row .rz-cell-data.rz-frozen-cell-right-inner:before {
   z-index: -2;
-  background-color: var(--rz-grid-frozen-cell-background-color);
 }
 .rz-selectable tbody tr.rz-data-row td.rz-frozen-cell-right:after, .rz-selectable tbody tr.rz-data-row td.rz-frozen-cell-right-inner:after,
 .rz-selectable tbody tr.rz-data-row .rz-cell-data.rz-frozen-cell-right:after,
@@ -15044,10 +15103,13 @@ a:focus-visible .rz-fieldset-toggler {
 .rz-selectable tbody tr.rz-data-row.rz-state-highlight > td {
   background-color: var(--rz-grid-selected-background-color);
 }
-.rz-selectable tbody tr.rz-data-row.rz-state-highlight > td.rz-frozen-cell-left:before, .rz-selectable tbody tr.rz-data-row.rz-state-highlight > td.rz-frozen-cell-left-inner:before {
+.rz-selectable tbody tr.rz-data-row.rz-state-highlight > td.rz-frozen-cell {
+  background-color: var(--rz-grid-background-color);
+}
+.rz-selectable tbody tr.rz-data-row.rz-state-highlight > td.rz-frozen-cell.rz-frozen-cell-left:before, .rz-selectable tbody tr.rz-data-row.rz-state-highlight > td.rz-frozen-cell.rz-frozen-cell-left-inner:before {
   background-color: var(--rz-grid-selected-background-color);
 }
-.rz-selectable tbody tr.rz-data-row.rz-state-highlight > td.rz-frozen-cell-right:after, .rz-selectable tbody tr.rz-data-row.rz-state-highlight > td.rz-frozen-cell-right-inner:after {
+.rz-selectable tbody tr.rz-data-row.rz-state-highlight > td.rz-frozen-cell.rz-frozen-cell-right:after, .rz-selectable tbody tr.rz-data-row.rz-state-highlight > td.rz-frozen-cell.rz-frozen-cell-right-inner:after {
   background-color: var(--rz-grid-selected-background-color);
 }
 .rz-selectable tbody tr.rz-data-row.rz-state-highlight .rz-cell-data {
@@ -15060,11 +15122,14 @@ a:focus-visible .rz-fieldset-toggler {
   background-color: var(--rz-grid-cell-focus-background-color);
   color: var(--rz-grid-cell-focus-color);
 }
-.rz-selectable tbody tr.rz-data-row.rz-state-focused > td.rz-frozen-cell-left:before, .rz-selectable tbody tr.rz-data-row.rz-state-focused > td.rz-frozen-cell-left-inner:before {
+.rz-selectable tbody tr.rz-data-row.rz-state-focused > td.rz-frozen-cell {
+  background-color: var(--rz-grid-background-color);
+}
+.rz-selectable tbody tr.rz-data-row.rz-state-focused > td.rz-frozen-cell.rz-frozen-cell-left:before, .rz-selectable tbody tr.rz-data-row.rz-state-focused > td.rz-frozen-cell.rz-frozen-cell-left-inner:before {
   background-color: var(--rz-grid-cell-focus-background-color);
   color: var(--rz-grid-cell-focus-color);
 }
-.rz-selectable tbody tr.rz-data-row.rz-state-focused > td.rz-frozen-cell-right:after, .rz-selectable tbody tr.rz-data-row.rz-state-focused > td.rz-frozen-cell-right-inner:after {
+.rz-selectable tbody tr.rz-data-row.rz-state-focused > td.rz-frozen-cell.rz-frozen-cell-right:after, .rz-selectable tbody tr.rz-data-row.rz-state-focused > td.rz-frozen-cell.rz-frozen-cell-right-inner:after {
   background-color: var(--rz-grid-cell-focus-background-color);
   color: var(--rz-grid-cell-focus-color);
 }
@@ -15084,10 +15149,13 @@ a:focus-visible .rz-fieldset-toggler {
 .rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) > td {
   background-color: var(--rz-grid-hover-background-color);
 }
-.rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) > td.rz-frozen-cell-left:before, .rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) > td.rz-frozen-cell-left-inner:before {
+.rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) > td.rz-frozen-cell {
+  background-color: var(--rz-grid-background-color);
+}
+.rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) > td.rz-frozen-cell.rz-frozen-cell-left:before, .rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) > td.rz-frozen-cell.rz-frozen-cell-left-inner:before {
   background-color: var(--rz-grid-hover-background-color);
 }
-.rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) > td.rz-frozen-cell-right:after, .rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) > td.rz-frozen-cell-right-inner:after {
+.rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) > td.rz-frozen-cell.rz-frozen-cell-right:after, .rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) > td.rz-frozen-cell.rz-frozen-cell-right-inner:after {
   background-color: var(--rz-grid-hover-background-color);
 }
 .rz-selectable tbody tr.rz-data-row:hover:not(.rz-state-highlight) .rz-cell-data {
@@ -15160,6 +15228,7 @@ a:focus-visible .rz-fieldset-toggler {
   position: absolute;
   inset: 0;
   background-color: var(--rz-grid-loading-indicator-background-color);
+  opacity: var(--rz-grid-loading-indicator-background-opacity);
   z-index: 2;
 }
 
@@ -18827,6 +18896,356 @@ a:focus-visible .rz-fieldset-toggler {
   cursor: inherit;
 }
 
+.rz-sankey-diagram {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--rz-border-radius);
+  height: 300px;
+  color: var(--rz-sankey-label-color);
+}
+.rz-sankey-diagram svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.rz-sankey-diagram .rz-sankey-link {
+  cursor: pointer;
+  pointer-events: painted;
+  fill-opacity: 0.8;
+  opacity: var(--rz-sankey-link-opacity);
+  stroke-width: var(--rz-sankey-link-stroke-width);
+  transition: opacity 0.2s;
+}
+.rz-sankey-diagram .rz-sankey-link:hover {
+  opacity: var(--rz-sankey-link-hover-opacity);
+}
+.rz-sankey-diagram .rz-sankey-node {
+  cursor: pointer;
+}
+.rz-sankey-diagram .rz-sankey-node rect {
+  stroke-width: var(--rz-sankey-node-stroke-width);
+  transition: opacity 0.2s;
+}
+.rz-sankey-diagram .rz-sankey-node:hover rect {
+  opacity: 0.9;
+}
+.rz-sankey-diagram svg text {
+  fill: var(--rz-sankey-label-color);
+}
+.rz-sankey-diagram text.rz-sankey-node-label {
+  font-size: var(--rz-sankey-label-font-size);
+  fill: var(--rz-sankey-label-color);
+  stroke: var(--rz-sankey-label-stroke);
+  stroke-width: var(--rz-sankey-label-stroke-width);
+  stroke-linejoin: round;
+  paint-order: stroke;
+  font-weight: normal;
+  pointer-events: none;
+  user-select: none;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-0.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-0 rect {
+  fill: #003f5c;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-1.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-1 rect {
+  fill: #2f4b7c;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-2.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-2 rect {
+  fill: #665191;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-3.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-3 rect {
+  fill: #a05195;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-4.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-4 rect {
+  fill: #d45087;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-5.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-5 rect {
+  fill: #f95d6a;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-6.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-6 rect {
+  fill: #ff7c43;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-7.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-7 rect {
+  fill: #ffa600;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-8.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-8 rect {
+  fill: #003f5c;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-9.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-9 rect {
+  fill: #2f4b7c;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-10.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-10 rect {
+  fill: #665191;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-11.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-11 rect {
+  fill: #a05195;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-12.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-12 rect {
+  fill: #d45087;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-13.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-13 rect {
+  fill: #f95d6a;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-14.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-14 rect {
+  fill: #ff7c43;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-15.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-15 rect {
+  fill: #ffa600;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-16.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-16 rect {
+  fill: #003f5c;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-17.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-17 rect {
+  fill: #2f4b7c;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-18.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-18 rect {
+  fill: #665191;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-19.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-19 rect {
+  fill: #a05195;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-20.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-20 rect {
+  fill: #d45087;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-21.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-21 rect {
+  fill: #f95d6a;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-22.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-22 rect {
+  fill: #ff7c43;
+}
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-23.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-palette .rz-series-item-23 rect {
+  fill: #ffa600;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-0.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-0 rect {
+  fill: #004c6d;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-1.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-1 rect {
+  fill: #255e7e;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-2.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-2 rect {
+  fill: #3d708f;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-3.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-3 rect {
+  fill: #5383a1;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-4.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-4 rect {
+  fill: #6996b3;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-5.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-5 rect {
+  fill: #7faac6;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-6.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-6 rect {
+  fill: #94bed9;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-7.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-7 rect {
+  fill: #abd2ec;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-8.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-8 rect {
+  fill: #c1e7ff;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-9.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-9 rect {
+  fill: #004c6d;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-10.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-10 rect {
+  fill: #255e7e;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-11.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-11 rect {
+  fill: #3d708f;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-12.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-12 rect {
+  fill: #5383a1;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-13.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-13 rect {
+  fill: #6996b3;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-14.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-14 rect {
+  fill: #7faac6;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-15.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-15 rect {
+  fill: #94bed9;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-16.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-16 rect {
+  fill: #abd2ec;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-17.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-17 rect {
+  fill: #c1e7ff;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-18.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-18 rect {
+  fill: #004c6d;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-19.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-19 rect {
+  fill: #255e7e;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-20.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-20 rect {
+  fill: #3d708f;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-21.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-21 rect {
+  fill: #5383a1;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-22.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-22 rect {
+  fill: #6996b3;
+}
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-23.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-monochrome .rz-series-item-23 rect {
+  fill: #7faac6;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-0.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-0 rect {
+  fill: #00876c;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-1.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-1 rect {
+  fill: #469f76;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-2.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-2 rect {
+  fill: #70b77e;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-3.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-3 rect {
+  fill: #98ce86;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-4.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-4 rect {
+  fill: #c1e48e;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-5.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-5 rect {
+  fill: #eaf898;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-6.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-6 rect {
+  fill: #ffffad;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-7.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-7 rect {
+  fill: #fed693;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-8.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-8 rect {
+  fill: #fcaa78;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-9.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-9 rect {
+  fill: #f77b5f;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-10.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-10 rect {
+  fill: #ed4a46;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-11.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-11 rect {
+  fill: #d92632;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-12.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-12 rect {
+  fill: #c31e28;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-13.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-13 rect {
+  fill: #aa1620;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-14.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-14 rect {
+  fill: #8b0e1a;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-15.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-15 rect {
+  fill: #00876c;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-16.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-16 rect {
+  fill: #469f76;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-17.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-17 rect {
+  fill: #70b77e;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-18.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-18 rect {
+  fill: #98ce86;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-19.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-19 rect {
+  fill: #c1e48e;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-20.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-20 rect {
+  fill: #eaf898;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-21.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-21 rect {
+  fill: #ffffad;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-22.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-22 rect {
+  fill: #fed693;
+}
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-23.rz-sankey-link,
+.rz-sankey-diagram.rz-scheme-divergent .rz-series-item-23 rect {
+  fill: #fcaa78;
+}
+
+.rz-flow-gradient {
+  fill-opacity: 0.7;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.rz-flow-highlight {
+  fill: none;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  animation: rz-pulse-subtle 3s ease-in-out infinite;
+}
+
 .rz-link {
   box-sizing: border-box;
   color: var(--rz-link-color);
@@ -19275,6 +19694,7 @@ button.rz-colorpicker-trigger .rzi:before {
   border-radius: var(--rz-colorpicker-item-border-radius);
   box-shadow: var(--rz-colorpicker-item-shadow);
   cursor: pointer;
+  transition: transform var(--rz-transition);
 }
 .rz-colorpicker-item:focus {
   outline: var(--rz-outline-normal);
@@ -19282,6 +19702,9 @@ button.rz-colorpicker-trigger .rzi:before {
 .rz-colorpicker-item:focus-visible {
   outline: var(--rz-colorpicker-focus-outline);
   outline-offset: var(--rz-colorpicker-focus-outline-offset);
+}
+.rz-colorpicker-item.selected {
+  transform: var(--rz-colorpicker-item-selected-transform);
 }
 
 .rz-splitter {
@@ -22574,6 +22997,209 @@ button.rz-colorpicker-trigger .rzi:before {
   grid-template-rows: 0fr;
 }
 
+.rz-chat {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--rz-chat-background-color);
+  border: var(--rz-chat-border);
+  border-radius: var(--rz-chat-border-radius);
+  overflow: hidden;
+}
+
+.rz-chat-header {
+  z-index: 1;
+  padding-block: var(--rz-chat-header-padding-block);
+  padding-inline: var(--rz-chat-header-padding-inline);
+  background-color: var(--rz-chat-header-background-color);
+  border-bottom: var(--rz-chat-header-bottom-border);
+  box-shadow: var(--rz-chat-header-shadow);
+}
+
+.rz-chat-header-title {
+  flex: 1;
+  font-size: var(--rz-chat-header-title-font-size);
+  font-weight: var(--rz-chat-header-title-font-weight);
+}
+
+.rz-chat-messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.rz-chat-empty {
+  height: 100%;
+}
+.rz-chat-empty .rzi {
+  font-size: 3rem;
+  opacity: 0.3;
+}
+
+.rz-chat-message {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  max-width: 90%;
+}
+
+.rz-chat-message-text {
+  padding: var(--rz-chat-message-text-padding);
+  border-radius: var(--rz-chat-message-text-border-radius);
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 1rem;
+  line-height: 1;
+  --rz-text-h1-margin-block-end: 0;
+  --rz-text-h2-margin-block-end: 0;
+  --rz-text-h3-margin-block-end: 0;
+  --rz-text-h4-margin-block-end: 0;
+  --rz-text-h5-margin-block-end: 0;
+  --rz-text-h6-margin-block-end: 0;
+  --rz-text-body1-margin-block-end: 0;
+  --rz-text-body2-margin-block-end: 0;
+}
+
+.rz-chat-message-avatar {
+  width: var(--rz-chat-avatar-size);
+  height: var(--rz-chat-avatar-size);
+  border-radius: var(--rz-chat-avatar-border-radius);
+  font-size: var(--rz-chat-avatar-font-size);
+  font-weight: var(--rz-chat-avatar-font-weight);
+  background-color: var(--rz-base);
+  color: var(--rz-on-base);
+  flex-shrink: 0;
+}
+
+.rz-chat-avatar-initials {
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rz-chat-message-time {
+  font-size: 0.75rem;
+  color: var(--rz-text-disabled-color);
+  padding: var(--rz-chat-message-time-padding);
+}
+
+.rz-chat-message-user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.rz-chat-message-user .rz-chat-message-avatar {
+  background-color: var(--rz-chat-message-user-background-color);
+  color: var(--rz-chat-message-user-color);
+}
+.rz-chat-message-user .rz-chat-message-text {
+  background-color: var(--rz-chat-message-user-background-color);
+  color: var(--rz-chat-message-user-color);
+  border-end-end-radius: var(--rz-chat-message-callout-radius);
+  /*         --rz-text-h1-color: var(--rz-chat-message-user-color);
+          --rz-text-h2-color: var(--rz-chat-message-user-color);
+          --rz-text-h3-color: var(--rz-chat-message-user-color);
+          --rz-text-h4-color: var(--rz-chat-message-user-color);
+          --rz-text-h5-color: var(--rz-chat-message-user-color);
+          --rz-text-h6-color: var(--rz-chat-message-user-color);
+          --rz-text-body1-color: var(--rz-chat-message-user-color);
+          --rz-text-body2-color: var(--rz-chat-message-user-color); */
+}
+
+.rz-chat-message-assistant {
+  align-self: flex-start;
+}
+.rz-chat-message-assistant .rz-chat-message-avatar {
+  background-color: var(--rz-chat-message-assistant-background-color);
+  color: var(--rz-chat-message-assistant-color);
+}
+.rz-chat-message-assistant .rz-chat-message-text {
+  background-color: var(--rz-chat-message-assistant-background-color);
+  color: var(--rz-chat-message-assistant-color);
+  border-end-start-radius: var(--rz-chat-message-callout-radius);
+  /*         --rz-text-h1-color: var(--rz-chat-message-assistant-color);
+          --rz-text-h2-color: var(--rz-chat-message-assistant-color);
+          --rz-text-h3-color: var(--rz-chat-message-assistant-color);
+          --rz-text-h4-color: var(--rz-chat-message-assistant-color);
+          --rz-text-h5-color: var(--rz-chat-message-assistant-color);
+          --rz-text-h6-color: var(--rz-chat-message-assistant-color);
+          --rz-text-body1-color: var(--rz-chat-message-assistant-color);
+          --rz-text-body2-color: var(--rz-chat-message-assistant-color); */
+}
+
+.rz-chat-input {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+}
+
+.rz-chat-input-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: stretch;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  height: fit-content;
+}
+
+.rz-chat-textarea {
+  width: 100%;
+  height: fit-content;
+  max-height: 10rem;
+  overflow-y: scroll;
+  padding-block: var(--rz-text-area-padding-block);
+  padding-inline: var(--rz-text-area-padding-inline);
+  field-sizing: content;
+  resize: none;
+}
+
+.rz-chat-message-streaming-icon {
+  animation: rz-pulse 1.5s infinite;
+}
+
+/* Right-to-left send button */
+*[dir=rtl] .rz-chat-send-btn {
+  transform: scaleX(-1);
+}
+
+.rz-skeleton {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--rz-skeleton-background-color);
+  border-radius: var(--rz-skeleton-border-radius);
+}
+
+.rz-skeleton.rz-skeleton-text {
+  width: 10rem;
+  height: 0.75em;
+}
+
+.rz-skeleton.rz-skeleton-circular {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+}
+
+.rz-skeleton.rz-skeleton-rectangular {
+  width: 3rem;
+  height: 2rem;
+  border-radius: 0;
+}
+
+.rz-skeleton.rz-skeleton-wave {
+  background: linear-gradient(90deg, var(--rz-skeleton-background-color) 25%, var(--rz-skeleton-animation-color) 50%, var(--rz-skeleton-background-color) 75%);
+  background-size: 200% 100%;
+  animation: rz-wave var(--rz-skeleton-animation-duration) infinite;
+}
+
+.rz-skeleton.rz-skeleton-pulse {
+  animation: rz-pulse var(--rz-skeleton-animation-duration) infinite;
+}
+
 :root {
   /* Theme Colors */
   --rz-white: #ffffff;
@@ -23215,6 +23841,29 @@ button.rz-colorpicker-trigger .rzi:before {
   --rz-chart-tooltip-item-border-radius: var(--rz-border-radius);
   --rz-chart-tooltip-item-hover-background-color: var(--rz-grid-stripe-background-color);
   --rz-chart-marker-stroke: var(--rz-base-background-color);
+  /* Chat */
+  --rz-chat-background-color: var(--rz-base-background-color);
+  --rz-chat-border: var(--rz-border-normal);
+  --rz-chat-border-radius: var(--rz-border-radius);
+  --rz-chat-header-padding-block: 0.5rem;
+  --rz-chat-header-padding-inline: 1rem 0.5rem;
+  --rz-chat-header-background-color: var(--rz-base-background-color);
+  --rz-chat-header-bottom-border: var(--rz-border-normal);
+  --rz-chat-header-shadow: none;
+  --rz-chat-header-title-font-size: 1rem;
+  --rz-chat-header-title-font-weight: 600;
+  --rz-chat-message-user-color: var(--rz-on-primary-lighter);
+  --rz-chat-message-user-background-color: var(--rz-primary-lighter);
+  --rz-chat-message-assistant-color: var(--rz-on-base);
+  --rz-chat-message-assistant-background-color: var(--rz-base);
+  --rz-chat-message-text-padding: 0.25rem 0.5rem;
+  --rz-chat-message-text-border-radius: var(--rz-border-radius);
+  --rz-chat-avatar-size: 2rem;
+  --rz-chat-avatar-border-radius: var(--rz-border-radius);
+  --rz-chat-avatar-font-size: 1rem;
+  --rz-chat-avatar-font-weight: 700;
+  --rz-chat-message-time-padding: 0;
+  --rz-chat-message-callout-radius: calc(var(--rz-border-radius) / 4);
   /* Checkbox */
   --rz-checkbox-width: 1.125rem;
   --rz-checkbox-height: 1.125rem;
@@ -23264,6 +23913,7 @@ button.rz-colorpicker-trigger .rzi:before {
   --rz-colorpicker-item-size: 1.25rem;
   --rz-colorpicker-item-border-radius: var(--rz-border-radius);
   --rz-colorpicker-item-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.25) 0px 0px 4px inset;
+  --rz-colorpicker-item-selected-transform: scale(1.25);
   --rz-colorpicker-handle-size: 12px;
   --rz-colorpicker-handle-border: 2px solid var(--rz-white);
   --rz-colorpicker-handle-shadow: var(--rz-white) 0px 0px 0px 1px, rgba(0, 0, 0, 0.3) 0px 0px 1px 1px inset, rgba(0, 0, 0, 0.4) 0px 0px 1px 2px;
@@ -23588,9 +24238,12 @@ button.rz-colorpicker-trigger .rzi:before {
   --rz-grid-detail-template-padding: 0;
   --rz-grid-detail-template-background-color: var(--rz-base-100);
   --rz-grid-loading-indicator-color: currentColor;
-  --rz-grid-loading-indicator-background-color: rgba(var(--rz-base-600), 0.5);
+  --rz-grid-loading-indicator-background-color: var(--rz-base-600);
+  --rz-grid-loading-indicator-background-opacity: 0.5;
   --rz-grid-frozen-cell-border: var(--rz-border-base-300);
   --rz-grid-frozen-cell-background-color: var(--rz-base-background-color);
+  --rz-grid-frozen-stripe-background-color: var(--rz-grid-stripe-background-color);
+  --rz-grid-frozen-stripe-odd-background-color: var(--rz-grid-stripe-odd-background-color);
   --rz-grid-state-transition: var(--rz-transition-all);
   --rz-grid-group-header-padding: 1rem;
   --rz-grid-group-header-gap: 0.5rem;
@@ -23906,6 +24559,15 @@ button.rz-colorpicker-trigger .rzi:before {
   --rz-rating-disabled-opacity: 0.5;
   --rz-rating-ban-icon: highlight_off;
   --rz-rating-ban-icon-color: var(--rz-text-disabled-color);
+  /* Sankey Diagram */
+  --rz-sankey-node-stroke-width: 0;
+  --rz-sankey-link-stroke-width: 0;
+  --rz-sankey-link-opacity: 0.5;
+  --rz-sankey-link-hover-opacity: 0.7;
+  --rz-sankey-label-font-size: 0.875rem;
+  --rz-sankey-label-color: var(--rz-text-color);
+  --rz-sankey-label-stroke: var(--rz-body-background-color);
+  --rz-sankey-label-stroke-width: 2px;
   /* Scheduler */
   --rz-scheduler-border: var(--rz-border-base-300);
   --rz-scheduler-border-color: var(--rz-base-300);
@@ -24019,6 +24681,11 @@ button.rz-colorpicker-trigger .rzi:before {
   --rz-sidebar-border-inline-end: var(--rz-border-base-200);
   --rz-sidebar-background-color: var(--rz-base-background-color);
   --rz-sidebar-color: var(--rz-text-color);
+  /* Skeleton */
+  --rz-skeleton-background-color: var(--rz-base-300);
+  --rz-skeleton-animation-color: var(--rz-base-200);
+  --rz-skeleton-border-radius: var(--rz-border-radius);
+  --rz-skeleton-animation-duration: 1.5s;
   /* Slider */
   --rz-slider-background-color: var(--rz-primary-lighter);
   --rz-slider-border: none;

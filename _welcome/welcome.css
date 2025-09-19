@@ -69,7 +69,10 @@
     height: 240px;
     margin: auto;
     opacity: 0;
-    animation: kf-zoomInDown 2.5s ease-in-out 1.25s forwards;
+}
+
+#Logo.animated {
+    animation: kf-zoomInDown 2.5s ease-in-out 0s forwards;
 }
 
 @keyframes kf-zoomInDown {
@@ -107,27 +110,26 @@
     }
 }
 
-#Logo .bounce {
+#Logo.animated .bounce {
     transform: translateY(-11px);
     animation: kf-bounce 2s ease-in-out 1;
 }
 
-#Logo .bounce:nth-child(2) {
-    animation-delay: 2.4s;
+#Logo.animated .bounce:nth-child(2) {
+    animation-delay: 1.2s;
 }
 
-#Logo .bounce:nth-child(3) {
-    animation-delay: 2.6s;
+#Logo.animated .bounce:nth-child(3) {
+    animation-delay: 1.4s;
 }
 
-#Logo .bounce:nth-child(4) {
-    animation-delay: 2.8s;
+#Logo.animated .bounce:nth-child(4) {
+    animation-delay: 1.6s;
 }
 
-#Logo .bounce:nth-child(5) {
-    animation-delay: 2.4s;
+#Logo.animated .bounce:nth-child(5) {
+    animation-delay: 1.2s;
 }
-
 
 /* END Welcome Logo (shelf) */
 /* =========================*/

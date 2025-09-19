@@ -1596,6 +1596,11 @@ header[b-z636rsmn8k] {
 
 /* Book List */
 
+[b-z636rsmn8k] .book-card {
+    border: 1px solid var(--book-color);
+    background-color: var(--book-color-bg);
+}
+
 [b-z636rsmn8k] .book-thumb {
     width: 96px;
     height: 128px;
@@ -1605,8 +1610,6 @@ header[b-z636rsmn8k] {
     margin-left: auto;
     flex-shrink: 0;
 }
-
-
 
 [b-z636rsmn8k] .commercial-info {
     display: flex;

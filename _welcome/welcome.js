@@ -2,6 +2,7 @@
 class CyberShelfAgent {
     _hteWelcome = null;
     _hteApp = null;
+    _hteLogo = null;
     _bReleased = false;
     _nStartTime = 0;
     _bDead = false;
@@ -44,7 +45,18 @@ class CyberShelfAgent {
                     observer.disconnect();
                     this._observer = null;
                     //
-                    window.DotNet.invokeMethodAsync("CyberShelf", "informAppReady", this.getStartTime(), this.getMinTime());
+                    if (this._hteLogo) {
+                        this._hteLogo.addEventListener("animationend", (ev) => {
+                            if (ev.animationName === "kf-zoomInDown") {
+                                setTimeout(() => {
+                                    window.DotNet.invokeMethodAsync("CyberShelf", "informAppReady", this.getStartTime(), this.getMinTime());
+                                }, 1500);
+                            }
+                        });
+                        this._hteLogo.classList.add("animated");
+                    } else {
+                        window.DotNet.invokeMethodAsync("CyberShelf", "informAppReady", this.getStartTime(), this.getMinTime());
+                    }
                     return;
                 }
             }
@@ -56,6 +68,7 @@ class CyberShelfAgent {
         try {
             this._hteWelcome = document.getElementById("Welcome");
             this._hteApp = document.getElementById("Application");
+            this._hteLogo = document.getElementById("Logo");
             //
             if (this._hteWelcome && this._hteApp) {
                 // Tracking the end of the application download
@@ -65,7 +78,7 @@ class CyberShelfAgent {
 
                 setTimeout(() => {
                     this._hteWelcome.classList.add("fadein");
-                }, 10);
+                }, 0);
             }
             else {
                 throw new Error("Incorrect structure the index.html (Welcome or Application elements not found)!");
