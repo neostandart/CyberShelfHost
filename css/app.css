@@ -51,7 +51,7 @@
     --ui-btn-hg: 70px;
     --ui-btn-gn: 92px;
     /* *** */
-    --ui-color-info-bg: #e4edfe;
+    --ui-info-bg: #e4edfe;
     /* *** */
     --ui-packctr-width: 380px;
     --ui-packctr-width-xs: 340px;
@@ -62,11 +62,12 @@
     --suite-color: #b8860b;
     --book-color: #5C2D91;
     --book-color-lighter: #AA92C4;
-    --book-color-bg: #f5f1f8;
+    --book-bg: #f5f1f8;
     --package-color: #2475BE;
-    --selitem-color-bg: #DFDFF1;
+    --selitem-bg: #DFDFF1;
     --selitem-color-br: #4340D2;
-    --item-focus-color: green;
+    --item-focus-color: orange;
+    --item-focus-bg: white;
 }
 
 
