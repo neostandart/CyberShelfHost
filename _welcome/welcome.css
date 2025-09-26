@@ -26,17 +26,17 @@
     --animate-repeat: 1
 }
 
-#Welcome #Background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: url(./bg.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 90% auto;
-    opacity: 0;
-    transition: opacity 1s linear;
-}
+    #Welcome #Background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: url(./bg.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 90% auto;
+        opacity: 0;
+        transition: opacity 1s linear;
+    }
 
 @media screen and (orientation:landscape) {
     #Welcome #Background {
@@ -57,9 +57,9 @@
     opacity: 1;
 }
 
-#Welcome.fadein #Background {
-    opacity: 0.3;
-}
+    #Welcome.fadein #Background {
+        opacity: 0.3;
+    }
 
 /* =========================*/
 /* BGN Welcome Logo (shelf) */
@@ -71,9 +71,9 @@
     opacity: 0;
 }
 
-#Logo.animated {
-    animation: kf-zoomInDown 2.5s ease-in-out 0s forwards;
-}
+    #Logo.animated {
+        animation: kf-zoomInDown 2.5s ease-in-out 0s forwards;
+    }
 
 @keyframes kf-zoomInDown {
     from {
@@ -115,21 +115,21 @@
     animation: kf-bounce 2s ease-in-out 1;
 }
 
-#Logo.animated .bounce:nth-child(2) {
-    animation-delay: 1.2s;
-}
+    #Logo.animated .bounce:nth-child(2) {
+        animation-delay: 1.2s;
+    }
 
-#Logo.animated .bounce:nth-child(3) {
-    animation-delay: 1.4s;
-}
+    #Logo.animated .bounce:nth-child(3) {
+        animation-delay: 1.4s;
+    }
 
-#Logo.animated .bounce:nth-child(4) {
-    animation-delay: 1.6s;
-}
+    #Logo.animated .bounce:nth-child(4) {
+        animation-delay: 1.6s;
+    }
 
-#Logo.animated .bounce:nth-child(5) {
-    animation-delay: 1.2s;
-}
+    #Logo.animated .bounce:nth-child(5) {
+        animation-delay: 1.2s;
+    }
 
 /* END Welcome Logo (shelf) */
 /* =========================*/
@@ -253,4 +253,50 @@
     }
 
 /* END Welcome ProgressText */
+/*==========================*/
+
+/*==========================*/
+/* BGN Flash */
+
+@keyframes kf-flash-appearance {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+}
+
+#LogoBox #Flash {
+    width: 500px;
+    height: 500px;
+    background-color: orange;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    opacity: 0;
+    background: radial-gradient(circle farthest-corner at 50% 50%, rgba(67, 64, 210, 0.9) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+    #LogoBox #Flash.show {
+        animation: kf-flash-appearance 3.5s ease-out 1.5s forwards;
+    }
+
+/* END Flash */
 /*==========================*/

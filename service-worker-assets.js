@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "qWKQHjys",
+  "version": "AISxcaNX",
   "assets": [
     {
       "hash": "sha256-cvLuVierKPpmy4CG2TBjpO/Ea5BBUHs8/XKPeqt6epU=",
@@ -158,8 +158,8 @@ self.assetsManifest = {
       "url": "_content/Radzen.Blazor/fonts/SourceSans3VF-Upright.ttf.woff2"
     },
     {
-      "hash": "sha256-KZBwLjizWHEXFxPbsRKjWWdnCzd3A4NUTM9QV33Zk9o=",
-      "url": "_framework/CyberShelf.pw94xp8xvu.wasm"
+      "hash": "sha256-8Jae+i5ywZcG39TT/DDxaAMmMgnj6ZsLhpDQiOQDE4Y=",
+      "url": "_framework/CyberShelf.cl3npnr808.wasm"
     },
     {
       "hash": "sha256-cGOjPiVWWygaE8CFdoLZjcTpjW5SWN2gHBsKDExWBhs=",
@@ -434,7 +434,7 @@ self.assetsManifest = {
       "url": "_framework/System.t8xd33e5pv.wasm"
     },
     {
-      "hash": "sha256-73J1qs2Obuu9MakivQp/73wS3KBFoKz5h2N/eEjDfHE=",
+      "hash": "sha256-RspNENTyFt0n0ZKgrSIVvipBtomxaeRYH/5tRtg3SDk=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -462,8 +462,8 @@ self.assetsManifest = {
       "url": "_framework/icudt.oh1zvcfom8.dat"
     },
     {
-      "hash": "sha256-Ml65ufjR2R3aE6bl0Z5BHJw0bODdxuiyIUYBLgzxqlE=",
-      "url": "_framework/ru/CyberShelf.resources.ifacullxnh.wasm"
+      "hash": "sha256-KJmAXJ8X4dqJjU355xDdFqPMGSnvwrIiLeR6b7XXzf4=",
+      "url": "_framework/ru/CyberShelf.resources.8wdm7w1utk.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -478,11 +478,11 @@ self.assetsManifest = {
       "url": "_welcome/splash-shelf.svg"
     },
     {
-      "hash": "sha256-Bz3IGvEHYK9Le1VrdY6wSTaiYUAzNlhnB/YwFMjdnDQ=",
+      "hash": "sha256-sRz1ffL/d56lh0Mr6ugTVR938FG5CTyeKVUxoX7lfAY=",
       "url": "_welcome/welcome.css"
     },
     {
-      "hash": "sha256-cZZS0aUHc+KDJLgp06fRIhhqtWPDslgTq6IGywLacqU=",
+      "hash": "sha256-ZYomM2SA9WupleXqvfX7U9aa+UguPDi14pLGpCt1A3k=",
       "url": "_welcome/welcome.js"
     },
     {
@@ -1734,7 +1734,11 @@ self.assetsManifest = {
       "url": "css/app.css"
     },
     {
-      "hash": "sha256-aaBnZhE4l6TK/O73vlp44Ay4KGKm33I7YcrUtFS1jqQ=",
+      "hash": "sha256-ZOmuMnlrp8+2TJ0/l3A90OJ11ToiO6+ZtNMq/psI1GA=",
+      "url": "flash.mp3"
+    },
+    {
+      "hash": "sha256-vFjLK688LYcOa9Rrg7uF1JK05ztX0xnq2DG70QE4VTo=",
       "url": "index.html"
     },
     {
