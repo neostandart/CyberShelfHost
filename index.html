@@ -11,7 +11,7 @@
     <!---->
     <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon">
     <!---->
-    <script src="_welcome/welcome.js?build=1"></script>
+    <script src="_welcome/welcome.js?build=2"></script>
     <!---->
     <link href="manifest.webmanifest" rel="manifest" />
     <!---->
@@ -111,7 +111,7 @@
     <!-- Welcome Splash Screen -->
     <!-- (after the application downloading it will be deleted) -->
     <div id="Welcome">
-        <link href="_welcome/welcome.css?build=1" rel="stylesheet" />
+        <link href="_welcome/welcome.css?build=2" rel="stylesheet" />
         <!---->
         <div id="Background"></div>
         <!---->
@@ -241,15 +241,18 @@
     <link href="vendor/bootstrap/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Radzen Components -->
-    <link href="_content/Radzen.Blazor/css/material-base.css?build=1" rel="stylesheet">
-    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?build=1"></script>
+    <link href="_content/Radzen.Blazor/css/material-base.css?build=2" rel="stylesheet">
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?build=2"></script>
 
     <!-- Application Styles -->
-    <link href="css/app.css?build=1" rel="stylesheet" />
-    <link href="CyberShelf.styles.css?build=1" rel="stylesheet" />
+    <link href="css/app.css?build=2" rel="stylesheet" />
+    <link href="CyberShelf.styles.css?build=2" rel="stylesheet" />
 
     <!-- Application inline scripts -->
     <script>
+
+        window.getBrowserLanguage = () => navigator.language;
+
         window.addEventListener("beforeunload", function (e) {
             var bPrevetn = DotNet.invokeMethod("CyberShelf", "requestSafeExit");
             if (bPrevetn === true) {
