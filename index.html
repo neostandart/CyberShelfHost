@@ -7,7 +7,7 @@
     <!---->
     <title>CyberShelf Starting...</title>
     <!---->
-    <base href="/CyberShelfHost/" />
+    <base href="/" />
     <!---->
     <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon">
     <!---->
@@ -250,9 +250,6 @@
 
     <!-- Application inline scripts -->
     <script>
-
-        window.getBrowserLanguage = () => navigator.language;
-
         window.addEventListener("beforeunload", function (e) {
             var bPrevetn = DotNet.invokeMethod("CyberShelf", "requestSafeExit");
             if (bPrevetn === true) {

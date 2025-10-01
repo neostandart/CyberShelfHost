@@ -101,6 +101,8 @@ class CyberShelfAgent {
 
 //
 
+window.getBrowserLanguage = () => navigator.language;
+
 window.CyberShelfAgent = new CyberShelfAgent();
 
 function startWelcome() {
