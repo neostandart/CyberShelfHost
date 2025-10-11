@@ -104,10 +104,10 @@ class CyberShelfAgent {
         }
     }
 
-} // class WelcomeScreen
+} // class CyberShelfAgent
 
 
-// Protection for a non-root path logon
+/* Protection for a non-root path logon */
 const basePath ="/CyberShelfHost/";
 const pathname = window.location.pathname;
 if (pathname !== basePath) {
