@@ -113,13 +113,13 @@ for (const key in window.location) {
     console.log(`${key}: ${window.location[key]}`);
 }
 
+const basePath ="/CyberShelfHost/";
 
-
-// const pathname = window.location.pathname;
-// if (pathname !== '/' && pathname !== '' && pathname !== null) {
-//     //window.location.assign("/");
-//     window.location.replace('/');
-// }
+const pathname = window.location.pathname;
+if (pathname !== basePath) {
+    //window.location.assign("/");
+    window.location.replace(basePath);
+}
 
 //
 
