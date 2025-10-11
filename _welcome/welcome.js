@@ -107,12 +107,19 @@ class CyberShelfAgent {
 } // class WelcomeScreen
 
 //
-
-const pathname = window.location.pathname;
-if (pathname !== '/' && pathname !== '' && pathname !== null) {
-    //window.location.assign("/");
-    window.location.replace('/');
+//++++++++++++
+console.log("window.location:" + window.location);
+for (const key in window.location) {
+    console.log(`${key}: ${window.location[key]}`);
 }
+
+
+
+// const pathname = window.location.pathname;
+// if (pathname !== '/' && pathname !== '' && pathname !== null) {
+//     //window.location.assign("/");
+//     window.location.replace('/');
+// }
 
 //
 
