@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "8/kogcPo",
+  "version": "UOygvi6Z",
   "assets": [
     {
-      "hash": "sha256-Lj7jCSodEUkLbdGmGE21DTzSovJPHsE48+YkinrwNXI=",
+      "hash": "sha256-49QBbK7OL+lp0c2+GQ6EwAeD7dxltPvl/ns9uLDusZs=",
       "url": "CyberShelf.styles.css"
     },
     {
@@ -158,8 +158,8 @@ self.assetsManifest = {
       "url": "_content/Radzen.Blazor/fonts/SourceSans3VF-Upright.ttf.woff2"
     },
     {
-      "hash": "sha256-TVuztQoMGVWa3aGvEfMgqjIztP4bQyrEpqcPHfBuowM=",
-      "url": "_framework/CyberShelf.f1wq4z5pbl.wasm"
+      "hash": "sha256-rgDN6bgC5mxR+2zxzR9CQMjPuaF8XFBZdvoWjwAbpYw=",
+      "url": "_framework/CyberShelf.e4peq4iens.wasm"
     },
     {
       "hash": "sha256-cGOjPiVWWygaE8CFdoLZjcTpjW5SWN2gHBsKDExWBhs=",
@@ -434,7 +434,7 @@ self.assetsManifest = {
       "url": "_framework/System.t8xd33e5pv.wasm"
     },
     {
-      "hash": "sha256-bafuZeeD1lVOoxtQl8UGqVNPGhq35+m1GdEwiaBd3x8=",
+      "hash": "sha256-kv703MPgcJraW3rdEEcMuK2ugOFri8OH4L+Jfylo23U=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -462,8 +462,8 @@ self.assetsManifest = {
       "url": "_framework/icudt.oh1zvcfom8.dat"
     },
     {
-      "hash": "sha256-lpMKl7TzaylhQe7jwE5e1kcqCchNNod1LMBj09OcXb4=",
-      "url": "_framework/ru/CyberShelf.resources.a71eu2ves5.wasm"
+      "hash": "sha256-ZvSyLuGYwoRr0UiFM2ZR0ZZqQ+HvU3Ghd1NYJSf3sp0=",
+      "url": "_framework/ru/CyberShelf.resources.i1rmiwjnf7.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -1726,7 +1726,7 @@ self.assetsManifest = {
       "url": "css/animations.css"
     },
     {
-      "hash": "sha256-2Ufc+BSC9gq7loDGxlJT+IROCWdf/beHyFNPNqWoaDM=",
+      "hash": "sha256-EGeghYKm95gkccMDxWT+TDsY/zZ0OYm56R4YOZGdsLk=",
       "url": "css/app.css"
     },
     {
@@ -1738,7 +1738,7 @@ self.assetsManifest = {
       "url": "manifest.webmanifest"
     },
     {
-      "hash": "sha256-8xFzdpTUVJdR57V5v+yAhNwnWTvqBDagKr1jBDJfNm4=",
+      "hash": "sha256-vDSy2pSfrc7EDTxa54alAOgDAnFPQ0hdQUlIOV312io=",
       "url": "script/bookrt.js"
     },
     {
@@ -1746,8 +1746,8 @@ self.assetsManifest = {
       "url": "script/bridge.js"
     },
     {
-      "hash": "sha256-6KqvxqkSGBlfQB1YmTVsr26VW0EgbKRk1KbEIDlX7TQ=",
-      "url": "script/install-worker.561e88a211076ae029ea.js"
+      "hash": "sha256-Uf4uhwbkJL9yf0DctS2N97JRR2u7T+mRTs2xfP0C92k=",
+      "url": "script/install-worker.6579f3ba4cfe9606ea49.js"
     },
     {
       "hash": "sha256-G+HvmgG+yOcURcc3XU4toGrzqxqSBCENOCUQKWh2B1w=",

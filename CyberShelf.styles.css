@@ -363,24 +363,20 @@ aside.expanded[b-tpp0wlf4sz] {
     padding: 0.25rem;
 }
 
+
 .pack-card[b-tpp0wlf4sz] {
     padding: 0.5rem;
-    border: 1px solid var(--book-color-lighter);
-    background-color: var(--book-bg);
+    border: 2px solid var(--book-color-lighter);
+    background-color: var(--book-bg-darker);
 }
+
+    .pack-card.active[b-tpp0wlf4sz] {
+        border: 2px solid var(--item-focus-color);
+        background-color: var(--book-bg);
+    }
 
     .pack-card:not(:first-child)[b-tpp0wlf4sz] {
         margin-top: 0.5rem;
-    }
-
-#ItemFocus[b-tpp0wlf4sz] {
-    padding: 0.25rem;
-    border: 3px dotted transparent;
-}
-
-    #ItemFocus.active[b-tpp0wlf4sz] {
-        border: 3px dotted var(--item-focus-color);
-        background-color: var(--item-focus-bg);
     }
 
 
