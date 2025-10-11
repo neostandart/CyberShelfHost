@@ -32,11 +32,11 @@ class CyberShelfAgent {
         if (this._hteWelcome) {
             this._hteWelcome.classList.add("fadeout");
             this._hteWelcome.classList.remove("fadein");
-            
+
             if (this._hteApp) {
                 this._hteApp.classList.add("running");
             }
-            
+
             setTimeout(() => {
                 this.die();
             }, 2000);
@@ -49,7 +49,7 @@ class CyberShelfAgent {
                 if (mutation.type === 'childList') {
                     observer.disconnect();
                     this._observer = null;
-                    
+
                     if (this._hteLogo) {
                         this._hteLogo.addEventListener("animationend", (ev) => {
                             if (ev.animationName === "kf-zoomInDown") {
@@ -61,7 +61,7 @@ class CyberShelfAgent {
 
                         this._hteLogo.classList.add("animated");
 
-                        if (this._hteFlash) 
+                        if (this._hteFlash)
                             this._hteFlash.classList.add("show");
 
                         // new_code experimental
@@ -108,6 +108,14 @@ class CyberShelfAgent {
 
 //
 
+const pathname = window.location.pathname;
+if (pathname !== '/' && pathname !== '' && pathname !== null) {
+    //window.location.assign("/");
+    window.location.replace('/');
+}
+
+//
+
 window.getBrowserLanguage = () => navigator.language;
 
 window.CyberShelfAgent = new CyberShelfAgent();
@@ -116,12 +124,10 @@ function startWelcome() {
     window.CyberShelfAgent.start();
 }
 
-//
-
 if (document.readyState !== "loading") {
     startWelcome();
 } else {
     document.addEventListener("DOMContentLoaded", startWelcome);
 }
 
-// END 
+// ====================================================================

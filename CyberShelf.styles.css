@@ -339,13 +339,17 @@ aside.expanded[b-tpp0wlf4sz] {
     }
 }
 
+.small[b-tpp0wlf4sz] {
+    width: var(--ui-packctr-width-xs);
+    border-radius: 0.25rem;
+}
+
 .normal[b-tpp0wlf4sz] {
     width: var(--ui-packctr-width);
 }
 
-.xsmall[b-tpp0wlf4sz] {
-    width: var(--ui-packctr-width-xs);
-    border-radius: 0.25rem;
+.large[b-tpp0wlf4sz] {
+    width: var(--ui-packctr-width-lg);
 }
 
 #Container[b-tpp0wlf4sz] {

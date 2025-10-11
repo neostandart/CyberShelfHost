@@ -53,8 +53,9 @@
     /* *** */
     --ui-info-bg: #e4edfe;
     /* *** */
-    --ui-packctr-width: 380px;
     --ui-packctr-width-xs: 340px;
+    --ui-packctr-width: 380px;
+    --ui-packctr-width-lg: 440px;
     --ui-packctr-list-max-height: 500px;
     /* *** */
     --folder-color: goldenrod;

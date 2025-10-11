@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "UOygvi6Z",
+  "version": "JJ1LxCmx",
   "assets": [
     {
-      "hash": "sha256-49QBbK7OL+lp0c2+GQ6EwAeD7dxltPvl/ns9uLDusZs=",
+      "hash": "sha256-qBF0FQFzK7Krdgro3+Sp15wQB2COBrFTTbwabMJP490=",
       "url": "CyberShelf.styles.css"
     },
     {
@@ -158,8 +158,8 @@ self.assetsManifest = {
       "url": "_content/Radzen.Blazor/fonts/SourceSans3VF-Upright.ttf.woff2"
     },
     {
-      "hash": "sha256-rgDN6bgC5mxR+2zxzR9CQMjPuaF8XFBZdvoWjwAbpYw=",
-      "url": "_framework/CyberShelf.e4peq4iens.wasm"
+      "hash": "sha256-X7vvzrLv+qDm1RYBUusSxQJu/FsNp7W4wto+qpLA84I=",
+      "url": "_framework/CyberShelf.hser10a20g.wasm"
     },
     {
       "hash": "sha256-cGOjPiVWWygaE8CFdoLZjcTpjW5SWN2gHBsKDExWBhs=",
@@ -434,7 +434,7 @@ self.assetsManifest = {
       "url": "_framework/System.t8xd33e5pv.wasm"
     },
     {
-      "hash": "sha256-kv703MPgcJraW3rdEEcMuK2ugOFri8OH4L+Jfylo23U=",
+      "hash": "sha256-HuQJxbA0ST4a14xhU2qle4m8oo5/P3ckokHAKeFMEWw=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -462,8 +462,8 @@ self.assetsManifest = {
       "url": "_framework/icudt.oh1zvcfom8.dat"
     },
     {
-      "hash": "sha256-ZvSyLuGYwoRr0UiFM2ZR0ZZqQ+HvU3Ghd1NYJSf3sp0=",
-      "url": "_framework/ru/CyberShelf.resources.i1rmiwjnf7.wasm"
+      "hash": "sha256-YyLUK5i0znCTCTJPEiRf72wWQ+FjjB1BT/A+90hf2Sc=",
+      "url": "_framework/ru/CyberShelf.resources.p9kg7bebc7.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -478,7 +478,7 @@ self.assetsManifest = {
       "url": "_welcome/welcome.css"
     },
     {
-      "hash": "sha256-QOuJD694Q0SaZuqo0i6HSI0qCzIqK+Dgfy2LCGfpUXU=",
+      "hash": "sha256-XVRNSqDZtH4G79mmnzuZlf9UxuGdSRJcL336c9CdPuM=",
       "url": "_welcome/welcome.js"
     },
     {
@@ -1726,7 +1726,7 @@ self.assetsManifest = {
       "url": "css/animations.css"
     },
     {
-      "hash": "sha256-EGeghYKm95gkccMDxWT+TDsY/zZ0OYm56R4YOZGdsLk=",
+      "hash": "sha256-8XDkxCJNho+ST3pmZFOf9FENFyCalotVjU/W+Onf+Fg=",
       "url": "css/app.css"
     },
     {
