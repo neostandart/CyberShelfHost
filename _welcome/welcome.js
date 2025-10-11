@@ -106,18 +106,11 @@ class CyberShelfAgent {
 
 } // class WelcomeScreen
 
-//
-//++++++++++++
-console.log("window.location:" + window.location);
-for (const key in window.location) {
-    console.log(`${key}: ${window.location[key]}`);
-}
 
+// Protection for a non-root path logon
 const basePath ="/CyberShelfHost/";
-
 const pathname = window.location.pathname;
 if (pathname !== basePath) {
-    //window.location.assign("/");
     window.location.replace(basePath);
 }
 
