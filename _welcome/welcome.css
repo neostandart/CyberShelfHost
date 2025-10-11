@@ -115,19 +115,19 @@
     animation: kf-bounce 2s ease-in-out 1;
 }
 
-    #Logo.animated .bounce:nth-child(2) {
+    #Logo.animated .bounce:nth-child(3) {
         animation-delay: 1.2s;
     }
 
-    #Logo.animated .bounce:nth-child(3) {
+    #Logo.animated .bounce:nth-child(4) {
         animation-delay: 1.4s;
     }
 
-    #Logo.animated .bounce:nth-child(4) {
+    #Logo.animated .bounce:nth-child(5) {
         animation-delay: 1.6s;
     }
 
-    #Logo.animated .bounce:nth-child(5) {
+    #Logo.animated .bounce:nth-child(6) {
         animation-delay: 1.2s;
     }
 
@@ -143,7 +143,13 @@
     position: relative;
     animation: spinner-dots 2.5s infinite linear both;
     margin: auto;
+    opacity: 1;
+    transition: opacity 2s ease-in-out;
 }
+
+    #Welcome #Spinner.hidden {
+        opacity: 0;
+    }
 
     #Welcome #Spinner .spinner-dot {
         width: 100%;
@@ -291,7 +297,7 @@
     transform: translate(-50%, -50%);
     transform-origin: center center;
     opacity: 0;
-    background: radial-gradient(circle farthest-corner at 50% 50%, rgba(67, 64, 210, 0.9) 0%, rgba(255, 255, 255, 0) 70%);
+    background: radial-gradient(circle farthest-corner at 50% 50%, rgba(67, 64, 210, 1) 0%, rgba(255, 255, 255, 0) 70%);
 }
 
     #LogoBox #Flash.show {

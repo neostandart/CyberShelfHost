@@ -9,6 +9,8 @@ class CyberShelfAgent {
     _bDead = false;
     _observer = null;
 
+    _hteSpinner = null;
+
     _audioContext = undefined;
 
     getStartTime() {
@@ -61,6 +63,9 @@ class CyberShelfAgent {
 
                         if (this._hteFlash) 
                             this._hteFlash.classList.add("show");
+
+                        // new_code experimental
+                        this._hteSpinner.classList.add("hidden");
                     } else {
                         window.DotNet.invokeMethodAsync("CyberShelf", "informAppReady", this.getStartTime(), this.getMinTime());
                     }
@@ -77,6 +82,8 @@ class CyberShelfAgent {
             this._hteApp = document.getElementById("Application");
             this._hteLogo = document.getElementById("Logo");
             this._hteFlash = document.getElementById("Flash");
+
+            this._hteSpinner = document.getElementById("Spinner");
             //
             if (this._hteWelcome && this._hteApp) {
                 // Tracking the end of the application download
