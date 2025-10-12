@@ -8,6 +8,11 @@
   "prefer_related_applications": false,
   "icons": [
     {
+      "src": "assets/manifest/manifest-512.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    },
+    {
       "src": "assets/manifest/manifest-48.png",
       "type": "image/png",
       "sizes": "48x48"
