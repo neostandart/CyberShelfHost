@@ -1614,7 +1614,8 @@ header[b-z636rsmn8k] {
 /* Book List */
 
 [b-z636rsmn8k] .book-card {
-    border: 1px solid var(--book-color);
+    flex: 1;
+    border: 2px solid var(--rz-primary);
     background-color: var(--book-bg);
 }
 

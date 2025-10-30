@@ -109,10 +109,11 @@ class CyberShelfAgent {
 //
 
 /* Protection for a non-root path logon */
-const basePath = "/CyberShelfHost/";
-if (window.location.pathname !== basePath) {
-   window.location.replace(basePath);
-}
+//const basePath = "/CyberShelfHost/";
+//const pathname = window.location.pathname;
+//if (pathname !== basePath) {
+//    window.location.replace(basePath);
+//}
 
 //
 
