@@ -369,9 +369,10 @@ aside.expanded[b-tpp0wlf4sz] {
 
 
 .pack-card[b-tpp0wlf4sz] {
+    overflow: visible;
     padding: 0.5rem;
-    border: 2px solid var(--book-color-lighter);
-    background-color: var(--book-bg-darker);
+    border: 2px solid var(--rz-base-500);
+    background-color: var(--rz-base-300);
 }
 
     .pack-card.active[b-tpp0wlf4sz] {
@@ -383,6 +384,15 @@ aside.expanded[b-tpp0wlf4sz] {
         margin-top: 0.5rem;
     }
 
+.diode-active[b-tpp0wlf4sz] {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--diode-active-color);
+    position: absolute;
+    left: -4px;
+    top: -4px;
+}
 
 #Footer[b-tpp0wlf4sz] {
     background-color: rgb(255, 255, 255, 0.3);
@@ -1615,7 +1625,7 @@ header[b-z636rsmn8k] {
 
 [b-z636rsmn8k] .book-card {
     flex: 1;
-    border: 2px solid var(--rz-primary);
+    border: 2px solid var(--book-color);
     background-color: var(--book-bg);
 }
 
