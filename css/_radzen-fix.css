@@ -162,9 +162,15 @@
     }
 
 
+/* ------------------------------------------------------------------- */
+/*  */
+
+.rz-message.validation-msg-popup {
+    z-index: 1;
+}
+
 /* ----------------------------------------------------------------------- */
 /* Adaptation of some RadzenButton to the smallest screens with .ui-xs-btn */
-
 @media (max-width: 575.98px) {
     .rz-button.ui-xs-btn .rz-button-box {
         display: flex;

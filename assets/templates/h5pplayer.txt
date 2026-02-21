@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale={0}">
     <base target="_parent">
 
+    <link rel="stylesheet" href="vendor/h5p/styles/font-open-sans.css">
+    <link rel="stylesheet" href="vendor/h5p/styles/h5p.css">
+
     {1}
 
     <style>
@@ -41,6 +44,8 @@
             }
         }
     </style>
+
+    <script src="vendor/h5p/frame.bundle.js"></script>
 
     {2}
 
