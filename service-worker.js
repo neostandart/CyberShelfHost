@@ -33,7 +33,7 @@ async function onInstall(event) {
         await caches.open(cacheName).then(cache => cache.addAll(assetsRequests));
 
     // Grigory
-    // self.skipWaiting();
+    self.skipWaiting();
 
 }
 
@@ -47,7 +47,7 @@ async function onActivate(event) {
         .map(key => caches.delete(key)));
 
     // Grigory
-    // event.waitUntil(clients.claim());
+    event.waitUntil(clients.claim());
 }
 
 async function onFetch(event) {
