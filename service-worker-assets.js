@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "+m25nxAs",
+  "version": "rvre17pS",
   "assets": [
     {
       "hash": "sha256-ixxd6cCLoShmVn1YpTshLQqOmsnFnOuTA9sXyp3Zr30=",
@@ -162,8 +162,8 @@ self.assetsManifest = {
       "url": "_content/Radzen.Blazor/fonts/SourceSans3VF-Upright.ttf.woff2"
     },
     {
-      "hash": "sha256-xjEiAjdjq5hUo4pHZv+srNA+BiWbg1R5T0jirKECvTA=",
-      "url": "_framework/CyberShelf.y14dku9ylm.wasm"
+      "hash": "sha256-myR7kjL1GzjopvkqL0/y6yps/zoUjpdrDCnPEbymg9s=",
+      "url": "_framework/CyberShelf.hd8gpp59ri.wasm"
     },
     {
       "hash": "sha256-cGOjPiVWWygaE8CFdoLZjcTpjW5SWN2gHBsKDExWBhs=",
@@ -438,7 +438,7 @@ self.assetsManifest = {
       "url": "_framework/System.f0t8bkq7p2.wasm"
     },
     {
-      "hash": "sha256-PpziuFsYi49QmKLx008isYNOxWi8Pz1wDwTsz5p/KRE=",
+      "hash": "sha256-2VXTCqE3q0RvSPqItWokc/W2ip/iyUnRe1vWdwGjSBY=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -466,8 +466,8 @@ self.assetsManifest = {
       "url": "_framework/icudt.oh1zvcfom8.dat"
     },
     {
-      "hash": "sha256-nemQqp/fSkbb2eBdUz0D0kv5RlLSU48SRxO+BQ8W8UY=",
-      "url": "_framework/ru/CyberShelf.resources.vtnnqlbnz1.wasm"
+      "hash": "sha256-6pCI1HT6sgqQaIJsCLEsT9SpkRTNSWSScZNsBRmWHEs=",
+      "url": "_framework/ru/CyberShelf.resources.eup5tgmy2s.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -1750,7 +1750,7 @@ self.assetsManifest = {
       "url": "css/app.css"
     },
     {
-      "hash": "sha256-LrPheT0wFfCrh4SyhKWK23Jg6/ptkFaMXdXm2F7QnSk=",
+      "hash": "sha256-tpaUjJuhMXIk/mhrE0vptNJ0cD3mMcm4UOQCQ8xm6QU=",
       "url": "index.html"
     },
     {
@@ -1766,7 +1766,7 @@ self.assetsManifest = {
       "url": "script/bridge.js"
     },
     {
-      "hash": "sha256-Df6VUmsQgI3vi6ZRyrTYIfx/I8QA32saFmQ/dzjbM5o=",
+      "hash": "sha256-Gmblf3CR2NeWoTPBAHYInkWfw8moxnSl7cmRc/4pX7I=",
       "url": "script/install-worker.2e9785bb.js"
     },
     {
@@ -1782,8 +1782,8 @@ self.assetsManifest = {
       "url": "script/uninstall-worker.bbb5a04b.js"
     },
     {
-      "hash": "sha256-Bdz55yDzaoJpUzMx05bX2l72pgJaKU2IG+U6jd2Gf0c=",
-      "url": "script/zip.f1658cf4.js"
+      "hash": "sha256-yMMhcNbdbFX0CJ9hHlxuPE11cS6E3u8L82GqpQyE4xA=",
+      "url": "script/zip.97c91f94.js"
     },
     {
       "hash": "sha256-4duCMP/i2o0p2FkjwuN5SkCcmaDCah44hgtxQxoudf8=",
