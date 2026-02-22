@@ -19,6 +19,9 @@ const base = "/CyberShelfHost/";
 const baseUrl = new URL(base, self.origin);
 const manifestUrlList = self.assetsManifest.assets.map(asset => new URL(asset.url, baseUrl).href);
 
+// Grigory.
+console.log("[SW] Grigory baseUrl=" + baseUrl.toString());
+
 async function onInstall(event) {
     console.info('Service worker: Install');
 
