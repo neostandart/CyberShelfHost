@@ -244,7 +244,7 @@
 
     <!-- Framework -->
     <script src="_framework/blazor.webassembly.js?build=15"></script>
-    <script>navigator.serviceWorker.register('service-worker.js?build=15');</script>
+    <script>navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });</script>
 
     <!-- Bootstrap -->
     <link href="vendor/bootstrap/bootstrap.min.css" rel="stylesheet" />
