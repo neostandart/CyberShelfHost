@@ -1,4 +1,4 @@
-/* Manifest version: 0XpCLcTe */
+/* Manifest version: QSvEvO69 */
 // Caution! Be sure you understand the caveats before publishing an application with
 // offline support. See https://aka.ms/blazor-offline-considerations
 
@@ -24,8 +24,7 @@ const manifestUrlList = self.assetsManifest.assets.map(asset => new URL(asset.ur
 async function onInstall(event) {
     console.info('Service worker: Install');
 
-    // recommendation from DeepSeek
-    self.skipWaiting();
+    await self.skipWaiting();
 
     // Fetch and cache all matching items from the assets manifest
     const assetsRequests = self.assetsManifest.assets
@@ -38,8 +37,7 @@ async function onInstall(event) {
 async function onActivate(event) {
     console.info('Service worker: Activate');
 
-    // recommendation from DeepSeek
-    event.waitUntil(clients.claim());
+    await self.clients.claim();
 
     // Delete unused caches
     const cacheKeys = await caches.keys();
