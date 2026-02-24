@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Suite Kind="{0}" SuiteId="{1}" Name="{2}" DistorId="{3}" SourceUrl="{4}">
-	<Overview>{5}</Overview>
-	<Notes></Notes>
-</Suite>
