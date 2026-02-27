@@ -1,4 +1,4 @@
-/* Manifest version: 2iJ+m5M/ */
+/* Manifest version: kZ5xCKrE */
 /******/ // The require scope
 /******/ var __webpack_require__ = {};
 /******/ 
@@ -35,7 +35,7 @@ const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${sw.assetsManifest.version}`;
 const offlineAssetsInclude = [/\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/];
 const offlineAssetsExclude = [/^service-worker\.js$/, /^service-worker\.published\.js$/];
-// const base = "/";
+//const base = "/";
 const base = "/CyberShelfHost/";
 const baseUrl = new URL(base, sw.origin);
 const manifestUrlList = sw.assetsManifest.assets.map(asset => new URL(asset.url, baseUrl).href);
