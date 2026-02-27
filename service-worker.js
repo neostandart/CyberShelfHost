@@ -41,6 +41,24 @@ const baseUrl = new URL(base, sw.origin);
 const manifestUrlList = sw.assetsManifest.assets.map(asset => new URL(asset.url, baseUrl).href);
 let isBusy = false;
 // ── Lifecycle: install ────────────────────────────────────────────────
+// Оригинальный вариант
+//sw.addEventListener('install', (event: any) => {
+//    console.info('[SW] Installing published version...');
+//    event.waitUntil(
+//        (async () => {
+//            // Кэширование ассетов (из Blazor PWA)
+//            const assetsRequests = sw.assetsManifest.assets
+//                .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
+//                .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
+//                .map(asset => new Request(asset.url, { integrity: asset.hash, cache: 'no-cache' }));
+//            const cache = await caches.open(cacheName);
+//            await cache.addAll(assetsRequests);
+//            // Пропускаем ожидание
+//            await sw.skipWaiting();
+//        })()
+//    );
+//});
+// Исправленный Gemini 3.1
 sw.addEventListener('install', (event) => {
     console.info('[SW] Installing published version...');
     event.waitUntil((async () => {
@@ -48,7 +66,7 @@ sw.addEventListener('install', (event) => {
         const assetsRequests = sw.assetsManifest.assets
             .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
             .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
-            .map(asset => new Request(asset.url, { integrity: asset.hash, cache: 'no-cache' }));
+            .map(asset => new Request(asset.url, { cache: 'no-cache' }));
         const cache = await caches.open(cacheName);
         await cache.addAll(assetsRequests);
         // Пропускаем ожидание
