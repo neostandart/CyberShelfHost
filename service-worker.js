@@ -1,4 +1,4 @@
-/* Manifest version: 7FL5ab88 */
+/* Manifest version: Y4fP1ANh */
 // Caution! Be sure you understand the caveats before publishing an application with
 // offline support. See https://aka.ms/blazor-offline-considerations
 
@@ -38,7 +38,7 @@ async function onInstall(event) {
     console.info('Service worker: Install');
 
     // ����������� ������� (�� Blazor PWA)
-    const assetsRequests = sw.assetsManifest.assets
+    const assetsRequests = self.assetsManifest.assets
         .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
         .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
         .map(asset => new Request(asset.url, { cache: 'no-cache' }));
@@ -47,7 +47,7 @@ async function onInstall(event) {
     await cache.addAll(assetsRequests);
 
     // ���������� ��������
-    await sw.skipWaiting();
+    await self.skipWaiting();
 }
 
 //async function onActivate(event) {
@@ -73,7 +73,7 @@ async function onActivate(event) {
         .map(key => caches.delete(key)));
 
     // �������� ��������
-    await sw.clients.claim();
+    await self.clients.claim();
 }
 
 
