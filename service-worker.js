@@ -1,4 +1,4 @@
-/* Manifest version: EKITvEW3 */
+/* Manifest version: 7FL5ab88 */
 // Caution! Be sure you understand the caveats before publishing an application with
 // offline support. See https://aka.ms/blazor-offline-considerations
 
@@ -37,21 +37,17 @@ const manifestUrlList = self.assetsManifest.assets.map(asset => new URL(asset.ur
 async function onInstall(event) {
     console.info('Service worker: Install');
 
-    event.waitUntil(
-        (async () => {
-            // ����������� ������� (�� Blazor PWA)
-            const assetsRequests = sw.assetsManifest.assets
-                .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
-                .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
-                .map(asset => new Request(asset.url, { cache: 'no-cache' }));
+    // ����������� ������� (�� Blazor PWA)
+    const assetsRequests = sw.assetsManifest.assets
+        .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
+        .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
+        .map(asset => new Request(asset.url, { cache: 'no-cache' }));
 
-            const cache = await caches.open(cacheName);
-            await cache.addAll(assetsRequests);
+    const cache = await caches.open(cacheName);
+    await cache.addAll(assetsRequests);
 
-            // ���������� ��������
-            await sw.skipWaiting();
-        })()
-    );
+    // ���������� ��������
+    await sw.skipWaiting();
 }
 
 //async function onActivate(event) {
@@ -70,18 +66,14 @@ async function onInstall(event) {
 async function onActivate(event) {
     console.info('Service worker: Activate');
 
-    event.waitUntil(
-        (async () => {
-            // �������� ������ ����� (�� Blazor PWA)
-            const cacheKeys = await caches.keys();
-            await Promise.all(cacheKeys
-                .filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
-                .map(key => caches.delete(key)));
+    // �������� ������ ����� (�� Blazor PWA)
+    const cacheKeys = await caches.keys();
+    await Promise.all(cacheKeys
+        .filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
+        .map(key => caches.delete(key)));
 
-            // �������� ��������
-            await sw.clients.claim();
-        })()
-    );
+    // �������� ��������
+    await sw.clients.claim();
 }
 
 
