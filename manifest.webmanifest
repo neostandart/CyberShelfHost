@@ -1,7 +1,6 @@
 {
-  "name": "BlazorSW_Opus",
-  "short_name": "BlazorSW_Opus",
-  "id": "./",
+  "name": "CyberShelf",
+  "short_name": "CyberShelf",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -9,14 +8,34 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "icon-512.png",
-      "type": "image/png",
+      "src": "assets/manifest/manifest-512.svg",
+      "type": "image/svg+xml",
       "sizes": "512x512"
     },
     {
-      "src": "icon-192.png",
+      "src": "assets/manifest/manifest-48.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "48x48"
+    },
+    {
+      "src": "assets/manifest/manifest-96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "assets/manifest/manifest-128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "assets/manifest/manifest-256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "assets/manifest/manifest-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }

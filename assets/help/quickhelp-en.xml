@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Items>
+	<Item Key="QH001" Caption="Why do I need to register?">
+		<![CDATA[
+			<h1>Title</h1>
+			<p>no data</p>
+		]]>
+	</Item>
+	<Item Key="QH002" Caption="Where are the installed books stored?">
+		<![CDATA[
+			<h1>Title</h1>
+			<p>no data</p>
+		]]>
+	</Item>
+	<Item Key="QH003" Caption="If I delete the purchased book?">
+		<![CDATA[
+			<h1>Title</h1>
+			<p>no data</p>
+		]]>
+	</Item>
+</Items>

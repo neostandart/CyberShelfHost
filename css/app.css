@@ -1,551 +1,355 @@
-/*
- * app.css — Главная таблица стилей приложения BlazorSW Opus.
- *
- * Использует CSS Custom Properties (--primary-color) для динамической темизации.
- * Значения переменных устанавливаются из C# через DomHelpersInterop → setCssVariable().
- *
- * Структура:
- *   1. CSS Custom Properties (тема)
- *   2. Reset & Base
- *   3. Layout (sidebar + main)
- *   4. Navigation
- *   5. Pages (home, settings)
- *   6. Components (alerts, buttons, tables, spinner)
- */
 
-/* ═══════════════════════════════════════════════════════════════════════
-   1. CSS CUSTOM PROPERTIES — ТЕМА
-   ═══════════════════════════════════════════════════════════════════════ */
+@import "./_radzen-fix.css";
+@import "./animations.css";
+
+/* ==============================================================
+    Initial initialization 
+   ============================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+    :root {
+        scroll-behavior: smooth;
+    }
+}
+
 :root {
-    /* Primary Color — динамически меняется из C# */
-    --primary-color: #6366f1;
-    --primary-color-hover: #6366f1cc;
-    --primary-color-light: #6366f120;
-
-    /* Surface & Background */
-    --bg-color: #0f172a;
-    --bg-surface: #1e293b;
-    --bg-surface-hover: #334155;
-    --bg-card: #1e293b;
-
-    /* Text */
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-
-    /* Borders */
-    --border-color: #334155;
-    --border-radius: 12px;
-    --border-radius-sm: 8px;
-
-    /* Shadows */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-
-    /* Spacing */
-    --gap-xs: 4px;
-    --gap-sm: 8px;
-    --gap-md: 16px;
-    --gap-lg: 24px;
-    --gap-xl: 32px;
-
-    /* Typography */
-    --font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', 'Cascadia Code', monospace;
-
-    /* Transitions */
-    --transition-fast: 150ms ease;
-    --transition-normal: 250ms ease;
-
-    /* Sidebar */
-    --sidebar-width: 240px;
+    font-family: var(--rz-text-font-family);
+    color: var(--rz-text-color);
+    font-size: var(--rz-body-font-size);
+    line-height: var(--rz-body-line-height);
+    background-color: var(--rz-body-background-color);
+    /* *** */
+    font-size: var(--rz-root-font-size);
+    /* *** */
+    --ui-z-cover: 7;
+    --ui-z-info: 6;
+    --ui-z-busy: 5;
+    --ui-z-navbar: 4;
+    --ui-z-book-ctr: 3;
+    --ui-z-book-view: 2;
+    --ui-z-elevated: 1;
+    /* *** */
+    --ui-icon-tn: 12px;
+    --ui-icon-sm: 18px;
+    --ui-icon-md: 24px;
+    --ui-icon-lg: 36px;
+    --ui-icon-hg: 48px;
+    --ui-icon-gn: 64px;
+    /* *** */
+    --ui-image-tn: 80px;
+    --ui-image-sm: 96px;
+    --ui-image-md: 128px;
+    --ui-image-lg: 160px;
+    --ui-image-hg: 224px;
+    --ui-image-gn: 256px;
+    /* *** */
+    --ui-btn-tn: 18px;
+    --ui-btn-sm: 26px;
+    --ui-btn-md: 34px;
+    --ui-btn-md-r: 42px;
+    --ui-btn-lg: 52px;
+    --ui-btn-hg: 70px;
+    --ui-btn-gn: 92px;
+    /* *** */
+    --ui-info-bg: #e4edfe;
+    /* *** */
+    --ui-packctr-width-xs: 340px;
+    --ui-packctr-width: 380px;
+    --ui-packctr-width-lg: 440px;
+    --ui-packctr-list-max-height: 500px;
+    /* *** */
+    --folder-color: goldenrod;
+    --folder-color-dark: #B8860B;
+    --suite-color: #b8860b;
+    --book-color: #5C2D91;
+    --book-color-lighter: #AA92C4;
+    --book-bg: #f5f1f8;
+    --book-bg-darker: #e9e0f0;
+    --package-color: #2475BE;
+    --selitem-bg: #DFDFF1;
+    --selitem-color-br: #4340D2;
+    --item-focus-color: orange;
+    --item-focus-bg: white;
+    /* *** */
+    --diode-active-color: #00ff00;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   2. RESET & BASE
-   ═══════════════════════════════════════════════════════════════════════ */
-*,
-*::before,
-*::after {
+
+*, *::before, *::after {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
-html, body {
+html,
+body,
+#Application {
     height: 100%;
-    font-family: var(--font-family);
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--text-primary);
-    background-color: var(--bg-color);
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--rz-text-font-family);
+    color: var(--rz-text-color);
+    font-size: var(--rz-body-font-size);
+    line-height: var(--rz-body-line-height);
+    background-color: var(--rz-body-background-color);
+}
+
+/* --------------------------------------------------------- */
+/* Validation (for FieldValidator.razor and its derivatives) */
+
+.validation-msg-popup {
+    position: absolute;
+    /* */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* */
+    background-color: var(--rz-validator-background-color);
+    transform: var(--rz-validator-transform);
+    box-shadow: var(--rz-validator-shadow);
+    padding: 0;
+    border-radius: var(--rz-border-radius);
+    color: var(--rz-validator-color);
+}
+
+    .validation-msg-popup:before {
+        content: "";
+        border: var(--rz-validator-pointer-size) solid transparent;
+        border-bottom-color: var(--rz-validator-background-color);
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translate(var(--rz-validator-pointer-size), -100%);
+    }
+
+/* --------------------------------------------------- */
+/* Symbolic font support (adjusted analog .rzi, i.rzi) */
+.fsym {
+    font-family: var(--rz-icon-font-family) !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    display: block;
+    /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-#app {
-    height: 100%;
+/* ==============================================
+    User interface
+   ============================================== */
+
+.ui-size-inherit {
+    width: inherit;
+    height: inherit;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   3. LAYOUT
-   ═══════════════════════════════════════════════════════════════════════ */
-.app-layout {
+/* icon font size */
+
+.ui-icon-tn {
+    font-size: var(--ui-icon-tn);
+}
+
+.ui-icon-sm {
+    font-size: var(--ui-icon-sm);
+}
+
+.ui-icon-md {
+    font-size: var(--ui-icon-md);
+}
+
+.ui-icon-lg {
+    font-size: var(--ui-icon-lg);
+}
+
+.ui-icon-hg {
+    font-size: var(--ui-icon-hg);
+}
+
+.ui-icon-gn {
+    font-size: var(--ui-icon-gn);
+}
+
+/* icon box size */
+
+.ui-icon-box-tn {
+    width: var(--ui-icon-tn);
+    min-width: var(--ui-icon-tn);
+    height: var(--ui-icon-tn);
+    min-height: var(--ui-icon-tn);
+}
+
+.ui-icon-box-sm {
+    width: var(--ui-icon-sm);
+    min-width: var(--ui-icon-sm);
+    height: var(--ui-icon-sm);
+    min-height: var(--ui-icon-sm);
+}
+
+.ui-icon-box-md {
+    width: var(--ui-icon-md);
+    min-width: var(--ui-icon-md);
+    height: var(--ui-icon-md);
+    min-height: var(--ui-icon-md);
+}
+
+.ui-icon-box-lg {
+    width: var(--ui-icon-lg);
+    min-width: var(--ui-icon-lg);
+    height: var(--ui-icon-lg);
+    min-height: var(--ui-icon-lg);
+}
+
+.ui-icon-box-hg {
+    width: var(--ui-icon-hg);
+    min-width: var(--ui-icon-hg);
+    height: var(--ui-icon-hg);
+    min-height: var(--ui-icon-hg);
+}
+
+.ui-icon-box-gn {
+    width: var(--ui-icon-gn);
+    min-width: var(--ui-icon-gn);
+    height: var(--ui-icon-gn);
+    min-height: var(--ui-icon-gn);
+}
+
+/* Image sizes */
+
+.ui-image-box-tn {
+    width: var(--ui-image-tn);
+    min-width: var(--ui-image-tn);
+    height: var(--ui-image-tn);
+    min-height: var(--ui-image-tn);
+}
+
+.ui-image-box-sm {
+    width: var(--ui-image-sm);
+    min-width: var(--ui-image-sm);
+    height: var(--ui-image-sm);
+    min-height: var(--ui-image-sm);
+}
+
+.ui-image-box-md {
+    width: var(--ui-image-md);
+    min-width: var(--ui-image-md);
+    height: var(--ui-image-md);
+    min-height: var(--ui-image-md);
+}
+
+.ui-image-box-lg {
+    width: var(--ui-image-lg);
+    min-width: var(--ui-image-lg);
+    height: var(--ui-image-lg);
+    min-height: var(--ui-image-lg);
+}
+
+.ui-image-box-hg {
+    width: var(--ui-image-hg);
+    min-width: var(--ui-image-hg);
+    height: var(--ui-image-hg);
+    min-height: var(--ui-image-hg);
+}
+
+.ui-image-box-gn {
+    width: var(--ui-image-gn);
+    min-width: var(--ui-image-gn);
+    height: var(--ui-image-gn);
+    min-height: var(--ui-image-gn);
+}
+
+/* Toolbar & tool buttons */
+
+.ui-toolbar {
+    position: relative;
+    background-color: var(--rz-base-300);
+}
+
+.ui-btn-tn {
+    width: var(--ui-btn-tn);
+    height: var(--ui-btn-tn);
+}
+
+.ui-btn-sm {
+    width: var(--ui-btn-sm);
+    height: var(--ui-btn-sm);
+}
+
+.ui-btn-md {
+    width: var(--ui-btn-md);
+    height: var(--ui-btn-md);
+}
+
+.ui-btn-lg {
+    width: var(--ui-btn-lg);
+    height: var(--ui-btn-lg);
+}
+
+.ui-btn-hg {
+    width: var(--ui-btn-hg);
+    height: var(--ui-btn-hg);
+}
+
+.ui-btn-gn {
+    width: var(--ui-btn-gn);
+    height: var(--ui-btn-gn);
+}
+
+/* Border */
+
+.ui-border-round {
+    border-radius: 50% !important;
+}
+
+/* Tool button (ToolButton.razor) */
+
+.ui-btn {
     display: flex;
-    height: 100%;
-}
-
-.main-content {
-    flex: 1;
-    margin-left: var(--sidebar-width);
-    padding: var(--gap-xl);
-    overflow-y: auto;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   4. SIDEBAR NAVIGATION
-   ═══════════════════════════════════════════════════════════════════════ */
-.sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: var(--sidebar-width);
-    background: var(--bg-surface);
-    border-right: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-}
-
-.sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-sm);
-    padding: var(--gap-lg) var(--gap-md);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.brand-icon {
-    font-size: 1.5rem;
-}
-
-.brand-text {
-    font-size: 1.1rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--primary-color), #818cf8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-xs);
-    padding: var(--gap-md);
-}
-
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-sm);
-    padding: var(--gap-sm) var(--gap-md);
-    border-radius: var(--border-radius-sm);
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: all var(--transition-fast);
-    font-weight: 500;
-}
-
-.nav-item:hover {
-    background: var(--bg-surface-hover);
-    color: var(--text-primary);
-}
-
-/* Активный пункт навигации — использует primary color */
-.nav-item.active {
-    background: var(--primary-color-light);
-    color: var(--primary-color);
-}
-
-.nav-icon {
-    font-size: 1.2rem;
-    width: 24px;
-    text-align: center;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   5. PAGE COMPONENTS
-   ═══════════════════════════════════════════════════════════════════════ */
-.page-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    animation: fadeIn 300ms ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-.page-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: var(--gap-lg);
-}
-
-.page-header h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--text-primary), var(--primary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   6. BUTTONS
-   ═══════════════════════════════════════════════════════════════════════ */
-.btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--gap-sm);
-    padding: 10px 20px;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius-sm);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    font-family: var(--font-family);
-}
-
-.btn-primary:hover:not(:disabled) {
-    background: var(--primary-color-hover);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-.btn-primary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   7. ALERTS
-   ═══════════════════════════════════════════════════════════════════════ */
-.alert {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-sm);
-    padding: var(--gap-md);
-    border-radius: var(--border-radius-sm);
-    margin-bottom: var(--gap-md);
-    font-size: 0.9rem;
-    animation: slideIn 200ms ease;
-}
-
-@keyframes slideIn {
-    from { opacity: 0; transform: translateX(-8px); }
-    to   { opacity: 1; transform: translateX(0); }
-}
-
-.alert-info {
-    background: #1e40af20;
-    border-left: 3px solid #3b82f6;
-    color: #93c5fd;
-}
-
-.alert-warning {
-    background: #92400e20;
-    border-left: 3px solid #f59e0b;
-    color: #fcd34d;
-}
-
-.alert-error {
-    background: #991b1b20;
-    border-left: 3px solid #ef4444;
-    color: #fca5a5;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   8. DATA TABLE
-   ═══════════════════════════════════════════════════════════════════════ */
-.data-summary {
-    margin-bottom: var(--gap-md);
-}
-
-.badge {
-    display: inline-block;
-    padding: 4px 12px;
-    background: var(--primary-color-light);
-    color: var(--primary-color);
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-.table-container {
-    background: var(--bg-card);
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-}
-
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.data-table thead {
-    background: var(--bg-surface-hover);
-}
-
-.data-table th {
-    padding: 12px var(--gap-md);
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-secondary);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.data-table td {
-    padding: 10px var(--gap-md);
-    border-bottom: 1px solid var(--border-color);
-    font-size: 0.9rem;
-    color: var(--text-primary);
-}
-
-.data-table tbody tr {
-    transition: background var(--transition-fast);
-}
-
-.data-table tbody tr:hover {
-    background: var(--bg-surface-hover);
-}
-
-.data-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.td-id,
-.td-userid {
-    width: 60px;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.td-title {
-    font-weight: 500;
-    max-width: 300px;
-}
-
-.td-body {
-    color: var(--text-secondary);
-    max-width: 400px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.empty-state {
-    text-align: center;
-    padding: var(--gap-xl);
-    color: var(--text-muted);
-    font-size: 1rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   9. SETTINGS PAGE
-   ═══════════════════════════════════════════════════════════════════════ */
-.settings-card {
-    background: var(--bg-card);
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-    padding: var(--gap-lg);
-    box-shadow: var(--shadow-sm);
-    max-width: 600px;
-}
-
-.setting-group {
-    margin-bottom: var(--gap-lg);
-}
-
-.setting-label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: var(--gap-sm);
-    color: var(--text-primary);
-}
-
-.setting-control {
-    width: 100%;
-    padding: 10px 14px;
-    background: var(--bg-color);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    font-size: 0.95rem;
-    font-family: var(--font-family);
-    transition: border-color var(--transition-fast);
-    outline: none;
-    appearance: auto;
-}
-
-.setting-control:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px var(--primary-color-light);
-}
-
-.color-picker-wrapper {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-md);
-}
-
-.setting-color {
-    width: 60px;
-    height: 40px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    background: none;
-    padding: 2px;
-}
-
-.color-value {
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-
-.setting-hint {
-    padding: var(--gap-sm) var(--gap-md);
-    background: var(--primary-color-light);
-    border-radius: var(--border-radius-sm);
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: var(--gap-lg);
-}
-
-/* Color Presets */
-.color-presets {
-    display: flex;
-    gap: var(--gap-sm);
-    flex-wrap: wrap;
-}
-
-.color-preset {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-}
-
-.color-preset:hover {
-    transform: scale(1.15);
-    box-shadow: var(--shadow-md);
-}
-
-.color-preset.active {
-    border-color: var(--text-primary);
-    box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--text-primary);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   10. SPINNER
-   ═══════════════════════════════════════════════════════════════════════ */
-.spinner {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid transparent;
-    border-top-color: currentColor;
-    border-radius: 50%;
-    animation: spin 600ms linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   11. LOADING SCREEN (перед загрузкой Blazor WASM)
-   ═══════════════════════════════════════════════════════════════════════ */
-#app .loading-screen {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    gap: var(--gap-md);
-    color: var(--text-secondary);
+    padding: 0;
 }
 
-.loading-screen .loader {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--border-color);
-    border-top-color: var(--primary-color);
-    border-radius: 50%;
-    animation: spin 800ms linear infinite;
+.ui-btn-wide-1 {
+    min-width: 5em;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   12. BLAZOR ERROR UI
-   ═══════════════════════════════════════════════════════════════════════ */
-#blazor-error-ui {
-    background: #1a1a2e;
-    color: #fca5a5;
-    padding: var(--gap-md);
-    position: fixed;
-    bottom: 0;
+.ui-btn-wide-2 {
+    min-width: 8em;
+}
+
+/* Tool Divider (ToolDivider.razor) */
+
+.ui-tool-divider {
+    background-color: var(--rz-base-500);
+    border: none;
+}
+
+/* Dialog Support */
+
+.ui-dlg-button {
+    border-radius: var(--rz-border-radius-8);
+    min-width: 8em;
+}
+
+/* ------------------------------ */
+/* Utilities                      */
+
+.ui-w-fit {
+    width: fit-content !important;
+    max-width: 100%;
+}
+
+.ui-max-fill {
     width: 100%;
-    z-index: 9999;
-    text-align: center;
-    display: none;
+    height: 100%;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   13. RESPONSIVE
-   ═══════════════════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-    :root {
-        --sidebar-width: 60px;
-    }
-
-    .brand-text,
-    .nav-text {
-        display: none;
-    }
-
-    .sidebar-brand {
-        justify-content: center;
-        padding: var(--gap-md);
-    }
-
-    .nav-item {
-        justify-content: center;
-        padding: var(--gap-sm);
-    }
-
-    .main-content {
-        padding: var(--gap-md);
-    }
-
-    .td-body {
-        max-width: 200px;
-    }
+.ui-winbtn {
+    width: 40px;
 }
