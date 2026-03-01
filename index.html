@@ -12,9 +12,9 @@
     <!---->
     <link rel="icon" href="assets/favicon/favicon.png" type="image/png">
     <!---->
-    <script src="_welcome/welcome.js?build=15"></script>
+    <script src="_welcome/welcome.js?build=18"></script>
     <!---->
-    <link href="manifest.webmanifest?build=15" rel="manifest" />
+    <link href="manifest.webmanifest?build=18" rel="manifest" />
     <!---->
 
     <style>
@@ -112,7 +112,7 @@
     <!-- Welcome Splash Screen -->
     <!-- (after the application downloading it will be deleted) -->
     <div id="Welcome">
-        <link href="_welcome/welcome.css?build=15" rel="stylesheet" />
+        <link href="_welcome/welcome.css?build=18" rel="stylesheet" />
         <!---->
         <div id="Background"></div>
         <!---->
@@ -202,23 +202,19 @@
         <a class="dismiss">🗙</a>
     </div>
 
-    <!-- Framework -->
-    <script src="_framework/blazor.webassembly.js?build=15" autostart="false"></script>
-
-    <!--<script src="_framework/blazor.webassembly.js?build=15"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>-->
-
-
     <!-- Bootstrap -->
     <link href="vendor/bootstrap/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Radzen Components -->
-    <link href="_content/Radzen.Blazor/css/material-base.css?build=15" rel="stylesheet">
-    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?build=15"></script>
+    <link href="_content/Radzen.Blazor/css/material-base.css?build=18" rel="stylesheet">
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?build=18"></script>
 
     <!-- Application Styles -->
-    <link href="css/app.css?build=15" rel="stylesheet" />
-    <link href="CyberShelf.styles.css?build=15" rel="stylesheet" />
+    <link href="css/app.css?build=18" rel="stylesheet" />
+    <link href="CyberShelf.styles.css?build=18" rel="stylesheet" />
+
+    <!-- Framework -->
+    <script src="_framework/blazor.webassembly.js?build=18" autostart="false"></script>
 
     <!-- Application inline scripts -->
     <script>
@@ -251,7 +247,7 @@
             // 1. We register the Service Worker (if supported).
             if ('serviceWorker' in navigator) {
                 try {
-                    const registration = await navigator.serviceWorker.register('service-worker.js');
+                    const registration = await navigator.serviceWorker.register('service-worker.js?build=18');
                     console.log('[App] Service Worker registered:', registration.scope);
                 } catch (error) {
                     console.error('[App] Service Worker registration failed:', error);
