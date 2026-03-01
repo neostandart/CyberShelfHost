@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "yYctuhxM",
+  "version": "GWxKJkPs",
   "assets": [
     {
       "hash": "sha256-ixxd6cCLoShmVn1YpTshLQqOmsnFnOuTA9sXyp3Zr30=",
@@ -438,7 +438,7 @@ self.assetsManifest = {
       "url": "_framework/System.f0t8bkq7p2.wasm"
     },
     {
-      "hash": "sha256-TgNYX2HG4u8fJeFOHLNwIvsd5gMjlI+9PLZTPkLPDfA=",
+      "hash": "sha256-Up9JaffzD4CTU1MaDxdi45ka92QCkbQcf3HilfaM20M=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -466,8 +466,8 @@ self.assetsManifest = {
       "url": "_framework/icudt.oh1zvcfom8.dat"
     },
     {
-      "hash": "sha256-Sd19fL0X5rwKEMe3zqT4y+SWIfiuN2ZM1NytPpEqqDc=",
-      "url": "_framework/ru/CyberShelf.resources.1utho9pbht.wasm"
+      "hash": "sha256-65S0IsO5UsqTnCQunR+IS40ExBCJgZYVM57E5+cSHnM=",
+      "url": "_framework/ru/CyberShelf.resources.xprn3j7o8z.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
