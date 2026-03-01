@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "CyberShelf",
   "resources": {
-    "hash": "sha256-4OkWF1qRY2M607WPNHdE30mcJEfVBJJIvsdREay9lS0=",
+    "hash": "sha256-mGvSQwPEKFyY6TpTOWHYd4v4y1Yol1ANtolhPnYiIvE=",
     "fingerprinting": {
       "Fluxor.fj93ytimo8.wasm": "Fluxor.wasm",
       "Fluxor.Blazor.Web.wcy6s9h87i.wasm": "Fluxor.Blazor.Web.wasm",
@@ -77,7 +77,7 @@
       "dotnet.js": "dotnet.js",
       "dotnet.runtime.7laf4z0i7i.js": "dotnet.runtime.js",
       "icudt.oh1zvcfom8.dat": "icudt.dat",
-      "CyberShelf.resources.xprn3j7o8z.wasm": "CyberShelf.resources.wasm"
+      "CyberShelf.resources.zu2i43hxye.wasm": "CyberShelf.resources.wasm"
     },
     "jsModuleNative": {
       "dotnet.native.5qhoeqkhnv.js": "sha256-Q5rwi5WME/zA8lANJqh+EB6tNC7hsx+CeaDiCAMZXSI="
@@ -166,7 +166,7 @@
     },
     "satelliteResources": {
       "ru": {
-        "CyberShelf.resources.xprn3j7o8z.wasm": "sha256-65S0IsO5UsqTnCQunR+IS40ExBCJgZYVM57E5+cSHnM="
+        "CyberShelf.resources.zu2i43hxye.wasm": "sha256-+55zg08ehlp8aAdCx4NqGFog/3Mo4DNUt4IvjxWmQKw="
       }
     }
   },
