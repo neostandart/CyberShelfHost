@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "CyEZUZN1",
+  "version": "yYctuhxM",
   "assets": [
     {
       "hash": "sha256-ixxd6cCLoShmVn1YpTshLQqOmsnFnOuTA9sXyp3Zr30=",
@@ -438,7 +438,7 @@ self.assetsManifest = {
       "url": "_framework/System.f0t8bkq7p2.wasm"
     },
     {
-      "hash": "sha256-kfD9wf7j6ojGPGXQS1WcrJPiVtj/Hg6Ihcs2LJl087g=",
+      "hash": "sha256-TgNYX2HG4u8fJeFOHLNwIvsd5gMjlI+9PLZTPkLPDfA=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -466,8 +466,8 @@ self.assetsManifest = {
       "url": "_framework/icudt.oh1zvcfom8.dat"
     },
     {
-      "hash": "sha256-S2N9rt7h2JcJoXq7LNErMe35voUkTO9q48FNwY07LDg=",
-      "url": "_framework/ru/CyberShelf.resources.fz5cyqbo17.wasm"
+      "hash": "sha256-Sd19fL0X5rwKEMe3zqT4y+SWIfiuN2ZM1NytPpEqqDc=",
+      "url": "_framework/ru/CyberShelf.resources.1utho9pbht.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -1758,7 +1758,7 @@ self.assetsManifest = {
       "url": "manifest.webmanifest"
     },
     {
-      "hash": "sha256-REofb4onOK2KJybdzlZb66a18NC5BCsVG7RAfK/ETfA=",
+      "hash": "sha256-MK7Od5HyOcq5eAFTKIkc9//NXsfIX0zat4vjadOpITA=",
       "url": "script/bookrt.js"
     },
     {
@@ -1767,7 +1767,7 @@ self.assetsManifest = {
     },
     {
       "hash": "sha256-mOuxYNMs0xP3ZOR8dcTODxAh2eM5tqqSn3dJBmvLtPg=",
-      "url": "script/install-worker.8b801b1a.js"
+      "url": "script/install-worker.2b543871.js"
     },
     {
       "hash": "sha256-xUN0GT7iQsXb+Luo1kbKhfvo9SgkF1eO6ngWvnAH0FQ=",
@@ -1779,7 +1779,7 @@ self.assetsManifest = {
     },
     {
       "hash": "sha256-G+HvmgG+yOcURcc3XU4toGrzqxqSBCENOCUQKWh2B1w=",
-      "url": "script/uninstall-worker.ecb5ecff.js"
+      "url": "script/uninstall-worker.d7d023a0.js"
     },
     {
       "hash": "sha256-2ERYJ8I5bbb5mIYyy2UnFj+amMVxn6gL7aszyakW69I=",
