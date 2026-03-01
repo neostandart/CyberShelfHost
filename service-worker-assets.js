@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "fskplcsJ",
+  "version": "tlg7YRzM",
   "assets": [
     {
       "hash": "sha256-ixxd6cCLoShmVn1YpTshLQqOmsnFnOuTA9sXyp3Zr30=",
@@ -438,7 +438,7 @@ self.assetsManifest = {
       "url": "_framework/System.f0t8bkq7p2.wasm"
     },
     {
-      "hash": "sha256-PbEF1Mm5R468Draxj7OCEBnNzI47VYcpPcp7VktrOlc=",
+      "hash": "sha256-A52E38DGUyHtVrefRzQdG24zHJFxcIDZjhzvZ9QeyMs=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -466,8 +466,8 @@ self.assetsManifest = {
       "url": "_framework/icudt.oh1zvcfom8.dat"
     },
     {
-      "hash": "sha256-JHoH9AGtoeS8WTCyg2vt4uNu8BRWYFK0QjQIBo65cfc=",
-      "url": "_framework/ru/CyberShelf.resources.8xriosut1i.wasm"
+      "hash": "sha256-bhWQK5yItXrUSrUYo3XYS+3KdKJwtJXAkVSNjcHyOjY=",
+      "url": "_framework/ru/CyberShelf.resources.m7o8qh026q.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -1770,11 +1770,11 @@ self.assetsManifest = {
       "url": "script/install-worker.2b543871.js"
     },
     {
-      "hash": "sha256-xUN0GT7iQsXb+Luo1kbKhfvo9SgkF1eO6ngWvnAH0FQ=",
+      "hash": "sha256-A+VWf34nd2ieZNeH90kYQwjE+fQOvnVbfSoxM1rOlUk=",
       "url": "script/reg-agent.js"
     },
     {
-      "hash": "sha256-6oiQtlVtdN2oRpyFtH7l6svxnV6O+n5rHU5/3ygf3j4=",
+      "hash": "sha256-Q45QkT1b7pEeSAA34/mkAT2RWBaO5KbqPpxIZepKYvY=",
       "url": "script/sw.js"
     },
     {
