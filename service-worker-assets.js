@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "xV53hfmC",
+  "version": "FyFUNG9K",
   "assets": [
     {
       "hash": "sha256-ixxd6cCLoShmVn1YpTshLQqOmsnFnOuTA9sXyp3Zr30=",
@@ -170,8 +170,8 @@ self.assetsManifest = {
       "url": "_framework/AngleSharp.Css.wwsq4crpi6.wasm"
     },
     {
-      "hash": "sha256-5jnaEQq8Tu0rB1XdZxR5xGmpIYwM49Vmzqh0UEyeG9Y=",
-      "url": "_framework/CyberShelf.m4ci46tktq.wasm"
+      "hash": "sha256-ugJQ6vf3CMN+mHXvolan9hk0hG9ob6B5WCY3fiMqU7M=",
+      "url": "_framework/CyberShelf.26qp2sg6iy.wasm"
     },
     {
       "hash": "sha256-cGOjPiVWWygaE8CFdoLZjcTpjW5SWN2gHBsKDExWBhs=",
@@ -466,7 +466,7 @@ self.assetsManifest = {
       "url": "_framework/System.f0t8bkq7p2.wasm"
     },
     {
-      "hash": "sha256-5AYvr7EKl6+bd6bPIb6/bLwYWiZsClin2nksTYq710I=",
+      "hash": "sha256-0dgpbCKzEFHqVOKAVzdJpFSFwG2VXutX9XJVo/1XiL8=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -498,8 +498,8 @@ self.assetsManifest = {
       "url": "_framework/netstandard.ky1mr9d8mb.wasm"
     },
     {
-      "hash": "sha256-ldBKn8x07TIENenr8AnekN4s9QbAE++bcMzCUSiwu6w=",
-      "url": "_framework/ru/CyberShelf.resources.pn4k0rzgm9.wasm"
+      "hash": "sha256-4fBikg94+S0ywOJHOU0o+cAtYGfD8aZ83vo2c1OnxJ0=",
+      "url": "_framework/ru/CyberShelf.resources.xk3v5asyok.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -518,7 +518,7 @@ self.assetsManifest = {
       "url": "_welcome/welcome.js"
     },
     {
-      "hash": "sha256-cHduORrp9emuWLnFt7/7Bw9WewoDmYc0ZXys/jnFiwY=",
+      "hash": "sha256-NYquSdytcrJpZo68/wtL2tHFAHXKkyFIflGlXxXoxcc=",
       "url": "appsettings.json"
     },
     {
@@ -1762,7 +1762,7 @@ self.assetsManifest = {
       "url": "assets/symbols/msgkinds.svg"
     },
     {
-      "hash": "sha256-cNaUZUMmnvSYgiimHsAKFRjiEf5QGcnOXZ2j+0mYabo=",
+      "hash": "sha256-O22DXRUlNV1pc/nuezVWX6g+AtaYlKof78YwRV3vJOo=",
       "url": "assets/symbols/symbols.svg"
     },
     {
@@ -1782,7 +1782,7 @@ self.assetsManifest = {
       "url": "css/app.css"
     },
     {
-      "hash": "sha256-OMNAkWt7SnnvXbddI8o4OtpSkGfT7jNwRnPLDQhIs4s=",
+      "hash": "sha256-kIDjJkXYqznp4fUVMwrZwa856GyBMYKj268sX3UPQIs=",
       "url": "index.html"
     },
     {
@@ -1794,7 +1794,7 @@ self.assetsManifest = {
       "url": "script/appdb.js"
     },
     {
-      "hash": "sha256-EtGEXbavW12m57m5hFDESGd23EhRi4u0dYoUip3UFvg=",
+      "hash": "sha256-sectmYI/C4vY6HLRyy3Cib7aBniOX90FdG+vj+YP/5o=",
       "url": "script/bookrt.js"
     },
     {
@@ -1802,8 +1802,8 @@ self.assetsManifest = {
       "url": "script/bridge.js"
     },
     {
-      "hash": "sha256-IECBBwDHUQ5HW1QPCYXfDaFDGGRfYxNDcg9gdPz44ng=",
-      "url": "script/install-worker.d3c66643.js"
+      "hash": "sha256-sThR0xisUmugdxHGqw3vvW/0UHfMsRFp7wfHeZq7jHc=",
+      "url": "script/install-worker.a78feb32.js"
     },
     {
       "hash": "sha256-A+VWf34nd2ieZNeH90kYQwjE+fQOvnVbfSoxM1rOlUk=",
@@ -1814,8 +1814,8 @@ self.assetsManifest = {
       "url": "script/sw.js"
     },
     {
-      "hash": "sha256-bY0VFUYQwZMS6FLXgCmHYs1+ABd5cZ7t0ILjeLkInHY=",
-      "url": "script/uninstall-worker.398c3109.js"
+      "hash": "sha256-J4akufzY9ISL3q4cCWd3qAeURduD1jHFEaJJ/c1g1X0=",
+      "url": "script/uninstall-worker.4d599ad9.js"
     },
     {
       "hash": "sha256-SRsS3lzWvP067numtjLhIu5GsIarMl7aSg7TZ+dnNb8=",
