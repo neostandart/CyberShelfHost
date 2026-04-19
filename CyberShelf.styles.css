@@ -770,14 +770,14 @@ article.book-wnd[b-i1w9ialuvy] {
         margin-left: auto;
     }
 
-article.book-wnd.dragging[b-i1w9ialuvy]  {
+article.book-wnd.dragging[b-i1w9ialuvy] {
     cursor: grabbing;
     border-color: var(--book-color-lighter);
 }
 
-article.book-wnd.dragging #Header[b-i1w9ialuvy] {
-    cursor: grabbing;
-}
+    article.book-wnd.dragging #Header[b-i1w9ialuvy] {
+        cursor: grabbing;
+    }
 
 #ClientArea[b-i1w9ialuvy], #ContentArea[b-i1w9ialuvy] {
     position: relative;
@@ -859,6 +859,10 @@ article.book-wnd.maximized[b-i1w9ialuvy] {
 
 /* Width styles */
 
+.wnd-width-30[b-i1w9ialuvy] {
+    width: 30%;
+}
+
 .wnd-width-50[b-i1w9ialuvy] {
     width: 50%;
 }
@@ -872,6 +876,10 @@ article.book-wnd.maximized[b-i1w9ialuvy] {
 }
 
 /* Height styles */
+
+.wnd-height-30[b-i1w9ialuvy] {
+    height: 30%;
+}
 
 .wnd-height-50[b-i1w9ialuvy] {
     height: 50%;
@@ -920,6 +928,7 @@ div.layout-ctr[b-7p77mj314u] {
     visibility: hidden;
     opacity: 0;
     color: var(--book-color);
+    z-index: 1;
 }
 
     div.layout-ctr.expanded[b-7p77mj314u] {
@@ -927,8 +936,6 @@ div.layout-ctr[b-7p77mj314u] {
         opacity: 1;
     }
 
-
-/*  */
 
 #RootLayout[b-7p77mj314u] {
     display: grid;
@@ -965,7 +972,7 @@ div.layout-ctr[b-7p77mj314u] {
 
 
 #PositionBox[b-7p77mj314u] {
-    margin: 0.25rem 0.5rem;
+    margin: 0.5rem 0.25rem 0.25rem 0.5rem;
     grid-row: 2;
     grid-column: 2;
 }
@@ -976,23 +983,59 @@ div.layout-ctr[b-7p77mj314u] {
     margin-bottom: 0.25rem;
 }
 
-[b-7p77mj314u] #PositionGroup {
+/**************/
+/* Radio-Grid */
+/**************/
+.radio-grid[b-7p77mj314u] {
     display: grid;
     grid-template-columns: auto auto auto;
     grid-template-rows: auto auto auto;
     margin: auto;
     width: fit-content;
+    justify-content: center;
+    align-items: center;
 }
 
-    [b-7p77mj314u] #PositionGroup .rz-radio-btn {
-        --rz-radio-circle-background-color: var(--book-color);
-        --rz-radio-checked-border: 1px solid var(--book-color);
-        margin: 2px 4px;
+    .radio-grid .grid-item[b-7p77mj314u] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px;
     }
 
-        [b-7p77mj314u] #PositionGroup .rz-radio-btn .rz-radiobutton-label {
-            display: none;
-        }
+    .radio-grid input[b-7p77mj314u] {
+        transform: scale(1.2);
+        accent-color: var(--book-color);
+    }
+
+    /* Placing elements in a grid */
+    .radio-grid .top-left[b-7p77mj314u] {
+        grid-row: 1;
+        grid-column: 1;
+    }
+
+    .radio-grid .top-right[b-7p77mj314u] {
+        grid-row: 1;
+        grid-column: 3;
+    }
+
+    .radio-grid .center[b-7p77mj314u] {
+        grid-row: 2;
+        grid-column: 2;
+    }
+
+    .radio-grid .bottom-left[b-7p77mj314u] {
+        grid-row: 3;
+        grid-column: 1;
+    }
+
+    .radio-grid .bottom-right[b-7p77mj314u] {
+        grid-row: 3;
+        grid-column: 3;
+    }
 /* /Frame/MainLayout.razor.rz.scp.css */
 
 /* ==============================================

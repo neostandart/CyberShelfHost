@@ -306,3 +306,24 @@
 
 /* END Flash */
 /*==========================*/
+
+/*==========================*/
+/* BGN Version */
+
+#Welcome #AppVersion {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--welcome-color);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#Welcome #AppVersion.visible {
+    opacity: 1;
+}
+
+/* END Version */
+/*==========================*/

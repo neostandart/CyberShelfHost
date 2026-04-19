@@ -43,6 +43,20 @@ class CyberShelfAgent {
         }
     }
 
+    async _showVersion() {
+        const response = await fetch("appsettings.json");
+        if (response.ok) {
+            const appsettings = await response.json();
+            if (this._hteWelcome && appsettings && appsettings.AppVersion) {
+                const hteVersion = this._hteWelcome.querySelector("#AppVersion");
+                if (hteVersion) {
+                    hteVersion.innerText = appsettings.AppVersion;
+                    hteVersion.classList.add("visible");
+                }
+            }
+        }
+    }
+
     _onMutation = (mutationList, observer) => {
         if (this._observer) {
             for (const mutation of mutationList) {
@@ -82,9 +96,10 @@ class CyberShelfAgent {
             this._hteApp = document.getElementById("Application");
             this._hteLogo = document.getElementById("Logo");
             this._hteFlash = document.getElementById("Flash");
-
             this._hteSpinner = document.getElementById("Spinner");
-            //
+
+            this._showVersion();
+
             if (this._hteWelcome && this._hteApp) {
                 // Tracking the end of the application download
                 this._observer = new MutationObserver(this._onMutation.bind(this));
