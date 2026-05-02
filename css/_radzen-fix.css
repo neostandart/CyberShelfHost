@@ -98,7 +98,11 @@
     }
 
 /* ----------------- */
-/* Slightly correct  */
+/* Slightly correct Alert element */
+
+.rz-alert.rz-shade-lighter {
+    color: var(--rz-on-base);
+}
 
 .rz-alert-content {
     text-wrap: wrap;
@@ -110,15 +114,23 @@
     --rz-validator-transform: translateY(var(--rz-validator-pointer-size));
 }
 
+
+/* ----------------------------------------------------------------------- */
+/* Dialog */
+.rz-dialog {
+    overflow: visible;
+}
+
+
 /* -------------------------------------------- */
 /* Slight correction of the NotificationMessage */
 .rz-notification-item-wrapper {
-    width: 300px;
-    min-width: 20rem;
+    width: 320px;
+    min-width: 200px;
 }
 
     .rz-notification-item-wrapper .rz-notification-icon {
-        --rz-icon-size: 2rem;
+        display: none;
     }
 
 /* -------------------------------------------- */
