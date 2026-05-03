@@ -1400,6 +1400,9 @@ nav[b-0s2q5d2mki] {
     opacity: 0;
 }
 
+[b-lsf9mahv16] .ui-page.hidden {
+    visibility: hidden !important;
+}
 
 /* ------------------ */
 /* Page Transition    */
@@ -1861,16 +1864,22 @@ header[b-z636rsmn8k] {
     }
 }
 /* /Pages/Catalog/Stuff/InstalledCtr.razor.rz.scp.css */
-
-
-[b-p6977tldw5] #PackageProps tr {
-    vertical-align: middle;
+.info-table[b-p6977tldw5] {
+    table-layout: auto;
+    width: 100%;
+    text-align: left;
 }
 
-[b-p6977tldw5] #PackageProps th {
-    white-space:break-spaces;
-    width: 1%;
-}
+    .info-table th[b-p6977tldw5] {
+        width: 1px;
+        white-space: nowrap;
+        color: var(--elem-color);
+        padding-right: 0.5rem;
+    }
+
+    .info-table td[b-p6977tldw5] {
+        width: auto;
+    }
 
 
 [b-p6977tldw5] #FooterContainer {
