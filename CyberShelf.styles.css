@@ -2211,11 +2211,6 @@ article[b-gku454r8v1] {
         visibility: hidden;
     }
 
-/* не используется */
-[b-gku454r8v1] .vitem-label .arrow-placeholder {
-    min-width: 1em;
-    margin-right: 0.5rem;
-}
 
 [b-gku454r8v1] .vitem-label .text {
     margin-bottom: 0;
@@ -2316,14 +2311,11 @@ article.shelftree[b-gku454r8v1] {
     background-color: var(--rz-body-background-color);
 }
 
-#GoCatalogAlertBox[b-gku454r8v1] >  .rz-alert {
-    margin: 0;
-}
-
-    #GoCatalogAlertBox[b-gku454r8v1] >  .rz-alert .rz-alert-content {
-        margin-left: auto;
-        margin-right: auto;
+    #GoCatalogAlertBox[b-gku454r8v1] >  .rz-alert {
+        margin: 0;
     }
 
-
-
+        #GoCatalogAlertBox[b-gku454r8v1] >  .rz-alert .rz-alert-content {
+            margin-left: auto;
+            margin-right: auto;
+        }

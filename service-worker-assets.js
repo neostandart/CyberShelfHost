@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "EQtIRP2z",
+  "version": "V+i2clW5",
   "assets": [
     {
-      "hash": "sha256-8Lg27HbQKcRlK5A6z4bL9TrhbpkmbUUwDqjthvPWLoY=",
+      "hash": "sha256-+uqDzAlHzjlwn+abgzsNzvwxLsp7n0RQJXlAhUNPjTg=",
       "url": "CyberShelf.styles.css"
     },
     {
@@ -170,8 +170,8 @@ self.assetsManifest = {
       "url": "_framework/AngleSharp.Css.wwsq4crpi6.wasm"
     },
     {
-      "hash": "sha256-MGfxbZLoPjy23pHhn6YrShqn2EESFeb9zSszCym5ptg=",
-      "url": "_framework/CyberShelf.04orqzaeah.wasm"
+      "hash": "sha256-obkM605lVU4ggeOX49Ym5gctg882Q3VLI2jebvnaFPU=",
+      "url": "_framework/CyberShelf.pe1aw9ji7b.wasm"
     },
     {
       "hash": "sha256-cGOjPiVWWygaE8CFdoLZjcTpjW5SWN2gHBsKDExWBhs=",
@@ -466,7 +466,7 @@ self.assetsManifest = {
       "url": "_framework/System.ke1disal2r.wasm"
     },
     {
-      "hash": "sha256-z8xj3jjSt84ApYczXPpL9qCODQUae68bccYbs0+D+ic=",
+      "hash": "sha256-C1449HUgfmxiiz6jpOAFAEAulkKzoriBZr+N4nRvHP8=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -498,8 +498,8 @@ self.assetsManifest = {
       "url": "_framework/netstandard.kz2zydmptw.wasm"
     },
     {
-      "hash": "sha256-lcFkv49vIJ9CKKrSE+Eum2dbLbGv4aVa6k+q8zxc53Q=",
-      "url": "_framework/ru/CyberShelf.resources.pb3rgagkjv.wasm"
+      "hash": "sha256-AOcbKVS5zKpXBS2lWVXYhA6jlRL7MHHSha6flzMhAKQ=",
+      "url": "_framework/ru/CyberShelf.resources.cpbbf2qa84.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -518,7 +518,7 @@ self.assetsManifest = {
       "url": "_welcome/welcome.js"
     },
     {
-      "hash": "sha256-lroPU3A6kQLwTFCdpj8osfV5KMtttiiXENg3QF2E35I=",
+      "hash": "sha256-zXn9BGk54QRjYTWSlKcIe/CQQ05b4p+7dw57Jg1aGdE=",
       "url": "appsettings.json"
     },
     {
@@ -1782,7 +1782,7 @@ self.assetsManifest = {
       "url": "css/app.css"
     },
     {
-      "hash": "sha256-KY5emgU4itvCLoz7np8+ZH759TOvcUJUb3yCsZsj1TE=",
+      "hash": "sha256-WJfPENr9kZICkW3fTKsdhnvRZP4lh8A1NNyo76I2I2Q=",
       "url": "index.html"
     },
     {
