@@ -37,10 +37,30 @@
             min-width: auto;
         }
 
+
+        /* Correction background of the Flashcards within InteractiveBook */
+        .h5p-column-content.h5p-flashcards {
+            background-color: #27344e;
+        }
+
+        .h5p-column-content.h5p-flashcards .h5p-description {
+            color: #f9f9f9;
+        }
+
+        /* Correction left/right margins of the Dialogcards within InteractiveBook */
+        .h5p-column-content.h5p-dialogcards {
+            padding: 1rem 0.5rem;
+        }
+
+
         /* Small devices (landscape phones, 576px and up) */
         @media (min-width: 576px) {
             .h5p-container:not(.h5p-interactive-book) {
                 padding: 1rem 1.5rem;
+            }
+
+            .h5p-column-content.h5p-dialogcards {
+                padding: 1rem;
             }
         }
     </style>
