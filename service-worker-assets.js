@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "OcODceo2",
+  "version": "cQoHcAbm",
   "assets": [
     {
       "hash": "sha256-+uqDzAlHzjlwn+abgzsNzvwxLsp7n0RQJXlAhUNPjTg=",
@@ -162,8 +162,8 @@ self.assetsManifest = {
       "url": "_framework/AngleSharp.Css.wwsq4crpi6.wasm"
     },
     {
-      "hash": "sha256-eUPO2Hi2YsNUamlzEKm15v5ZgFVhogsa8CfHBU4HHJo=",
-      "url": "_framework/CyberShelf.tvcxkki41i.wasm"
+      "hash": "sha256-bE6gaG4PhWg82LRlU/qfQYorESkUazWnE/VECZIGOV4=",
+      "url": "_framework/CyberShelf.8dpklnqgbb.wasm"
     },
     {
       "hash": "sha256-f0uhXaNzSHCguW7IErTRjeiGQXPWEWl5p/eehMZkDdc=",
@@ -218,8 +218,8 @@ self.assetsManifest = {
       "url": "_framework/Microsoft.Extensions.Configuration.Abstractions.vy7qudiyob.wasm"
     },
     {
-      "hash": "sha256-JNFeJy5qsewJSP3tDVETS/NqP3p0sOrJzdvOMC2R+Kw=",
-      "url": "_framework/Microsoft.Extensions.Configuration.Binder.gptru1g2ud.wasm"
+      "hash": "sha256-hiqKKmjhzIkq/fqhFIgtKaYCzixTATJ1Mmm80PkJsYU=",
+      "url": "_framework/Microsoft.Extensions.Configuration.Binder.i5otjqf6m7.wasm"
     },
     {
       "hash": "sha256-niwb2sZskJ7wsZsNxfs8leRiqjwIuv7eqfar1dAjILU=",
@@ -474,7 +474,7 @@ self.assetsManifest = {
       "url": "_framework/blazor.webassembly.js"
     },
     {
-      "hash": "sha256-4c90rubc6vxEjOjI4k9DqACuznLU7UbGnQMjy3AaQLg=",
+      "hash": "sha256-gLF0LyEf7i5wpHDL2wkjLLl7Y4U9Qj6A1W4+g4UdmwM=",
       "url": "_framework/dotnet.js"
     },
     {
@@ -498,8 +498,8 @@ self.assetsManifest = {
       "url": "_framework/netstandard.1ajx08key9.wasm"
     },
     {
-      "hash": "sha256-O9R1YhKnRQM8QvfgcMgM5HmLIl5lv94p+sDqIoS4sN4=",
-      "url": "_framework/ru/CyberShelf.resources.bkyxvak6av.wasm"
+      "hash": "sha256-YXkboMaPECcFlBxrUYJXgo9AWn6EagO62vOANDfWyzU=",
+      "url": "_framework/ru/CyberShelf.resources.5bxrk59puu.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -518,7 +518,7 @@ self.assetsManifest = {
       "url": "_welcome/welcome.js"
     },
     {
-      "hash": "sha256-D5DI3iXXRvM1vEDXhMFesk08Qviey83NTO6j2vxmxOA=",
+      "hash": "sha256-F9VHeZ0nC6+WQxml1RsUeSUZuddCplbh9LtwKxCOHgk=",
       "url": "appsettings.json"
     },
     {
@@ -1782,7 +1782,7 @@ self.assetsManifest = {
       "url": "css/app.css"
     },
     {
-      "hash": "sha256-dsrVrfQ8N/l8LLjj4OvwhTIdrAK38AV22TvgZROKGJ8=",
+      "hash": "sha256-aWbwhbXqA9uzEidQvSc8aQqXCneCLPXq7McuYvfazJg=",
       "url": "index.html"
     },
     {
