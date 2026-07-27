@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ru">
+<!-- ======================================================================
+     TEMPORARY SPIKE — фаза 0 плана REFACTOR_SW_VIRTUAL_URLS.md.
+     УДАЛИТЬ ПОСЛЕ РЕШЕНИЯ ПО ГЕЙТУ.
+
+     Стенд проверяет: (а) перехват субресурсов sandbox-srcdoc-iframe
+     SW-контроллером родительской страницы; (б) Range/206 из IndexedDB-Blob
+     на реальном mp4 (перемотка видео). SW-обработчик: Engine/Script/sw/vspike.ts.
+     ====================================================================== -->
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VSpike — фаза 0: SW + виртуальные URL</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 16px; background: #eef1f5; color: #1c2330; }
+        h1 { font-size: 20px; margin: 0 0 4px 0; }
+        .sub { color: #5a6475; font-size: 13px; margin-bottom: 12px; }
+        .env { font-size: 12px; color: #5a6475; background: #fff; border: 1px solid #d5dae2; border-radius: 6px; padding: 6px 10px; margin-bottom: 12px; word-break: break-all; }
+        .banner { display: none; background: #fff3cd; border: 1px solid #e0c464; border-radius: 6px; padding: 10px 12px; margin-bottom: 12px; font-size: 14px; }
+        .banner.show { display: block; }
+        .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        button { font-size: 14px; padding: 8px 14px; border: 1px solid #9aa4b5; border-radius: 6px; background: #fff; cursor: pointer; }
+        button.primary { background: #4340d2; border-color: #4340d2; color: #fff; }
+        button:disabled { opacity: 0.5; cursor: default; }
+        .fileRow { font-size: 13px; margin-bottom: 12px; color: #5a6475; }
+        .cols { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        @media (min-width: 1000px) { .cols { grid-template-columns: 440px 1fr; } }
+        table { border-collapse: collapse; width: 100%; background: #fff; border: 1px solid #d5dae2; border-radius: 6px; overflow: hidden; font-size: 13px; }
+        th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid #e7eaf0; vertical-align: top; }
+        th { background: #f6f8fb; font-weight: 600; }
+        td.st { width: 30px; text-align: center; }
+        td.note { color: #5a6475; font-size: 12px; word-break: break-all; }
+        #Stand { margin-top: 4px; }
+        #HitLog { background: #10151f; color: #b6ffb6; font-family: Consolas, Menlo, monospace; font-size: 11px; padding: 8px; border-radius: 6px; height: 220px; overflow: auto; white-space: pre-wrap; word-break: break-all; margin-top: 12px; }
+        #DbInfo { font-size: 13px; color: #33507a; margin-bottom: 12px; }
+        details { margin-top: 14px; font-size: 13px; }
+        details summary { cursor: pointer; font-weight: 600; }
+        details div { background: #fff; border: 1px solid #d5dae2; border-radius: 6px; padding: 10px 12px; margin-top: 6px; }
+        code { background: #e6e9f0; padding: 1px 4px; border-radius: 3px; }
+    </style>
+</head>
+
+<body>
+    <h1>VSpike — фаза 0: перехват SW + Range/206</h1>
+    <div class="sub">Спайк-гейт плана «SW и виртуальные URL». Порядок: <b>1) Загрузить ассеты → 2) Создать iframe</b>. Все запросы <code>/vspike/…</code> должен отдавать Service Worker.</div>
+
+    <div class="env" id="EnvInfo">…</div>
+
+    <div class="banner" id="NoCtrlBanner">
+        ⚠️ <b>Контроллера SW нет</b> — это ожидаемо при самом первом заходе или после Shift-reload (сценарий «blob-fallback» из плана).
+        Виртуальные URL сейчас мертвы. <button id="BtnReload2">Обычная перезагрузка</button>
+    </div>
+
+    <div class="btns">
+        <button class="primary" id="BtnSetup">1. Загрузить ассеты в БД</button>
+        <button class="primary" id="BtnIframe">2. Создать iframe</button>
+        <button id="BtnMemo">Сброс memo SW (имитация холодного старта)</button>
+        <button id="BtnDropDb">Удалить временную БД</button>
+        <button id="BtnUnreg">Unregister SW</button>
+        <button id="BtnReload">Перезагрузка</button>
+    </div>
+
+    <div class="fileRow">
+        Если mp4 не загрузился по сети — выберите файл вручную:
+        <input type="file" id="FileMp4" accept="video/mp4" />
+    </div>
+
+    <div id="DbInfo">БД: …</div>
+
+    <div class="cols">
+        <div>
+            <table id="Results">
+                <thead><tr><th></th><th>Проверка</th><th>Детали</th></tr></thead>
+                <tbody></tbody>
+            </table>
+
+            <div class="btns" style="margin-top:12px;">
+                <button id="BtnMatrix">Матрица iframe-вариантов (диагностика)</button>
+            </div>
+            <table id="MatrixTbl" style="display:none;">
+                <thead><tr><th>Вариант iframe</th><th>img</th><th>fetch</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div>
+            <div id="Stand"></div>
+            <div id="HitLog">— журнал запросов, дошедших до SW —</div>
+        </div>
+    </div>
+
+    <details>
+        <summary>Ручные сценарии (после зелёной таблицы)</summary>
+        <div>
+            <p><b>А. Shift-reload (контроллер null).</b> Нажмите Shift+Reload (macOS: ⌘⇧R). Страница должна показать жёлтый баннер,
+                проверки виртуальных URL — упасть (это штатный сценарий blob-fallback). Обычная перезагрузка возвращает контроллер.</p>
+            <p><b>Б. Убийство SW во время воспроизведения.</b> Запустите видео, затем остановите воркер:
+                Chrome — <code>chrome://serviceworker-internals</code> → Stop (или DevTools → Application → Service workers → stopworker);
+                Firefox — <code>about:debugging#/runtime/this-firefox</code>;
+                Safari — Разработка → Service Workers (или просто подождите ~30 с простоя SW).
+                Продолжите просмотр и перемотку: воспроизведение должно продолжиться (SW рестартует stateless, в журнале появятся новые Range-запросы).</p>
+            <p><b>В. Имитация холодного старта.</b> Кнопка «Сброс memo SW» очищает мемоизацию в воркере — следующий Range-запрос
+                обязан заново прочитать Blob из IndexedDB (перемотка продолжает работать).</p>
+        </div>
+    </details>
+
+    <script>
+        (function () {
+            'use strict';
+
+            var appBase = new URL('.', location.href);          // база приложения (в dev — "/", в prod — "/CyberShelfHost/")
+            var vbase = appBase.pathname + 'vspike/';           // виртуальное пространство от базы приложения
+
+            var el = function (id) { return document.getElementById(id); };
+
+            // ---------------- Результаты ----------------
+
+            var ROWS = [
+                ['controller', 'Контроллер SW присутствует'],
+                ['probe', 'Проба /vspike/__probe__ → 404 + X-VSpike-Miss'],
+                ['img-base', 'iframe: <img> (путь от базы приложения)'],
+                ['img-root', 'iframe: <img> (корневой путь /vspike/)'],
+                ['css-link', 'iframe: <link> стилей из SW применён'],
+                ['css-bg', 'iframe: CSS url() фон запрошен через SW'],
+                ['font-req', 'iframe: @font-face запрошен через SW'],
+                ['font-render', 'iframe: шрифт загружен (fonts.check)'],
+                ['fetch', 'iframe: fetch() → 200 + X-VSpike'],
+                ['head', 'iframe: HEAD → 200 без тела'],
+                ['range-fetch', 'iframe: Range bytes=100-199 → 206'],
+                ['range-416', 'iframe: невыполнимый Range → 416'],
+                ['video-meta', 'iframe: mp4 — метаданные (duration)'],
+                ['video-seek', 'iframe: mp4 — перемотка на 60% (seeked)'],
+                ['video-ranges', 'SW: Range-запросы видео → 206']
+            ];
+
+            var results = {};
+            var hits = [];
+            var hitsStart = 0;   // ватермарка: производные проверки считают только запросы текущего iframe
+            window.__vspike = { results: results, hits: hits, vbase: vbase };
+
+            function renderResults() {
+                var tbody = el('Results').querySelector('tbody');
+                tbody.innerHTML = '';
+                for (var i = 0; i < ROWS.length; i++) {
+                    var key = ROWS[i][0], label = ROWS[i][1];
+                    var r = results[key];
+                    var tr = document.createElement('tr');
+                    var mark = r ? (r.ok ? '✅' : '❌') : '⏳';
+                    tr.innerHTML = '<td class="st">' + mark + '</td><td>' + label + '</td><td class="note"></td>';
+                    tr.querySelector('.note').textContent = r ? (r.note || '') : '';
+                    tbody.appendChild(tr);
+                }
+            }
+
+            function setResult(key, ok, note) {
+                results[key] = { ok: !!ok, note: note || '' };
+                renderResults();
+            }
+
+            function clearResult(key) { delete results[key]; renderResults(); }
+
+            // ---------------- Журнал ----------------
+
+            function log(text) {
+                var box = el('HitLog');
+                box.textContent += '\n' + new Date().toLocaleTimeString() + '  ' + text;
+                box.scrollTop = box.scrollHeight;
+            }
+
+            function shortClient(url) {
+                if (!url) return '';
+                if (url.indexOf('srcdoc') >= 0) return 'about:srcdoc';
+                try { return new URL(url).pathname; } catch (e) { return url; }
+            }
+
+            function logHit(h) {
+                hits.push(h);
+                log('[' + (h.dest || h.method) + '] ' + (h.raw || h.path)
+                    + (h.range ? ' | Range: ' + h.range : '')
+                    + ' -> ' + h.status
+                    + ' | клиент: ' + shortClient(h.clientUrl));
+                recomputeDerived();
+            }
+
+            function recomputeDerived() {
+                var cur = hits.slice(hitsStart);
+                var bg = cur.filter(function (h) { return h.path === 'png-blue.png'; });
+                if (bg.length) setResult('css-bg', bg.some(function (h) { return h.status === 200; }), 'dest=' + bg[0].dest);
+                var font = cur.filter(function (h) { return h.path === 'idb/font.woff2'; });
+                if (font.length) setResult('font-req', font.some(function (h) { return h.status === 200 || h.status === 206; }),
+                    'dest=' + font[0].dest + ', status=' + font[font.length - 1].status);
+                var vr = cur.filter(function (h) { return h.path === 'idb/test.mp4' && h.range && h.status === 206; });
+                if (vr.length) setResult('video-ranges', true, vr.length + ' шт.; последний: ' + vr[vr.length - 1].range);
+            }
+
+            // ---------------- Временная БД (страница пишет, SW читает) ----------------
+
+            function openTempDb() {
+                return new Promise(function (resolve, reject) {
+                    var req = indexedDB.open('VSpikeTempDB', 1);
+                    req.onupgradeneeded = function () {
+                        var db = req.result;
+                        if (!db.objectStoreNames.contains('files')) db.createObjectStore('files');
+                    };
+                    req.onsuccess = function () { resolve(req.result); };
+                    req.onerror = function () { reject(req.error); };
+                    req.onblocked = function () { log('открытие временной БД заблокировано другой вкладкой'); };
+                });
+            }
+
+            function idbPut(db, key, value) {
+                return new Promise(function (resolve, reject) {
+                    var tx = db.transaction('files', 'readwrite');
+                    tx.objectStore('files').put(value, key);
+                    tx.oncomplete = function () { resolve(); };
+                    tx.onerror = function () { reject(tx.error); };
+                });
+            }
+
+            function fmtSize(n) {
+                return (n > 1024 * 1024) ? (n / 1024 / 1024).toFixed(1) + ' МБ' : Math.round(n / 1024) + ' КБ';
+            }
+
+            function refreshDbInfo() {
+                return openTempDb().then(function (db) {
+                    return new Promise(function (resolve) {
+                        var out = [];
+                        var tx = db.transaction('files', 'readonly');
+                        var cur = tx.objectStore('files').openCursor();
+                        cur.onsuccess = function () {
+                            var c = cur.result;
+                            if (c) {
+                                var v = c.value;
+                                out.push(c.key + ' (' + (v && v.blob ? fmtSize(v.blob.size) : '?') + ')');
+                                c.continue();
+                            } else {
+                                el('DbInfo').textContent = out.length
+                                    ? 'БД VSpikeTempDB: ' + out.join(', ')
+                                    : 'БД VSpikeTempDB пуста — нажмите «1. Загрузить ассеты в БД»';
+                                db.close();
+                                resolve();
+                            }
+                        };
+                        cur.onerror = function () { db.close(); resolve(); };
+                    });
+                }).catch(function (err) { el('DbInfo').textContent = 'БД: ошибка — ' + err; });
+            }
+
+            function storeMp4(blob, srcNote) {
+                return openTempDb().then(function (db) {
+                    return idbPut(db, 'test.mp4', { blob: blob, mime: 'video/mp4' }).then(function () { db.close(); });
+                }).then(function () {
+                    log('test.mp4 -> БД (' + fmtSize(blob.size) + ', ' + srcNote + ')');
+                    return refreshDbInfo();
+                });
+            }
+
+            function setupAssets() {
+                log('Загрузка ассетов…');
+                var pFont = fetch('vendor/h5p/fonts/inter/inter-v18-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext_vietnamese-regular.woff2', { cache: 'no-store' })
+                    .then(function (r) {
+                        if (!r.ok) throw new Error('HTTP ' + r.status);
+                        return r.blob();
+                    })
+                    .then(function (b) {
+                        return openTempDb().then(function (db) {
+                            return idbPut(db, 'font.woff2', { blob: b, mime: 'font/woff2' }).then(function () { db.close(); });
+                        }).then(function () { log('font.woff2 -> БД (' + fmtSize(b.size) + ')'); });
+                    })
+                    .catch(function (err) { log('шрифт: ошибка — ' + err); });
+
+                var pMp4 = fetch('vspike-assets/test.mp4', { cache: 'no-store' })
+                    .then(function (r) {
+                        if (!r.ok) throw new Error('HTTP ' + r.status);
+                        return r.blob();
+                    })
+                    .then(function (b) { return storeMp4(b, 'по сети'); })
+                    .catch(function (err) { log('mp4 по сети не загрузился (' + err + ') — выберите файл вручную'); });
+
+                return Promise.all([pFont, pMp4]).then(refreshDbInfo);
+            }
+
+            // ---------------- srcdoc-документ (структура как player.txt) ----------------
+
+            function buildSrcdoc() {
+                var vb = vbase;
+                return '<!doctype html>\n' +
+                    '<html class="h5p-iframe">\n<head>\n' +
+                    '<meta charset="utf-8">\n' +
+                    '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+                    '<base target="_parent">\n' +
+                    '<link rel="stylesheet" href="' + vb + 'style.css">\n' +
+                    '<style>\n' +
+                    ' body { font-family: system-ui, sans-serif; margin: 8px; background: #fafafa; }\n' +
+                    ' .box { border: 1px solid #ccc; padding: 8px; margin-bottom: 8px; border-radius: 6px; background: #fff; }\n' +
+                    ' .vspike-bg { width: 64px; height: 64px; border: 1px dashed #888; background-repeat: repeat; display: inline-block; vertical-align: middle; }\n' +
+                    ' img { width: 48px; height: 48px; image-rendering: pixelated; border: 1px dashed #888; vertical-align: middle; }\n' +
+                    ' video { width: 100%; max-width: 480px; background: #000; }\n' +
+                    ' .lbl { font-size: 12px; color: #555; }\n' +
+                    '</style>\n' +
+                    '</head>\n<body>\n' +
+                    '<div class="box"><span class="lbl">img (от базы): </span><img id="ImgBase" src="' + vb + 'png-red.png">\n' +
+                    ' <span class="lbl">img (корень): </span><img id="ImgRoot" src="/vspike/png-red.png"></div>\n' +
+                    '<div class="box"><span class="lbl">CSS url() фон (должен быть синим): </span><div class="vspike-bg"></div></div>\n' +
+                    '<div class="box vspike-font">VSpikeFont: Съешь ещё этих мягких французских булок 0123 AaBb</div>\n' +
+                    '<div class="box"><video id="Vid" src="' + vb + 'idb/test.mp4" controls muted playsinline preload="metadata"></video>\n' +
+                    ' <div class="lbl" id="VidInfo">видео: ожидание метаданных… (iOS: возможно, потребуется нажать ▶)</div></div>\n' +
+                    '<script>\n' +
+                    '(function () {\n' +
+                    '    function post(payload) { window.parent.postMessage({ vspike: payload }, "*"); }\n' +
+                    '    function hook(id, ev) {\n' +
+                    '        var img = document.getElementById(id);\n' +
+                    '        img.addEventListener("load", function () { post({ ev: ev, ok: true }); });\n' +
+                    '        img.addEventListener("error", function () { post({ ev: ev, ok: false, note: "onerror" }); });\n' +
+                    '    }\n' +
+                    '    hook("ImgBase", "img-base");\n' +
+                    '    hook("ImgRoot", "img-root");\n' +
+                    '\n' +
+                    '    window.addEventListener("load", function () {\n' +
+                    '        var v = getComputedStyle(document.documentElement).getPropertyValue("--vspike-css").trim();\n' +
+                    '        post({ ev: "css-link", ok: v === "loaded", note: "--vspike-css=" + (v || "(пусто)") });\n' +
+                    '    });\n' +
+                    '\n' +
+                    '    if (document.fonts && document.fonts.load) {\n' +
+                    '        document.fonts.load("12px VSpikeFont").then(function () {\n' +
+                    '            post({ ev: "font-render", ok: document.fonts.check("12px VSpikeFont") });\n' +
+                    '        }).catch(function (e) { post({ ev: "font-render", ok: false, note: String(e) }); });\n' +
+                    '    } else {\n' +
+                    '        post({ ev: "font-render", ok: false, note: "document.fonts недоступен" });\n' +
+                    '    }\n' +
+                    '\n' +
+                    '    fetch("' + vb + 'style.css", { cache: "no-store" }).then(function (r) {\n' +
+                    '        post({ ev: "fetch", ok: r.status === 200 && r.headers.get("X-VSpike") === "1",\n' +
+                    '               note: "status=" + r.status + ", X-VSpike=" + r.headers.get("X-VSpike") });\n' +
+                    '    }).catch(function (e) { post({ ev: "fetch", ok: false, note: String(e) }); });\n' +
+                    '\n' +
+                    '    fetch("' + vb + 'png-red.png", { method: "HEAD", cache: "no-store" }).then(function (r) {\n' +
+                    '        return r.arrayBuffer().then(function (buf) {\n' +
+                    '            post({ ev: "head", ok: r.status === 200 && buf.byteLength === 0 && r.headers.get("Content-Length") === "79",\n' +
+                    '                   note: "status=" + r.status + ", тело=" + buf.byteLength + " Б, Content-Length=" + r.headers.get("Content-Length") });\n' +
+                    '        });\n' +
+                    '    }).catch(function (e) { post({ ev: "head", ok: false, note: String(e) }); });\n' +
+                    '\n' +
+                    '    fetch("' + vb + 'idb/test.mp4", { headers: { "Range": "bytes=100-199" }, cache: "no-store" }).then(function (r) {\n' +
+                    '        return r.blob().then(function (b) {\n' +
+                    '            var cr = r.headers.get("Content-Range") || "";\n' +
+                    '            post({ ev: "range-fetch", ok: r.status === 206 && b.size === 100 && cr.indexOf("bytes 100-199/") === 0,\n' +
+                    '                   note: "status=" + r.status + ", тело=" + b.size + " Б, Content-Range=" + cr });\n' +
+                    '        });\n' +
+                    '    }).catch(function (e) { post({ ev: "range-fetch", ok: false, note: String(e) }); });\n' +
+                    '\n' +
+                    '    fetch("' + vb + 'idb/test.mp4", { headers: { "Range": "bytes=99999999999-" }, cache: "no-store" }).then(function (r) {\n' +
+                    '        post({ ev: "range-416", ok: r.status === 416, note: "status=" + r.status + ", Content-Range=" + r.headers.get("Content-Range") });\n' +
+                    '    }).catch(function (e) { post({ ev: "range-416", ok: false, note: String(e) }); });\n' +
+                    '\n' +
+                    '    var vid = document.getElementById("Vid");\n' +
+                    '    var info = document.getElementById("VidInfo");\n' +
+                    '    var seekDone = false;\n' +
+                    '    vid.addEventListener("loadedmetadata", function () {\n' +
+                    '        info.textContent = "видео: длительность " + vid.duration.toFixed(1) + " c — перемотка на 60%…";\n' +
+                    '        post({ ev: "video-meta", ok: isFinite(vid.duration) && vid.duration > 0, note: "duration=" + vid.duration.toFixed(1) + " c" });\n' +
+                    '        try { vid.currentTime = vid.duration * 0.6; } catch (e) { post({ ev: "video-seek", ok: false, note: String(e) }); }\n' +
+                    '    });\n' +
+                    '    vid.addEventListener("seeked", function () {\n' +
+                    '        if (seekDone) return;\n' +
+                    '        seekDone = true;\n' +
+                    '        info.textContent = "видео: перемотано на " + vid.currentTime.toFixed(1) + " c — теперь нажмите ▶";\n' +
+                    '        post({ ev: "video-seek", ok: vid.currentTime > 0, note: "currentTime=" + vid.currentTime.toFixed(1) + " c" });\n' +
+                    '    });\n' +
+                    '    vid.addEventListener("error", function () {\n' +
+                    '        var code = (vid.error && vid.error.code) || "?";\n' +
+                    '        info.textContent = "видео: ошибка (code=" + code + ")";\n' +
+                    '        post({ ev: "video-meta", ok: false, note: "MediaError code=" + code + " (mp4 загружен в БД?)" });\n' +
+                    '    });\n' +
+                    '    window.vspikeSeek = function (frac) { vid.currentTime = vid.duration * frac; };\n' +
+                    '    post({ ev: "iframe-ready", ok: true });\n' +
+                    '})();\n' +
+                    '<\/script>\n' +
+                    '</body>\n</html>';
+            }
+
+            // ---------------- iframe: создание в точности как в ActivePack ----------------
+
+            var iframe = null;
+
+            function createIframe() {
+                var stand = el('Stand');
+                if (iframe) {
+                    try { if (iframe.contentWindow) iframe.contentWindow.close(); } catch (e) { }
+                    iframe.remove();
+                    iframe = null;
+                }
+
+                hitsStart = hits.length;
+                var iframeKeys = ['img-base', 'img-root', 'css-link', 'css-bg', 'font-req', 'font-render',
+                    'fetch', 'head', 'range-fetch', 'range-416', 'video-meta', 'video-seek', 'video-ranges'];
+                for (var i = 0; i < iframeKeys.length; i++) clearResult(iframeKeys[i]);
+
+                // Последовательность конструктора ActivePack (activepack.ts:206-232):
+                // элемент в DOM -> remove() -> sandbox -> allow -> srcdoc -> append -> глобали
+                iframe = document.createElement('iframe');
+                stand.appendChild(iframe);
+                var parentEl = iframe.parentElement;
+                iframe.remove();
+
+                iframe.sandbox.value = 'allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation';
+                iframe.allow = 'autoplay';
+                iframe.style.cssText = 'width:100%;height:540px;border:1px solid #9aa4b5;border-radius:6px;background:#fff;';
+
+                iframe.srcdoc = buildSrcdoc();
+                parentEl.appendChild(iframe);
+
+                // трюк с глобалями — как в build() (activepack.ts:283-292)
+                if (iframe.contentWindow) {
+                    var cwParent = iframe.contentWindow.parent;
+                    cwParent.VMB = { isBookRT: true };
+                    cwParent.ActivePackage = { vspikeDummy: true };
+                    iframe.contentWindow['VMB'] = cwParent.VMB;
+                    iframe.contentWindow['ActivePackage'] = cwParent.ActivePackage;
+                } else {
+                    log('ОШИБКА: contentWindow недоступен');
+                }
+
+                log('iframe создан (sandbox+srcdoc, как ActivePack)');
+            }
+
+            // ---------------- SW: регистрация, контроллер, проба ----------------
+
+            function updateController() {
+                var c = navigator.serviceWorker.controller;
+                setResult('controller', !!c, c ? c.scriptURL.replace(location.origin, '') : 'нет — первый заход или Shift-reload');
+                el('NoCtrlBanner').className = c ? 'banner' : 'banner show';
+            }
+
+            function runProbe() {
+                if (!navigator.serviceWorker.controller) {
+                    setResult('probe', false, 'нет контроллера — запрос ушёл бы в сеть');
+                    return;
+                }
+                fetch(vbase + '__probe__', { cache: 'no-store' }).then(function (r) {
+                    var miss = r.headers.get('X-VSpike-Miss');
+                    setResult('probe', r.status === 404 && miss !== null, 'status=' + r.status + ', X-VSpike-Miss=' + miss);
+                }).catch(function (err) { setResult('probe', false, String(err)); });
+            }
+
+            function initSW() {
+                var dm = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || (navigator.standalone === true);
+                el('EnvInfo').textContent = 'база: ' + appBase.pathname + ' | vspike: ' + vbase
+                    + ' | режим: ' + (dm ? 'PWA (standalone)' : 'браузер') + ' | ' + navigator.userAgent;
+
+                if (!('serviceWorker' in navigator)) {
+                    setResult('controller', false, 'serviceWorker недоступен (не secure context? нужен HTTPS или localhost)');
+                    return;
+                }
+
+                navigator.serviceWorker.addEventListener('message', function (e) {
+                    if (!e.data) return;
+                    if (e.data.type === 'vspike-hit') logHit(e.data);
+                    if (e.data.type === 'vspike-memo-cleared') log('SW: мемоизация сброшена (холодный старт сымитирован)');
+                });
+
+                navigator.serviceWorker.addEventListener('controllerchange', function () {
+                    log('controllerchange: контроллер сменился');
+                    updateController();
+                    runProbe();
+                });
+
+                navigator.serviceWorker.register('service-worker.js').then(function (reg) {
+                    log('SW зарегистрирован, scope: ' + reg.scope);
+                    reg.update().catch(function () { });
+                    return navigator.serviceWorker.ready;
+                }).then(function () {
+                    updateController();
+                    runProbe();
+                }).catch(function (err) {
+                    setResult('controller', false, 'ошибка регистрации: ' + err);
+                });
+            }
+
+            // ---------------- Кнопки ----------------
+
+            el('BtnSetup').addEventListener('click', setupAssets);
+            el('BtnIframe').addEventListener('click', createIframe);
+
+            el('BtnMemo').addEventListener('click', function () {
+                var c = navigator.serviceWorker.controller;
+                if (c) c.postMessage({ type: 'vspike-reset-memo' });
+                else log('нет контроллера — memo сбросить некому');
+            });
+
+            el('BtnDropDb').addEventListener('click', function () {
+                var c = navigator.serviceWorker.controller;
+                if (c) c.postMessage({ type: 'vspike-reset-memo' });   // SW закроет своё соединение
+                setTimeout(function () {
+                    var req = indexedDB.deleteDatabase('VSpikeTempDB');
+                    req.onsuccess = function () { log('VSpikeTempDB удалена'); refreshDbInfo(); };
+                    req.onblocked = function () { log('удаление БД заблокировано (открытое соединение)'); };
+                    req.onerror = function () { log('ошибка удаления БД: ' + req.error); };
+                }, 300);
+            });
+
+            el('BtnUnreg').addEventListener('click', function () {
+                navigator.serviceWorker.getRegistration().then(function (reg) {
+                    if (!reg) { log('регистраций нет'); return; }
+                    reg.unregister().then(function (ok) {
+                        log('unregister: ' + ok + ' — перезагрузите страницу для сценария «нет контроллера»');
+                    });
+                });
+            });
+
+            el('BtnReload').addEventListener('click', function () { location.reload(); });
+            el('BtnReload2').addEventListener('click', function () { location.reload(); });
+
+            // ---------------- Матрица iframe-вариантов ----------------
+            // Дифференциация: что именно ломает перехват — srcdoc, sandbox или сочетание.
+            // (В Firefox 153 срезается именно сочетание sandbox+srcdoc — Bugzilla 1279406.)
+
+            var MATRIX_VARIANTS = [
+                ['srcdoc-sandbox', 'srcdoc + sandbox (как ActivePack)'],
+                ['srcdoc-plain', 'srcdoc без sandbox'],
+                ['url-sandbox', 'реальный URL + sandbox'],
+                ['url-plain', 'реальный URL без sandbox']
+            ];
+            var matrixState = {};
+            window.__vspike.frameMatrix = matrixState;
+
+            function renderMatrix() {
+                var tbl = el('MatrixTbl');
+                tbl.style.display = '';
+                var tbody = tbl.querySelector('tbody');
+                tbody.innerHTML = '';
+                for (var i = 0; i < MATRIX_VARIANTS.length; i++) {
+                    var key = MATRIX_VARIANTS[i][0], label = MATRIX_VARIANTS[i][1];
+                    var r = matrixState[key] || {};
+                    var cell = function (x) {
+                        if (!x) return '⏳';
+                        return (x.ok ? '✅ SW' : '❌ мимо SW') + (x.status != null && x.status !== undefined ? ' (' + x.status + ')' : '');
+                    };
+                    var tr = document.createElement('tr');
+                    tr.innerHTML = '<td>' + label + '</td><td>' + cell(r.img) + '</td><td>' + cell(r.fetch) + '</td>';
+                    tbody.appendChild(tr);
+                }
+            }
+
+            function matrixSrcdoc(name) {
+                return '<!doctype html><meta charset="utf-8">' +
+                    '<img id="I" src="' + vbase + 'png-red.png" style="width:24px;height:24px;">' +
+                    '<scr' + 'ipt>' +
+                    'function post(ev, ok, status) { parent.postMessage({ vsframe: { name: "' + name + '", ev: ev, ok: ok, status: status } }, "*"); }' +
+                    'var img = document.getElementById("I");' +
+                    'img.addEventListener("load", function () { post("img", true); });' +
+                    'img.addEventListener("error", function () { post("img", false); });' +
+                    'fetch("' + vbase + 'style.css", { cache: "no-store" })' +
+                    '.then(function (r) { post("fetch", r.headers.get("X-VSpike") === "1", r.status); })' +
+                    '.catch(function () { post("fetch", false, -1); });' +
+                    '</scr' + 'ipt>';
+            }
+
+            function runFrameMatrix() {
+                for (var k in matrixState) delete matrixState[k];
+                var old = document.querySelectorAll('.matrix-frame');
+                for (var j = 0; j < old.length; j++) old[j].remove();
+                renderMatrix();
+
+                for (var i = 0; i < MATRIX_VARIANTS.length; i++) {
+                    var name = MATRIX_VARIANTS[i][0];
+                    var fr = document.createElement('iframe');
+                    fr.className = 'matrix-frame';
+                    fr.style.cssText = 'width:1px;height:1px;position:absolute;left:-9999px;';
+                    if (name.indexOf('-sandbox') > 0) {
+                        fr.sandbox.value = 'allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation';
+                    }
+                    if (name.indexOf('srcdoc') === 0) fr.srcdoc = matrixSrcdoc(name);
+                    else fr.src = 'vspike-frame.html?name=' + name;
+                    document.body.appendChild(fr);
+                }
+            }
+
+            el('BtnMatrix').addEventListener('click', runFrameMatrix);
+
+            // ---------------- iframe-сообщения ----------------
+
+            window.addEventListener('message', function (e) {
+                var f = e.data && e.data.vsframe;
+                if (f) {
+                    matrixState[f.name] = matrixState[f.name] || {};
+                    matrixState[f.name][f.ev] = { ok: f.ok, status: (f.status === undefined ? null : f.status) };
+                    renderMatrix();
+                    return;
+                }
+                var p = e.data && e.data.vspike;
+                if (!p) return;
+                if (p.ev === 'iframe-ready') { log('iframe: скрипт запущен'); return; }
+                setResult(p.ev, p.ok, p.note);
+            });
+
+            // ---------------- Старт ----------------
+
+            renderResults();
+            refreshDbInfo();
+            initSW();
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!-- TEMPORARY SPIKE DIAGNOSTIC (Phase 0): real-URL iframe document for the interception
+     matrix (srcdoc vs URL × sandbox vs plain). DELETE WITH SPIKE. -->
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+    <img id="I" src="vspike/png-red.png" style="width:24px;height:24px;">
+    <script>
+        (function () {
+            var name = new URLSearchParams(location.search).get('name') || 'url';
+            function post(ev, ok, status) {
+                parent.postMessage({ vsframe: { name: name, ev: ev, ok: ok, status: status } }, '*');
+            }
+            var img = document.getElementById('I');
+            img.addEventListener('load', function () { post('img', true); });
+            img.addEventListener('error', function () { post('img', false); });
+            fetch('vspike/style.css', { cache: 'no-store' })
+                .then(function (r) { post('fetch', r.status === 200 && r.headers.get('X-VSpike') === '1', r.status); })
+                .catch(function () { post('fetch', false, -1); });
+        })();
+    </script>
+</body>
+</html>
