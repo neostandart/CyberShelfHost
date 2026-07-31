@@ -4,9 +4,14 @@
      TEMPORARY SPIKE — фаза 0 плана REFACTOR_SW_VIRTUAL_URLS.md.
      УДАЛИТЬ ПОСЛЕ РЕШЕНИЯ ПО ГЕЙТУ.
 
-     Стенд проверяет: (а) перехват субресурсов sandbox-srcdoc-iframe
-     SW-контроллером родительской страницы; (б) Range/206 из IndexedDB-Blob
-     на реальном mp4 (перемотка видео). SW-обработчик: Engine/Script/sw/vspike.ts.
+     Стенд проверяет: (а) перехват субресурсов sandbox-iframe SW-контроллером
+     родительской страницы — в модели srcdoc И в модели настоящей навигации
+     на оболочку §5.0 (прототип: assets/h5p-player/vspike-player.html);
+     (б) Range/206 из IndexedDB-Blob на реальном mp4 (перемотка видео);
+     (в) §4.2: blob-fallback в той же оболочке, идентичность WindowProxy через
+     навигацию (analysis §11), hash-навигация в совместной истории (риск №14),
+     опционально — SW-сервируемая навигация (§4.1-а, матрица).
+     SW-обработчик: Engine/Script/sw/vspike.ts.
      ====================================================================== -->
 
 <head>
@@ -26,12 +31,13 @@
         button:disabled { opacity: 0.5; cursor: default; }
         .fileRow { font-size: 13px; margin-bottom: 12px; color: #5a6475; }
         .cols { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        @media (min-width: 1000px) { .cols { grid-template-columns: 440px 1fr; } }
+        @media (min-width: 1000px) { .cols { grid-template-columns: 480px 1fr; } }
         table { border-collapse: collapse; width: 100%; background: #fff; border: 1px solid #d5dae2; border-radius: 6px; overflow: hidden; font-size: 13px; }
         th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid #e7eaf0; vertical-align: top; }
         th { background: #f6f8fb; font-weight: 600; }
         td.st { width: 30px; text-align: center; }
         td.note { color: #5a6475; font-size: 12px; word-break: break-all; }
+        tr.na td { color: #b3bac6; }
         #Stand { margin-top: 4px; }
         #HitLog { background: #10151f; color: #b6ffb6; font-family: Consolas, Menlo, monospace; font-size: 11px; padding: 8px; border-radius: 6px; height: 220px; overflow: auto; white-space: pre-wrap; word-break: break-all; margin-top: 12px; }
         #DbInfo { font-size: 13px; color: #33507a; margin-bottom: 12px; }
@@ -43,19 +49,23 @@
 </head>
 
 <body>
-    <h1>VSpike — фаза 0: перехват SW + Range/206</h1>
-    <div class="sub">Спайк-гейт плана «SW и виртуальные URL». Порядок: <b>1) Загрузить ассеты → 2) Создать iframe</b>. Все запросы <code>/vspike/…</code> должен отдавать Service Worker.</div>
+    <h1>VSpike — фаза 0: перехват SW + Range/206 + оболочка §5.0</h1>
+    <div class="sub">Спайк-гейт плана «SW и виртуальные URL». Порядок: <b>1) Загрузить ассеты → 2) Оболочка §5.0</b> (основной
+        сценарий; blob-режим — проверка fallback, srcdoc — старая модель для сравнения). Строки «—» неприменимы к текущему режиму.</div>
 
     <div class="env" id="EnvInfo">…</div>
 
     <div class="banner" id="NoCtrlBanner">
-        ⚠️ <b>Контроллера SW нет</b> — это ожидаемо при самом первом заходе или после Shift-reload (сценарий «blob-fallback» из плана).
-        Виртуальные URL сейчас мертвы. <button id="BtnReload2">Обычная перезагрузка</button>
+        ⚠️ <b>Контроллера SW нет</b> — это ожидаемо при самом первом заходе или после Shift-reload. Кнопка «2» в этом
+        состоянии создаст оболочку в <b>blob-режиме</b> (штатный fallback плана); SW-строки таблицы будут «—».
+        <button id="BtnReload2">Обычная перезагрузка</button>
     </div>
 
     <div class="btns">
         <button class="primary" id="BtnSetup">1. Загрузить ассеты в БД</button>
-        <button class="primary" id="BtnIframe">2. Создать iframe</button>
+        <button class="primary" id="BtnShell">2. Оболочка §5.0</button>
+        <button id="BtnShellBlob">2б. Оболочка (blob-режим)</button>
+        <button id="BtnSrcdoc">2в. srcdoc (старая модель)</button>
         <button id="BtnMemo">Сброс memo SW (имитация холодного старта)</button>
         <button id="BtnDropDb">Удалить временную БД</button>
         <button id="BtnUnreg">Unregister SW</button>
@@ -80,7 +90,7 @@
                 <button id="BtnMatrix">Матрица iframe-вариантов (диагностика)</button>
             </div>
             <table id="MatrixTbl" style="display:none;">
-                <thead><tr><th>Вариант iframe</th><th>img</th><th>fetch</th></tr></thead>
+                <thead><tr><th>Вариант iframe</th><th>навигация</th><th>img</th><th>fetch</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
@@ -93,15 +103,19 @@
     <details>
         <summary>Ручные сценарии (после зелёной таблицы)</summary>
         <div>
-            <p><b>А. Shift-reload (контроллер null).</b> Нажмите Shift+Reload (macOS: ⌘⇧R). Страница должна показать жёлтый баннер,
-                проверки виртуальных URL — упасть (это штатный сценарий blob-fallback). Обычная перезагрузка возвращает контроллер.</p>
-            <p><b>Б. Убийство SW во время воспроизведения.</b> Запустите видео, затем остановите воркер:
+            <p><b>А. Shift-reload (контроллер null).</b> Нажмите Shift+Reload (macOS: ⌘⇧R). Страница покажет жёлтый баннер;
+                кнопка «2» создаст оболочку в blob-режиме — это штатный сценарий fallback (§5.0: та же оболочка, меняются только URL).
+                Обычная перезагрузка возвращает контроллер и SW-режим.</p>
+            <p><b>Б. Убийство SW во время воспроизведения.</b> Запустите видео (в SW-режиме), затем остановите воркер:
                 Chrome — <code>chrome://serviceworker-internals</code> → Stop (или DevTools → Application → Service workers → stopworker);
                 Firefox — <code>about:debugging#/runtime/this-firefox</code>;
                 Safari — Разработка → Service Workers (или просто подождите ~30 с простоя SW).
                 Продолжите просмотр и перемотку: воспроизведение должно продолжиться (SW рестартует stateless, в журнале появятся новые Range-запросы).</p>
             <p><b>В. Имитация холодного старта.</b> Кнопка «Сброс memo SW» очищает мемоизацию в воркере — следующий Range-запрос
                 обязан заново прочитать Blob из IndexedDB (перемотка продолжает работать).</p>
+            <p><b>Г. Кнопка «Назад» после оболочки.</b> Строки «вставка iframe без записей истории» и «hash-навигация»
+                замеряют совместную историю автоматически; после их зелёного состояния кнопка «Назад» браузера должна
+                уводить со стенда, а не листать внутренние состояния iframe.</p>
         </div>
     </details>
 
@@ -112,43 +126,72 @@
             var appBase = new URL('.', location.href);          // база приложения (в dev — "/", в prod — "/CyberShelfHost/")
             var vbase = appBase.pathname + 'vspike/';           // виртуальное пространство от базы приложения
 
+            var SANDBOX = 'allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation';
+            var FRAME_CSS = 'width:100%;height:540px;border:1px solid #9aa4b5;border-radius:6px;background:#fff;';
+
             var el = function (id) { return document.getElementById(id); };
 
-            // ---------------- Результаты ----------------
+            // ---------------- Результаты (режимо-зависимые строки) ----------------
+            // Третий элемент — применимость: '*' или список режимов
+            // ('srcdoc' | 'shell-virt' | 'shell-blob').
 
             var ROWS = [
-                ['controller', 'Контроллер SW присутствует'],
-                ['probe', 'Проба /vspike/__probe__ → 404 + X-VSpike-Miss'],
-                ['img-base', 'iframe: <img> (путь от базы приложения)'],
-                ['img-root', 'iframe: <img> (корневой путь /vspike/)'],
-                ['css-link', 'iframe: <link> стилей из SW применён'],
-                ['css-bg', 'iframe: CSS url() фон запрошен через SW'],
-                ['font-req', 'iframe: @font-face запрошен через SW'],
-                ['font-render', 'iframe: шрифт загружен (fonts.check)'],
-                ['fetch', 'iframe: fetch() → 200 + X-VSpike'],
-                ['head', 'iframe: HEAD → 200 без тела'],
-                ['range-fetch', 'iframe: Range bytes=100-199 → 206'],
-                ['range-416', 'iframe: невыполнимый Range → 416'],
-                ['video-meta', 'iframe: mp4 — метаданные (duration)'],
-                ['video-seek', 'iframe: mp4 — перемотка на 60% (seeked)'],
-                ['video-ranges', 'SW: Range-запросы видео → 206']
+                ['controller', 'Контроллер SW присутствует', '*'],
+                ['probe', 'Проба /vspike/__probe__ → 404 + X-VSpike-Miss', '*'],
+                ['nav-hist', 'оболочка: вставка iframe без записей истории', 'shell-virt shell-blob'],
+                ['wproxy', 'оболочка: WindowProxy стабилен через навигацию (§11)', 'shell-virt shell-blob'],
+                ['base-href', 'оболочка: <base> вычислен от положения оболочки', 'shell-virt shell-blob'],
+                ['pull-pack', 'оболочка: pull пакета (строки; parse в realm iframe)', 'shell-virt shell-blob'],
+                ['img-base', 'iframe: <img> (путь от базы приложения)', '*'],
+                ['img-root', 'iframe: <img> (корневой путь /vspike/)', 'srcdoc shell-virt'],
+                ['css-link', 'iframe: <link> стилей применён', '*'],
+                ['css-bg', 'iframe: CSS url() фон загружен', '*'],
+                ['font-req', 'iframe: @font-face запрошен через SW', 'srcdoc shell-virt'],
+                ['font-render', 'iframe: шрифт загружен (fonts.check)', '*'],
+                ['script-src', 'оболочка: внешний <script> из bootstrap выполнен', 'shell-virt shell-blob'],
+                ['fetch', 'iframe: fetch() → 200 + X-VSpike', 'srcdoc shell-virt'],
+                ['head', 'iframe: HEAD → 200 без тела', 'srcdoc shell-virt'],
+                ['range-fetch', 'iframe: Range bytes=100-199 → 206', 'srcdoc shell-virt'],
+                ['range-416', 'iframe: невыполнимый Range → 416', 'srcdoc shell-virt'],
+                ['video-meta', 'iframe: mp4 — метаданные (duration)', '*'],
+                ['video-seek', 'iframe: mp4 — перемотка на 60% (seeked)', '*'],
+                ['video-ranges', 'SW: Range-запросы видео → 206', 'srcdoc shell-virt'],
+                ['hash-hist', 'оболочка: hash — replace() без записей (риск №14)', 'shell-virt shell-blob']
             ];
 
             var results = {};
             var hits = [];
             var hitsStart = 0;   // ватермарка: производные проверки считают только запросы текущего iframe
+            var currentMode = null;    // null до первого iframe
             window.__vspike = { results: results, hits: hits, vbase: vbase };
+
+            function isApplicable(scope) {
+                if (scope === '*' || !currentMode) return true;
+                return scope.split(' ').indexOf(currentMode) >= 0;
+            }
 
             function renderResults() {
                 var tbody = el('Results').querySelector('tbody');
                 tbody.innerHTML = '';
                 for (var i = 0; i < ROWS.length; i++) {
-                    var key = ROWS[i][0], label = ROWS[i][1];
-                    var r = results[key];
+                    var key = ROWS[i][0], label = ROWS[i][1], scope = ROWS[i][2];
+                    // метки содержат литеральные «<img>»/«<script>» и т.п. —
+                    // строку собираем только через textContent, без innerHTML
                     var tr = document.createElement('tr');
-                    var mark = r ? (r.ok ? '✅' : '❌') : '⏳';
-                    tr.innerHTML = '<td class="st">' + mark + '</td><td>' + label + '</td><td class="note"></td>';
-                    tr.querySelector('.note').textContent = r ? (r.note || '') : '';
+                    var na = !isApplicable(scope);
+                    if (na) tr.className = 'na';
+                    var r = na ? null : results[key];
+                    var tdSt = document.createElement('td');
+                    tdSt.className = 'st';
+                    tdSt.textContent = na ? '—' : (r ? (r.ok ? '✅' : '❌') : '⏳');
+                    var tdLabel = document.createElement('td');
+                    tdLabel.textContent = label;
+                    var tdNote = document.createElement('td');
+                    tdNote.className = 'note';
+                    tdNote.textContent = r ? (r.note || '') : '';
+                    tr.appendChild(tdSt);
+                    tr.appendChild(tdLabel);
+                    tr.appendChild(tdNote);
                     tbody.appendChild(tr);
                 }
             }
@@ -157,8 +200,6 @@
                 results[key] = { ok: !!ok, note: note || '' };
                 renderResults();
             }
-
-            function clearResult(key) { delete results[key]; renderResults(); }
 
             // ---------------- Журнал ----------------
 
@@ -171,6 +212,7 @@
             function shortClient(url) {
                 if (!url) return '';
                 if (url.indexOf('srcdoc') >= 0) return 'about:srcdoc';
+                if (url.indexOf('vspike-player.html') >= 0) return 'оболочка';
                 try { return new URL(url).pathname; } catch (e) { return url; }
             }
 
@@ -215,6 +257,15 @@
                     tx.objectStore('files').put(value, key);
                     tx.oncomplete = function () { resolve(); };
                     tx.onerror = function () { reject(tx.error); };
+                });
+            }
+
+            function idbGet(db, key) {
+                return new Promise(function (resolve, reject) {
+                    var tx = db.transaction('files', 'readonly');
+                    var req = tx.objectStore('files').get(key);
+                    req.onsuccess = function () { resolve(req.result || null); };
+                    req.onerror = function () { reject(req.error); };
                 });
             }
 
@@ -281,7 +332,155 @@
                 return Promise.all([pFont, pMp4]).then(refreshDbInfo);
             }
 
-            // ---------------- srcdoc-документ (структура как player.txt) ----------------
+            // ---------------- Реестр пакетов (§5.0: pull-модель оболочки) ----------------
+
+            var INTEGRATION_JSON = JSON.stringify({
+                library: { name: 'VSpike.Probe', params: { vspike: true, title: 'проверка границы realm' } }
+            });
+
+            // NOTE: держать в синхроне со SPIKE_JS в vspike.ts (SW-вариант того же скрипта)
+            var SPIKE_JS_TEXT = 'window.__vspikeScriptRan = true;';
+
+            // те же байты, что PNG_RED/PNG_BLUE в vspike.ts (для blob-режима)
+            var PNG_RED_B64 = 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAFklEQVR4nGN4YKVPEmIY1TCqYfhqAACZmEkQiuKZAAAAAABJRU5ErkJggg==';
+            var PNG_BLUE_B64 = 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAFklEQVR4nGPQz39AEmIY1TCqYfhqAABkSH4QH1sEZAAAAABJRU5ErkJggg==';
+
+            var _packs = {};
+
+            window.VSpikeRT = {
+                getPack: function (id) { return _packs[id] || null; },
+                // негативный контроль правила границы realm'ов: этот объект создан
+                // в realm'е родителя — в realm'е iframe instanceof Object даст false
+                getRealmProbe: function () { return { probe: true }; }
+            };
+
+            function buildVirtualPack() {
+                return {
+                    mode: 'virtual',
+                    expectedBase: appBase.href,
+                    // относительные URL — резолвятся через вычисленный оболочкой <base>
+                    cssUrl: 'vspike/style.css',
+                    scriptUrl: 'vspike/app.js',
+                    imgBaseUrl: 'vspike/png-red.png',
+                    imgRootUrl: '/vspike/png-red.png',
+                    videoUrl: 'vspike/idb/test.mp4',
+                    integrationJson: INTEGRATION_JSON
+                };
+            }
+
+            var _blobUrls = [];
+            function trackUrl(u) { _blobUrls.push(u); return u; }
+            function revokeBlobUrls() {
+                for (var i = 0; i < _blobUrls.length; i++) { try { URL.revokeObjectURL(_blobUrls[i]); } catch (e) { } }
+                _blobUrls = [];
+            }
+
+            function b64ToBlob(b64, mime) {
+                var bin = atob(b64);
+                var bytes = new Uint8Array(bin.length);
+                for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+                return new Blob([bytes], { type: mime });
+            }
+
+            function buildBlobPack() {
+                return openTempDb().then(function (db) {
+                    return Promise.all([idbGet(db, 'font.woff2'), idbGet(db, 'test.mp4')]).then(function (recs) {
+                        db.close();
+                        return recs;
+                    });
+                }).then(function (recs) {
+                    revokeBlobUrls();
+                    var fontRec = recs[0], mp4Rec = recs[1];
+                    var urlRed = trackUrl(URL.createObjectURL(b64ToBlob(PNG_RED_B64, 'image/png')));
+                    var urlBlue = trackUrl(URL.createObjectURL(b64ToBlob(PNG_BLUE_B64, 'image/png')));
+                    var urlFont = fontRec ? trackUrl(URL.createObjectURL(fontRec.blob)) : '';
+                    // эмуляция CSS-препроцессора (preproc.ts, PreprocType.CssUrl):
+                    // url()-ссылки переписаны на blob-URL, созданные родителем
+                    var css = [
+                        ':root { --vspike-css: loaded; }',
+                        urlFont ? '@font-face { font-family: "VSpikeFont"; src: url("' + urlFont + '") format("woff2"); }' : '',
+                        '.vspike-bg { background-image: url("' + urlBlue + '"); }',
+                        '.vspike-font { font-family: "VSpikeFont", monospace; }'
+                    ].join('\n');
+                    return {
+                        mode: 'blob',
+                        expectedBase: appBase.href,
+                        cssUrl: trackUrl(URL.createObjectURL(new Blob([css], { type: 'text/css' }))),
+                        scriptUrl: trackUrl(URL.createObjectURL(new Blob([SPIKE_JS_TEXT], { type: 'text/javascript' }))),
+                        imgBaseUrl: urlRed,
+                        imgRootUrl: null,   // корневой путь в blob-режиме не существует
+                        videoUrl: mp4Rec ? trackUrl(URL.createObjectURL(mp4Rec.blob)) : '',
+                        integrationJson: INTEGRATION_JSON
+                    };
+                });
+            }
+
+            // ---------------- iframe: создание ----------------
+
+            var iframe = null;
+            var shellWnd = null;        // WindowProxy, захваченный ДО навигации (analysis §11)
+            var shellHistBase = 0;      // history.length до вставки iframe
+
+            function beginStand(mode) {
+                if (iframe) {
+                    try { if (iframe.contentWindow) iframe.contentWindow.close(); } catch (e) { }
+                    iframe.remove();
+                    iframe = null;
+                }
+                shellWnd = null;
+                currentMode = mode;
+                window.__vspike.mode = mode;
+                hitsStart = hits.length;
+                for (var i = 0; i < ROWS.length; i++) {
+                    var key = ROWS[i][0];
+                    if (key !== 'controller' && key !== 'probe') delete results[key];
+                }
+                renderResults();
+            }
+
+            // Оболочка §5.0: подготовка модели пакета (async) -> src -> appendChild.
+            // Порядок конструктора ActivePack (activepack.ts:206-232) сохранён.
+            function createShellIframe(forceBlob) {
+                var hasCtrl = !!navigator.serviceWorker.controller;
+                var virtual = hasCtrl && !forceBlob;
+                if (!hasCtrl && !forceBlob) log('контроллера SW нет — оболочка создаётся в blob-режиме (сценарий fallback)');
+
+                var pPack = virtual ? Promise.resolve(buildVirtualPack()) : buildBlobPack();
+                pPack.then(function (pack) {
+                    _packs['vspike'] = pack;
+                    beginStand(virtual ? 'shell-virt' : 'shell-blob');
+
+                    iframe = document.createElement('iframe');
+                    el('Stand').appendChild(iframe);
+                    var parentEl = iframe.parentElement;
+                    iframe.remove();
+
+                    iframe.sandbox.value = SANDBOX;
+                    iframe.allow = 'autoplay';
+                    iframe.style.cssText = FRAME_CSS;
+
+                    // §5.0: сперва src, затем appendChild — первая навигация
+                    // вставляемого iframe записей истории создавать не должна
+                    shellHistBase = history.length;
+                    iframe.src = 'assets/h5p-player/vspike-player.html?pack=vspike';
+                    parentEl.appendChild(iframe);
+
+                    // §11: WindowProxy захвачен СРАЗУ после appendChild, до коммита
+                    // навигации (аналог registerLessonTarget ветки online-lesson)
+                    shellWnd = iframe.contentWindow;
+                    if (!shellWnd) log('ОШИБКА: contentWindow недоступен');
+
+                    // запечённый доступ window.parent.ActivePackage сохраняется (§5.0)
+                    window.VMB = { isBookRT: true };
+                    window.ActivePackage = pack;
+
+                    log('iframe создан (оболочка §5.0, режим ' + pack.mode + ')');
+                }).catch(function (err) {
+                    log('оболочка: ошибка подготовки пакета — ' + err);
+                });
+            }
+
+            // ---------------- srcdoc-документ (старая модель, для сравнения) ----------------
 
             function buildSrcdoc() {
                 var vb = vbase;
@@ -380,33 +579,19 @@
                     '</body>\n</html>';
             }
 
-            // ---------------- iframe: создание в точности как в ActivePack ----------------
-
-            var iframe = null;
-
-            function createIframe() {
-                var stand = el('Stand');
-                if (iframe) {
-                    try { if (iframe.contentWindow) iframe.contentWindow.close(); } catch (e) { }
-                    iframe.remove();
-                    iframe = null;
-                }
-
-                hitsStart = hits.length;
-                var iframeKeys = ['img-base', 'img-root', 'css-link', 'css-bg', 'font-req', 'font-render',
-                    'fetch', 'head', 'range-fetch', 'range-416', 'video-meta', 'video-seek', 'video-ranges'];
-                for (var i = 0; i < iframeKeys.length; i++) clearResult(iframeKeys[i]);
+            function createSrcdocIframe() {
+                beginStand('srcdoc');
 
                 // Последовательность конструктора ActivePack (activepack.ts:206-232):
                 // элемент в DOM -> remove() -> sandbox -> allow -> srcdoc -> append -> глобали
                 iframe = document.createElement('iframe');
-                stand.appendChild(iframe);
+                el('Stand').appendChild(iframe);
                 var parentEl = iframe.parentElement;
                 iframe.remove();
 
-                iframe.sandbox.value = 'allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation';
+                iframe.sandbox.value = SANDBOX;
                 iframe.allow = 'autoplay';
-                iframe.style.cssText = 'width:100%;height:540px;border:1px solid #9aa4b5;border-radius:6px;background:#fff;';
+                iframe.style.cssText = FRAME_CSS;
 
                 iframe.srcdoc = buildSrcdoc();
                 parentEl.appendChild(iframe);
@@ -481,7 +666,9 @@
             // ---------------- Кнопки ----------------
 
             el('BtnSetup').addEventListener('click', setupAssets);
-            el('BtnIframe').addEventListener('click', createIframe);
+            el('BtnShell').addEventListener('click', function () { createShellIframe(false); });
+            el('BtnShellBlob').addEventListener('click', function () { createShellIframe(true); });
+            el('BtnSrcdoc').addEventListener('click', createSrcdocIframe);
 
             el('BtnMemo').addEventListener('click', function () {
                 var c = navigator.serviceWorker.controller;
@@ -512,15 +699,23 @@
             el('BtnReload').addEventListener('click', function () { location.reload(); });
             el('BtnReload2').addEventListener('click', function () { location.reload(); });
 
+            el('FileMp4').addEventListener('change', function () {
+                var f = el('FileMp4').files[0];
+                if (f) storeMp4(f, 'выбран вручную');
+            });
+
             // ---------------- Матрица iframe-вариантов ----------------
             // Дифференциация: что именно ломает перехват — srcdoc, sandbox или сочетание.
             // (В Firefox 153 срезается именно сочетание sandbox+srcdoc — Bugzilla 1279406.)
+            // 5-я строка — опциональная проверка §4.1-а: навигацию sandbox-iframe
+            // отдаёт сам SW (физического файла /vspike/nav/frame.html нет).
 
             var MATRIX_VARIANTS = [
                 ['srcdoc-sandbox', 'srcdoc + sandbox (как ActivePack)'],
                 ['srcdoc-plain', 'srcdoc без sandbox'],
                 ['url-sandbox', 'реальный URL + sandbox'],
-                ['url-plain', 'реальный URL без sandbox']
+                ['url-plain', 'реальный URL без sandbox'],
+                ['swnav-sandbox', 'SW-навигация + sandbox (§4.1-а)']
             ];
             var matrixState = {};
             window.__vspike.frameMatrix = matrixState;
@@ -533,12 +728,18 @@
                 for (var i = 0; i < MATRIX_VARIANTS.length; i++) {
                     var key = MATRIX_VARIANTS[i][0], label = MATRIX_VARIANTS[i][1];
                     var r = matrixState[key] || {};
+                    var tr = document.createElement('tr');
+                    if (r.skipped) {
+                        tr.innerHTML = '<td>' + label + '</td><td colspan="3">— (нет контроллера SW)</td>';
+                        tbody.appendChild(tr);
+                        continue;
+                    }
                     var cell = function (x) {
                         if (!x) return '⏳';
                         return (x.ok ? '✅ SW' : '❌ мимо SW') + (x.status != null && x.status !== undefined ? ' (' + x.status + ')' : '');
                     };
-                    var tr = document.createElement('tr');
-                    tr.innerHTML = '<td>' + label + '</td><td>' + cell(r.img) + '</td><td>' + cell(r.fetch) + '</td>';
+                    var navCell = (key === 'swnav-sandbox') ? cell(r.nav) : '—';
+                    tr.innerHTML = '<td>' + label + '</td><td>' + navCell + '</td><td>' + cell(r.img) + '</td><td>' + cell(r.fetch) + '</td>';
                     tbody.appendChild(tr);
                 }
             }
@@ -561,20 +762,26 @@
                 for (var k in matrixState) delete matrixState[k];
                 var old = document.querySelectorAll('.matrix-frame');
                 for (var j = 0; j < old.length; j++) old[j].remove();
-                renderMatrix();
 
                 for (var i = 0; i < MATRIX_VARIANTS.length; i++) {
                     var name = MATRIX_VARIANTS[i][0];
+                    if (name === 'swnav-sandbox' && !navigator.serviceWorker.controller) {
+                        matrixState[name] = { skipped: true };
+                        log('матрица: SW-навигация (§4.1-а) пропущена — нет контроллера');
+                        continue;
+                    }
                     var fr = document.createElement('iframe');
                     fr.className = 'matrix-frame';
                     fr.style.cssText = 'width:1px;height:1px;position:absolute;left:-9999px;';
                     if (name.indexOf('-sandbox') > 0) {
-                        fr.sandbox.value = 'allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation';
+                        fr.sandbox.value = SANDBOX;
                     }
                     if (name.indexOf('srcdoc') === 0) fr.srcdoc = matrixSrcdoc(name);
+                    else if (name === 'swnav-sandbox') fr.src = vbase + 'nav/frame.html';
                     else fr.src = 'vspike-frame.html?name=' + name;
                     document.body.appendChild(fr);
                 }
+                renderMatrix();
             }
 
             el('BtnMatrix').addEventListener('click', runFrameMatrix);
@@ -592,6 +799,20 @@
                 var p = e.data && e.data.vspike;
                 if (!p) return;
                 if (p.ev === 'iframe-ready') { log('iframe: скрипт запущен'); return; }
+                if (p.ev === 'shell-ready') {
+                    if (currentMode === 'shell-virt' || currentMode === 'shell-blob') {
+                        // §11: реле урочной ветки регистрирует WindowProxy до навигации
+                        // и принимает ready только от него же (+ проверка origin)
+                        var wOk = !!shellWnd && (e.source === shellWnd);
+                        var oOk = (e.origin === location.origin);
+                        setResult('wproxy', wOk && oOk,
+                            'event.source === contentWindow(до навигации): ' + wOk + ', origin совпал: ' + oOk);
+                        var delta = history.length - shellHistBase;
+                        setResult('nav-hist', delta === 0, 'Δhistory.length = ' + delta);
+                        log('оболочка: навигация совершена — ' + shortClient(p.href || ''));
+                    }
+                    return;
+                }
                 setResult(p.ev, p.ok, p.note);
             });
 

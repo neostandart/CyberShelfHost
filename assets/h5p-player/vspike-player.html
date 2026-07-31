@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html class="h5p-iframe">
+<!-- ======================================================================
+     TEMPORARY SPIKE — фаза 0, §4.2 пп.1-3 плана REFACTOR_SW_VIRTUAL_URLS.md.
+     УДАЛИТЬ СО СПАЙКОМ.
+
+     Прототип навигационной оболочки §5.0 (замена srcdoc). Лежит на той же
+     глубине, что будущий assets/h5p-player/player.html — bootstrap вычисляет
+     базу приложения от собственного положения (new URL('../../', ...)).
+     Структура повторяет player.txt: вместо плейсхолдеров {1}-{4} — inline
+     bootstrap-скрипт (document.write, pull пакета из родителя).
+     Родитель-стенд: wwwroot/vspike.html (реестр window.VSpikeRT).
+     ====================================================================== -->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSpike shell (§5.0)</title>
+
+    <script>
+        // ---- BOOTSTRAP (§5.0): синхронно при парсинге, до любых относительных ссылок ----
+        (function () {
+            'use strict';
+
+            function post(payload) {
+                try { window.parent.postMessage({ vspike: payload }, '*'); } catch (e) { }
+            }
+
+            // 1. База приложения от собственного положения оболочки (фиксированная
+            // глубина assets/h5p-player/ -> ../../). Написанный <base> распарсится
+            // сразу после этого скрипта — ДО всех относительных ссылок ниже.
+            var appBase = new URL('../../', location.href);
+            document.write('<base href="' + appBase.href + '" target="_parent">');
+
+            // Самый ранний сигнал из навигировавшего документа — парная часть
+            // проверок родителя: идентичность WindowProxy (analysis §11) и
+            // отсутствие записи истории от первой навигации iframe (§5.0).
+            post({ ev: 'shell-ready', ok: true, href: location.href });
+
+            if (window === window.parent) {
+                window.__vspikeNoHost = true;
+                document.title = 'VSpike shell: открыто вне стенда';
+                return;
+            }
+
+            // 2. packId из query; 3. pull пакета из реестра родителя (взамен
+            // push-записи родителя activepack.ts:283-292)
+            var packId = new URLSearchParams(location.search).get('pack') || '';
+            var RT = null;
+            try { RT = window.parent.VSpikeRT || null; } catch (e) { }
+            var pack = RT ? RT.getPack(packId) : null;
+            if (!pack) {
+                post({ ev: 'pull-pack', ok: false, note: 'parent.VSpikeRT.getPack("' + packId + '") -> null' });
+                window.__vspikeNoPack = true;
+                return;
+            }
+
+            // 4. Глобали pull-моделью
+            window.VMB = { isBookRT: true };
+            window.ActivePackage = pack;
+
+            // Правило границы realm'ов (§3): интеграция передана СТРОКОЙ, парсинг
+            // здесь — только так library.params проходит instanceof Object в realm
+            // iframe (гейт core-fix.js:24). Негативный контроль: объект чужого
+            // (родительского) realm'а instanceof Object НЕ проходит.
+            var integration = null, okParsed = false, okForeign = false, okParent = false;
+            try {
+                integration = JSON.parse(pack.integrationJson);
+                okParsed = (integration instanceof Object) && (integration.library.params instanceof Object);
+            } catch (e) { }
+            try { okForeign = !(RT.getRealmProbe() instanceof Object); } catch (e) { }
+            try { okParent = !!window.parent.ActivePackage; } catch (e) { }
+            window.H5PIntegration = integration;
+            post({
+                ev: 'pull-pack', ok: okParsed && okForeign && okParent,
+                note: 'режим ' + pack.mode + '; parse в realm iframe: ' + okParsed
+                    + ', чужой realm instanceof=false: ' + okForeign
+                    + ', parent.ActivePackage: ' + okParent
+            });
+
+            // 5. Интеграционные блоки в текущей позиции парсера — порядок скриптов
+            // и DOMContentLoaded как при обычном парсинге (проверка: script-src).
+            document.write('<link rel="stylesheet" href="' + pack.cssUrl + '">');
+            document.write('<script src="' + pack.scriptUrl + '"><\/script>');
+
+            window.__vspikePack = pack;
+        })();
+    </script>
+
+    <style>
+        body { font-family: system-ui, sans-serif; margin: 8px; background: #fafafa; }
+        .box { border: 1px solid #ccc; padding: 8px; margin-bottom: 8px; border-radius: 6px; background: #fff; }
+        .vspike-bg { width: 64px; height: 64px; border: 1px dashed #888; background-repeat: repeat; display: inline-block; vertical-align: middle; }
+        img { width: 48px; height: 48px; image-rendering: pixelated; border: 1px dashed #888; vertical-align: middle; }
+        video { width: 100%; max-width: 480px; background: #000; }
+        .lbl { font-size: 12px; color: #555; }
+    </style>
+</head>
+
+<body>
+    <div class="box"><span class="lbl">img (от базы): </span><img id="ImgBase">
+        <span id="RootWrap"><span class="lbl">img (корень): </span><img id="ImgRoot"></span></div>
+    <div class="box"><span class="lbl">CSS url() фон (должен быть синим): </span><div class="vspike-bg"></div></div>
+    <div class="box vspike-font">VSpikeFont: Съешь ещё этих мягких французских булок 0123 AaBb</div>
+    <div class="box"><video id="Vid" controls muted playsinline preload="metadata"></video>
+        <div class="lbl" id="VidInfo">видео: ожидание метаданных… (iOS: возможно, потребуется нажать ▶)</div></div>
+    <div class="lbl" id="ModeInfo"></div>
+
+    <script>
+        (function () {
+            'use strict';
+            if (window.__vspikeNoHost) { document.body.textContent = 'VSpike shell: страница открыта вне стенда (нет родителя).'; return; }
+            if (window.__vspikeNoPack) { document.body.textContent = 'VSpike shell: пакет не получен от родителя (см. таблицу стенда).'; return; }
+
+            var pack = window.__vspikePack;
+            var isVirtual = (pack.mode === 'virtual');
+            function post(payload) { window.parent.postMessage({ vspike: payload }, '*'); }
+
+            document.getElementById('ModeInfo').textContent =
+                'оболочка §5.0 | режим: ' + pack.mode + ' | base: ' + document.baseURI;
+
+            // <base>, записанный bootstrap'ом, к моменту body уже распарсен
+            var baseEl = document.querySelector('base');
+            post({
+                ev: 'base-href',
+                ok: !!baseEl && document.baseURI === pack.expectedBase && baseEl.getAttribute('target') === '_parent',
+                note: 'baseURI=' + document.baseURI + (baseEl ? ', target=' + baseEl.getAttribute('target') : ', <base> отсутствует')
+            });
+
+            // Внешний скрипт из bootstrap обязан выполниться ДО этого inline-скрипта
+            post({
+                ev: 'script-src', ok: window.__vspikeScriptRan === true,
+                note: (isVirtual ? 'vspike/app.js через SW' : 'blob-URL') + '; выполнен до inline: ' + (window.__vspikeScriptRan === true)
+            });
+
+            function hook(id, ev) {
+                var img = document.getElementById(id);
+                img.addEventListener('load', function () { post({ ev: ev, ok: true }); });
+                img.addEventListener('error', function () { post({ ev: ev, ok: false, note: 'onerror' }); });
+            }
+
+            hook('ImgBase', 'img-base');
+            document.getElementById('ImgBase').src = pack.imgBaseUrl;
+
+            if (pack.imgRootUrl) {
+                hook('ImgRoot', 'img-root');
+                document.getElementById('ImgRoot').src = pack.imgRootUrl;
+            } else {
+                document.getElementById('RootWrap').style.display = 'none';
+            }
+
+            window.addEventListener('load', function () {
+                var v = getComputedStyle(document.documentElement).getPropertyValue('--vspike-css').trim();
+                post({ ev: 'css-link', ok: v === 'loaded', note: '--vspike-css=' + (v || '(пусто)') });
+
+                // в blob-режиме SW-хитов нет — фон проверяется пробной загрузкой
+                // URL из computed style (в virtual-режиме строку заполняет родитель
+                // по журналу SW)
+                if (!isVirtual) {
+                    var bg = getComputedStyle(document.querySelector('.vspike-bg')).backgroundImage;
+                    var m = /url\("?([^")]+)"?\)/.exec(bg);
+                    if (m) {
+                        var probe = new Image();
+                        probe.onload = function () { post({ ev: 'css-bg', ok: true, note: 'blob-URL из computed style загружен' }); };
+                        probe.onerror = function () { post({ ev: 'css-bg', ok: false, note: 'ошибка загрузки ' + m[1].slice(0, 40) }); };
+                        probe.src = m[1];
+                    } else {
+                        post({ ev: 'css-bg', ok: false, note: 'background-image не применён: ' + bg });
+                    }
+                }
+            });
+
+            if (document.fonts && document.fonts.load) {
+                document.fonts.load('12px VSpikeFont').then(function () {
+                    post({ ev: 'font-render', ok: document.fonts.check('12px VSpikeFont') });
+                }).catch(function (e) { post({ ev: 'font-render', ok: false, note: String(e) }); });
+            } else {
+                post({ ev: 'font-render', ok: false, note: 'document.fonts недоступен' });
+            }
+
+            if (isVirtual) {
+                fetch('vspike/style.css', { cache: 'no-store' }).then(function (r) {
+                    post({ ev: 'fetch', ok: r.status === 200 && r.headers.get('X-VSpike') === '1',
+                           note: 'status=' + r.status + ', X-VSpike=' + r.headers.get('X-VSpike') });
+                }).catch(function (e) { post({ ev: 'fetch', ok: false, note: String(e) }); });
+
+                fetch('vspike/png-red.png', { method: 'HEAD', cache: 'no-store' }).then(function (r) {
+                    return r.arrayBuffer().then(function (buf) {
+                        post({ ev: 'head', ok: r.status === 200 && buf.byteLength === 0 && r.headers.get('Content-Length') === '79',
+                               note: 'status=' + r.status + ', тело=' + buf.byteLength + ' Б, Content-Length=' + r.headers.get('Content-Length') });
+                    });
+                }).catch(function (e) { post({ ev: 'head', ok: false, note: String(e) }); });
+
+                fetch('vspike/idb/test.mp4', { headers: { 'Range': 'bytes=100-199' }, cache: 'no-store' }).then(function (r) {
+                    return r.blob().then(function (b) {
+                        var cr = r.headers.get('Content-Range') || '';
+                        post({ ev: 'range-fetch', ok: r.status === 206 && b.size === 100 && cr.indexOf('bytes 100-199/') === 0,
+                               note: 'status=' + r.status + ', тело=' + b.size + ' Б, Content-Range=' + cr });
+                    });
+                }).catch(function (e) { post({ ev: 'range-fetch', ok: false, note: String(e) }); });
+
+                fetch('vspike/idb/test.mp4', { headers: { 'Range': 'bytes=99999999999-' }, cache: 'no-store' }).then(function (r) {
+                    post({ ev: 'range-416', ok: r.status === 416, note: 'status=' + r.status + ', Content-Range=' + r.headers.get('Content-Range') });
+                }).catch(function (e) { post({ ev: 'range-416', ok: false, note: String(e) }); });
+            }
+
+            var vid = document.getElementById('Vid');
+            var info = document.getElementById('VidInfo');
+            var seekDone = false;
+            vid.addEventListener('loadedmetadata', function () {
+                info.textContent = 'видео: длительность ' + vid.duration.toFixed(1) + ' c — перемотка на 60%…';
+                post({ ev: 'video-meta', ok: isFinite(vid.duration) && vid.duration > 0, note: 'duration=' + vid.duration.toFixed(1) + ' c' });
+                try { vid.currentTime = vid.duration * 0.6; } catch (e) { post({ ev: 'video-seek', ok: false, note: String(e) }); }
+            });
+            vid.addEventListener('seeked', function () {
+                if (seekDone) return;
+                seekDone = true;
+                info.textContent = 'видео: перемотано на ' + vid.currentTime.toFixed(1) + ' c — теперь нажмите ▶';
+                post({ ev: 'video-seek', ok: vid.currentTime > 0, note: 'currentTime=' + vid.currentTime.toFixed(1) + ' c' });
+            });
+            vid.addEventListener('error', function () {
+                var code = (vid.error && vid.error.code) || '?';
+                info.textContent = 'видео: ошибка (code=' + code + ')';
+                post({ ev: 'video-meta', ok: false, note: 'MediaError code=' + code + ' (mp4 загружен в БД?)' });
+            });
+            if (pack.videoUrl) {
+                vid.src = pack.videoUrl;
+            } else {
+                info.textContent = 'видео: mp4 нет в БД';
+                post({ ev: 'video-meta', ok: false, note: 'mp4 нет в БД — нажмите «1. Загрузить ассеты в БД»' });
+            }
+            window.vspikeSeek = function (frac) { vid.currentTime = vid.duration * frac; };
+
+            // ---- Риск №14: hash-навигация в совместной истории ----
+            // Два присваивания location.hash (ожидаются записи в совместной
+            // истории), затем location.replace (записей быть не должно). После
+            // замера — откат traversal'ом, чтобы не портить кнопку «Назад».
+            // ВАЖНО (находка спайка): location.replace с голым '#x' резолвится
+            // от <base> оболочки (= корень приложения) — это кросс-документная
+            // навигация iframe на index.html. Фрагмент резолвим от location.href.
+            window.addEventListener('load', function () {
+                setTimeout(function () {
+                    var h0 = history.length;
+                    location.hash = 'vs-p1';
+                    setTimeout(function () {
+                        location.hash = 'vs-p2';
+                        setTimeout(function () {
+                            var afterAssign = history.length;
+                            var da = afterAssign - h0;
+                            location.replace(new URL('#vs-p3', location.href).href);
+                            setTimeout(function () {
+                                var dr = history.length - afterAssign;
+                                post({
+                                    ev: 'hash-hist', ok: (dr === 0),
+                                    note: 'location.hash x2: +' + da + ' зап., location.replace: +' + dr
+                                        + (da > 0 ? ' — риск №14 подтверждён, лечится replace()' : ' — записей не создаётся')
+                                });
+                                if (da > 0 && da < 10) history.go(-da);
+                            }, 150);
+                        }, 150);
+                    }, 150);
+                }, 600);
+            });
+        })();
+    </script>
+</body>
+
+</html>
