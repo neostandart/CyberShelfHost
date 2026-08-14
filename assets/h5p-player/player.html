@@ -1,0 +1,221 @@
+<!doctype html>
+<html class="h5p-iframe">
+<!-- ======================================================================
+     Navigation shell for H5P books — §5.0 of REFACTOR_SW_VIRTUAL_URLS.md.
+     Replaces the former srcdoc document model (player.txt): ActivePack.build()
+     navigates the sandbox iframe to "player.html?pack=<packId>", and the
+     bootstrap below PULLS everything from the parent window instead of the
+     parent pushing into the srcdoc document.
+
+     The document therefore has a real, hierarchical, same-origin URL — its
+     subresource requests are intercepted by the app's Service Worker (virtual
+     /vpack/ and /vlib/ URLs), which is impossible for sandbox+srcdoc documents
+     in Firefox (Bugzilla 1279406). In blob-fallback mode the SAME shell runs
+     with blob: URLs — the navigation model never changes (§5.3).
+
+     Realm-boundary rule (§3, risk №13): the page model crosses the
+     window↔iframe border as a JSON STRING and is parsed here, in the iframe
+     realm — otherwise `library.params instanceof Object` fails in
+     core-fix.js:24.
+     ====================================================================== -->
+
+<head>
+    <meta charset="utf-8">
+
+    <script>
+        // ---- BOOTSTRAP: runs synchronously during parsing, before any
+        // ---- relative reference below.
+        (function () {
+            'use strict';
+
+            function fail(message) {
+                try { console.error('[PlayerShell] ' + message); } catch (e) { }
+                try {
+                    if (window.parent !== window && window.parent.BookRT) {
+                        var id = '';
+                        try { id = new URLSearchParams(location.search).get('pack') || ''; } catch (e) { }
+                        window.parent.BookRT.reportShellError(id, message);
+                    }
+                } catch (e) { }
+                window.__playerFailed = message;
+            }
+
+            function esc(value) {
+                return String(value)
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            }
+            window.__playerEsc = esc;
+
+            // 1. The application base, computed from the shell's own location
+            // (fixed depth: assets/h5p-player/ -> ../../). The app base is NOT
+            // fixed across deployments ("/CyberShelfHost/" on master, "/" in
+            // other branches) — never hardcode it. The written <base> is parsed
+            // right after this script — before all relative links below.
+            var appBase = new URL('../../', location.href);
+            document.write('<base href="' + esc(appBase.href) + '" target="_parent">');
+
+            // 2. Viewport scale — computed HERE (matchMedia is available);
+            // replaces the h5penv.isViewportXSmall() value of the srcdoc model.
+            var scale = window.matchMedia('(max-width: 575px)').matches ? '0.9' : '1.0';
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=' + scale + '">');
+
+            if (window.parent === window) {
+                fail('The player shell was opened outside of the application host.');
+                return;
+            }
+
+            // 3. Pull the pack from the parent registry by the packId of our
+            // own URL — each iframe binds its OWN package, correct by
+            // construction even with several books open at once (§9).
+            var packId = new URLSearchParams(location.search).get('pack') || '';
+            var RT = null;
+            try { RT = window.parent.BookRT || null; } catch (e) { }
+            if (!RT) { fail('The BookRT accessor was not found in the parent window.'); return; }
+
+            var pack = null;
+            try { pack = RT.getPack(packId) || null; } catch (e) { }
+            if (!pack) { fail('The package "' + packId + '" was not found in the active pool.'); return; }
+
+            // 4. Per-iframe globals — pull model (replaces the former push of
+            // activepack.ts into the srcdoc contentWindow).
+            window.VMB = { isBookRT: true };
+            window.ActivePackage = pack;
+
+            // 5. The page model: STRING across the realm border, parsed here.
+            var model = null;
+            try {
+                model = JSON.parse(pack.getPageModelJson());
+            } catch (e) {
+                fail('Failed to obtain/parse the page model: ' + (e && e.message ? e.message : e));
+                return;
+            }
+            window.__playerModel = model;
+        })();
+    </script>
+
+    <script>
+        // ---- Core + dynamic library styles (the "{1}" slot of player.txt),
+        // ---- written at the parser position so load order matches the srcdoc
+        // ---- model. The core pair is written too (not static markup): the
+        // ---- preload scanner cannot see the document.written <base> and would
+        // ---- speculatively resolve static href against the document URL —
+        // ---- four ERR_ABORTED 404s per book open. Written UNCONDITIONALLY,
+        // ---- before the model guard, as the static tags were.
+        (function () {
+            'use strict';
+            document.write('<link rel="stylesheet" href="vendor/h5p/styles/h5p-fonts.css">');
+            document.write('<link rel="stylesheet" href="vendor/h5p/styles/h5p.css">');
+
+            var model = window.__playerModel;
+            if (!model) return;
+            for (var i = 0; i < model.styles.length; i++) {
+                document.write('<link rel="stylesheet" href="' + window.__playerEsc(model.styles[i]) + '"/>');
+            }
+        })();
+    </script>
+
+    <style>
+        /* Package Frame Styles */
+        .h5p-iframe {
+            overflow-y: scroll;
+        }
+
+        .h5p-container:not(.h5p-interactive-book) {
+            padding: 1rem 0.5rem;
+        }
+
+        /* Slight correction the Quiz (Question Set) style within InteractiveBook */
+        .h5p-no-frame .h5p-column-content .questionset
+        {
+            padding-top: 0.5rem;
+        }
+
+	    .h5p-no-frame .h5p-column-content .questionset .h5p-question > *:not(.h5p-question-video)
+        {
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .h5p-interactive-book-cover-graphics.h5p-image > img {
+            min-width: auto;
+        }
+
+
+        /* Correction background of the Flashcards within InteractiveBook */
+        .h5p-column-content.h5p-flashcards {
+            background-color: #27344e;
+        }
+
+        .h5p-column-content.h5p-flashcards .h5p-description {
+            color: #f9f9f9;
+        }
+
+        /* Correction left/right margins of the Dialogcards within InteractiveBook */
+        .h5p-column-content.h5p-dialogcards {
+            padding: 1rem 0.5rem;
+        }
+
+
+        /* Small devices (landscape phones, 576px and up) */
+        @media (min-width: 576px) {
+            .h5p-container:not(.h5p-interactive-book) {
+                padding: 1rem 1.5rem;
+            }
+
+            .h5p-column-content.h5p-dialogcards {
+                padding: 1rem;
+            }
+        }
+
+        /* Shell bootstrap failure message */
+        .player-shell-error {
+            font-family: system-ui, sans-serif;
+            color: #b32121;
+            padding: 1rem;
+        }
+    </style>
+
+    <script>
+        // ---- Core + dynamic library scripts (the "{2}" slot of player.txt):
+        // ---- written at the parser position — execution order and
+        // ---- DOMContentLoaded behave exactly as in normal parsing. The core
+        // ---- pair is written for the same preload-scanner reason as the
+        // ---- styles above, unconditionally, before the model guard.
+        (function () {
+            'use strict';
+            document.write('<script src="vendor/h5p/frame.bundle.js"><\/script>');
+            document.write('<script src="assets/h5p-player/core-fix.js"><\/script>');
+
+            var model = window.__playerModel;
+            if (!model) return;
+            for (var i = 0; i < model.scripts.length; i++) {
+                document.write('<script src="' + window.__playerEsc(model.scripts[i]) + '"><\/script>');
+            }
+        })();
+    </script>
+
+    <script>
+        // ---- The "{3}" slot of player.txt: the integration object was parsed
+        // ---- in THIS realm by the bootstrap.
+        if (window.__playerModel) {
+            window.H5PIntegration = window.__playerModel.integration;
+        }
+    </script>
+</head>
+
+<body>
+    <script>
+        // ---- The "{4}" slot of player.txt: the H5P mount point.
+        (function () {
+            'use strict';
+            if (window.__playerModel) {
+                document.write('<div class="h5p-content" data-content-id="' + window.__playerEsc(window.__playerModel.contentId) + '"></div>');
+            } else {
+                document.write('<div class="player-shell-error">The book cannot be displayed: ' + window.__playerEsc(window.__playerFailed || 'unknown error') + '</div>');
+            }
+        })();
+    </script>
+</body>
+
+</html>

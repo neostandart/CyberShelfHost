@@ -185,11 +185,6 @@
         <a class="dismiss">🗙</a>
     </div>
 
-    <!-- TEMPORARY SPIKE (Phase 0 of REFACTOR_SW_VIRTUAL_URLS.md): entry point to the
-         test stand from inside the installed PWA (no URL bar there). REMOVE AFTER GATE. -->
-    <a id="VSpikeLink" href="vspike.html"
-       style="position: fixed; right: 6px; bottom: 6px; z-index: 2000; font: 11px sans-serif; color: #888; opacity: 0.6; text-decoration: none;">VSpike</a>
-
     <!-- Radzen Components -->
     <link href="_content/Radzen.Blazor/css/material-base.css" rel="stylesheet">
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
@@ -203,10 +198,22 @@
         navigator.serviceWorker.register('service-worker.js')
             .then(reg => {
                 console.log("Service Worker is registered", reg);
+                // Update discipline (§5.3 of REFACTOR_SW_VIRTUAL_URLS.md): ask
+                // the browser to check for a new SW version on every start, so
+                // a stale controller (risk №3) is replaced as soon as possible.
+                reg.update().catch(() => { });
             })
             .catch(error => {
                 console.error("Service Worker registration error:", error);
             });
+
+        // A new SW took control mid-session (skipWaiting + clients.claim). The
+        // virtual URL handler is stateless over IndexedDB, so this is
+        // transparent while the schema stays the same; phase 3 turns this into
+        // a soft reload suggestion.
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+            console.info("[App] Service Worker controller changed");
+        });
     </script>
 
     <!-- Framework -->
