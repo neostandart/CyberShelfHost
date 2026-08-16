@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "GJ8r50Ey",
+  "version": "BH6wMVaV",
   "assets": [
     {
       "hash": "sha256-hEhSxAe92lKr9WVwNOEd0eXPNZUBE3a6FYQnoy6gx/I=",
@@ -546,7 +546,7 @@ self.assetsManifest = {
       "url": "_welcome/welcome.js"
     },
     {
-      "hash": "sha256-aGy+BVbUajnMIdbQPJZe2ItCR5yjcWYthZrvJklFUdA=",
+      "hash": "sha256-rqgIQyRg7WituuKaRNJ4Q/NTgzYI0/att3lxGF26Pyo=",
       "url": "appsettings.json"
     },
     {
