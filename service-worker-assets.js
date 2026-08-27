@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "D0qQ9xwG",
+  "version": "K73Od5aF",
   "assets": [
     {
       "hash": "sha256-hEhSxAe92lKr9WVwNOEd0eXPNZUBE3a6FYQnoy6gx/I=",
@@ -546,7 +546,7 @@ self.assetsManifest = {
       "url": "_welcome/welcome.js"
     },
     {
-      "hash": "sha256-nQm7yYBmVeyhOXofbYgNE1XfRWvvUKMRvPoUGawVusw=",
+      "hash": "sha256-enCFI3gBdeCq3zAo8XpgDCriB9QRamVCtmxe82Q1xtY=",
       "url": "appsettings.json"
     },
     {
@@ -1826,7 +1826,7 @@ self.assetsManifest = {
       "url": "script/appdb.js"
     },
     {
-      "hash": "sha256-pxqCsLkHs4o3OfwdJmqABYozOhaWILHF2kBy3w9sC34=",
+      "hash": "sha256-DiJu63snALiXrbDqwVbfHdCbxoLritEwEaA29t2hmN0=",
       "url": "script/bookrt.js"
     },
     {
@@ -1834,8 +1834,8 @@ self.assetsManifest = {
       "url": "script/bridge.js"
     },
     {
-      "hash": "sha256-LIjqnT/xUE2xFu44sUpZzjeXjPbabL4AWQc0V/HOD3I=",
-      "url": "script/install-worker.f6dce7a4.js"
+      "hash": "sha256-j1fAzyD8MdqqDcQytz1jyASXPMlu9c95Y/8iWisXhpY=",
+      "url": "script/install-worker.c831463c.js"
     },
     {
       "hash": "sha256-DQnNONtBPQiQiAF3xqmnBEpL6H2bj0Rotso6r6peYjY=",
