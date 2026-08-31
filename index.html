@@ -221,13 +221,17 @@
 
     <!-- Application inline scripts -->
     <script>
-        window.addEventListener("beforeunload", function (e) {
-            var bPrevetn = DotNet.invokeMethod("CyberShelf", "requestSafeExit");
-            if (bPrevetn === true) {
-                e.preventDefault();
-            }
-        });
-
+        // App-exit hook. The "beforeunload" guard that used to sit next to this
+        // (requestSafeExit → e.preventDefault) was removed 2026-08-29: it fired
+        // for every authenticated user while the app persists nothing on exit
+        // (H5P results are not saved yet), it intercepted the app's own
+        // programmatic reloads (the DbUpgradeBlocked dialog), and iOS Safari
+        // does not fire beforeunload reliably anyway. "pagehide" is the
+        // cross-platform end-of-session signal (it does fire on iOS), so this
+        // stays as the groundwork for exit-time persistence — when saving of
+        // H5P results/book state lands, do the flush from informAppExit;
+        // only synchronous work is guaranteed here (the page is being torn
+        // down — no awaits, no dialogs).
         window.addEventListener("pagehide", (event) => {
             if (!event.persisted) {
                 DotNet.invokeMethod("CyberShelf", "informAppExit");

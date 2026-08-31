@@ -122,7 +122,10 @@ H5P.ContentType = function (isRootLibrary) {
             // Here, we request the library from the open package by "this.libraryInfo.versionedNameNoSpaces" 
             // (this is actually "libtoken"), and from there we get the ObjectURL of the file!
             const lib = window.ActivePackage.getActiveLibrary(this.libraryInfo.versionedNameNoSpaces);
-            return (lib) ? ((filePath) ? lib.getObjectURL(filePath) : lib.token + "/") : "";
+            // An empty filePath asks for the library DIRECTORY: libraries then
+            // concatenate their own file names onto it (SingleChoiceSet sounds,
+            // SoundJS) — in virtual mode a real /vlib/<token>/ URL (ADR 0002 seam).
+            return (lib) ? ((filePath) ? lib.getObjectURL(filePath) : lib.getDirectoryURL()) : "";
         }
         else {
             console.error("(CyberShelf specific) The ActivePackage object was not found!");
