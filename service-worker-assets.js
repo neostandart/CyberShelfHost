@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "uunx64HY",
+  "version": "K/tXoUAH",
   "assets": [
     {
       "hash": "sha256-hEhSxAe92lKr9WVwNOEd0eXPNZUBE3a6FYQnoy6gx/I=",
@@ -162,8 +162,8 @@ self.assetsManifest = {
       "url": "_framework/AngleSharp.Css.wwsq4crpi6.wasm"
     },
     {
-      "hash": "sha256-F8M65810lkt8koHp8wZkxnPnPAahlQySKguzFNCo6Qo=",
-      "url": "_framework/CyberShelf.74c7q85rm1.wasm"
+      "hash": "sha256-PyQpsKea5I5fs+Gspnj40O2MP9kOWOvyCon34DkW5aI=",
+      "url": "_framework/CyberShelf.7u4fqlh6f8.wasm"
     },
     {
       "hash": "sha256-q9PppVVqoaBAYMx58FQjJkfEcMyHM/bu/S9DAKzMPEg=",
@@ -486,7 +486,7 @@ self.assetsManifest = {
       "url": "_framework/de/Radzen.Blazor.resources.69frnodk0g.wasm"
     },
     {
-      "hash": "sha256-ztPgZ63mXKG7U4xJTJJKy6lM5jCkyRvd9nh9Kyan2hE=",
+      "hash": "sha256-2IfUGNxrFn3YG+yVFvAPUjIiOUCNMRnrkt6NWSvG6is=",
       "url": "_framework/dotnet.js"
     },
     {
@@ -526,8 +526,8 @@ self.assetsManifest = {
       "url": "_framework/netstandard.1ajx08key9.wasm"
     },
     {
-      "hash": "sha256-1uXf8jdHrAFdSewhJCV2KYnqyrmaDp4W/jBmcMB3W5U=",
-      "url": "_framework/ru/CyberShelf.resources.m04m8k50n7.wasm"
+      "hash": "sha256-TVfGWOI9yl/KA8OGjtwTJc4nUq6rYlLr8Qc5Nl6gBHE=",
+      "url": "_framework/ru/CyberShelf.resources.vt4p4wswr5.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -546,7 +546,7 @@ self.assetsManifest = {
       "url": "_welcome/welcome.js"
     },
     {
-      "hash": "sha256-X/RvHQnUWAxYZNa0Dujvn1Wxy0hZDwFgmCnEuYEhcYk=",
+      "hash": "sha256-TZ8ATVYqBb7UFjsMOP3TOv1pMOI81KgFYptq1Zsl0PA=",
       "url": "appsettings.json"
     },
     {
@@ -590,7 +590,7 @@ self.assetsManifest = {
       "url": "assets/blanks/suite.xml"
     },
     {
-      "hash": "sha256-6YZiRiSDvx5+t1jhNt0H7dCKA9rLeCqTAsM3Fo/+MIg=",
+      "hash": "sha256-yhcsYXZmyS+6L9GKwRA5NS5+fSMblwfkoef3qewqrKw=",
       "url": "assets/countries/countries-en.json"
     },
     {
@@ -1826,7 +1826,7 @@ self.assetsManifest = {
       "url": "script/appdb.js"
     },
     {
-      "hash": "sha256-aNmu6Xhseyay5VISSi/hsqMFXy+qgarvhVjBsiDN5aE=",
+      "hash": "sha256-4Bou8sSttt31rboaCyXTYnDddwznhiGvGuryoObOACM=",
       "url": "script/bookrt.js"
     },
     {
@@ -1835,7 +1835,7 @@ self.assetsManifest = {
     },
     {
       "hash": "sha256-DFErXDS0pWwakucSFUvJsy3kfS5LETKI9Na4minz9Ns=",
-      "url": "script/install-worker.be430557.js"
+      "url": "script/install-worker.b9ba1edb.js"
     },
     {
       "hash": "sha256-DQnNONtBPQiQiAF3xqmnBEpL6H2bj0Rotso6r6peYjY=",
@@ -1847,7 +1847,7 @@ self.assetsManifest = {
     },
     {
       "hash": "sha256-QwxR0bY4cVQLEPI5lXKOerFEOEgFqG5UPI+cu5z2SLs=",
-      "url": "script/uninstall-worker.ba27329f.js"
+      "url": "script/uninstall-worker.97b6367f.js"
     },
     {
       "hash": "sha256-J/4AIOvGspqV6uXOJaaUrBYH4p3KeKra0yfm+uvoy20=",
