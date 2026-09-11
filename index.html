@@ -200,6 +200,12 @@
         // an install, not an update, and must not prompt for a reload.
         const hadSwController = !!navigator.serviceWorker.controller;
 
+        // Flipped by MainLayout (JS interop "cyberShelfMarkReady") once Blazor
+        // is up and subscribed to AppState — only from then on can a controller
+        // change be shown as a toast; before that it is handled by a reload.
+        let appReady = false;
+        function cyberShelfMarkReady() { appReady = true; }
+
         navigator.serviceWorker.register('service-worker.js')
             .then(reg => {
                 console.log("Service Worker is registered", reg);
@@ -222,14 +228,20 @@
                 console.info("[App] Service Worker took control (first install)");
                 return;
             }
+            // Still booting: the page is running the OLD build while the new SW
+            // has already replaced the old cache — finishing the boot would mix
+            // versions (old C#, new "?v=" bundles via ignoreSearch) and the
+            // notification would be lost (no dispatcher / no subscriber yet).
+            // Nothing is lost before the app is ready, so reload straight onto
+            // the new version. No loop: after the reload the new SW is the
+            // controller and reg.update() finds no byte difference.
+            if (!appReady) {
+                console.info("[App] Service Worker controller changed during boot — reloading onto the new version");
+                location.reload();
+                return;
+            }
             console.info("[App] Service Worker controller changed — a new version is installed");
-            // Before Blazor has started there is nothing to lose and nothing to
-            // show — the page simply boots on the new SW; ignore the failure
-            // (invokeMethodAsync throws synchronously while no call dispatcher
-            // is set yet, so a .catch() alone is not enough).
-            try {
-                globalThis.DotNet?.invokeMethodAsync("CyberShelf", "notifyAppUpdated").catch(() => { });
-            } catch { /* Blazor not started yet */ }
+            DotNet.invokeMethodAsync("CyberShelf", "notifyAppUpdated").catch(() => { });
         });
     </script>
 
