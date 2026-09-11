@@ -195,6 +195,11 @@
 
     <!-- Service Worker -->
     <script>
+        // Captured BEFORE registration: on the very first visit the SW claims
+        // the page (clients.claim) and fires "controllerchange" too — that is
+        // an install, not an update, and must not prompt for a reload.
+        const hadSwController = !!navigator.serviceWorker.controller;
+
         navigator.serviceWorker.register('service-worker.js')
             .then(reg => {
                 console.log("Service Worker is registered", reg);
@@ -208,11 +213,23 @@
             });
 
         // A new SW took control mid-session (skipWaiting + clients.claim). The
-        // virtual URL handler is stateless over IndexedDB, so this is
-        // transparent while the schema stays the same; phase 3 turns this into
-        // a soft reload suggestion.
+        // virtual URL handler is stateless over IndexedDB, so the tab keeps
+        // working while the schema stays the same — Blazor shows a non-modal
+        // "reload" toast (Runtime.notifyAppUpdated → AppState.AppUpdated).
+        // A schema bump is handled separately by AppDB's blocking() path.
         navigator.serviceWorker.addEventListener("controllerchange", () => {
-            console.info("[App] Service Worker controller changed");
+            if (!hadSwController) {
+                console.info("[App] Service Worker took control (first install)");
+                return;
+            }
+            console.info("[App] Service Worker controller changed — a new version is installed");
+            // Before Blazor has started there is nothing to lose and nothing to
+            // show — the page simply boots on the new SW; ignore the failure
+            // (invokeMethodAsync throws synchronously while no call dispatcher
+            // is set yet, so a .catch() alone is not enough).
+            try {
+                globalThis.DotNet?.invokeMethodAsync("CyberShelf", "notifyAppUpdated").catch(() => { });
+            } catch { /* Blazor not started yet */ }
         });
     </script>
 
