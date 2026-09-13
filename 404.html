@@ -7,14 +7,54 @@
     <!---->
     <title>CyberShelf Starting...</title>
     <!---->
-    <!-- <base href="/" /> -->
     <base href="/CyberShelfHost/" />
+    <!-- <base href="/" /> -->
     <!---->
     <link rel="icon" href="assets/favicon/favicon.png" type="image/png">
     <!---->
-    <script src="_welcome/welcome.js"></script>
+    <script src="_welcome/welcome.js?build=44"></script>
     <!---->
-    <link href="manifest.webmanifest" rel="manifest" />
+    <!-- [DIAG-CATALOG-599] TEMPORARY: trace whoever requests an SPA-route URL (e.g. /CyberShelfHost/catalog)
+         that the service worker reports as a 599. Patches fetch/XHR before the framework loads so the
+         console.trace shows the real initiator stack. Remove once the 599 initiator is identified. -->
+    <script>
+        (function () {
+            var base = new URL(document.baseURI); // e.g. https://uppercode.ru/CyberShelfHost/
+            var routes = ['catalog', 'shelf', 'home', 'content', 'settings', 'help', 'lesson', 'bookstand'];
+
+            function spaRouteHit(rawUrl) {
+                try {
+                    var u = new URL(rawUrl, document.baseURI);
+                    if (u.origin !== base.origin || !u.pathname.startsWith(base.pathname)) return null;
+                    var tail = u.pathname.slice(base.pathname.length).replace(/\/+$/, '');
+                    return routes.indexOf(tail) !== -1 ? u.href : null;
+                } catch (e) { return null; }
+            }
+
+            var _fetch = window.fetch;
+            window.fetch = function (input, init) {
+                var raw = (typeof input === 'string') ? input : (input && input.url);
+                var hit = spaRouteHit(raw);
+                if (hit) {
+                    console.warn('[DIAG-CATALOG-599] fetch() ->', hit, init || '');
+                    console.trace('[DIAG-CATALOG-599] fetch initiator stack');
+                }
+                return _fetch.apply(this, arguments);
+            };
+
+            var _open = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function (method, url) {
+                var hit = spaRouteHit(url);
+                if (hit) {
+                    console.warn('[DIAG-CATALOG-599] XHR ' + method + ' ->', hit);
+                    console.trace('[DIAG-CATALOG-599] XHR initiator stack');
+                }
+                return _open.apply(this, arguments);
+            };
+        })();
+    </script>
+    <!---->
+    <link href="manifest.webmanifest?build=44" rel="manifest" />
     <!---->
 
     <style>
@@ -112,7 +152,7 @@
     <!-- Welcome Splash Screen -->
     <!-- (after the application downloading it will be deleted) -->
     <div id="Welcome">
-        <link href="_welcome/welcome.css" rel="stylesheet" />
+        <link href="_welcome/welcome.css?build=44" rel="stylesheet" />
         <!---->
         <div id="Background"></div>
         <!---->
@@ -186,12 +226,12 @@
     </div>
 
     <!-- Radzen Components -->
-    <link href="_content/Radzen.Blazor/css/material-base.css" rel="stylesheet">
-    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <link href="_content/Radzen.Blazor/css/material-base.css?build=44" rel="stylesheet">
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?build=44"></script>
 
     <!-- Application Styles -->
-    <link href="css/app.css" rel="stylesheet" />
-    <link href="CyberShelf.styles.css" rel="stylesheet" />
+    <link href="css/app.css?build=44" rel="stylesheet" />
+    <link href="CyberShelf.styles.css?build=44" rel="stylesheet" />
 
     <!-- Service Worker -->
     <script>
@@ -246,7 +286,7 @@
     </script>
 
     <!-- Framework -->
-    <script src="_framework/blazor.webassembly.js" autostart="true"></script>
+    <script src="_framework/blazor.webassembly.js?build=44" autostart="true"></script>
 
     <!-- Application inline scripts -->
     <script>

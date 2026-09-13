@@ -766,6 +766,9 @@ div.book-host[b-k7rc9fkto0] {
 #PopupLayer[b-k7rc9fkto0] {
     z-index: 1;
 }
+
+/* The lesson chrome (exam countdown chip, presenter broadcast button) lives in LessonBookOverlay
+   and carries that component's isolation scope — its styles are in LessonBookOverlay.razor.css. */
 /* /Frame/BookLayer/BookPopupWnd.razor.rz.scp.css */
 
 article.book-wnd[b-i1w9ialuvy] {
@@ -961,6 +964,60 @@ article.book-wnd[b-whhviyi4iv] {
     position: relative;
     width: 100%;
     height: 100%;
+}
+/* /Frame/BookLayer/LessonBookOverlay.razor.rz.scp.css */
+/* Floats above both book layers (z-index 0/1) of the enclosing div.book-host, which is the
+   position:relative ancestor these are placed against. Non-interactive backstop chip; the book overlay
+   sets pointer-events:none, so re-assert it here too. */
+.exam-countdown-chip[b-b0rgkdkjsm] {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    z-index: 10;
+    padding: 6px 14px;
+    border-radius: 16px;
+    background-color: rgba(33, 33, 33, 0.85);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Final minute: switch to the danger tone and pulse so the deadline is noticeable in peripheral
+   vision, without relying on the student reading the numbers. */
+.exam-countdown-chip--urgent[b-b0rgkdkjsm] {
+    background-color: var(--rz-danger, #d32f2f);
+    animation: exam-chip-pulse-b-b0rgkdkjsm 1s ease-in-out infinite;
+}
+
+@keyframes exam-chip-pulse-b-b0rgkdkjsm {
+    50% {
+        transform: scale(1.06);
+        opacity: 0.85;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .exam-countdown-chip--urgent[b-b0rgkdkjsm] {
+        animation: none;
+    }
+}
+
+/* Presenter "bring everyone here" button. The book-host root is pointer-events:none, so the wrapper
+   must re-assert pointer-events:auto to be clickable. The class lives on a <div> owned by this
+   component (not on the child RadzenButton) so this scoped rule actually applies despite CSS
+   isolation. */
+.presenter-broadcast-shell[b-b0rgkdkjsm] {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: auto;
 }
 /* /Frame/BookLayer/PopupLayoutCtr.razor.rz.scp.css */
 
@@ -1234,6 +1291,111 @@ div.layout-ctr[b-7p77mj314u] {
     z-index: var(--ui-z-book-view);
 }
 
+.lesson-live-banner[b-e6ub5wcgz1] {
+    position: fixed;
+    left: 50%;
+    bottom: 1rem;
+    transform: translateX(-50%);
+    z-index: calc(var(--ui-z-book-view) + 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: min(92vw, 520px);
+    min-height: 2.5rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    color: var(--rz-on-primary);
+    background-color: var(--rz-primary);
+    box-shadow: var(--rz-shadow-5);
+    font-weight: 600;
+}
+
+/* The text yields to the fixed-size buttons and ellipsizes instead of wrapping the pill taller. */
+.lesson-live-banner .lesson-banner-text[b-e6ub5wcgz1] {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ::deep — the class lands on ToolButton's internal <button>. A solid surface + shadow reads as a
+   real, tappable button (not a ghost icon) and stays legible on every banner variant (primary/
+   presenter/offline), which all sit on a saturated pill. */
+.lesson-live-banner[b-e6ub5wcgz1]  .lesson-banner-btn {
+    flex: none;
+    color: var(--rz-secondary);
+    border-color: transparent;
+    background-color: var(--rz-body-background-color);
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.lesson-live-banner[b-e6ub5wcgz1]  .lesson-banner-btn:hover:not(:disabled) {
+    background-color: var(--rz-base-lighter);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.lesson-live-banner[b-e6ub5wcgz1]  .lesson-banner-btn:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.lesson-live-banner[b-e6ub5wcgz1]  .lesson-banner-btn:disabled {
+    opacity: 0.5;
+    box-shadow: none;
+}
+
+/* Accessible name for the icon-only banner buttons — ToolButton cannot carry an aria-label. */
+.lesson-live-banner .lesson-banner-btn-label[b-e6ub5wcgz1] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Presenting: the student drives the class, so the banner reads as an active role, not as a warning. */
+.lesson-live-banner.presenter[b-e6ub5wcgz1] {
+    color: var(--rz-on-secondary);
+    background-color: var(--rz-secondary);
+}
+
+/* Connection lost: attention-grabbing but not alarming — the client keeps retrying on its own. */
+.lesson-live-banner.offline[b-e6ub5wcgz1] {
+    color: var(--rz-on-warning);
+    background-color: var(--rz-warning);
+    animation: lesson-banner-pulse-b-e6ub5wcgz1 1.6s ease-in-out infinite;
+}
+
+@keyframes lesson-banner-pulse-b-e6ub5wcgz1 {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.65; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lesson-live-banner.offline[b-e6ub5wcgz1] {
+        animation: none;
+    }
+}
+
+/* On narrow screens the bottom-docked pill crowds the page-flip controls, so it docks flush to the
+   top edge instead — raised as high as possible, out of the reading/flip area. It must clear the
+   top-most layer (MainHeader at --ui-z-cover), so it stacks above everything, header included. */
+@media (max-width: 700px) {
+    .lesson-live-banner[b-e6ub5wcgz1] {
+        top: 0;
+        bottom: auto;
+        z-index: calc(var(--ui-z-cover) + 1);
+    }
+}
+
 /* -------------------------------------------- */
 /* Busy Overlay                                   */
 
@@ -1306,7 +1468,6 @@ div.layout-ctr[b-7p77mj314u] {
 
 }
 /* END @media (orientation: landscape)  */
-
 /* /Frame/MainNavBar.razor.rz.scp.css */
 nav[b-0s2q5d2mki] {
     position: relative;
@@ -2117,6 +2278,54 @@ article.entrance[b-v1229qkoaa] {
     color: var(--rz-primary);
 }
 
+/* /Pages/Lesson/LessonPage.razor.rz.scp.css */
+.lesson-page[b-v2hs03jhng] {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.lesson-panel[b-v2hs03jhng] {
+    width: min(100%, 640px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+/* Dead-end states (lesson not found / not started / over): softer than a system error — a big icon,
+   a short headline and one line of advice. */
+.lesson-empty[b-v2hs03jhng] {
+    gap: 0.75rem;
+}
+
+.lesson-empty-hint[b-v2hs03jhng] {
+    max-width: 34rem;
+    margin: 0;
+    color: var(--rz-text-secondary-color);
+}
+
+.lesson-title[b-v2hs03jhng] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.lesson-actions[b-v2hs03jhng] {
+    flex-wrap: wrap;
+}
+
+/* The input is rendered by RadzenTextBox (a child component), so the scoped selector needs ::deep
+   anchored on a host-owned ancestor for CSS isolation to apply. */
+.lesson-page[b-v2hs03jhng]  .lesson-code-input {
+    width: 12rem;
+    text-align: center;
+    letter-spacing: 0.08em;
+}
 /* /Pages/Settings/SettingsPage.razor.rz.scp.css */
 [b-ra2u4xpmgc] #Tabs {
     height: 100%;

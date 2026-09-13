@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Opening lesson...</title>
+    <script>
+        const appBase = "/CyberShelfHost/";
+        const source = new URL(window.location.href);
+        const target = new URL(appBase, window.location.origin);
+
+        target.searchParams.set("_route", "lesson");
+
+        for (const [key, value] of source.searchParams) {
+            target.searchParams.set(key, value);
+        }
+
+        window.location.replace(target.toString());
+    </script>
+</head>
+
+<body>
+    Opening lesson...
+</body>
+
+</html>
