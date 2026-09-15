@@ -79,7 +79,11 @@
             if (!pack) { fail('The package "' + packId + '" was not found in the active pool.'); return; }
 
             // 4. Per-iframe globals — pull model (replaces the former push of
-            // activepack.ts into the srcdoc contentWindow).
+            // activepack.ts into the srcdoc contentWindow). This is the ONLY
+            // place that sets them: the contract the book document sees is
+            // Engine/Script/bookrt/appshare/iframe-contract.ts (IActivePackage);
+            // the top window carries no ActivePackage/VMB, and libraries never
+            // create or replace these globals.
             window.VMB = { isBookRT: true };
             window.ActivePackage = pack;
 

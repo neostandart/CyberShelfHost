@@ -117,10 +117,15 @@ H5P.ContentType = function (isRootLibrary) {
     };
     // !!!CyberShelf specific
     ContentType.prototype.getLibraryFilePath = function (filePath) {
-        // CyberShelf specific: since each package opened by H5P is deployed in a separate "iframe", the "iframe.contentWindow" property will contain one global ActivePackage object.
+        // CyberShelf specific: each book runs in its own iframe, and the shell bootstrap
+        // (player.html) sets THIS iframe's window.ActivePackage — the in-iframe contract
+        // (Engine/Script/bookrt/appshare/iframe-contract.ts). There is no top-window copy.
         if (window.ActivePackage) {
-            // Here, we request the library from the open package by "this.libraryInfo.versionedNameNoSpaces" 
-            // (this is actually "libtoken"), and from there we get the ObjectURL of the file!
+            // Here, we request the library from the open package by "this.libraryInfo.versionedNameNoSpaces"
+            // (this is actually "libtoken") and get a pack-bound access object (IActiveLibraryAccess).
+            // A missing file is a console warning attributed to this book and a URL whose load
+            // fails (the "deferred failure" miss policy — like a 404 on a regular H5P server);
+            // nothing is thrown here and the book is not closed.
             const lib = window.ActivePackage.getActiveLibrary(this.libraryInfo.versionedNameNoSpaces);
             // An empty filePath asks for the library DIRECTORY: libraries then
             // concatenate their own file names onto it (SingleChoiceSet sounds,
@@ -135,7 +140,9 @@ H5P.ContentType = function (isRootLibrary) {
 };
 
 H5P.getPath = function (path, contentId) {
-    // CyberShelf specific: he contentId parameter is not used.
+    // CyberShelf specific: the contentId parameter is not used — the per-iframe
+    // window.ActivePackage IS this book (iframe-contract.ts). A missing content file:
+    // console warning + a URL that fails to load, never a throw (see getLibraryFilePath).
     if (window.ActivePackage) {
         if (hasProtocol(path))
             return path;
