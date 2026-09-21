@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "lhPbsu/t",
+  "version": "rpk1+Ngt",
   "assets": [
     {
       "hash": "sha256-O6DGq+1trGYQi6BEHVudTX8bfFywumpXnwQTe5cU010=",
@@ -598,7 +598,7 @@ self.assetsManifest = {
       "url": "_welcome/welcome.js"
     },
     {
-      "hash": "sha256-2GW9oxN/Wb9H/aXM2cHNDPZnFWA4iLsPiymxVoWo+YQ=",
+      "hash": "sha256-v4TO7NL7UQ7XCmuRwwhkY9mUVNZ/U10r9l7tIUGjdrs=",
       "url": "appsettings.json"
     },
     {
@@ -1878,7 +1878,7 @@ self.assetsManifest = {
       "url": "script/appdb.js"
     },
     {
-      "hash": "sha256-abnGJRARWIETfsdv8bpIq4r23y/55ixgiSkF8U4CD6I=",
+      "hash": "sha256-eHDOudz5ZJjZNMFLKzt+Dni8lqLIqV6VLhxv2I9Lxbc=",
       "url": "script/bookrt.js"
     },
     {
@@ -1886,8 +1886,8 @@ self.assetsManifest = {
       "url": "script/bridge.js"
     },
     {
-      "hash": "sha256-+RQ0Hkow4SfilfqqGbjmRzHio8udxI5Z0A4gCdU3E50=",
-      "url": "script/install-worker.9bdb133c.js"
+      "hash": "sha256-A9mxXi2+HXxRYcOiol45JfM10QPjukkua4fBsKqfKdg=",
+      "url": "script/install-worker.ada94618.js"
     },
     {
       "hash": "sha256-DQnNONtBPQiQiAF3xqmnBEpL6H2bj0Rotso6r6peYjY=",
@@ -1898,8 +1898,8 @@ self.assetsManifest = {
       "url": "script/sw.js"
     },
     {
-      "hash": "sha256-9kNOSAWWT+Ex50ZeaVMimSJAyj38xBNkbbfhpnCMiKo=",
-      "url": "script/uninstall-worker.ef8dda50.js"
+      "hash": "sha256-SygMOcD2t1SKPHLdPA18GPIlrxB+IemVVWCvtb+g9Ow=",
+      "url": "script/uninstall-worker.f304c2fe.js"
     },
     {
       "hash": "sha256-J/4AIOvGspqV6uXOJaaUrBYH4p3KeKra0yfm+uvoy20=",
