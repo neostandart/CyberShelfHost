@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "rpk1+Ngt",
+  "version": "AEYS1vmS",
   "assets": [
     {
       "hash": "sha256-O6DGq+1trGYQi6BEHVudTX8bfFywumpXnwQTe5cU010=",
@@ -162,8 +162,8 @@ self.assetsManifest = {
       "url": "_framework/AngleSharp.Css.wwsq4crpi6.wasm"
     },
     {
-      "hash": "sha256-hiVLpD+xlk10sXiV41i3+sGSYbqUDBMk71d7+gIsZxo=",
-      "url": "_framework/CyberShelf.64znk8an2d.wasm"
+      "hash": "sha256-owPJGB5TcagrGhb2PdjJE+kPum4XLxMNPTQUsN6KaZQ=",
+      "url": "_framework/CyberShelf.rmj9guz3ni.wasm"
     },
     {
       "hash": "sha256-q9PppVVqoaBAYMx58FQjJkfEcMyHM/bu/S9DAKzMPEg=",
@@ -538,7 +538,7 @@ self.assetsManifest = {
       "url": "_framework/de/Radzen.Blazor.resources.69frnodk0g.wasm"
     },
     {
-      "hash": "sha256-908/FTl5l6uhP236ri6z62UC/5NzjvORz+FHV4ZvFOM=",
+      "hash": "sha256-7gFeK+vgS36u5dqBzxJMhEFgW9UcxVGdzVHsiNwCFPs=",
       "url": "_framework/dotnet.js"
     },
     {
@@ -578,8 +578,8 @@ self.assetsManifest = {
       "url": "_framework/netstandard.1ajx08key9.wasm"
     },
     {
-      "hash": "sha256-a4kUsJDgifUyL6g8dVnEjML6BttWiKOTOHbCNGt2ioc=",
-      "url": "_framework/ru/CyberShelf.resources.jq7ttw000p.wasm"
+      "hash": "sha256-OWgNBEg0OGZ48Q4FqOLTHWeTRTA2no6uEEGV1D1MLT0=",
+      "url": "_framework/ru/CyberShelf.resources.dz4c8nsd0d.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -598,7 +598,7 @@ self.assetsManifest = {
       "url": "_welcome/welcome.js"
     },
     {
-      "hash": "sha256-v4TO7NL7UQ7XCmuRwwhkY9mUVNZ/U10r9l7tIUGjdrs=",
+      "hash": "sha256-Oj56+7AToiUgKMya//vfamwwWWj1HEAr9IBjKuPfuzw=",
       "url": "appsettings.json"
     },
     {
@@ -658,7 +658,7 @@ self.assetsManifest = {
       "url": "assets/h5p-player/core-fix.js"
     },
     {
-      "hash": "sha256-pnrIxOgwLdR3cN2HRrVNfqjSfJw2SFxutEgPFcFHm08=",
+      "hash": "sha256-JWlJtUFpe3YvmF3pPZ73sBlAWN8z0AuR/cJIZO1CdOc=",
       "url": "assets/h5p-player/player.html"
     },
     {
@@ -1878,7 +1878,7 @@ self.assetsManifest = {
       "url": "script/appdb.js"
     },
     {
-      "hash": "sha256-eHDOudz5ZJjZNMFLKzt+Dni8lqLIqV6VLhxv2I9Lxbc=",
+      "hash": "sha256-Itx/v0jk5eqNgZtfzH0Spnqi6QGQewav+A6brkzWKIo=",
       "url": "script/bookrt.js"
     },
     {
@@ -1886,8 +1886,8 @@ self.assetsManifest = {
       "url": "script/bridge.js"
     },
     {
-      "hash": "sha256-A9mxXi2+HXxRYcOiol45JfM10QPjukkua4fBsKqfKdg=",
-      "url": "script/install-worker.ada94618.js"
+      "hash": "sha256-M++6ezqXVY6vTDMG9Z1wXfSjAxOD7SEQGLVGtJvadaM=",
+      "url": "script/install-worker.449dceb3.js"
     },
     {
       "hash": "sha256-DQnNONtBPQiQiAF3xqmnBEpL6H2bj0Rotso6r6peYjY=",
