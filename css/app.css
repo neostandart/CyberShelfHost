@@ -353,3 +353,117 @@ body {
 .ui-winbtn {
     width: 40px;
 }
+
+/* ---- In-lesson LiveKit call panel (student) ------------------------------------------------------------
+   The panel chrome is Blazor-rendered (Frame/LessonCallPanel.razor); the .lk-tile* nodes are created by
+   the TS wrapper (Engine/Script/bridge/lib/livekit.ts) and therefore carry NO Blazor scope attribute, so
+   all of this is deliberately global. Fixed bottom-right so it survives the /lesson ↔ /content navigation
+   and app-level fullscreen (documentElement). */
+.lesson-call-panel {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 1500;
+    width: min(320px, calc(100vw - 24px));
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 10px;
+    background: rgba(20, 24, 33, 0.92);
+    color: #eef1f6;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    font-size: 0.85rem;
+}
+
+.lesson-call-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lesson-call-status {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.lesson-call-btn {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 30px;
+    padding: 0 8px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    color: inherit;
+    cursor: pointer;
+}
+
+.lesson-call-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.16); }
+.lesson-call-btn.on { background: #2c7be5; border-color: #2c7be5; }
+/* Pressed but not actually transmitting yet — permission prompt still open, or access denied. Red warns
+   that the device is NOT live despite the toggle being on. */
+.lesson-call-btn.pending { background: #d64550; border-color: #d64550; color: #fff; }
+.lesson-call-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.lesson-call-unlock { background: #e0a800; border-color: #e0a800; color: #201800; }
+.lesson-call-btn.lesson-call-unlock:hover:not(:disabled) { background: #c69500; }
+
+.lesson-call-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+    gap: 6px;
+    overflow-y: auto;
+}
+/* No tiles yet (or all audio-only): keep the row from adding empty height. */
+.lesson-call-tiles:empty { display: none; }
+
+.lk-tile {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #11151d;
+    border: 2px solid transparent;
+}
+
+.lk-tile.lk-tile-teacher { border-color: rgba(44, 123, 229, 0.6); }
+.lk-tile.lk-speaking { border-color: #35c759; }
+
+/* The student's own self-view: the camera is mirrored (as every self-view is), and the border turns green
+   while the mic is ACTUALLY transmitting audio (published + unmuted) — not merely while the button is on. */
+.lk-tile.lk-tile-local { border-color: rgba(255, 255, 255, 0.28); }
+.lk-tile.lk-tile-local.lk-mic-live { border-color: #35c759; }
+.lk-tile.lk-tile-local .lk-tile-video { transform: scaleX(-1); }
+
+.lk-tile-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #11151d;
+}
+/* An audio-only participant shows just the name badge; the (empty) <video> would otherwise be black. */
+.lk-tile:not(.lk-has-video) .lk-tile-video { display: none; }
+
+.lk-tile-audio { display: none; }
+
+.lk-tile-name {
+    position: absolute;
+    left: 4px;
+    bottom: 4px;
+    max-width: calc(100% - 8px);
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 0.7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

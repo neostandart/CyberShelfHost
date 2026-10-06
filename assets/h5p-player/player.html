@@ -4,14 +4,14 @@
      Navigation shell for H5P books — §5.0 of REFACTOR_SW_VIRTUAL_URLS.md.
      Replaces the former srcdoc document model (player.txt — removed in phase 4,
      the "{n}" slot references below are historical): ActivePack.build()
-     navigates the sandbox iframe to "player.html?pack=<packId>", and the
+     navigates the book iframe to "player.html?pack=<packId>", and the
      bootstrap below PULLS everything from the parent window instead of the
      parent pushing into the srcdoc document.
 
      The document therefore has a real, hierarchical, same-origin URL — its
      subresource requests are intercepted by the app's Service Worker (virtual
-     /vpack/ and /vlib/ URLs), which is impossible for sandbox+srcdoc documents
-     in Firefox (Bugzilla 1279406). In blob-fallback mode the SAME shell runs
+     /vpack/ and /vlib/ URLs), which was impossible for the former sandbox+srcdoc
+     documents in Firefox (Bugzilla 1279406). In blob-fallback mode the SAME shell runs
      with blob: URLs — the navigation model never changes (§5.3).
 
      Realm-boundary rule (§3, risk №13): the page model crosses the
