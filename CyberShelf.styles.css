@@ -767,7 +767,7 @@ div.book-host[b-k7rc9fkto0] {
     z-index: 1;
 }
 
-/* The lesson chrome (exam countdown chip, presenter broadcast button) lives in LessonBookOverlay
+/* The lesson chrome (exam countdown chip) lives in LessonBookOverlay
    and carries that component's isolation scope — its styles are in LessonBookOverlay.razor.css. */
 /* /Frame/BookLayer/BookPopupWnd.razor.rz.scp.css */
 
@@ -1005,19 +1005,6 @@ article.book-wnd[b-whhviyi4iv] {
     .exam-countdown-chip--urgent[b-b0rgkdkjsm] {
         animation: none;
     }
-}
-
-/* Presenter "bring everyone here" button. The book-host root is pointer-events:none, so the wrapper
-   must re-assert pointer-events:auto to be clickable. The class lives on a <div> owned by this
-   component (not on the child RadzenButton) so this scoped rule actually applies despite CSS
-   isolation. */
-.presenter-broadcast-shell[b-b0rgkdkjsm] {
-    position: absolute;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    pointer-events: auto;
 }
 /* /Frame/BookLayer/PopupLayoutCtr.razor.rz.scp.css */
 
