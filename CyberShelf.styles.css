@@ -2041,6 +2041,20 @@ header #MainDistorPane[b-z636rsmn8k] {
         width: auto;
     }
 
+.tech-details[b-p6977tldw5] {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+    .tech-details summary[b-p6977tldw5] {
+        cursor: pointer;
+        color: var(--rz-text-secondary-color);
+    }
+
+    .tech-details .tech-path[b-p6977tldw5] {
+        word-break: break-all;
+    }
+
 
 [b-p6977tldw5] #FooterContainer {
     display: grid;

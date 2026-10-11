@@ -1,21 +1,71 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Items>
 	<Item Key="QH001" Caption="Why do I need to register?">
 		<![CDATA[
-			<h1>Title</h1>
-			<p>no data</p>
+			<p>Registration links this device to an e-mail address on the server. Without it you can only install and read free public books from the catalog.</p>
+			<p>You need to register to:</p>
+			<ul>
+				<li>join your teacher's online lessons;</li>
+				<li>install books you bought or were given, and books with protected content;</li>
+				<li>see catalogs and books that are open only to certain e-mail addresses.</li>
+			</ul>
+			<p>An exam opened from a link in your course (Moodle and similar) does not need registration.</p>
+			<p><strong>How to register.</strong> Enter your e-mail address in your profile (Start, "Edit"), then open "Device registration" in the Catalog and press "Register" — or press "Register" right on the lesson screen. Open the link from the e-mail. The link is valid for 30 minutes. One address can be used on at most three devices: confirming a fourth cancels the registration of the oldest one.</p>
 		]]>
 	</Item>
 	<Item Key="QH002" Caption="Where are the installed books stored?">
 		<![CDATA[
-			<h1>Title</h1>
-			<p>no data</p>
+			<p>Books, your answers in them and the page you stopped at, the shelf with its folders, and notes are stored only on this device — in the browser's storage for the app's address. They are not copied to the server. Installed books open without the internet.</p>
+			<p>The data is lost if you:</p>
+			<ul>
+				<li>clear the site's data in the browser (history, cookies and site data) or uninstall the browser;</li>
+				<li>let the device run out of space — the browser may then free space by itself;</li>
+				<li>open the app in another browser or on another device — that one has its own, empty storage.</li>
+			</ul>
+			<p>The app has no backup and no way to move a shelf to another device. Lost books can be installed again from the catalog; shelf folders and notes have to be recreated.</p>
+			<p>Exam results that have not been sent to the server yet are stored on the device too and are sent automatically once there is a connection. Do not clear the site's data until they are sent.</p>
 		]]>
 	</Item>
-	<Item Key="QH003" Caption="If I delete the purchased book?">
+	<Item Key="QH003" Caption="What if I delete a book I bought?">
 		<![CDATA[
-			<h1>Title</h1>
-			<p>no data</p>
+			<p>A purchased or granted book is recorded on the server for the e-mail address this device is registered with. So a deleted book can be installed again at no cost: open its distributor's catalog and press "Install". On another device, register with the same address first.</p>
+			<p>Removing a book from the shelf and removing it from the device are different. A book taken off the shelf stays installed: put it back under Catalog → Installed with "Place on the shelf". Removing it from the device deletes the book's files; answers and notes for it cannot be restored.</p>
+		]]>
+	</Item>
+	<Item Key="QH004" Caption="For staff: what is stored on the device and how to recover">
+		<![CDATA[
+			<p><strong>On the device</strong> (browser storage): installed books and H5P libraries, answers in the books, the shelf with folders and notes, the user profile, the device registration, and exam results not yet sent. <strong>On the server</strong>: the registration (e-mail address), book purchases and grants, and lesson and exam results the server has already accepted.</p>
+			<p><strong>If a device was cleared or replaced:</strong></p>
+			<ul>
+				<li>register the device again with the same e-mail address;</li>
+				<li>install the books you need from the catalog — bought and granted books cost nothing to reinstall;</li>
+				<li>results the server already accepted are kept; results not yet sent are lost with the browser data.</li>
+			</ul>
+			<p><strong>Before clearing a device,</strong> open the app online and let pending results go out (the exam history shows when the server accepted them).</p>
+			<p><strong>One user per device.</strong> The app keeps one student profile (plus a separate shared profile for exams opened from a course). If a device used to have several profiles, the update removes the extra profiles with their shelves and notes, and the app says so once; installed books and unsent results are kept.</p>
+		]]>
+	</Item>
+	<Item Key="QH005" Caption="How do I join a lesson?">
+		<![CDATA[
+			<p>Open the lesson link from your teacher, or choose "Join a lesson" in the menu, enter the lesson code and press "Find lesson".</p>
+			<p>The lesson screen checks what is needed to join:</p>
+			<ul>
+				<li>an unregistered device is offered "Register" (an e-mail address and the confirmation link from the e-mail are needed); then press "Retry";</li>
+				<li>a missing book, or a different version of it, is offered "Install" or "Update" right there;</li>
+				<li>a paid book you have not been given yet is offered a request to the distributor.</li>
+			</ul>
+			<p>Once the book is ready, press "Join lesson". If the connection drops, the app reconnects by itself; after a page reload it takes you back into the running lesson.</p>
+		]]>
+	</Item>
+	<Item Key="QH006" Caption="Did my exam result arrive?">
+		<![CDATA[
+			<p>Open "My exams" in the menu. Each attempt shows its attempt number and where the result is:</p>
+			<ul>
+				<li><strong>saved on this device</strong> — there was no connection; sending is retried automatically, so do not clear the browser's data until it has gone;</li>
+				<li><strong>accepted by the server</strong> — your teacher has the result;</li>
+				<li><strong>refused by the server</strong> or <strong>session expired</strong> — give your teacher the attempt number.</li>
+			</ul>
+			<p>For an exam opened from your course (Moodle and similar) it also shows whether the grade has reached the course gradebook. If sending is delayed, the app says so together with the attempt number — that is what to give your teacher.</p>
 		]]>
 	</Item>
 </Items>

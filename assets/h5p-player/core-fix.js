@@ -152,3 +152,35 @@ H5P.getPath = function (path, contentId) {
         console.error("(CyberShelf specific) The ActivePackage object was not found!");
     }
 };
+
+//
+// CyberShelf specific: local persistence of the content's state (work-plan 4.14)
+//
+// The core keeps "state" user data in H5PIntegration.contents[cid].contentUserData and would send it to a
+// server endpoint; the PWA has none (H5PIntegration.user is undefined, so the core's request short-circuits
+// with "Not signed in."). Every time the core stores a CHANGED root state — on its save interval, after
+// progress events, on unload — hand the serialized string to the host's ActivePackage, which filters out
+// the exam and keeps it in IndexedDB (render/bookstate.ts, view/activepack.ts). The host decides whether
+// this book persists at all (H5PIntegration.saveFreq is false when it does not).
+(function () {
+    var originalSetUserData = H5P.setUserData;
+    H5P.setUserData = function (contentId, dataId, data, extras) {
+        var result = originalSetUserData.apply(this, arguments);
+        try {
+            var subContentId = (extras && extras.subContentId) || 0;
+            if (dataId !== 'state' || subContentId !== 0 || !H5PIntegration.saveFreq) return result;
+            var content = H5PIntegration.contents && H5PIntegration.contents['cid-' + contentId];
+            var stored = content && content.contentUserData && content.contentUserData[0] && content.contentUserData[0].state;
+            if (typeof stored !== 'string') {
+                console.warn('(CyberShelf specific) The content state is not a string and was not saved.');
+            }
+            else if (window.ActivePackage && typeof window.ActivePackage.saveUserState === 'function') {
+                window.ActivePackage.saveUserState(stored);
+            }
+        }
+        catch (err) {
+            console.warn('(CyberShelf specific) The book state could not be handed to the host:', err);
+        }
+        return result;
+    };
+})();

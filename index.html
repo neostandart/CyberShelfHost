@@ -13,46 +13,6 @@
     <!---->
     <script src="_welcome/welcome.js?build=44"></script>
     <!---->
-    <!-- [DIAG-CATALOG-599] TEMPORARY: trace whoever requests an SPA-route URL (e.g. /CyberShelfHost/catalog)
-         that the service worker reports as a 599. Patches fetch/XHR before the framework loads so the
-         console.trace shows the real initiator stack. Remove once the 599 initiator is identified. -->
-    <script>
-        (function () {
-            var base = new URL(document.baseURI); // e.g. https://uppercode.ru/CyberShelfHost/
-            var routes = ['catalog', 'shelf', 'home', 'content', 'settings', 'help', 'lesson', 'bookstand'];
-
-            function spaRouteHit(rawUrl) {
-                try {
-                    var u = new URL(rawUrl, document.baseURI);
-                    if (u.origin !== base.origin || !u.pathname.startsWith(base.pathname)) return null;
-                    var tail = u.pathname.slice(base.pathname.length).replace(/\/+$/, '');
-                    return routes.indexOf(tail) !== -1 ? u.href : null;
-                } catch (e) { return null; }
-            }
-
-            var _fetch = window.fetch;
-            window.fetch = function (input, init) {
-                var raw = (typeof input === 'string') ? input : (input && input.url);
-                var hit = spaRouteHit(raw);
-                if (hit) {
-                    console.warn('[DIAG-CATALOG-599] fetch() ->', hit, init || '');
-                    console.trace('[DIAG-CATALOG-599] fetch initiator stack');
-                }
-                return _fetch.apply(this, arguments);
-            };
-
-            var _open = XMLHttpRequest.prototype.open;
-            XMLHttpRequest.prototype.open = function (method, url) {
-                var hit = spaRouteHit(url);
-                if (hit) {
-                    console.warn('[DIAG-CATALOG-599] XHR ' + method + ' ->', hit);
-                    console.trace('[DIAG-CATALOG-599] XHR initiator stack');
-                }
-                return _open.apply(this, arguments);
-            };
-        })();
-    </script>
-    <!---->
     <link href="manifest.webmanifest?build=44" rel="manifest" />
     <!---->
 
@@ -296,10 +256,10 @@
         // programmatic reloads (the DbUpgradeBlocked dialog), and iOS Safari
         // does not fire beforeunload reliably anyway. "pagehide" is the
         // cross-platform end-of-session signal (it does fire on iOS), so this
-        // stays as the groundwork for exit-time persistence — when saving of
-        // H5P results/book state lands, do the flush from informAppExit;
-        // only synchronous work is guaranteed here (the page is being torn
-        // down — no awaits, no dialogs).
+        // stays as the groundwork for exit-time persistence; only synchronous
+        // work is guaranteed here (the page is being torn down — no awaits, no
+        // dialogs). Open books save their H5P state on their own pagehide /
+        // visibilitychange listener (bookrt/_activepool.ts, work-plan 4.14).
         window.addEventListener("pagehide", (event) => {
             if (!event.persisted) {
                 DotNet.invokeMethod("CyberShelf", "informAppExit");

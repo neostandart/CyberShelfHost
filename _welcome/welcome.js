@@ -17,8 +17,10 @@ class CyberShelfAgent {
         return this._nStartTime;
     }
 
+    // No artificial minimum: the app is shown as soon as Blazor has mounted (work-plan 4.15). Kept as a
+    // method because Runtime.informAppReady still receives it.
     getMinTime() {
-        return 4500;
+        return 0;
     }
 
     die() {
@@ -57,6 +59,8 @@ class CyberShelfAgent {
         }
     }
 
+    // Blazor has rendered into #Application: hand over at once. The logo "zoom" animation used to run
+    // here first (2.5 s plus a 1.5 s pause), which delayed every start by ~4 s for decoration only.
     _onMutation = (mutationList, observer) => {
         if (this._observer) {
             for (const mutation of mutationList) {
@@ -64,25 +68,10 @@ class CyberShelfAgent {
                     observer.disconnect();
                     this._observer = null;
 
-                    if (this._hteLogo) {
-                        this._hteLogo.addEventListener("animationend", (ev) => {
-                            if (ev.animationName === "kf-zoomInDown") {
-                                setTimeout(() => {
-                                    window.DotNet.invokeMethodAsync("CyberShelf", "informAppReady", this.getStartTime(), this.getMinTime());
-                                }, 1500);
-                            }
-                        });
-
-                        this._hteLogo.classList.add("animated");
-
-                        if (this._hteFlash)
-                            this._hteFlash.classList.add("show");
-
-                        // new_code experimental
+                    if (this._hteSpinner)
                         this._hteSpinner.classList.add("hidden");
-                    } else {
-                        window.DotNet.invokeMethodAsync("CyberShelf", "informAppReady", this.getStartTime(), this.getMinTime());
-                    }
+
+                    window.DotNet.invokeMethodAsync("CyberShelf", "informAppReady", this.getStartTime(), this.getMinTime());
                     return;
                 }
             }
@@ -133,6 +122,24 @@ class CyberShelfAgent {
 //
 
 window.getBrowserLanguage = () => navigator.language;
+
+// The document language follows the app's UI language (work-plan 4.12): screen readers pick their voice and
+// the browser its hyphenation/translation offers from <html lang>. The app sets the final value once its
+// configuration is loaded (AppConfigService); this early guess from the saved setting (or the browser)
+// covers the splash screen before that.
+window.setDocumentLanguage = (lang) => {
+    if (typeof lang === "string" && lang.length >= 2)
+        document.documentElement.lang = lang.substring(0, 2).toLowerCase();
+};
+
+(function () {
+    let culture = "";
+    try {
+        const shared = JSON.parse(localStorage.getItem("shared") || "null");
+        if (shared && typeof shared.Culture === "string") culture = shared.Culture;
+    } catch { /* unreadable settings: fall back to the browser language */ }
+    window.setDocumentLanguage(culture || navigator.language || "en");
+})();
 
 window.CyberShelfAgent = new CyberShelfAgent();
 
