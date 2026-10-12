@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "RQHCBSao",
+  "version": "l2cOhgNB",
   "assets": [
     {
-      "hash": "sha256-M3YVKe/0hHWBdAI0pp4lN4whED4r7ToBpl+952IXeeM=",
+      "hash": "sha256-pAEAUKbIhoc9JlCwOPtAIlRtuPKhP6HbBnovWL5HENk=",
       "url": "CyberShelf.styles.css"
     },
     {
@@ -162,8 +162,8 @@ self.assetsManifest = {
       "url": "_framework/AngleSharp.Css.wwsq4crpi6.wasm"
     },
     {
-      "hash": "sha256-/whtiSQmTDS/BSjjIT5AQHgn/XhdhgKlvqkvy0EmYeA=",
-      "url": "_framework/CyberShelf.5b31cljcem.wasm"
+      "hash": "sha256-gU8GIJv1G5hXrAt5ianNZdGQdg6qlqu6TjApbbcNEkA=",
+      "url": "_framework/CyberShelf.lf5ous5k6r.wasm"
     },
     {
       "hash": "sha256-q9PppVVqoaBAYMx58FQjJkfEcMyHM/bu/S9DAKzMPEg=",
@@ -538,7 +538,7 @@ self.assetsManifest = {
       "url": "_framework/de/Radzen.Blazor.resources.69frnodk0g.wasm"
     },
     {
-      "hash": "sha256-arJzsK+lSuwypLj49qkcfUOFa2K8qNyA3BCMZLsnYaY=",
+      "hash": "sha256-G8EsFNKkzKwsFDAHubkyqHhCI0LYNmHRo8Hui+e/Gxk=",
       "url": "_framework/dotnet.js"
     },
     {
@@ -574,8 +574,8 @@ self.assetsManifest = {
       "url": "_framework/ja/Radzen.Blazor.resources.qp4qhjubvx.wasm"
     },
     {
-      "hash": "sha256-W0Io1MSrtn9rEAWpkJGHaTRpzyNPG8FW63T/Lkt5ucw=",
-      "url": "_framework/ru/CyberShelf.resources.jysrvmmauq.wasm"
+      "hash": "sha256-D0hADlwMX9i3wiWFv7oDz1QEr4R/kX3Dd4y81MQZGe0=",
+      "url": "_framework/ru/CyberShelf.resources.9m1jxyq4y2.wasm"
     },
     {
       "hash": "sha256-Fs/DJ7hZHYllMX18MqfNODd8WndkrJSSRtSkfsHleSE=",
@@ -594,7 +594,7 @@ self.assetsManifest = {
       "url": "_welcome/welcome.js"
     },
     {
-      "hash": "sha256-cxuW9ALWFyB0lquyrpS677XxlFEMiPgwgHzV6pm+Xb0=",
+      "hash": "sha256-nxx3QCY7z10k3SgeYtxnvB7rXHdQmuSlWFp/WUgGeus=",
       "url": "appsettings.json"
     },
     {
@@ -662,11 +662,11 @@ self.assetsManifest = {
       "url": "assets/h5p-player/strings/en.json"
     },
     {
-      "hash": "sha256-PLMLzyvH1jlnCB9SA8+fMR9lxyxIqUuMzAfpv+N2vsw=",
+      "hash": "sha256-rliZR9zswFqXbCXYaQGLVK02TF7dHU66ETPrzwtenfw=",
       "url": "assets/help/quickhelp-en.xml"
     },
     {
-      "hash": "sha256-0zDlv0VstMERj5TdvFEeZM7H02n90F/LUwvzh9ca8GQ=",
+      "hash": "sha256-j6j0zvZg13WTUVOKaCBmU0HpES1P9f5G5wll0NSz0lY=",
       "url": "assets/help/quickhelp-ru.xml"
     },
     {
@@ -1870,11 +1870,11 @@ self.assetsManifest = {
       "url": "manifest.webmanifest"
     },
     {
-      "hash": "sha256-tx+LeJip5EwMKv8bQ1Am2hJMkXarVNB2Wxi4hSGQeM0=",
+      "hash": "sha256-wArCAKjTwu74Ii08iFTNBp06ndeoz9EWj1B0SOrr8ls=",
       "url": "script/appdb.js"
     },
     {
-      "hash": "sha256-i+eSsHG0UkbTWgVvI+2K2YsG8lwf1yBA6KVVTFlgsP0=",
+      "hash": "sha256-3+Q5XfnlHxjbsH9qOck2Ju9zLEiGSCOG5K8gBeDcuzg=",
       "url": "script/bookrt.js"
     },
     {

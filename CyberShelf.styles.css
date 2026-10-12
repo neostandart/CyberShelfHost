@@ -2251,14 +2251,6 @@ h1[b-w4b4g52xeq] {
 
 }
 /* /Pages/Home/HomePage.razor.rz.scp.css */
-/* /Pages/Home/Stuff/CurrentUser.razor.rz.scp.css */
-#ExitBtnBox[b-hrufku74mv] {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    color: var(--rz-primary);
-}
 /* /Pages/Home/Stuff/EnterControl.razor.rz.scp.css */
 
 article[b-v1229qkoaa] {
@@ -2319,10 +2311,19 @@ article.entrance[b-v1229qkoaa] {
 .lesson-actions[b-v2hs03jhng] {
     flex-wrap: wrap;
 }
+/* /Pages/Lesson/Stuff/LessonCodeEntry.razor.rz.scp.css */
+.lesson-code-entry[b-5v3mv22ssf] {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
 
 /* The input is rendered by RadzenTextBox (a child component), so the scoped selector needs ::deep
    anchored on a host-owned ancestor for CSS isolation to apply. */
-.lesson-page[b-v2hs03jhng]  .lesson-code-input {
+.lesson-code-entry[b-5v3mv22ssf]  .lesson-code-input {
     width: 12rem;
     text-align: center;
     letter-spacing: 0.08em;

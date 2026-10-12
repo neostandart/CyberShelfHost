@@ -10,7 +10,7 @@
 				<li>see catalogs and books that are open only to certain e-mail addresses.</li>
 			</ul>
 			<p>An exam opened from a link in your course (Moodle and similar) does not need registration.</p>
-			<p><strong>How to register.</strong> Enter your e-mail address in your profile (Start, "Edit"), then open "Device registration" in the Catalog and press "Register" — or press "Register" right on the lesson screen. Open the link from the e-mail. The link is valid for 30 minutes. One address can be used on at most three devices: confirming a fourth cancels the registration of the oldest one.</p>
+			<p><strong>How to register.</strong> Enter your e-mail address in your profile (Start, "Edit") and press "Save &amp; Register by Email" — or open "Device registration" in the Catalog and press "Register", or press "Register" right on the lesson screen. Open the link from the e-mail. The link is valid for 30 minutes. "Logout" in the profile editor cancels the device registration. One address can be used on at most three devices: confirming a fourth cancels the registration of the oldest one.</p>
 		]]>
 	</Item>
 	<Item Key="QH002" Caption="Where are the installed books stored?">
@@ -47,7 +47,7 @@
 	</Item>
 	<Item Key="QH005" Caption="How do I join a lesson?">
 		<![CDATA[
-			<p>Open the lesson link from your teacher, or choose "Join a lesson" in the menu, enter the lesson code and press "Find lesson".</p>
+			<p>Open the lesson link from your teacher, or enter the lesson code on the Start page and press "Find lesson".</p>
 			<p>The lesson screen checks what is needed to join:</p>
 			<ul>
 				<li>an unregistered device is offered "Register" (an e-mail address and the confirmation link from the e-mail are needed); then press "Retry";</li>
@@ -59,7 +59,7 @@
 	</Item>
 	<Item Key="QH006" Caption="Did my exam result arrive?">
 		<![CDATA[
-			<p>Open "My exams" in the menu. Each attempt shows its attempt number and where the result is:</p>
+			<p>Open "Application Settings" in the menu, then the "My exams" tab. Each attempt shows its attempt number and where the result is:</p>
 			<ul>
 				<li><strong>saved on this device</strong> — there was no connection; sending is retried automatically, so do not clear the browser's data until it has gone;</li>
 				<li><strong>accepted by the server</strong> — your teacher has the result;</li>
