@@ -121,6 +121,25 @@
     overflow: visible;
 }
 
+.shelf-details-window {
+    --rz-dialog-content-padding: 0;
+    --rz-dialog-title-padding-block: .35rem;
+    --rz-dialog-title-padding-inline: .5rem;
+    --rz-dialog-title-background-color: var(--rz-primary);
+    --rz-dialog-title-color: var(--rz-on-primary);
+    --rz-dialog-close-color: var(--rz-on-primary);
+    --rz-dialog-close-hover-color: var(--rz-primary);
+    --rz-tabs-padding: 0;
+}
+
+.shelf-details-window > .rz-dialog-titlebar { align-items: center; justify-content: flex-end; }
+.shelf-details-window .rz-dialog-title { display: none; }
+/* Match the outlined close control used in the book header. */
+.shelf-details-window .rz-dialog-titlebar-close { display: grid; place-items: center; flex-shrink: 0; padding: .25rem .5rem; border: 1px solid #f8f9fa; border-radius: .2rem; color: #f8f9fa; }
+.shelf-details-window .rz-dialog-titlebar-close .rzi-times { display: block; font-size: 1rem; line-height: 1; }
+.shelf-details-window .rz-dialog-titlebar-close:hover { background: #f8f9fa; }
+.shelf-details-window .rz-dialog-titlebar-close:focus-visible { outline: 2px solid #f8f9fa; outline-offset: 2px; }
+
 
 /* -------------------------------------------- */
 /* Slight correction of the NotificationMessage */

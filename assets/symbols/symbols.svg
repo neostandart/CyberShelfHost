@@ -1,5 +1,279 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg version="1.1" width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+<g id="ui-book-art" fill="none">
+  <defs>
+    <linearGradient id="ui-book-art-back" x1="12" y1="12" x2="151" y2="197" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#294e7c"/>
+      <stop offset=".46" stop-color="#12365f"/>
+      <stop offset="1" stop-color="#061a34"/>
+    </linearGradient>
+    <linearGradient id="ui-book-art-paper" x1="83" y1="16" x2="83" y2="191" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fffcf0"/>
+      <stop offset=".78" stop-color="#f5efdc"/>
+      <stop offset=".9" stop-color="#d4c5a7"/>
+      <stop offset=".95" stop-color="#f8f1de"/>
+      <stop offset="1" stop-color="#e4d5b6"/>
+    </linearGradient>
+    <linearGradient id="ui-book-art-paper-edge" x1="139" y1="100" x2="151" y2="100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#887453" stop-opacity=".7"/>
+      <stop offset=".4" stop-color="#fff9e9" stop-opacity="0"/>
+      <stop offset=".8" stop-color="#fffdf4" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#cbb991" stop-opacity=".5"/>
+    </linearGradient>
+    <linearGradient id="ui-book-art-cover" x1="26" y1="5" x2="148" y2="181" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#346da6"/>
+      <stop offset=".27" stop-color="#23568a"/>
+      <stop offset=".6" stop-color="#123b6a"/>
+      <stop offset="1" stop-color="#071f40"/>
+    </linearGradient>
+    <radialGradient id="ui-book-art-cover-light" cx="0" cy="0" r="1" gradientTransform="translate(41 22) rotate(57) scale(137 112)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8cbee7" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#87bde5" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ui-book-art-spine" x1="8" y1="90" x2="27" y2="90" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#081c36"/>
+      <stop offset=".16" stop-color="#1a426d"/>
+      <stop offset=".42" stop-color="#427eaf"/>
+      <stop offset=".6" stop-color="#326596"/>
+      <stop offset=".84" stop-color="#173c65"/>
+      <stop offset="1" stop-color="#071b35"/>
+    </linearGradient>
+    <linearGradient id="ui-book-art-rim" x1="30" y1="5" x2="137" y2="181" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#bedff4" stop-opacity=".8"/>
+      <stop offset=".38" stop-color="#7aadd2" stop-opacity=".32"/>
+      <stop offset=".78" stop-color="#446f98" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#80a9c9" stop-opacity=".42"/>
+    </linearGradient>
+    <linearGradient id="ui-book-art-hinge" x1="22" y1="90" x2="29" y2="90" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#04182f" stop-opacity="0"/>
+      <stop offset=".4" stop-color="#04182f" stop-opacity=".9"/>
+      <stop offset=".58" stop-color="#8db8d9" stop-opacity=".75"/>
+      <stop offset="1" stop-color="#8db8d9" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="ui-book-art-grain" width="6" height="7" patternUnits="userSpaceOnUse">
+      <path d="m.3 1.4 1-.5 1.1.3.7-.6M3.8 2.1l.8.6 1-.4M.8 4l.8.5-.2 1.2M2.7 3.3l.8 1.1 1.1.1M3.5 6.5l1-.8 1 .4" stroke="#b5d6ed" stroke-opacity=".22" stroke-width=".14" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="m.5 2.8.9.5.7-.4M3.4.6l.9.3.6-.5M.2 6.2l.7-.3.8.4M5 3.6l.5 1.2-.3.6M2.5 5.2l.6.7" stroke="#020f22" stroke-opacity=".3" stroke-width=".16" stroke-linecap="round" stroke-linejoin="round"/>
+    </pattern>
+    <path id="ui-book-art-front-shape" d="M26 4h110c5.2 0 8 3.3 8 8v162c0 5.3-2.8 8-8 8H26c-1.2 0-2-.8-2-2V7c0-1.8.7-3 2-3Z"/>
+    <path id="ui-book-art-spine-shape" d="M24 4h2v178h-4c-6.9 0-12 4.5-12 10-1.3-2.2-2-5-2-8V18C8 10.2 14.6 4 24 4Z"/>
+  </defs>
+
+  <!-- The 4:5 canvas and front-cover area match book-thumb-default.svg. -->
+  <path d="M22 12h124c5.5 0 8 3.2 8 8v167c0 6-3 9-9 9H22c-8.5 0-14-5.4-14-13V25c0-7.6 5.2-13 14-13Z" fill="url(#ui-book-art-back)" stroke="#071b34" stroke-width=".8"/>
+  <path d="M146 14c4.2 0 6 2.6 6 7v166c0 4.8-2.3 7-7 7H23c-6.2 0-10.3-2.9-11.7-7" stroke="#5081ac" stroke-opacity=".55" stroke-width=".8"/>
+
+  <!-- Individually curved page edges follow the rounded cover corner. -->
+  <path d="M24 17h118l8 5v160c0 6.6-2.5 9-9 9H24c-6.5 0-10-2.7-10-8V28c0-6.8 3.6-11 10-11Z" fill="url(#ui-book-art-paper)" stroke="#c7b795" stroke-width=".5"/>
+  <path d="M139 18h3l8 4v160c0 6.6-2.5 9-9 9h-5c8-3 9-6 9-13V25Z" fill="url(#ui-book-art-paper-edge)"/>
+  <g stroke="#ab9872" stroke-linecap="round">
+    <path d="M145.1 21v154c0 6.6-2.2 9-9 9H23" stroke-opacity=".45" stroke-width=".45"/>
+    <path d="M146.5 22v154.5c0 6.4-2.5 9-9 9H20" stroke-opacity=".35" stroke-width=".35"/>
+    <path d="M147.7 23v155c0 6.2-2.7 9-9 9H19" stroke-opacity=".4" stroke-width=".4"/>
+    <path d="M148.7 24v155.5c0 6.5-2.8 9-9 9H21" stroke-opacity=".4" stroke-width=".35"/>
+    <path d="M149.3 26v155c0 6.1-2.5 8.8-9 8.8H24" stroke-opacity=".32" stroke-width=".3"/>
+  </g>
+  <path d="M146 24v153c0 5.8-2.3 8-8 8H22m125.2-158v151c0 5.7-2.5 8-8 8H20m128.2-159v152.7c0 5.6-2.4 8-8 8H22" stroke="#fffdf3" stroke-opacity=".75" stroke-width=".45"/>
+  <path d="M23 181h112c6.2 0 9-2.3 10-7v4c0 5.2-3.7 7-10 7H23Z" fill="#78674d" fill-opacity=".18"/>
+
+  <!-- Leather cover: layered gradients, a fine vector grain, and a soft bevel. -->
+  <use href="#ui-book-art-front-shape" fill="url(#ui-book-art-cover)"/>
+  <use href="#ui-book-art-front-shape" fill="url(#ui-book-art-cover-light)"/>
+  <use href="#ui-book-art-front-shape" fill="url(#ui-book-art-grain)" opacity=".65"/>
+  <path d="M27 5h108.5c4.7 0 7.3 2.8 7.3 7.4V174c0 4.7-2.5 7-7.3 7H27" stroke="url(#ui-book-art-rim)" stroke-width=".9"/>
+  <path d="M28 6.7h107c3.7 0 6.1 2.1 6.1 6.4V173c0 4-2.1 6.1-6.1 6.1H28" stroke="#041b36" stroke-opacity=".2" stroke-width=".55"/>
+  <path d="M29 5.6h105.5c4.3 0 6.9 2 7.3 5.7" stroke="#d8ecfa" stroke-opacity=".36" stroke-width=".5" stroke-linecap="round"/>
+  <path d="M28 182h108c5.4 0 8-2.8 8-8" stroke="#03142b" stroke-opacity=".75" stroke-width=".9"/>
+
+  <!-- Rounded spine, recessed hinge, and the leather turn-in at the foot. -->
+  <use href="#ui-book-art-spine-shape" fill="url(#ui-book-art-spine)"/>
+  <use href="#ui-book-art-spine-shape" fill="url(#ui-book-art-grain)" opacity=".5"/>
+  <path d="M9.2 177V18c0-7.4 6.1-12.8 14-12.8" stroke="#79afd4" stroke-opacity=".65" stroke-width=".7" stroke-linecap="round"/>
+  <path d="M24 5.5h2.5V181H24Z" fill="url(#ui-book-art-hinge)"/>
+  <path d="M26.7 7v171" stroke="#a6cce7" stroke-opacity=".55" stroke-width=".65"/>
+  <path d="M10 183c2.6-3.5 7.3-5.6 14-5.6v4.4c-6.2 0-10.1 2.2-10.1 6 0 3.3 3.8 5.9 10.1 5.9H141v1.3H23c-8.1 0-13-4.1-13-12Z" fill="url(#ui-book-art-back)"/>
+  <path d="M10.7 183.2c2.7-3 6.6-4.6 12.3-4.6" stroke="#87b3d2" stroke-opacity=".55" stroke-width=".65" stroke-linecap="round"/>
+  <path d="M15.3 187.8c0 3 3 4.7 8.7 4.7h117" stroke="#020e20" stroke-opacity=".6" stroke-width=".6"/>
+</g>
+<g id="ui-shelf-art" fill="none">
+  <defs>
+    <linearGradient id="ui-shelf-art-shelf1-frame" x1="0" y1="0" x2=".8" y2="1">
+      <stop stop-color="#496486"/><stop offset=".35" stop-color="#244b7a"/>
+      <stop offset=".7" stop-color="#1b3a66"/><stop offset="1" stop-color="#0e2038"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-post" x1="0" x2="1">
+      <stop stop-color="#142c4d"/><stop offset=".13" stop-color="#6181a4"/>
+      <stop offset=".32" stop-color="#496486"/><stop offset=".75" stop-color="#244b7a"/>
+      <stop offset="1" stop-color="#142c4d"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-rail" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#5c7b9d"/><stop offset=".14" stop-color="#36577e"/>
+      <stop offset=".68" stop-color="#1b3a66"/><stop offset="1" stop-color="#142c4d"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-top" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#8097b2"/><stop offset=".3" stop-color="#617e9f"/><stop offset="1" stop-color="#496486"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-back-panel" x1="0" y1="0" x2=".6" y2="1">
+      <stop stop-color="#aaa69e"/><stop offset=".22" stop-color="#c6c3b9"/>
+      <stop offset=".62" stop-color="#e3ded1"/><stop offset="1" stop-color="#d2cbbd"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#90938f"/><stop offset=".5" stop-color="#bcc2c3"/><stop offset="1" stop-color="#70869c"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-shadow-down" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#0e2038" stop-opacity=".48"/><stop offset="1" stop-color="#0e2038" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-shadow-side" x1="0" x2="1">
+      <stop stop-color="#0e2038" stop-opacity=".4"/><stop offset=".14" stop-color="#0e2038" stop-opacity="0"/>
+      <stop offset=".88" stop-color="#0e2038" stop-opacity="0"/><stop offset="1" stop-color="#0e2038" stop-opacity=".35"/>
+    </linearGradient>
+    <radialGradient id="ui-shelf-art-shelf1-contact">
+      <stop stop-color="#0a1729" stop-opacity=".4"/><stop offset="1" stop-color="#0a1729" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ui-shelf-art-shelf1-book-navy" x1="0" x2="1">
+      <stop stop-color="#0e2038"/><stop offset=".16" stop-color="#28537f"/>
+      <stop offset=".36" stop-color="#427aac"/><stop offset=".58" stop-color="#2b5989"/>
+      <stop offset=".86" stop-color="#1b3a66"/><stop offset="1" stop-color="#102746"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-book-blue" x1="0" x2="1">
+      <stop stop-color="#18385a"/><stop offset=".15" stop-color="#3b6a97"/>
+      <stop offset=".36" stop-color="#6090b8"/><stop offset=".58" stop-color="#467aa7"/>
+      <stop offset=".86" stop-color="#305c8a"/><stop offset="1" stop-color="#244364"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-book-slate" x1="0" x2="1">
+      <stop stop-color="#273b54"/><stop offset=".15" stop-color="#526e8d"/>
+      <stop offset=".36" stop-color="#8199b3"/><stop offset=".58" stop-color="#637e9d"/>
+      <stop offset=".86" stop-color="#496486"/><stop offset="1" stop-color="#2e4663"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-book-linen" x1="0" x2="1">
+      <stop stop-color="#9e9687"/><stop offset=".16" stop-color="#ddd4c2"/>
+      <stop offset=".38" stop-color="#f3ebd8"/><stop offset=".64" stop-color="#e5dcc8"/>
+      <stop offset=".9" stop-color="#c9bda5"/><stop offset="1" stop-color="#a99d85"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-book-shading" x1="0" y1="0" x2=".6" y2="1">
+      <stop stop-color="#a2c7e1" stop-opacity=".12"/>
+      <stop offset=".35" stop-color="#071f40" stop-opacity="0"/><stop offset="1" stop-color="#071f40" stop-opacity=".3"/>
+    </linearGradient>
+    <linearGradient id="ui-shelf-art-shelf1-pages" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#c8baa0"/><stop offset=".3" stop-color="#fffae9"/>
+      <stop offset=".65" stop-color="#ede3ce"/><stop offset="1" stop-color="#cbbd9f"/>
+    </linearGradient>
+    <pattern id="ui-shelf-art-shelf1-wood-vertical" width="17" height="91" patternUnits="userSpaceOnUse">
+      <path d="M2 0c2 20-2 33 0 49s1 25 0 42m5-91c-1 13 2 20 0 35s-1 36 0 56m5-91c2 18 1 26 0 44s2 30 0 47" stroke="#c1d3e4" stroke-opacity=".12" stroke-width=".25"/>
+      <path d="M4 0c-1 19 1 38 0 54s1 25 0 37m12-91c-2 25 1 36 0 55s-1 27 0 36" stroke="#06172c" stroke-opacity=".18" stroke-width=".3"/>
+    </pattern>
+    <pattern id="ui-shelf-art-shelf1-wood-horizontal" width="81" height="12" patternUnits="userSpaceOnUse">
+      <path d="M0 3c18-1 26 1 43 0s27-1 38 0M0 8c22 1 30-2 51 0s20 1 30 0" stroke="#c3d3e2" stroke-opacity=".12" stroke-width=".25"/>
+      <path d="M0 5c13 1 23-1 38 0s28 1 43 0M0 11c27-1 37 1 54 0s21-1 27 0" stroke="#081d36" stroke-opacity=".16" stroke-width=".25"/>
+    </pattern>
+    <pattern id="ui-shelf-art-shelf1-panel-grain" width="29" height="89" patternUnits="userSpaceOnUse">
+      <path d="M4 0c3 22-2 39 0 56s2 25 0 33M12 0c-2 17 1 28 0 48s-1 26 0 41M24 0c-2 21 2 39 0 57s-1 24 0 32" stroke="#7f7463" stroke-opacity=".12" stroke-width=".3"/>
+      <path d="M7 0c2 22-1 33 0 55s1 25 0 34M19 0c-1 23 2 36 0 57s1 24 0 32" stroke="#fff9e9" stroke-opacity=".2" stroke-width=".35"/>
+    </pattern>
+    <pattern id="ui-shelf-art-shelf1-leather" width="4" height="5" patternUnits="userSpaceOnUse">
+      <path d="m.3.9.7-.3.8.4M2.3 2l.7.6.7-.4M.6 3l.7.6-.1.8M2.2 4.4l.6-.5.8.3" stroke="#d6e4ed" stroke-opacity=".16" stroke-width=".12"/>
+      <path d="m.3 2.1.9.3.6-.5M2.5.4l.8.2M1.9 3.2l.4.5" stroke="#061629" stroke-opacity=".25" stroke-width=".13"/>
+    </pattern>
+  </defs>
+
+  <!-- Freestanding cabinet; its front, books, and lighting share the application's navy palette. -->
+  <ellipse cx="81" cy="197" rx="72" ry="2.8" fill="url(#ui-shelf-art-shelf1-contact)"/>
+  <path d="M17 187h15l-1.5 10H18Zm111 0h15l-1 10h-12.5Z" fill="url(#ui-shelf-art-shelf1-frame)" stroke="#0e2038" stroke-width=".5"/>
+  <path d="M19 190v5.5h10m102-5.5v5.5h10" stroke="#6f8ba8" stroke-opacity=".45" stroke-width=".6"/>
+  <path d="M15 5h129l10 8v174q0 7-7 7H15q-7 0-7-7V12q0-7 7-7Z" fill="url(#ui-shelf-art-shelf1-frame)" stroke="#0e2038" stroke-width=".75"/>
+  <path d="m150 11 4 3v173q0 5-4 6Z" fill="#102746"/>
+  <path d="M153 16v170" stroke="#547696" stroke-opacity=".45" stroke-width=".55"/>
+
+    <rect x="19" y="18" width="123" height="163" fill="url(#ui-shelf-art-shelf1-back-panel)"/>
+    <rect x="19" y="18" width="123" height="163" fill="url(#ui-shelf-art-shelf1-panel-grain)"/>
+    <rect x="19" y="18" width="123" height="12" fill="url(#ui-shelf-art-shelf1-shadow-down)"/>
+    <rect x="19" y="18" width="123" height="163" fill="url(#ui-shelf-art-shelf1-shadow-side)"/>
+    <path d="M20 18v163M141 18v163" stroke="#0e2038" stroke-opacity=".24" stroke-width=".8"/>
+
+
+    <path d="M23 175h115l5 6H17Z" fill="url(#ui-shelf-art-shelf1-floor)"/>
+    <path d="M23 175h115" stroke="#0c2037" stroke-opacity=".3" stroke-width=".55"/>
+    <ellipse cx="80" cy="180.7" rx="59" ry="2.6" fill="url(#ui-shelf-art-shelf1-contact)"/>
+
+    <g transform="translate(25 48) rotate(0 11.5 132)">
+      <ellipse cx="12.5" cy="132" rx="15.5" ry="2" fill="url(#ui-shelf-art-shelf1-contact)"/>
+      <path d="M22 4h2v128h-2Z" fill="#091b31" opacity=".22"/>
+      <path d="M2.6 1h17.8q2.6 0 2.6 2.6v125.8q0 2.6-2.6 2.6H2.6Q0 132 0 129.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-book-navy)" stroke="#10243a" stroke-opacity=".55" stroke-width=".45"/>
+      <path d="M2.6 1h17.8q2.6 0 2.6 2.6v125.8q0 2.6-2.6 2.6H2.6Q0 132 0 129.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-book-shading)"/>
+      <path d="M2.6 1h17.8q2.6 0 2.6 2.6v125.8q0 2.6-2.6 2.6H2.6Q0 132 0 129.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-leather)" opacity=".7"/>
+      <path d="M2.4 2.2 4.1.8h14.8l1.7 1.4Z" fill="url(#ui-shelf-art-shelf1-pages)" opacity=".85"/>
+      <path d="M3 3.1h17" stroke="#c0d6e7" stroke-opacity=".6" stroke-width=".45"/>
+      <path d="M2.1 5.6v122" stroke="#b3d0e6" stroke-opacity=".34" stroke-width=".55"/>
+      <path d="M21 4.7v122.5" stroke="#091b31" stroke-opacity=".45" stroke-width=".6"/>
+      <path d="M3 8.3q8.5 1.1 17 0M3 125q8.5 1.1 17 0" stroke="#07182e" stroke-opacity=".28" stroke-width="1.1"/>
+      <path d="M3 7.7q8.5 1.1 17 0M3 124.4q8.5 1.1 17 0" stroke="#c2d9e9" stroke-opacity=".3" stroke-width=".4"/>
+      <path d="M2.5 130.5h18" stroke="#b4cde0" stroke-opacity=".28" stroke-width=".45"/>
+    </g>
+    <g transform="translate(51 30) rotate(0 13 150)">
+      <ellipse cx="14" cy="150" rx="17" ry="2" fill="url(#ui-shelf-art-shelf1-contact)"/>
+      <path d="M25 4h2v146h-2Z" fill="#091b31" opacity=".22"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v143.8q0 2.6-2.6 2.6H2.6Q0 150 0 147.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-book-blue)" stroke="#10243a" stroke-opacity=".55" stroke-width=".45"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v143.8q0 2.6-2.6 2.6H2.6Q0 150 0 147.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-book-shading)"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v143.8q0 2.6-2.6 2.6H2.6Q0 150 0 147.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-leather)" opacity=".7"/>
+      <path d="M2.4 2.2 4.1.8h17.8l1.7 1.4Z" fill="url(#ui-shelf-art-shelf1-pages)" opacity=".85"/>
+      <path d="M3 3.1h20" stroke="#c0d6e7" stroke-opacity=".6" stroke-width=".45"/>
+      <path d="M2.1 5.6v140" stroke="#b3d0e6" stroke-opacity=".34" stroke-width=".55"/>
+      <path d="M24 4.7v140.5" stroke="#091b31" stroke-opacity=".45" stroke-width=".6"/>
+      <path d="M3 8.3q10 1.1 20 0M3 143q10 1.1 20 0" stroke="#07182e" stroke-opacity=".28" stroke-width="1.1"/>
+      <path d="M3 7.7q10 1.1 20 0M3 142.4q10 1.1 20 0" stroke="#c2d9e9" stroke-opacity=".3" stroke-width=".4"/>
+      <path d="M2.5 148.5h21" stroke="#b4cde0" stroke-opacity=".28" stroke-width=".45"/>
+    </g>
+    <g transform="translate(80 42) rotate(0 10.5 138)">
+      <ellipse cx="11.5" cy="138" rx="14.5" ry="2" fill="url(#ui-shelf-art-shelf1-contact)"/>
+      <path d="M20 4h2v134h-2Z" fill="#091b31" opacity=".22"/>
+      <path d="M2.6 1h15.8q2.6 0 2.6 2.6v131.8q0 2.6-2.6 2.6H2.6Q0 138 0 135.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-book-linen)" stroke="#10243a" stroke-opacity=".55" stroke-width=".45"/>
+      <path d="M2.6 1h15.8q2.6 0 2.6 2.6v131.8q0 2.6-2.6 2.6H2.6Q0 138 0 135.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-book-shading)"/>
+      <path d="M2.6 1h15.8q2.6 0 2.6 2.6v131.8q0 2.6-2.6 2.6H2.6Q0 138 0 135.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-leather)" opacity=".7"/>
+      <path d="M2.4 2.2 4.1.8h12.8l1.7 1.4Z" fill="url(#ui-shelf-art-shelf1-pages)" opacity=".85"/>
+      <path d="M3 3.1h15" stroke="#c0d6e7" stroke-opacity=".6" stroke-width=".45"/>
+      <path d="M2.1 5.6v128" stroke="#b3d0e6" stroke-opacity=".34" stroke-width=".55"/>
+      <path d="M19 4.7v128.5" stroke="#091b31" stroke-opacity=".45" stroke-width=".6"/>
+      <path d="M3 8.3q7.5 1.1 15 0M3 131q7.5 1.1 15 0" stroke="#07182e" stroke-opacity=".28" stroke-width="1.1"/>
+      <path d="M3 7.7q7.5 1.1 15 0M3 130.4q7.5 1.1 15 0" stroke="#c2d9e9" stroke-opacity=".3" stroke-width=".4"/>
+      <path d="M2.5 136.5h16" stroke="#b4cde0" stroke-opacity=".28" stroke-width=".45"/>
+    </g>
+    <g transform="translate(108 38) rotate(2 13 142)">
+      <ellipse cx="14" cy="142" rx="17" ry="2" fill="url(#ui-shelf-art-shelf1-contact)"/>
+      <path d="M25 4h2v138h-2Z" fill="#091b31" opacity=".22"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v135.8q0 2.6-2.6 2.6H2.6Q0 142 0 139.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-book-navy)" stroke="#10243a" stroke-opacity=".55" stroke-width=".45"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v135.8q0 2.6-2.6 2.6H2.6Q0 142 0 139.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-book-shading)"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v135.8q0 2.6-2.6 2.6H2.6Q0 142 0 139.4V3.6Q0 1 2.6 1Z" fill="url(#ui-shelf-art-shelf1-leather)" opacity=".7"/>
+      <path d="M2.4 2.2 4.1.8h17.8l1.7 1.4Z" fill="url(#ui-shelf-art-shelf1-pages)" opacity=".85"/>
+      <path d="M3 3.1h20" stroke="#c0d6e7" stroke-opacity=".6" stroke-width=".45"/>
+      <path d="M2.1 5.6v132" stroke="#b3d0e6" stroke-opacity=".34" stroke-width=".55"/>
+      <path d="M24 4.7v132.5" stroke="#091b31" stroke-opacity=".45" stroke-width=".6"/>
+      <path d="M3 8.3q10 1.1 20 0M3 135q10 1.1 20 0" stroke="#07182e" stroke-opacity=".28" stroke-width="1.1"/>
+      <path d="M3 7.7q10 1.1 20 0M3 134.4q10 1.1 20 0" stroke="#c2d9e9" stroke-opacity=".3" stroke-width=".4"/>
+      <path d="M2.5 140.5h21" stroke="#b4cde0" stroke-opacity=".28" stroke-width=".45"/>
+    </g>
+
+
+    <rect x="17" y="181" width="126" height="11" rx=".8" fill="url(#ui-shelf-art-shelf1-rail)" stroke="#142c4d" stroke-width=".45"/>
+    <rect x="18" y="182" width="124" height="9" fill="url(#ui-shelf-art-shelf1-wood-horizontal)"/>
+    <path d="M18 181.6h124" stroke="#a0b8d0" stroke-opacity=".7" stroke-width=".6"/>
+    <path d="M18 191.4h124" stroke="#0a1c32" stroke-opacity=".7" stroke-width=".6"/>
+
+  <!-- Painted wood posts and beveled edges remain readable at thumbnail size. -->
+  <path d="M11 10h9v182h-7q-5 0-5-5V13q0-3 3-3Z" fill="url(#ui-shelf-art-shelf1-post)" stroke="#142c4d" stroke-width=".55"/>
+  <path d="M141 10h7q3 0 3 3v174q0 5-5 5h-5Z" fill="url(#ui-shelf-art-shelf1-post)" stroke="#142c4d" stroke-width=".55"/>
+  <path d="M11 12h7v177h-7Zm132 0h6v177h-6Z" fill="url(#ui-shelf-art-shelf1-wood-vertical)"/>
+  <path d="M9.5 16v171q0 3 3 3m130-174v172" stroke="#91abc5" stroke-opacity=".55" stroke-width=".55"/>
+  <path d="M19.5 18v162.5m122-162.5v162.5" stroke="#071b31" stroke-opacity=".7" stroke-width=".8"/>
+  <path d="M15 5h129l7 6H8Z" fill="url(#ui-shelf-art-shelf1-top)"/>
+  <path d="M15.5 5.5h128" stroke="#a5bbd2" stroke-opacity=".8" stroke-width=".65"/>
+  <rect x="8" y="10.5" width="143" height="8" rx="1.1" fill="url(#ui-shelf-art-shelf1-rail)" stroke="#193655" stroke-width=".6"/>
+  <rect x="9" y="11.5" width="141" height="5.7" fill="url(#ui-shelf-art-shelf1-wood-horizontal)"/>
+  <path d="M9 11.2h141" stroke="#bfd0e2" stroke-opacity=".55" stroke-width=".65"/>
+  <path d="M20 18.4h121" stroke="#07192e" stroke-opacity=".65" stroke-width=".75"/>
+  <path d="M15 192h130" stroke="#6c8aa7" stroke-opacity=".45" stroke-width=".55"/>
+</g>
+  </defs>
+
 
 	<g id="go_back">
 		<path d="m 16.672783,26.872085 0.174213,-0.201809 c 0.52288,-0.704531 0.464809,-1.704458 -0.174213,-2.343479 l -6.525364,-6.525318 16.052858,-7.2e-4 0.244282,-0.01656 C 27.322824,17.665177 28,16.912173 28,16.001033 L 27.98344,15.756751 C 27.864418,14.878246 27.111414,14.20131 26.200274,14.20131 l -16.057657,7.2e-4 6.531603,-6.5287469 0.174453,-0.201809 C 17.371555,6.7670171 17.313484,5.7671631 16.674703,5.1280935 15.972091,4.4251457 14.832506,4.4249297 14.129654,5.1276136 L 4.5273724,14.726112 4.3530473,14.927921 c -0.5229436,0.704532 -0.4649525,1.704698 0.1740692,2.34372 l 9.6006175,9.600444 0.201809,0.174213 c 0.704532,0.52288 1.704218,0.464809 2.34324,-0.174213 z" />
@@ -140,17 +414,11 @@
 		<path d="M 0,4 A 4,4 0 0 1 4,0 h 16 a 4,4 0 0 1 4,4 v 4 h 4 a 4,4 0 0 1 4,4 v 16 a 4,4 0 0 1 -4,4 H 12 A 4,4 0 0 1 8,28 V 24 H 4 A 4,4 0 0 1 0,20 Z m 10,20 v 4 a 2,2 0 0 0 2,2 h 16 a 2,2 0 0 0 2,-2 V 12 a 2,2 0 0 0 -2,-2 h -4 v 10 a 4,4 0 0 1 -4,4 z" />
 	</g>
 
-	<g id="folder">
-		<path d="m 17.73325,6 -6.517375,5.924875 C 10.98575,12.134 10.686,12.25 10.375,12.25 H 1 V 23.5 c 0,2.761375 2.238575,5 5,5 h 20 c 2.761375,0 5,-2.238625 5,-5 V 11 C 31,8.238575 28.761375,6 26,6 Z m -3.7165,0 H 13.9385 L 11.155875,3.7739125 C 10.93425,3.5966 10.658875,3.5 10.375,3.5 H 6 c -2.761425,0 -5,2.238575 -5,5 v 1.25 h 8.89175 z" />
-	</g>
+	<g id="shelf" fill="none"><use href="#ui-shelf-art" transform="translate(3.2 0) scale(.16)"/></g>
 
-	<g id="folder-opened">
-		<path d="m 0.00636815,6.7755925 c 6.897e-4,-1.9927311 1.61631405,-3.60781 3.60906125,-3.60781 h 6.3447617 c 0.8429799,0 1.6593659,0.2950768 2.3075369,0.8340621 l 3.819237,3.1758134 h 9.183537 c 1.993164,0 3.609061,1.6158328 3.609061,3.609062 v 1.20634 H 7.0985423 c -1.6566072,0 -3.1004883,1.127872 -3.5016395,2.735107 L 0.51391435,27.080459 c 0.068893,-0.276374 -0.00159,0.0063 0,0 C 0.18744675,26.537496 -2.2444548e-4,25.901659 1.5452089e-7,25.221873 Z M 2.8052352,27.835957 c -0.1263171,0.506231 0.256516,0.996261 0.7781457,0.996261 H 26.424279 c 1.287873,0 2.410692,-0.876601 2.723157,-2.126138 l 2.828221,-11.310477 c 0.126557,-0.50607 -0.256324,-0.996422 -0.778114,-0.996422 H 7.0985423 c -0.5522024,0 -1.0334907,0.375824 -1.1672185,0.911569 z" />
-	</g>
+	<g id="shelf-opened"><use href="#shelf"/></g>
 
-	<g id="folder-new">
-		<path d="M 6 3.5 C 3.238575 3.5 1 5.738575 1 8.5 L 1 9.75 L 9.8925781 9.75 L 14.017578 6 L 13.939453 6 L 11.15625 3.7734375 C 10.934625 3.596125 10.658875 3.5 10.375 3.5 L 6 3.5 z M 17.732422 6 L 11.216797 11.925781 C 10.986672 12.134906 10.686 12.25 10.375 12.25 L 1 12.25 L 1 23.5 C 1 26.261375 3.238575 28.5 6 28.5 L 18.162109 28.5 A 7.5 7.5 0 0 1 17 24.5 A 7.5 7.5 0 0 1 24.5 17 A 7.5 7.5 0 0 1 31 20.761719 L 31 11 C 31 8.238575 28.761375 6 26 6 L 17.732422 6 z M 24.013672 18.017578 A 6.5 6.5 0 0 0 18 24.5 A 6.5 6.5 0 0 0 31 24.5 A 6.5 6.5 0 0 0 24.013672 18.017578 z M 24.5 20.785156 A 0.92857143 0.92857143 0 0 1 25.427734 21.714844 L 25.427734 23.572266 L 27.285156 23.572266 A 0.9285715 0.9285715 0 0 1 27.285156 25.427734 L 25.427734 25.427734 L 25.427734 27.285156 A 0.92857143 0.92857143 0 0 1 23.572266 27.285156 L 23.572266 25.427734 L 21.714844 25.427734 A 0.9285715 0.9285715 0 0 1 21.714844 23.572266 L 23.572266 23.572266 L 23.572266 21.714844 A 0.92857143 0.92857143 0 0 1 24.5 20.785156 z " />
-	</g>
+	<g id="shelf-new"><use href="#shelf"/><circle cx="25" cy="25" r="7" fill="white"/><path d="M24 19h2v5h5v2h-5v5h-2v-5h-5v-2h5z"/></g>
 
 	<g id="item-edit">
 		<path d="m 2,26.991717 a 2.8673064,2.8673064 0 0 0 2.8673064,2.867306 H 25.89422 a 2.8673064,2.8673064 0 0 0 2.867307,-2.867306 V 15.522491 a 0.9557688,0.9557688 0 0 0 -1.911537,0 v 11.469226 a 0.9557688,0.9557688 0 0 1 -0.95577,0.955769 H 4.8673064 A 0.9557688,0.9557688 0 0 1 3.9115376,26.991717 V 5.9648034 A 0.9557688,0.9557688 0 0 1 4.8673064,5.0090346 H 17.292302 a 0.95576881,0.95576881 0 0 0 0,-1.9115376 H 4.8673064 A 2.8673064,2.8673064 0 0 0 2,5.9648034 Z M 29.721118,4.8943424 a 0.9557688,0.9557688 0 0 1 0,1.3495456 L 27.727384,8.2395334 23.904309,4.416458 25.898044,2.4208127 a 0.9557688,0.9557688 0 0 1 1.351457,0 l 2.471617,2.4716181 z M 26.375928,9.5890784 22.552852,5.7660035 9.5295469,18.791221 a 0.9557688,0.9557688 0 0 0 -0.231297,0.374661 L 7.7594628,23.780334 A 0.4778844,0.4778844 0 0 0 8.3635089,24.38438 L 12.97796,22.845592 a 0.9557688,0.9557688 0 0 0 0.374662,-0.229385 L 26.375928,9.5909894 Z" />
@@ -164,10 +432,7 @@
 		<path d="M 1.0620006,7.7619958 C 0.27560424,7.9962215 -0.17201877,8.8235996 0.06220708,9.6099963 l 0.6361551,2.1358467 c 0.23422585,0.786396 1.06160392,1.234018 1.84800032,0.999793 L 28.176513,5.1117749 C 28.96291,4.8775493 29.410533,4.0501711 29.176307,3.2637741 L 28.540152,1.1279284 C 28.305926,0.34153135 27.478548,-0.10609166 26.69215,0.12813467 Z M 3,13.427734 V 27.357422 C 3,29.855279 4.8958102,32 7.3769531,32 H 24.623047 C 27.10419,32 29,29.855279 29,27.357422 V 13.427734 Z m 16.984375,3.556641 c 0.146446,0 0.294514,0.05623 0.40625,0.167969 l 2.427734,2.427734 c 0.22347,0.223468 0.22347,0.587076 0,0.810547 l -2.427734,2.427734 c -0.22347,0.223469 -0.587078,0.223469 -0.810547,0 l -2.427734,-2.427734 c -0.223469,-0.223471 -0.223468,-0.587076 0,-0.810547 l 2.427734,-2.427734 c 0.111736,-0.111735 0.257851,-0.167969 0.404297,-0.167969 z M 9.75,17 h 4.5 c 0.414212,-2e-6 0.75,0.335786 0.75,0.75 v 4.5 c 0,0.414213 -0.335788,0.750001 -0.75,0.75 H 9.75 C 9.3357863,23 9.0000009,22.664213 9,22.25 v -4.5 C 9,17.335786 9.3357863,17 9.75,17 Z m 0,8 h 4.5 c 0.414214,0 0.75,0.223858 0.75,0.5 v 3 c 0,0.276142 -0.335786,0.500001 -0.75,0.5 H 9.75 C 9.3357863,29 9.000001,28.776142 9,28.5 v -3 C 9,25.223858 9.3357863,25 9.75,25 Z m 8,0 h 4.5 c 0.414215,0 0.75,0.223858 0.75,0.5 v 3 c 0,0.276142 -0.335785,0.500001 -0.75,0.5 h -4.5 C 17.335787,29 17,28.776142 17,28.5 v -3 C 17,25.223858 17.335787,25 17.75,25 Z" />
 	</g>
 
-	<g id="book">
-		<path d="M 7.6363637,2 C 5.6280582,2 4,3.567006 4,5.5 v 21 C 4,28.43298 5.6280582,30 7.6363637,30 H 26.909091 C 27.511563,30 28,29.52988 28,28.95 28,28.37012 27.511563,27.9 26.909091,27.9 H 7.6363637 C 6.8330473,27.9 6.1818183,27.27322 6.1818183,26.5 H 26.909091 C 27.511563,26.5 28,26.02988 28,25.45 V 5.5 C 28,3.567006 26.371927,2 24.363636,2 Z M 9.818183,6.2 h 11.636365 c 0.803343,0 1.454543,0.626808 1.454543,1.4 V 9 c 0,0.773192 -0.6512,1.4 -1.454543,1.4 H 9.818183 C 9.014865,10.4 8.3636364,9.773192 8.3636364,9 V 7.6 c 0,-0.773192 0.6512286,-1.4 1.4545466,-1.4 z"
-		   style="fill:currentColor;stroke:none;" />
-	</g>
+	<g id="book" fill="none"><use href="#ui-book-art" transform="translate(3.2 0) scale(.16)"/></g>
 
 	<g id="book-opened">
 		<path style="fill:currentColor"
@@ -328,17 +593,15 @@
 		<path d="M 23.791014,0 C 18.699061,0 16.158045,2.0291901 14.890018,3.6266492 13.621991,5.2241083 13.626952,6.8832433 13.626952,7.6233534 H 10.722655 10.671875 9.853516 L 16,13 22.609375,7.6233534 h -0.59375 c 0.04764,-0.028694 -0.03809,0 -0.394531,0 H 18.71875 c 0,0 -0.656185,-5.1563197 5.072266,-7.6233534 z M 10.296875,12 c -1.369298,0 -2.4785156,1.119289 -2.4785156,2.5 v 15 c 0,1.380702 1.1092176,2.5 2.4785156,2.5 h 13.142578 c 0.410777,0 0.742188,-0.335799 0.742188,-0.75 0,-0.414199 -0.331411,-0.75 -0.742188,-0.75 H 10.296875 c -0.5477164,0 -0.9902344,-0.447698 -0.9902344,-1 H 23.439453 c 0.410777,0 0.742188,-0.335799 0.742188,-0.75 V 14.5 c 0,-1.380711 -1.109226,-2.5 -2.478516,-2.5 h -2.875 L 16,14 13.171875,12 Z m 1.970703,3.921875 h 7.935547 c 0.547739,0 0.992187,0.447719 0.992187,1 v 1 c 0,0.552279 -0.444448,1 -0.992187,1 h -7.935547 c -0.547715,0 -0.990234,-0.447721 -0.990234,-1 v -1 c 0,-0.552281 0.442519,-1 0.990234,-1 z" />
 	</g>
 
-	<g id="open-folder">
-		<path d="M 7.3125004,-4.9999999e-8 C 5.7595753,-4.9999999e-8 4.5005378,1.259588 4.5000004,2.8125 l -0.00586,14.373047 c -1.751e-4,0.529749 0.1459781,1.026094 0.4003906,1.449219 L 7.2968754,9.0097656 C 7.609488,7.7572656 8.734416,6.8769531 10.025391,6.8769531 H 27 V 5.9375 C 27,4.3842 25.740749,3.125 24.1875,3.125 H 17.03125 L 14.054688,0.65039057 C 13.549576,0.23036457 12.912784,-4.9999999e-8 12.25586,-4.9999999e-8 Z M 10.025391,8.7519531 c -0.430325,0 -0.8039905,0.2934375 -0.9082031,0.7109375 l -2.4375,9.7597654 C 6.5812509,19.617156 6.8806096,20 7.2871098,20 h 5.9882812 l 3.6875,-3 3.429688,3 h 4.693359 c 1.003624,0 1.879546,-0.6825 2.123047,-1.65625 L 29.41211,9.5292969 C 29.51073,9.1349219 29.213266,8.7519531 28.806641,8.7519531 Z M 9.063575,32 c 5.091953,0 7.632969,-2.02919 8.900996,-3.626649 1.268027,-1.59746 1.263066,-3.256595 1.263066,-3.996705 h 2.904297 0.05078 0.818359 L 16.854589,19 10.245214,24.376646 h 0.59375 c -0.04764,0.02869 0.03809,0 0.394531,0 h 2.902344 c 0,0 0.656185,5.15632 -5.072266,7.623354 z" />
-	</g>
+	<g id="open-shelf"><use href="#shelf" transform="translate(0 0) scale(.72)"/><path d="M19 23h8l-3-3 1.5-1.5L31 24l-5.5 5.5L24 28l3-3h-8z"/></g>
 
-	<g id="close-folder">
-		<path d="m 17.3866,14 -5.2139,4.7399 C 11.9886,18.9072 11.7488,19 11.5,19 H 3.9999999 v 9 c 0,2.2091 1.7908598,4 3.9999997,4 H 24 c 2.2091,0 4,-1.7909 4,-4 V 18 c 0,-2.20914 -1.7909,-4 -4,-4 z m -2.9732,0 H 14.3508 L 12.1247,12.219129 C 11.9474,12.07728 11.7271,12 11.5,12 H 7.9999996 c -2.2091399,0 -3.9999997,1.79086 -3.9999997,4 v 1 H 11.1134 Z M 23.791014,0 C 18.699061,0 16.158045,2.0291901 14.890018,3.6266492 13.621991,5.2241083 13.626952,6.8832433 13.626952,7.6233534 H 10.722655 10.671875 9.853516 L 16,13 22.609375,7.6233534 h -0.59375 c 0.04764,-0.028694 -0.03809,0 -0.394531,0 H 18.71875 c 0,0 -0.656185,-5.1563197 5.072266,-7.6233534 z" />
-	</g>
+	<g id="close-shelf"><use href="#shelf" transform="translate(0 8) scale(.72)"/><path d="M31 7h-8l3-3-1.5-1.5L19 8l5.5 5.5L26 12l-3-3h8z"/></g>
 
 	<g id="relocate">
-		<path d="m 23,21 c -0.55228,0 -1,0.44772 -1,1 v 1.5 c 0,0.55228 0.44772,1 1,1 h 1.5 c 0.55228,0 1,-0.44772 1,-1 V 22 c 0,-0.55228 -0.44772,-1 -1,-1 z m 0,4.5 c -0.55228,0 -1,0.44772 -1,1 V 28 c 0,0.5523 0.44772,1 1,1 h 1.5 c 0.55228,0 1,-0.4477 1,-1 v -1.5 c 0,-0.55228 -0.44772,-1 -1,-1 z M 27.5,21 c -0.55228,0 -1,0.44772 -1,1 v 1.5 c 0,0.55228 0.44772,1 1,1 H 29 c 0.5523,0 1,-0.44772 1,-1 V 22 c 0,-0.55228 -0.4477,-1 -1,-1 z m 0,4.5 c -0.55228,0 -1,0.44772 -1,1 V 28 c 0,0.5523 0.44772,1 1,1 H 29 c 0.5523,0 1,-0.4477 1,-1 v -1.5 c 0,-0.55228 -0.4477,-1 -1,-1 z M 20,21.5 C 20,20.11929 21.11929,19 22.5,19 h 7 c 1.3807,0 2.5,1.11929 2.5,2.5 v 7 c 0,1.3807 -1.1193,2.5 -2.5,2.5 h -7 C 21.11929,31 20,29.8807 20,28.5 Z M 22.5,20 C 21.67157,20 21,20.67157 21,21.5 v 7 c 0,0.8284 0.67157,1.5 1.5,1.5 h 7 c 0.8284,0 1.5,-0.6716 1.5,-1.5 v -7 C 31,20.67157 30.3284,20 29.5,20 Z M 17.55982,7.01909 19.81568,9.27485 c 0.29289,0.2929 0.29289,0.7677 0,1.0606 -0.26627,0.2663 -0.68293,0.2905 -0.97654,0.0727 L 18.75502,10.33545 15.21949,6.79996 15.15092,6.72116 15.11038,6.66179 15.0613,6.56752 15.02849,6.47572 15.0126,6.40791 15.0037,6.34603 15,6.25241 15.0037,6.19323 15.01932,6.09928 15.04977,6 15.09619,5.90146 15.131,5.84576 C 15.15658,5.80837 15.18614,5.77265 15.2195,5.7393 L 15.15093,5.81809 C 15.17195,5.79025 15.19487,5.76392 15.2195,5.7393 l 3.53553,-3.5355405 c 0.29289,-0.29289 0.76777,-0.29289 1.06066,0 0.26627,0.26627 0.29047,0.6829305 0.07262,0.9765505 l -0.07262,0.08411 -2.25586,2.25467 2.8775,5.4e-4 c 3.65149,0 6.13249,2.07664 6.24589,5.03702 l 0.0041,6.498376 c 0,0.4142 -0.3358,0.75 -0.75,0.75 -0.4142,0 -0.75,-0.3358 -0.75,-0.75 0,-0.02676 -2.67e-4,-6.338796 -8.01e-4,-6.365366 C 25.14461,8.6025599 23.460121,7.1106326 20.69494,7.02364 l -0.25761,-0.004 -2.8775,-5.4e-4 2.25586,2.25576 z M 2,21.600001 V 29.4 C 2,30.83598 3.1192871,32 4.5000007,32 H 14.5 c 1.38075,0 2.5,-1.16402 2.5,-2.6 v -6.5 c 0,-1.435942 -1.11925,-2.600001 -2.5,-2.600001 H 8.4692363 L 7.0779371,19.142442 C 6.9671106,19.050234 6.8294256,19 6.6874999,19 H 4.5000007 C 3.1192871,19 2,20.164059 2,21.600001 Z m 1.2499993,0 c 0,-0.717966 0.55965,-1.300002 1.2500014,-1.300002 h 1.9682614 l 1.0851621,0.90285 -1.1075485,1.047126 H 3.2499993 Z m 5.7416249,0 H 14.5 c 0.690375,0 1.250001,0.582036 1.250001,1.299999 v 6.5 c 0,0.71799 -0.559626,1.300001 -1.250001,1.300001 H 4.5000007 C 3.8096493,30.700001 3.2499993,30.11799 3.2499993,29.4 v -5.850026 h 3.4375006 c 0.155475,0 0.3053743,-0.06026 0.4204243,-0.16904 z M 3.4266739,1.1443895 c 0.067632,0.00298 0.136452,0.017105 0.2040962,0.043945 L 8.246152,3.0194251 C 8.58154,3.1524812 8.799999,3.4645034 8.799999,3.8104608 V 14.284318 c 0,0.40768 -0.435552,0.684191 -0.830771,0.527311 L 3.353846,12.980607 C 3.0184578,12.847494 2.7999976,12.535449 2.7999976,12.189583 V 1.7156912 c 0,-0.3219171 0.2715962,-0.5620353 0.5804524,-0.5715988 0.00648,1.942e-4 0.013008,2.971e-4 0.019548,2.971e-4 z m 3.2133254,0 h 4.8600017 c 0.49704,0 0.9,0.3836633 0.9,0.8569525 v 3.4816841 c 0,0.092106 -0.01561,0.1836164 -0.0462,0.2709913 l -1.04604,2.9880453 c -0.07141,0.203898 -0.107757,0.417404 -0.107757,0.632316 v 2.3390803 c 0,0.473268 -0.40296,0.856953 -0.9,0.856953 H 10 V 3.8104603 C 10,3.0032339 9.490253,2.2751898 8.707696,1.9647102 Z M 10,13.713016 h 0.300001 c 1.159801,0 2.1,-0.89523 2.1,-1.999557 V 9.3743787 c 0,-0.09211 0.01561,-0.183604 0.0462,-0.270991 L 13.49224,6.1153429 C 13.56365,5.9114567 13.599997,5.6979384 13.599997,5.4830261 V 2.001342 c 0,-1.10432625 -0.9402,-1.99956065 -2.100001,-1.99956065 H 3.4800499 C 2.4976576,-0.04130615 1.5999972,0.70200765 1.5999972,1.7156912 V 12.189583 c 0,0.807135 0.5097482,1.535201 1.2923045,1.845761 l 4.6153939,1.831022 C 8.693332,16.336776 10,15.50736 10,14.284318 Z" />
-	</g>
+        <use href="#shelf" transform="scale(.48)"/>
+        <use href="#shelf" transform="translate(16 16) scale(.48)"/>
+        <path d="M19 5h6a3 3 0 0 1 3 3v6m-4-4 4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
 
 	<g id="arrow-left-fat">
 		<path d="M 3.2864499,18.554761 C 1.6542861,17.251072 1.6543824,14.747148 3.2866428,13.443566 L 15.722645,3.5117191 c 1.407049,-1.123558 3.475088,-0.10972 3.475088,1.703912 v 4.271551 h 8.583568 c 1.184882,0 2.145564,0.9717199 2.145564,2.1706569 v 8.682713 c 0,1.198829 -0.960682,2.170679 -2.145564,2.170679 l -8.583568,-8.5e-5 v 4.273299 c 0,1.813653 -2.068189,2.827533 -3.475216,1.703674 z" />
@@ -391,8 +654,10 @@
 	</g>
 
 	<g id="root-target">
-		<path d="M 15.128906 0 L 14.994141 0.00390625 C 13.969701 0.073180511 13.160156 0.92674857 13.160156 1.96875 L 13.160156 4.375 L 18.591797 4.375 L 18.683594 4.3691406 C 18.773921 4.3564586 18.85999 4.3254217 18.9375 4.2773438 L 19.011719 4.2226562 L 21.691406 1.9882812 L 19.851562 0.45703125 L 19.714844 0.3515625 C 19.386159 0.12313523 18.994786 0 18.591797 0 L 15.128906 0 z M 2.3398438 0.75 C 1.7858445 0.75 1.3398438 1.488861 1.3398438 2.40625 L 1.3398438 29.59375 C 1.3398437 30.511139 1.7858445 31.25 2.3398438 31.25 C 2.893843 31.25 3.3398438 30.511139 3.3398438 29.59375 L 3.3398438 27.554688 L 13.160156 27.505859 L 13.160156 30.03125 L 13.166016 30.166016 C 13.23529 31.190465 14.086905 32 15.128906 32 L 28.691406 32 L 28.826172 31.996094 C 29.850621 31.926794 30.660156 31.073287 30.660156 30.03125 L 30.660156 22.15625 L 30.65625 22.021484 L 30.642578 21.882812 C 30.509666 20.924766 29.686018 20.1875 28.691406 20.1875 L 23.503906 20.1875 L 19.851562 23.230469 L 19.714844 23.335938 C 19.433111 23.531675 19.105456 23.649768 18.763672 23.679688 L 18.591797 23.6875 L 13.160156 23.6875 L 13.160156 25.505859 L 3.3398438 25.554688 L 3.3398438 9.6933594 L 13.160156 9.6445312 L 13.160156 12.03125 L 13.166016 12.166016 C 13.23529 13.190465 14.086905 14 15.128906 14 L 28.691406 14 L 28.826172 13.996094 C 29.850621 13.926794 30.660156 13.073286 30.660156 12.03125 L 30.660156 4.15625 L 30.65625 4.0214844 L 30.642578 3.8828125 C 30.509666 2.9247667 29.686018 2.1875 28.691406 2.1875 L 23.503906 2.1875 L 19.851562 5.2304688 L 19.714844 5.3359375 C 19.433111 5.5316748 19.105456 5.6497625 18.763672 5.6796875 L 18.591797 5.6875 L 13.160156 5.6875 L 13.160156 7.6445312 L 3.3398438 7.6933594 L 3.3398438 2.40625 C 3.3398438 1.488861 2.893843 0.75 2.3398438 0.75 z M 15.128906 18 L 14.994141 18.003906 C 13.969701 18.073181 13.160156 18.926748 13.160156 19.96875 L 13.160156 22.375 L 18.591797 22.375 L 18.683594 22.369141 C 18.773921 22.356461 18.85999 22.325424 18.9375 22.277344 L 19.011719 22.222656 L 21.691406 19.988281 L 19.851562 18.457031 L 19.714844 18.351562 C 19.386159 18.123135 18.994786 18 18.591797 18 L 15.128906 18 z " />
-	</g>
+        <path d="M5 3v26m0-22h8M5 25h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <use href="#shelf" transform="translate(14 0) scale(.43)"/>
+        <use href="#shelf" transform="translate(14 18) scale(.43)"/>
+    </g>
 
 	<g id="active-pnl-c">
 		<path d="M 4.3339844,1 C 3.417318,1 2.6312935,1.3257377 1.9785156,1.9785156 1.3257377,2.6312935 1,3.417318 1,4.3339844 V 27.666016 c 0,0.916666 0.3257377,1.70269 0.9785156,2.355468 C 2.6312935,30.674262 3.417318,31 4.3339844,31 H 27.666016 c 0.916666,0 1.70269,-0.325738 2.355468,-0.978516 C 30.674262,29.368706 31,28.582682 31,27.666016 V 4.3339844 C 31,3.417318 30.674262,2.6312935 30.021484,1.9785156 29.368706,1.3257377 28.582682,1 27.666016,1 Z m 0,6.6660156 H 27.666016 V 27.666016 H 4.3339844 Z M 7.6660156,12.666016 V 18 H 24.333984 v -5.333984 z m 10.6582034,8.654296 v 3.333985 h 6 v -3.333985 z m -10.6582034,0.01367 v 3.332032 h 6.0000004 v -3.332032 z" />

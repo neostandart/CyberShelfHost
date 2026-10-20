@@ -466,6 +466,7 @@ aside[b-tpp0wlf4sz] {
     border-radius: 0.25rem;
     transform: translate(0);
     max-height: 90%;
+    max-width: 100%;
     overflow: hidden;
 }
 
@@ -665,6 +666,41 @@ aside[b-6gbufhnz00] {
     }
 }
 
+
+.info-banner[b-6gbufhnz00] {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: var(--ui-z-info);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.5rem;
+    padding: 0.35rem 0.75rem;
+    padding-bottom: max(0.35rem, env(safe-area-inset-bottom));
+    border-top: 1px solid var(--rz-info);
+    background-color: var(--rz-body-background-color);
+    background-image: linear-gradient(var(--rz-info-lighter), var(--rz-info-lighter));
+    color: var(--rz-info);
+    box-shadow: 0 -1px 2px rgb(0 0 0 / 20%);
+}
+
+.info-banner-text[b-6gbufhnz00] {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.info-banner-actions[b-6gbufhnz00] {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 0.75rem;
+}
 
 /* Radzen correction */
 
@@ -1123,6 +1159,17 @@ div.layout-ctr[b-7p77mj314u] {
         grid-row: 3;
         grid-column: 3;
     }
+/* /Frame/HeaderBookTools.razor.rz.scp.css */
+/* The right column of the header (MainLayout's #MainHeader grid). */
+#HeaderBookTools[b-uzxkji4u5s] {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0.25rem;
+}
 /* /Frame/MainLayout.razor.rz.scp.css */
 
 /* ==============================================
@@ -1132,11 +1179,14 @@ div.layout-ctr[b-7p77mj314u] {
 #MainLayout[b-e6ub5wcgz1] {
     --sidebar-toggle-indent: 0.25rem;
     --layout-bar-size-unit: calc( var(--rz-sidebar-toggle-icon-width) + (var(--rz-sidebar-toggle-padding) * 2) + (var(--sidebar-toggle-indent) * 2) );
+    /* The lesson banner's own strip above the header on a narrow screen. */
+    --lesson-banner-strip: 3rem;
     /* *** */
     display: grid;
     grid-template-areas: none;
     grid-template-rows: auto auto auto 1fr;
-    grid-template-columns: var(--layout-bar-size-unit) 1fr auto;
+    /* Let the page and toolbar shrink to the viewport; a content minimum must not widen the shell. */
+    grid-template-columns: var(--layout-bar-size-unit) minmax(0, 1fr) auto;
     /* *** */
     overflow: hidden;
     height: 100%;
@@ -1149,7 +1199,9 @@ div.layout-ctr[b-7p77mj314u] {
     grid-column: 1 / span 3;
 
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    /* Equal side columns keep the caption centered whichever buttons the sides show (the menu toggle on the
+       left, the book controls of HeaderBookTools on the right). */
+    grid-template-columns: 1fr auto 1fr;
 
     align-items: center;
     text-align: center;
@@ -1161,6 +1213,7 @@ div.layout-ctr[b-7p77mj314u] {
     #MainHeader #AltNavToggle[b-e6ub5wcgz1] {
         visibility: hidden;
         grid-column: 1;
+        justify-self: start;
         margin: 0.25rem;
     }
 
@@ -1247,6 +1300,23 @@ div.layout-ctr[b-7p77mj314u] {
     width: 0;
     border-right: 1px solid var(--rz-primary-light);
     z-index: var(--ui-z-navbar);
+}
+
+/* Online-lesson shell (the tab was opened by a lesson link, LessonEntryMode): no menu. Its toggles are not
+   rendered; the bar itself stays mounted and is hidden here, and the column that held the toggle collapses
+   so the toolbar (portrait) / the page (landscape) takes the full width. */
+#MainLayout.lesson-entry[b-e6ub5wcgz1] {
+    grid-template-columns: 0 minmax(0, 1fr) auto;
+}
+
+#MainLayout.lesson-entry[b-e6ub5wcgz1]  #MainNavBar {
+    display: none;
+}
+
+/* Portrait: the horizontal toolbar used to start after the toggle's column; without it, keep its buttons
+   off the viewport edge (mirrors its right padding). */
+#MainLayout.lesson-entry #MainToolbar.tbar-horz[b-e6ub5wcgz1] {
+    padding-left: 1rem;
 }
 
 /* Active (Packages) Panel */
@@ -1373,12 +1443,21 @@ div.layout-ctr[b-7p77mj314u] {
 }
 
 /* On narrow screens the bottom-docked pill crowds the page-flip controls, so it docks flush to the
-   top edge instead — raised as high as possible, out of the reading/flip area. It must clear the
-   top-most layer (MainHeader at --ui-z-cover), so it stacks above everything, header included. */
+   top edge instead — raised as high as possible, out of the reading/flip area — in a strip of its own: the
+   layout moves down by the strip (#MainLayout.lesson-banner), since laid over the header the banner took the
+   taps meant for its buttons (the menu toggle, the book controls). The banner's height is fixed to the strip,
+   and it still stacks above everything. */
 @media (max-width: 700px) {
+    #MainLayout.lesson-banner[b-e6ub5wcgz1] {
+        padding-top: var(--lesson-banner-strip);
+    }
+
     .lesson-live-banner[b-e6ub5wcgz1] {
         top: 0;
         bottom: auto;
+        height: var(--lesson-banner-strip);
+        min-height: 0;
+        padding-block: 0.25rem;
         z-index: calc(var(--ui-z-cover) + 1);
     }
 }
@@ -1829,6 +1908,15 @@ article[b-tghm1xashm] {
     transform: translate(-50%, -50%);
 }
 
+/* /Pages/Catalog/Stuff/BookThumbnail.razor.rz.scp.css */
+.book-thumb[b-d5zykitqul] { display: grid; place-items: center; position: relative; flex-shrink: 0; width: 96px; aspect-ratio: 4 / 5; }
+.book-thumb-placeholder[b-d5zykitqul] { display: block; width: 100%; height: 100%; }
+/* Match the front cover used by ShelfGridItem; keep the spine and page edges exposed. */
+.book-thumb-image[b-d5zykitqul] { position: absolute; left: 17.5%; top: 4%; width: 70%; height: 85%; object-fit: cover; border-radius: 1px; opacity: 0; background: var(--rz-primary); }
+.book-thumb-image.loaded[b-d5zykitqul] { opacity: 1; }
+@media (max-width: 575.98px) {
+    .book-thumb[b-d5zykitqul] { width: 64px; }
+}
 /* /Pages/Catalog/Stuff/Details.razor.rz.scp.css */
 article[b-z636rsmn8k] {
     position: relative;
@@ -1842,7 +1930,7 @@ article[b-z636rsmn8k] {
     overflow-x: hidden;
     overflow-y: auto;
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
     grid-template-rows: auto 1fr;
     width: 100%;
     height: 100%;
@@ -1954,13 +2042,35 @@ header #MainDistorPane[b-z636rsmn8k] {
 
 [b-z636rsmn8k] .book-card {
     flex: 1;
+    min-width: 0;
     border: 2px solid var(--book-color);
     background-color: var(--book-bg);
 }
 
-[b-z636rsmn8k] .book-thumb {
-    width: 96px;
-    height: 128px;
+[b-z636rsmn8k] .book-update-btn { max-width: 100%; }
+[b-z636rsmn8k] .book-update-btn .rz-button-text { white-space: normal; }
+[b-z636rsmn8k] .book-card section { min-width: 0; }
+
+[b-z636rsmn8k] .book-card-linked {
+    border-color: var(--rz-primary);
+    box-shadow: 0 0 0 3px var(--rz-primary-lighter);
+    scroll-margin-block: 0.75rem;
+}
+
+[b-z636rsmn8k] .book-card-added {
+    border: 2px dashed var(--rz-warning-dark);
+    background-color: var(--rz-warning-lighter);
+    box-shadow: 0 0 0 3px var(--rz-warning-light);
+}
+
+.book-link-label[b-z636rsmn8k] {
+    color: var(--rz-warning);
+    font-size: var(--rz-text-small-font-size);
+    font-weight: 600;
+}
+
+[b-z636rsmn8k] .book-card-added .book-link-label {
+    color: var(--rz-on-warning-lighter);
 }
 
 [b-z636rsmn8k] .book-descr-btn {
@@ -2018,10 +2128,6 @@ header #MainDistorPane[b-z636rsmn8k] {
         margin-left: 0;
     }
 
-    [b-z636rsmn8k] .book-thumb {
-        width: 64px;
-        height: 80px;
-    }
 }
 /* /Pages/Catalog/Stuff/InstalledCtr.razor.rz.scp.css */
 .info-table[b-p6977tldw5] {
@@ -2251,6 +2357,44 @@ h1[b-w4b4g52xeq] {
 
 }
 /* /Pages/Home/HomePage.razor.rz.scp.css */
+/* The signed-in blocks, placed like the sign-in card (EnterControl's `rz-m-auto` + bottom padding): auto
+   margins centre them in the flex-column body, and fall to zero when the lesson blocks outgrow it, so the
+   scrolling body never clips the top. */
+.signed-in-box[b-xffegp7ade] {
+    margin: auto;
+    width: 100%;
+    padding-bottom: 5rem;
+}
+
+/* The online-lesson shell's blocks (LessonEntryMode): the lesson to join, the code entry, and the exit. */
+.lesson-entry-box[b-xffegp7ade] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin: 2rem auto 3rem;
+    max-width: 40rem;
+    width: 100%;
+}
+
+/* RadzenButton renders the class on its own <button>: ::deep anchored on the host-owned box. */
+.lesson-entry-box[b-xffegp7ade]  .lesson-entry-join {
+    max-width: 100%;
+    white-space: normal;
+}
+
+/* The page footer slot (PagePresenter, a child component): the exit stays visible whatever the height. */
+.lesson-entry-exit[b-xffegp7ade] {
+    padding: 0.75rem 0 1.25rem;
+    text-align: center;
+}
+
+/* With the lesson blocks the start page outgrows a short viewport (a phone held sideways); the presenter's
+   body clips by default, so let it scroll here. The selector repeats the presenter's own ancestor to
+   outrank its scoped `.ui-page-presenter .ui-page-body` rule. */
+article[b-xffegp7ade]  .ui-page-presenter .ui-page-body {
+    overflow-y: auto;
+}
 /* /Pages/Home/Stuff/EnterControl.razor.rz.scp.css */
 
 article[b-v1229qkoaa] {
@@ -2355,6 +2499,15 @@ article.entrance[b-v1229qkoaa] {
 
 /* /Pages/Shelf/ShelfPage.razor.rz.scp.css */
 
+.shelf-view-switch[b-uqcxmc1g8g] { display: flex; gap: .25rem; }
+.shelf-view-switch button[b-uqcxmc1g8g] { display: grid; place-items: center; min-width: 44px; min-height: 44px; padding: .5rem; background: transparent; color: var(--rz-primary); border: 1px solid var(--rz-primary); border-radius: .35rem; cursor: pointer; }
+.shelf-view-switch button[aria-pressed="true"][b-uqcxmc1g8g] { background: var(--rz-primary); color: var(--rz-on-primary); }
+.shelf-view-switch button:disabled[b-uqcxmc1g8g] { opacity: .5; cursor: default; }
+.shelf-view-switch button:focus-visible[b-uqcxmc1g8g] { outline: 2px solid var(--rz-primary); outline-offset: 2px; }
+.shelf-view-switch svg[b-uqcxmc1g8g] { width: 1.25rem; height: 1.25rem; fill: currentColor; }
+@media (max-width: 575px) {
+    [b-uqcxmc1g8g] .ui-page-caption { padding-inline: .5rem; gap: .25rem; }
+}
 [b-uqcxmc1g8g] .toolbutton-label {
     line-height: 1;
     margin-bottom: 0;
@@ -2400,6 +2553,78 @@ article[b-mj21airio6] {
         flex: 1;
         height: 100%;
     }
+/* /Pages/Shelf/Stuff/Edit/ShelfMoveDlg.razor.rz.scp.css */
+.shelf-move-dialog p[b-yxhm8mnf8f] { overflow-wrap: anywhere; }
+.shelf-move-label[b-yxhm8mnf8f] { display: block; margin-bottom: .5rem; }
+.shelf-move-target[b-yxhm8mnf8f] { width: 100%; min-height: 44px; padding: .5rem; font: inherit; color: var(--rz-text-color); background: var(--rz-base-background-color); border: 1px solid var(--rz-base-400); border-radius: .25rem; }
+.shelf-move-buttons[b-yxhm8mnf8f] { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; margin-top: 1rem; }
+/* /Pages/Shelf/Stuff/ShelfDetailsDlg.razor.rz.scp.css */
+.shelf-details-dialog[b-u27pxgk212] { display: flex; flex-direction: column; height: min(70dvh, 45rem); min-height: 15rem; }
+.shelf-details-dialog[b-u27pxgk212]  article { min-height: 0; }
+.shelf-details-dialog[b-u27pxgk212] >  article { flex: 1; border: 0; }
+/* /Pages/Shelf/Stuff/ShelfGrid.razor.rz.scp.css */
+.shelf-grid-view[b-14hu9gjr6q] { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.shelf-breadcrumbs[b-14hu9gjr6q] { display: flex; align-items: flex-start; gap: .5rem; padding: .25rem 0 .5rem; }
+.shelf-breadcrumbs ol[b-14hu9gjr6q] { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; list-style: none; margin: 0; padding: 0; min-width: 0; }
+.shelf-breadcrumbs li[b-14hu9gjr6q] { display: flex; align-items: baseline; gap: .25rem; min-width: 0; max-width: 100%; }
+.shelf-breadcrumbs button[b-14hu9gjr6q] { background: transparent; border: 0; color: var(--rz-primary); cursor: pointer; border-radius: .25rem; min-height: 44px; padding: .5rem; overflow-wrap: anywhere; text-align: start; font: inherit; }
+.shelf-breadcrumbs button[aria-current="page"][b-14hu9gjr6q] { font-weight: bold; color: var(--rz-text-color); }
+.shelf-breadcrumbs button:focus-visible[b-14hu9gjr6q], .shelf-pagination button:focus-visible[b-14hu9gjr6q] { outline: 2px solid var(--rz-primary); outline-offset: -2px; }
+.shelf-nav-button[b-14hu9gjr6q] { flex-shrink: 0; min-width: 44px; }
+.shelf-grid-scroll[b-14hu9gjr6q] { flex: 1; min-height: 0; overflow-y: auto; padding: 1.5rem .5rem .5rem; container-type: size; scrollbar-width: thin; }
+.shelf-grid-scroll:has(details[open])[b-14hu9gjr6q]::after { content: ""; display: block; height: 18rem; }
+.shelf-grid[b-14hu9gjr6q] { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(1rem, 2vw, 2rem); row-gap: 1.5rem; align-items: start; }
+.shelf-grid-empty[b-14hu9gjr6q] { padding: 2rem 1rem; text-align: center; color: var(--rz-text-secondary-color); }
+.shelf-pagination[b-14hu9gjr6q] { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: .5rem 0; font-size: .875rem; }
+.shelf-pagination button[b-14hu9gjr6q] { display: grid; place-items: center; min-width: 44px; min-height: 44px; background: transparent; border: 0; border-radius: .25rem; color: var(--rz-primary); cursor: pointer; font: inherit; font-size: 1.25rem; }
+.shelf-pagination button:disabled[b-14hu9gjr6q] { opacity: .3; cursor: default; }
+@media (min-width: 1200px) {
+    .shelf-grid[b-14hu9gjr6q] { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+@media (max-width: 991px) {
+    .shelf-grid[b-14hu9gjr6q] { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.5rem; }
+}
+@media (max-width: 575px) {
+    .shelf-grid-scroll[b-14hu9gjr6q] { padding: 1.5rem .25rem .5rem; }
+    .shelf-grid[b-14hu9gjr6q] { column-gap: 1rem; row-gap: 1.5rem; }
+}
+@media (max-width: 280px) { .shelf-grid[b-14hu9gjr6q] { grid-template-columns: minmax(0, 1fr); } }
+/* /Pages/Shelf/Stuff/ShelfGridItem.razor.rz.scp.css */
+.shelf-card[b-my1mumr4i3] { position: relative; min-width: 0; width: min(100%, clamp(7.5rem, 22vh, 12rem)); justify-self: center; }
+.shelf-card:has(details[open])[b-my1mumr4i3] { z-index: 2; }
+.shelf-card-main[b-my1mumr4i3] { display: block; width: 100%; padding: 0; color: var(--rz-text-color); background: transparent; border: 0; font: inherit; text-align: start; cursor: pointer; }
+.shelf-card-main:disabled[b-my1mumr4i3], .shelf-card-title.disabled[b-my1mumr4i3] { cursor: default; }
+.shelf-card-main:focus-visible[b-my1mumr4i3], .shelf-card-distributor:focus-visible[b-my1mumr4i3], .shelf-card-more:focus-visible[b-my1mumr4i3], .shelf-card-menu-content button:focus-visible[b-my1mumr4i3] { outline: 2px solid var(--rz-primary); outline-offset: 4px; border-radius: .2rem; }
+.shelf-card-main:hover ~ .shelf-card-title .shelf-card-name[b-my1mumr4i3], .shelf-card-main:focus-visible ~ .shelf-card-title .shelf-card-name[b-my1mumr4i3], .shelf-card-title:not(.disabled):hover .shelf-card-name[b-my1mumr4i3], .shelf-card.selected .shelf-card-name[b-my1mumr4i3] { color: var(--rz-primary); text-decoration: underline; text-underline-offset: .2em; }
+.shelf-card-thumbnail[b-my1mumr4i3] { display: grid; place-items: center; position: relative; width: 100%; aspect-ratio: 4 / 5; }
+.shelf-card-placeholder[b-my1mumr4i3] { display: block; width: 100%; height: 100%; }
+.shelf-card-thumbnail[b-my1mumr4i3]  .shelf-card-shelf { width: 100%; height: 100%; min-width: 0; min-height: 0; }
+/* Match the front cover in book-thumb-default.svg; the spine and page edges stay exposed. */
+.shelf-card-image[b-my1mumr4i3] { position: absolute; left: 17.5%; top: 4%; width: 70%; height: 85%; object-fit: cover; border-radius: 1px; opacity: 0; background: var(--rz-primary); }
+.shelf-card-image.loaded[b-my1mumr4i3] { opacity: 1; }
+.shelf-card-sign[b-my1mumr4i3] { position: absolute; top: .1rem; left: -.4rem; display: grid; place-items: center; padding: .2rem; border-radius: 50%; background: var(--rz-base-background-color); box-shadow: var(--rz-shadow-1); }
+.shelf-card-meta[b-my1mumr4i3] { position: relative; display: grid; grid-template-columns: 2rem minmax(0, 1fr) 2rem; align-items: center; min-height: 2rem; }
+.shelf-card-distributor[b-my1mumr4i3] { grid-column: 2; grid-row: 1; justify-self: center; max-width: 100%; padding: .125rem .4rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; border-radius: .25rem; background: var(--rz-primary-lighter); color: var(--rz-primary-dark); font-size: .65rem; line-height: 1.4; text-decoration: none; }
+.shelf-card-distributor:hover[b-my1mumr4i3] { text-decoration: underline; text-underline-offset: .15em; }
+.shelf-card-title[b-my1mumr4i3] { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: var(--rz-text-color); cursor: pointer; font: inherit; text-align: center; }
+.shelf-card-name[b-my1mumr4i3] { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; width: 100%; height: 2.7em; overflow: hidden; overflow-wrap: anywhere; line-height: 1.35; font-size: .9rem; }
+.shelf-card-status[b-my1mumr4i3] { position: absolute; bottom: calc(100% + .125rem); left: 0; width: 100%; padding: 0; border: 0; background: transparent; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; font: inherit; line-height: 1.4; font-size: .75rem; font-weight: 500; color: var(--rz-primary); cursor: pointer; }
+.shelf-card-status:not(.disabled):hover[b-my1mumr4i3] { text-decoration: underline; text-underline-offset: .15em; }
+.shelf-card-status.disabled[b-my1mumr4i3] { color: var(--rz-text-secondary-color); cursor: default; }
+.shelf-card-menu[b-my1mumr4i3] { grid-column: 3; grid-row: 1; position: static; }
+.shelf-card-more[b-my1mumr4i3] { display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; border: 0; border-radius: .25rem; background: transparent; color: var(--rz-text-secondary-color); cursor: pointer; list-style: none; user-select: none; -webkit-user-select: none; }
+.shelf-card-more:hover[b-my1mumr4i3], .shelf-card-menu[open] .shelf-card-more[b-my1mumr4i3] { color: var(--rz-primary); }
+.shelf-card-more svg[b-my1mumr4i3] { width: 1.25rem; height: 1.25rem; fill: currentColor; pointer-events: none; }
+.shelf-card-more[b-my1mumr4i3]::-webkit-details-marker { display: none; }
+.shelf-card-menu-content[b-my1mumr4i3] { position: absolute; right: 0; top: 100%; width: max-content; max-width: min(17rem, 75vw); padding: .25rem; background: var(--rz-base-background-color); color: var(--rz-text-color); border: 1px solid var(--rz-base-400); box-shadow: var(--rz-shadow-3); border-radius: .35rem; }
+.shelf-card-menu-content button[b-my1mumr4i3] { display: block; width: 100%; min-height: 44px; padding: .5rem 1rem; background: transparent; color: inherit; border: 0; text-align: start; font: inherit; cursor: pointer; overflow-wrap: anywhere; }
+.shelf-card-menu-content button:disabled[b-my1mumr4i3] { opacity: .45; cursor: default; }
+.shelf-card-menu-content button:hover:enabled[b-my1mumr4i3] { background: var(--rz-primary-lighter); }
+@media (max-width: 991px) { .shelf-card:nth-child(odd) .shelf-card-menu-content[b-my1mumr4i3] { right: auto; left: 0; } }
+@media (min-width: 992px) {
+    /* Fit two rows after reserving room for the label row and two lines of title. */
+    .shelf-card[b-my1mumr4i3] { width: min(100%, clamp(7.5rem, calc(40cqh - 4.25rem), 12rem)); }
+}
 /* /Pages/Shelf/Stuff/ShelfTree.razor.rz.scp.css */
 article[b-gku454r8v1] {
     height: 100%;
