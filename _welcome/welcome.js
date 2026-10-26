@@ -121,7 +121,18 @@ class CyberShelfAgent {
 
 //
 
-window.getBrowserLanguage = () => navigator.language;
+// The first browser preference the app ships a culture for (the offline page picks its text the same way,
+// sw/offline-page.ts pickOfflineLanguage); English otherwise. Neutral/other regional tags (ru, ru-BY, en-GB, …)
+// must not fall through the settings' exact option lookup to English.
+window.getBrowserLanguage = () => {
+    const cultures = { ru: "ru-RU", en: "en-US" };
+    const preferred = navigator.languages?.length ? navigator.languages : [navigator.language];
+    for (const tag of preferred) {
+        const culture = cultures[(tag || "").toLowerCase().split("-")[0]];
+        if (culture) return culture;
+    }
+    return "en-US";
+};
 
 // The document language follows the app's UI language (work-plan 4.12): screen readers pick their voice and
 // the browser its hyphenation/translation offers from <html lang>. The app sets the final value once its
@@ -138,7 +149,7 @@ window.setDocumentLanguage = (lang) => {
         const shared = JSON.parse(localStorage.getItem("shared") || "null");
         if (shared && typeof shared.Culture === "string") culture = shared.Culture;
     } catch { /* unreadable settings: fall back to the browser language */ }
-    window.setDocumentLanguage(culture || navigator.language || "en");
+    window.setDocumentLanguage(culture || window.getBrowserLanguage());
 })();
 
 window.CyberShelfAgent = new CyberShelfAgent();

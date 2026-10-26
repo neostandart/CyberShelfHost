@@ -33,6 +33,11 @@
     text-transform: none;
 }
 
+.rz-button.rz-variant-filled.rz-warning.rz-shade-default:not(.rz-state-disabled):hover {
+    background-color: var(--rz-warning-dark);
+    background-image: none;
+}
+
 .rz-button-box {
     text-transform: none;
 }
@@ -60,7 +65,7 @@
 /* Label */
 
 .rz-label {
-    font-size: 14px;
+    font-size: var(--ui-font-sm);
     font-weight: 500;
 }
 
@@ -166,7 +171,7 @@
 .rz-fieldset-legend > .rz-fieldset-legend-text {
     font-size: var(--rz-text-body2-font-size);
     font-weight: 500;
-    letter-spacing: 0.4px;
+    letter-spacing: var(--ui-letter-spacing);
     color: var(--rz-text-title-color);
 }
 
@@ -178,7 +183,7 @@
     --rz-tabs-padding: 0.5rem 0;
     --rz-tabs-tab-padding-inline: 0.5rem;
     --rz-panel-padding: 0.5rem;
-    --rz-tabs-tab-font-size: 0.8rem;
+    --rz-tabs-tab-font-size: var(--ui-font-sm);
 }
 
 /* ------------------------------------------------------------------- */

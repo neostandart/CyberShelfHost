@@ -166,6 +166,15 @@ function hasProtocol(path) {
             }
         }
         catch (err) {
+            // The scripts loaded did not define the library's constructor (its file did not load, did not parse or
+            // threw at its top level; or the library is not installed): the core only logs this, and the book stays
+            // blank. Told to the host as well (iframe-contract.ts reportScriptError), which attributes it to the
+            // library and shows it to the user.
+            try {
+                if (window.ActivePackage && typeof window.ActivePackage.reportScriptError === 'function') {
+                    window.ActivePackage.reportScriptError('h5p:' + library.library, 'Unable to find constructor for: ' + library.library, 0);
+                }
+            } catch (e) { }
             return H5P.error('Unable to find constructor for: ' + library.library);
         }
         if (extras === undefined) {

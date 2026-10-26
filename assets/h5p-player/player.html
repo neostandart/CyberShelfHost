@@ -87,6 +87,26 @@
             window.VMB = { isBookRT: true };
             window.ActivePackage = pack;
 
+            // 4a. Failures of the book document go to the host (iframe-contract.ts reportScriptError), which
+            // attributes them to a library by the file's URL and shows them to the user — before this, a library
+            // script that did not load or threw left the book silently blank (_docs/08-broken-lib-issue). A
+            // CAPTURING listener on the window hears both an uncaught exception (an ErrorEvent with filename/
+            // lineno) and a script/stylesheet that failed to load (an `error` event on the element itself, which
+            // does not bubble). Other resources (images, media) are the deferred-failure policy's: not reported.
+            window.addEventListener('error', function (ev) {
+                try {
+                    if (!ev) return;
+                    if (typeof ev.message === 'string' && ev.message !== '') {
+                        pack.reportScriptError(ev.filename || '', ev.message, ev.lineno || 0);
+                        return;
+                    }
+                    var el = ev.target;
+                    var tag = el && el.tagName ? String(el.tagName).toLowerCase() : '';
+                    if (tag === 'script' && el.src) pack.reportScriptError(el.src, 'The script failed to load.', 0);
+                    else if (tag === 'link' && el.href) pack.reportScriptError(el.href, 'The stylesheet failed to load.', 0);
+                } catch (e) { }
+            }, true);
+
             // 5. The page model: STRING across the realm border, parsed here.
             var model = null;
             try {

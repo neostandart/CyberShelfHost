@@ -1,5 +1,6 @@
 
 @import "./_radzen-fix.css";
+@import "./typography.css";
 @import "./animations.css";
 
 /* ==============================================================
@@ -15,7 +16,6 @@
 :root {
     font-family: var(--rz-text-font-family);
     color: var(--rz-text-color);
-    font-size: var(--rz-body-font-size);
     line-height: var(--rz-body-line-height);
     background-color: var(--rz-body-background-color);
     /* *** */
@@ -51,23 +51,40 @@
     --ui-btn-hg: 70px;
     --ui-btn-gn: 92px;
     /* *** */
-    --ui-info-bg: #e4edfe;
+    --ui-info-bg: #eaf0f8;
     /* *** */
     --ui-packctr-width-xs: 340px;
     --ui-packctr-width: 380px;
     --ui-packctr-width-lg: 440px;
     --ui-packctr-list-max-height: 500px;
     /* *** */
-    --folder-color: goldenrod;
-    --folder-color-dark: #B8860B;
-    --suite-color: #b8860b;
-    --book-color: #5C2D91;
-    --book-color-lighter: #AA92C4;
-    --book-bg: #f5f1f8;
-    --book-bg-darker: #e9e0f0;
-    --package-color: #2475BE;
-    --selitem-bg: #DFDFF1;
-    --selitem-color-br: #4340D2;
+    --rz-primary: rgb(27, 58, 102);
+    --rz-primary-light: #496486;
+    --rz-primary-lighter: rgba(27, 58, 102, 0.12);
+    --rz-primary-dark: #142c4d;
+    --rz-primary-darker: #0e2038;
+    /* *** */
+    --rz-warning: #d99a3d;
+    --rz-warning-light: #e1ae64;
+    --rz-warning-lighter: rgba(217, 154, 61, 0.2);
+    --rz-warning-dark: #c98a2d;
+    --rz-warning-darker: #9c6422;
+    --rz-on-warning: var(--rz-primary-dark);
+    --rz-on-warning-light: var(--rz-primary-dark);
+    --rz-on-warning-lighter: var(--rz-primary-dark);
+    --rz-on-warning-dark: var(--rz-primary-dark);
+    --rz-on-warning-darker: #ffffff;
+    /* *** */
+    --folder-color: var(--rz-primary);
+    --folder-color-dark: var(--rz-primary-dark);
+    --suite-color: var(--rz-primary-dark);
+    --book-color: #244b7a;
+    --book-color-lighter: #9bb0ca;
+    --book-bg: #f2f5f9;
+    --book-bg-darker: #e4ebf4;
+    --package-color: #305c8a;
+    --selitem-bg: #e4ebf4;
+    --selitem-color-br: rgb(27, 58, 102);
     --item-focus-color: orange;
     --item-focus-bg: white;
     /* *** */
@@ -77,6 +94,7 @@
 
 *, *::before, *::after {
     box-sizing: border-box;
+    font-style: normal;
 }
 
 html,
@@ -365,8 +383,7 @@ body {
 /* ---- In-lesson LiveKit call panel (student) ------------------------------------------------------------
    The panel chrome is Blazor-rendered (Frame/LessonCallPanel.razor); the .lk-tile* nodes are created by
    the TS wrapper (Engine/Script/bridge/lib/livekit.ts) and therefore carry NO Blazor scope attribute, so
-   all of this is deliberately global. Fixed bottom-right so it survives the /lesson ↔ /content navigation
-   and app-level fullscreen (documentElement). */
+   all of this is deliberately global. Fixed bottom-right so it survives the /lesson ↔ /content navigation. */
 .lesson-call-panel {
     position: fixed;
     right: 12px;
@@ -382,7 +399,7 @@ body {
     background: rgba(20, 24, 33, 0.92);
     color: #eef1f6;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
-    font-size: 0.85rem;
+    font-size: var(--ui-font-sm);
 }
 
 .lesson-call-bar {
@@ -470,7 +487,7 @@ body {
     border-radius: 4px;
     background: rgba(0, 0, 0, 0.55);
     color: #fff;
-    font-size: 0.7rem;
+    font-size: var(--ui-font-xs);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

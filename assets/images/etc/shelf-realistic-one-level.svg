@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="200" viewBox="0 0 160 200" fill="none">
+  <defs>
+    <linearGradient id="shelf1-frame" x1="0" y1="0" x2=".8" y2="1">
+      <stop stop-color="#496486"/><stop offset=".35" stop-color="#244b7a"/>
+      <stop offset=".7" stop-color="#1b3a66"/><stop offset="1" stop-color="#0e2038"/>
+    </linearGradient>
+    <linearGradient id="shelf1-post" x1="0" x2="1">
+      <stop stop-color="#142c4d"/><stop offset=".13" stop-color="#6181a4"/>
+      <stop offset=".32" stop-color="#496486"/><stop offset=".75" stop-color="#244b7a"/>
+      <stop offset="1" stop-color="#142c4d"/>
+    </linearGradient>
+    <linearGradient id="shelf1-rail" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#5c7b9d"/><stop offset=".14" stop-color="#36577e"/>
+      <stop offset=".68" stop-color="#1b3a66"/><stop offset="1" stop-color="#142c4d"/>
+    </linearGradient>
+    <linearGradient id="shelf1-top" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#8097b2"/><stop offset=".3" stop-color="#617e9f"/><stop offset="1" stop-color="#496486"/>
+    </linearGradient>
+    <linearGradient id="shelf1-back-panel" x1="0" y1="0" x2=".6" y2="1">
+      <stop stop-color="#aaa69e"/><stop offset=".22" stop-color="#c6c3b9"/>
+      <stop offset=".62" stop-color="#e3ded1"/><stop offset="1" stop-color="#d2cbbd"/>
+    </linearGradient>
+    <linearGradient id="shelf1-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#90938f"/><stop offset=".5" stop-color="#bcc2c3"/><stop offset="1" stop-color="#70869c"/>
+    </linearGradient>
+    <linearGradient id="shelf1-shadow-down" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#0e2038" stop-opacity=".48"/><stop offset="1" stop-color="#0e2038" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="shelf1-shadow-side" x1="0" x2="1">
+      <stop stop-color="#0e2038" stop-opacity=".4"/><stop offset=".14" stop-color="#0e2038" stop-opacity="0"/>
+      <stop offset=".88" stop-color="#0e2038" stop-opacity="0"/><stop offset="1" stop-color="#0e2038" stop-opacity=".35"/>
+    </linearGradient>
+    <radialGradient id="shelf1-contact">
+      <stop stop-color="#0a1729" stop-opacity=".4"/><stop offset="1" stop-color="#0a1729" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="shelf1-book-navy" x1="0" x2="1">
+      <stop stop-color="#0e2038"/><stop offset=".16" stop-color="#28537f"/>
+      <stop offset=".36" stop-color="#427aac"/><stop offset=".58" stop-color="#2b5989"/>
+      <stop offset=".86" stop-color="#1b3a66"/><stop offset="1" stop-color="#102746"/>
+    </linearGradient>
+    <linearGradient id="shelf1-book-blue" x1="0" x2="1">
+      <stop stop-color="#18385a"/><stop offset=".15" stop-color="#3b6a97"/>
+      <stop offset=".36" stop-color="#6090b8"/><stop offset=".58" stop-color="#467aa7"/>
+      <stop offset=".86" stop-color="#305c8a"/><stop offset="1" stop-color="#244364"/>
+    </linearGradient>
+    <linearGradient id="shelf1-book-slate" x1="0" x2="1">
+      <stop stop-color="#273b54"/><stop offset=".15" stop-color="#526e8d"/>
+      <stop offset=".36" stop-color="#8199b3"/><stop offset=".58" stop-color="#637e9d"/>
+      <stop offset=".86" stop-color="#496486"/><stop offset="1" stop-color="#2e4663"/>
+    </linearGradient>
+    <linearGradient id="shelf1-book-linen" x1="0" x2="1">
+      <stop stop-color="#9e9687"/><stop offset=".16" stop-color="#ddd4c2"/>
+      <stop offset=".38" stop-color="#f3ebd8"/><stop offset=".64" stop-color="#e5dcc8"/>
+      <stop offset=".9" stop-color="#c9bda5"/><stop offset="1" stop-color="#a99d85"/>
+    </linearGradient>
+    <linearGradient id="shelf1-book-shading" x1="0" y1="0" x2=".6" y2="1">
+      <stop stop-color="#a2c7e1" stop-opacity=".12"/>
+      <stop offset=".35" stop-color="#071f40" stop-opacity="0"/><stop offset="1" stop-color="#071f40" stop-opacity=".3"/>
+    </linearGradient>
+    <linearGradient id="shelf1-pages" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#c8baa0"/><stop offset=".3" stop-color="#fffae9"/>
+      <stop offset=".65" stop-color="#ede3ce"/><stop offset="1" stop-color="#cbbd9f"/>
+    </linearGradient>
+    <pattern id="shelf1-wood-vertical" width="17" height="91" patternUnits="userSpaceOnUse">
+      <path d="M2 0c2 20-2 33 0 49s1 25 0 42m5-91c-1 13 2 20 0 35s-1 36 0 56m5-91c2 18 1 26 0 44s2 30 0 47" stroke="#c1d3e4" stroke-opacity=".12" stroke-width=".25"/>
+      <path d="M4 0c-1 19 1 38 0 54s1 25 0 37m12-91c-2 25 1 36 0 55s-1 27 0 36" stroke="#06172c" stroke-opacity=".18" stroke-width=".3"/>
+    </pattern>
+    <pattern id="shelf1-wood-horizontal" width="81" height="12" patternUnits="userSpaceOnUse">
+      <path d="M0 3c18-1 26 1 43 0s27-1 38 0M0 8c22 1 30-2 51 0s20 1 30 0" stroke="#c3d3e2" stroke-opacity=".12" stroke-width=".25"/>
+      <path d="M0 5c13 1 23-1 38 0s28 1 43 0M0 11c27-1 37 1 54 0s21-1 27 0" stroke="#081d36" stroke-opacity=".16" stroke-width=".25"/>
+    </pattern>
+    <pattern id="shelf1-panel-grain" width="29" height="89" patternUnits="userSpaceOnUse">
+      <path d="M4 0c3 22-2 39 0 56s2 25 0 33M12 0c-2 17 1 28 0 48s-1 26 0 41M24 0c-2 21 2 39 0 57s-1 24 0 32" stroke="#7f7463" stroke-opacity=".12" stroke-width=".3"/>
+      <path d="M7 0c2 22-1 33 0 55s1 25 0 34M19 0c-1 23 2 36 0 57s1 24 0 32" stroke="#fff9e9" stroke-opacity=".2" stroke-width=".35"/>
+    </pattern>
+    <pattern id="shelf1-leather" width="4" height="5" patternUnits="userSpaceOnUse">
+      <path d="m.3.9.7-.3.8.4M2.3 2l.7.6.7-.4M.6 3l.7.6-.1.8M2.2 4.4l.6-.5.8.3" stroke="#d6e4ed" stroke-opacity=".16" stroke-width=".12"/>
+      <path d="m.3 2.1.9.3.6-.5M2.5.4l.8.2M1.9 3.2l.4.5" stroke="#061629" stroke-opacity=".25" stroke-width=".13"/>
+    </pattern>
+  </defs>
+
+  <!-- Freestanding cabinet; its front, books, and lighting share the application's navy palette. -->
+  <ellipse cx="81" cy="197" rx="72" ry="2.8" fill="url(#shelf1-contact)"/>
+  <path d="M17 187h15l-1.5 10H18Zm111 0h15l-1 10h-12.5Z" fill="url(#shelf1-frame)" stroke="#0e2038" stroke-width=".5"/>
+  <path d="M19 190v5.5h10m102-5.5v5.5h10" stroke="#6f8ba8" stroke-opacity=".45" stroke-width=".6"/>
+  <path d="M15 5h129l10 8v174q0 7-7 7H15q-7 0-7-7V12q0-7 7-7Z" fill="url(#shelf1-frame)" stroke="#0e2038" stroke-width=".75"/>
+  <path d="m150 11 4 3v173q0 5-4 6Z" fill="#102746"/>
+  <path d="M153 16v170" stroke="#547696" stroke-opacity=".45" stroke-width=".55"/>
+  
+    <rect x="19" y="18" width="123" height="163" fill="url(#shelf1-back-panel)"/>
+    <rect x="19" y="18" width="123" height="163" fill="url(#shelf1-panel-grain)"/>
+    <rect x="19" y="18" width="123" height="12" fill="url(#shelf1-shadow-down)"/>
+    <rect x="19" y="18" width="123" height="163" fill="url(#shelf1-shadow-side)"/>
+    <path d="M20 18v163M141 18v163" stroke="#0e2038" stroke-opacity=".24" stroke-width=".8"/>
+  
+  
+    <path d="M23 175h115l5 6H17Z" fill="url(#shelf1-floor)"/>
+    <path d="M23 175h115" stroke="#0c2037" stroke-opacity=".3" stroke-width=".55"/>
+    <ellipse cx="80" cy="180.7" rx="59" ry="2.6" fill="url(#shelf1-contact)"/>
+  
+    <g transform="translate(25 48) rotate(0 11.5 132)">
+      <ellipse cx="12.5" cy="132" rx="15.5" ry="2" fill="url(#shelf1-contact)"/>
+      <path d="M22 4h2v128h-2Z" fill="#091b31" opacity=".22"/>
+      <path d="M2.6 1h17.8q2.6 0 2.6 2.6v125.8q0 2.6-2.6 2.6H2.6Q0 132 0 129.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-book-navy)" stroke="#10243a" stroke-opacity=".55" stroke-width=".45"/>
+      <path d="M2.6 1h17.8q2.6 0 2.6 2.6v125.8q0 2.6-2.6 2.6H2.6Q0 132 0 129.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-book-shading)"/>
+      <path d="M2.6 1h17.8q2.6 0 2.6 2.6v125.8q0 2.6-2.6 2.6H2.6Q0 132 0 129.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-leather)" opacity=".7"/>
+      <path d="M2.4 2.2 4.1.8h14.8l1.7 1.4Z" fill="url(#shelf1-pages)" opacity=".85"/>
+      <path d="M3 3.1h17" stroke="#c0d6e7" stroke-opacity=".6" stroke-width=".45"/>
+      <path d="M2.1 5.6v122" stroke="#b3d0e6" stroke-opacity=".34" stroke-width=".55"/>
+      <path d="M21 4.7v122.5" stroke="#091b31" stroke-opacity=".45" stroke-width=".6"/>
+      <path d="M3 8.3q8.5 1.1 17 0M3 125q8.5 1.1 17 0" stroke="#07182e" stroke-opacity=".28" stroke-width="1.1"/>
+      <path d="M3 7.7q8.5 1.1 17 0M3 124.4q8.5 1.1 17 0" stroke="#c2d9e9" stroke-opacity=".3" stroke-width=".4"/>
+      <path d="M2.5 130.5h18" stroke="#b4cde0" stroke-opacity=".28" stroke-width=".45"/>
+    </g>
+    <g transform="translate(51 30) rotate(0 13 150)">
+      <ellipse cx="14" cy="150" rx="17" ry="2" fill="url(#shelf1-contact)"/>
+      <path d="M25 4h2v146h-2Z" fill="#091b31" opacity=".22"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v143.8q0 2.6-2.6 2.6H2.6Q0 150 0 147.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-book-blue)" stroke="#10243a" stroke-opacity=".55" stroke-width=".45"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v143.8q0 2.6-2.6 2.6H2.6Q0 150 0 147.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-book-shading)"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v143.8q0 2.6-2.6 2.6H2.6Q0 150 0 147.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-leather)" opacity=".7"/>
+      <path d="M2.4 2.2 4.1.8h17.8l1.7 1.4Z" fill="url(#shelf1-pages)" opacity=".85"/>
+      <path d="M3 3.1h20" stroke="#c0d6e7" stroke-opacity=".6" stroke-width=".45"/>
+      <path d="M2.1 5.6v140" stroke="#b3d0e6" stroke-opacity=".34" stroke-width=".55"/>
+      <path d="M24 4.7v140.5" stroke="#091b31" stroke-opacity=".45" stroke-width=".6"/>
+      <path d="M3 8.3q10 1.1 20 0M3 143q10 1.1 20 0" stroke="#07182e" stroke-opacity=".28" stroke-width="1.1"/>
+      <path d="M3 7.7q10 1.1 20 0M3 142.4q10 1.1 20 0" stroke="#c2d9e9" stroke-opacity=".3" stroke-width=".4"/>
+      <path d="M2.5 148.5h21" stroke="#b4cde0" stroke-opacity=".28" stroke-width=".45"/>
+    </g>
+    <g transform="translate(80 42) rotate(0 10.5 138)">
+      <ellipse cx="11.5" cy="138" rx="14.5" ry="2" fill="url(#shelf1-contact)"/>
+      <path d="M20 4h2v134h-2Z" fill="#091b31" opacity=".22"/>
+      <path d="M2.6 1h15.8q2.6 0 2.6 2.6v131.8q0 2.6-2.6 2.6H2.6Q0 138 0 135.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-book-linen)" stroke="#10243a" stroke-opacity=".55" stroke-width=".45"/>
+      <path d="M2.6 1h15.8q2.6 0 2.6 2.6v131.8q0 2.6-2.6 2.6H2.6Q0 138 0 135.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-book-shading)"/>
+      <path d="M2.6 1h15.8q2.6 0 2.6 2.6v131.8q0 2.6-2.6 2.6H2.6Q0 138 0 135.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-leather)" opacity=".7"/>
+      <path d="M2.4 2.2 4.1.8h12.8l1.7 1.4Z" fill="url(#shelf1-pages)" opacity=".85"/>
+      <path d="M3 3.1h15" stroke="#c0d6e7" stroke-opacity=".6" stroke-width=".45"/>
+      <path d="M2.1 5.6v128" stroke="#b3d0e6" stroke-opacity=".34" stroke-width=".55"/>
+      <path d="M19 4.7v128.5" stroke="#091b31" stroke-opacity=".45" stroke-width=".6"/>
+      <path d="M3 8.3q7.5 1.1 15 0M3 131q7.5 1.1 15 0" stroke="#07182e" stroke-opacity=".28" stroke-width="1.1"/>
+      <path d="M3 7.7q7.5 1.1 15 0M3 130.4q7.5 1.1 15 0" stroke="#c2d9e9" stroke-opacity=".3" stroke-width=".4"/>
+      <path d="M2.5 136.5h16" stroke="#b4cde0" stroke-opacity=".28" stroke-width=".45"/>
+    </g>
+    <g transform="translate(108 38) rotate(2 13 142)">
+      <ellipse cx="14" cy="142" rx="17" ry="2" fill="url(#shelf1-contact)"/>
+      <path d="M25 4h2v138h-2Z" fill="#091b31" opacity=".22"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v135.8q0 2.6-2.6 2.6H2.6Q0 142 0 139.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-book-navy)" stroke="#10243a" stroke-opacity=".55" stroke-width=".45"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v135.8q0 2.6-2.6 2.6H2.6Q0 142 0 139.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-book-shading)"/>
+      <path d="M2.6 1h20.8q2.6 0 2.6 2.6v135.8q0 2.6-2.6 2.6H2.6Q0 142 0 139.4V3.6Q0 1 2.6 1Z" fill="url(#shelf1-leather)" opacity=".7"/>
+      <path d="M2.4 2.2 4.1.8h17.8l1.7 1.4Z" fill="url(#shelf1-pages)" opacity=".85"/>
+      <path d="M3 3.1h20" stroke="#c0d6e7" stroke-opacity=".6" stroke-width=".45"/>
+      <path d="M2.1 5.6v132" stroke="#b3d0e6" stroke-opacity=".34" stroke-width=".55"/>
+      <path d="M24 4.7v132.5" stroke="#091b31" stroke-opacity=".45" stroke-width=".6"/>
+      <path d="M3 8.3q10 1.1 20 0M3 135q10 1.1 20 0" stroke="#07182e" stroke-opacity=".28" stroke-width="1.1"/>
+      <path d="M3 7.7q10 1.1 20 0M3 134.4q10 1.1 20 0" stroke="#c2d9e9" stroke-opacity=".3" stroke-width=".4"/>
+      <path d="M2.5 140.5h21" stroke="#b4cde0" stroke-opacity=".28" stroke-width=".45"/>
+    </g>
+  
+  
+    <rect x="17" y="181" width="126" height="11" rx=".8" fill="url(#shelf1-rail)" stroke="#142c4d" stroke-width=".45"/>
+    <rect x="18" y="182" width="124" height="9" fill="url(#shelf1-wood-horizontal)"/>
+    <path d="M18 181.6h124" stroke="#a0b8d0" stroke-opacity=".7" stroke-width=".6"/>
+    <path d="M18 191.4h124" stroke="#0a1c32" stroke-opacity=".7" stroke-width=".6"/>
+
+  <!-- Painted wood posts and beveled edges remain readable at thumbnail size. -->
+  <path d="M11 10h9v182h-7q-5 0-5-5V13q0-3 3-3Z" fill="url(#shelf1-post)" stroke="#142c4d" stroke-width=".55"/>
+  <path d="M141 10h7q3 0 3 3v174q0 5-5 5h-5Z" fill="url(#shelf1-post)" stroke="#142c4d" stroke-width=".55"/>
+  <path d="M11 12h7v177h-7Zm132 0h6v177h-6Z" fill="url(#shelf1-wood-vertical)"/>
+  <path d="M9.5 16v171q0 3 3 3m130-174v172" stroke="#91abc5" stroke-opacity=".55" stroke-width=".55"/>
+  <path d="M19.5 18v162.5m122-162.5v162.5" stroke="#071b31" stroke-opacity=".7" stroke-width=".8"/>
+  <path d="M15 5h129l7 6H8Z" fill="url(#shelf1-top)"/>
+  <path d="M15.5 5.5h128" stroke="#a5bbd2" stroke-opacity=".8" stroke-width=".65"/>
+  <rect x="8" y="10.5" width="143" height="8" rx="1.1" fill="url(#shelf1-rail)" stroke="#193655" stroke-width=".6"/>
+  <rect x="9" y="11.5" width="141" height="5.7" fill="url(#shelf1-wood-horizontal)"/>
+  <path d="M9 11.2h141" stroke="#bfd0e2" stroke-opacity=".55" stroke-width=".65"/>
+  <path d="M20 18.4h121" stroke="#07192e" stroke-opacity=".65" stroke-width=".75"/>
+  <path d="M15 192h130" stroke="#6c8aa7" stroke-opacity=".45" stroke-width=".55"/>
+</svg>

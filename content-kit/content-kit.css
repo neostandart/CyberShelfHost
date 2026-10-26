@@ -1,0 +1,581 @@
+/*
+ * CyberShelf content-kit
+ * ----------------------
+ * Стилевой слой для презентационного контента каталога (Intro дистрибьютора,
+ * Overview книги). Определяет семантический словарь классов `cs-*`, описанный в
+ * CyberShelf-Docs/standards/catalog-content-markup.md.
+ *
+ * Подключается в content-iframe — тогда сниппеты из
+ * pattern-library превращаются в чистый HTML без собственного <style>.
+ *
+ * Темизация: светлые токены на :root; тёмные — ТОЛЬКО по явному [data-theme="dark"]
+ * на корневом <html> (превью выставляет его в такт теме редактора). Никакого
+ * prefers-color-scheme: content-iframe PWA темы не имеет, и авто-тёмная тема сделала
+ * бы фрейм тёмным внутри светлого приложения. Акцент бренда переопределяется на самом
+ * .cs-doc: style="--cs-accent:#da251d". The base text size is overridden the same way,
+ * via --cs-font-size (not font-size: heading and caption sizes are derived from it), in
+ * absolute units (rem/px or a clamp of them) — an em value would compound again in children.
+ * Примеры расширений оболочки: docs/content-kit-examples.html.
+ */
+
+:root {
+  --cs-fg: #1f2733;
+  --cs-fg-muted: #5b6472;
+  --cs-bg: #ffffff;
+  --cs-surface: #f6f7f9;
+  --cs-border: #e2e6ec;
+  --cs-accent: #4340d2;
+  --cs-accent-fg: #ffffff;
+
+  --cs-info-bg: #eaf2ff;      --cs-info-bd: #b9d4ff;      --cs-info-fg: #12457a;
+  --cs-success-bg: #e9f7ef;   --cs-success-bd: #b6e3c8;   --cs-success-fg: #1c6b3f;
+  --cs-warning-bg: #fef4e6;   --cs-warning-bd: #f6d9a8;   --cs-warning-fg: #8a5a09;
+
+  --cs-radius: 0.5rem;
+  --cs-gap: 1rem;
+  --cs-maxw: min(100%, 75ch);
+  --cs-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Base text size of .cs-doc; block-level sizes are multiples of it, so nesting
+     (a heading in a table, a caption in a figure) never compounds. */
+  --cs-font-size: clamp(1rem, 0.8rem + 0.4vw, 1.25rem);
+}
+
+/* Тёмная тема — только по явному атрибуту на корне (его ставит превью-обвязка). */
+:root[data-theme="dark"] {
+  --cs-fg: #e6e9ee;
+  --cs-fg-muted: #a2abba;
+  --cs-bg: #161a21;
+  --cs-surface: #1e2129;
+  --cs-border: #2c313b;
+  --cs-accent: #8b89f0;
+  --cs-accent-fg: #12141a;
+
+  --cs-info-bg: #12233a;      --cs-info-bd: #21456e;      --cs-info-fg: #9ec5f5;
+  --cs-success-bg: #12291d;   --cs-success-bd: #245036;   --cs-success-fg: #8fd7ab;
+  --cs-warning-bg: #2e2410;   --cs-warning-bd: #5c4620;   --cs-warning-fg: #e9c07a;
+}
+
+/* ---------- Брендовый акцент (модификаторы корня, без inline style) ---------- */
+/*
+ * §5.2 запрещает `style`, поэтому `span.brand-color` / `--cs-accent` задаются не
+ * инлайном, а фиксированной палитрой модификаторов на самом .cs-doc. Переопределяют
+ * только --cs-accent; --cs-accent-fg берётся из темы (белый в светлой, тёмный в
+ * тёмной), поэтому accent работает и как текст, и как фон кнопки/важной врезки.
+ */
+.cs-doc--accent-red    { --cs-accent: #d32f2f; }
+.cs-doc--accent-orange { --cs-accent: #cf6a12; }
+.cs-doc--accent-green  { --cs-accent: #2f8f46; }
+.cs-doc--accent-teal   { --cs-accent: #0e857f; }
+.cs-doc--accent-blue   { --cs-accent: #2563c9; }
+.cs-doc--accent-purple { --cs-accent: #7a3fd0; }
+
+/* В тёмной теме те же акценты — светлее, чтобы читаться на тёмном фоне. */
+:root[data-theme="dark"] .cs-doc--accent-red    { --cs-accent: #f08a83; }
+:root[data-theme="dark"] .cs-doc--accent-orange { --cs-accent: #eaa158; }
+:root[data-theme="dark"] .cs-doc--accent-green  { --cs-accent: #77cf92; }
+:root[data-theme="dark"] .cs-doc--accent-teal   { --cs-accent: #5fcfc8; }
+:root[data-theme="dark"] .cs-doc--accent-blue   { --cs-accent: #7fa8f0; }
+:root[data-theme="dark"] .cs-doc--accent-purple { --cs-accent: #b392ee; }
+
+/* ---------- 1. Корень документа ---------- */
+
+.cs-doc {
+  box-sizing: border-box;
+  /* The article fills the page container, but a line stays within 75ch. */
+  width: 100%;
+  min-width: 0;
+  max-width: var(--cs-maxw);
+  margin: 0 auto;
+  padding: 1.25rem;
+  color: var(--cs-fg);
+  background: var(--cs-bg);
+  font-family: var(--cs-font);
+  font-size: var(--cs-font-size);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.cs-doc *,
+.cs-doc *::before,
+.cs-doc *::after { box-sizing: border-box; }
+.cs-doc img { max-width: 100%; height: auto; }
+
+/* ---------- Дефолты «голых» элементов §5.1 ---------- */
+/*
+ * Элементы без cs-класса получают базовое оформление из кита.
+ * Здесь — только `:not([class])`: блоки словаря (cs-list,
+ * cs-steps, cs-offer__list, …) задают свой вид сами и сюда не попадают.
+ */
+.cs-doc p:not([class]) { margin: 0 0 1rem; }
+
+.cs-doc :where(h2, h3, h4, h5, h6):not([class]) {
+  margin: 1.5rem 0 0.6rem;
+  line-height: 1.3;
+  color: var(--cs-fg);
+}
+.cs-doc h2:not([class]) { font-size: calc(var(--cs-font-size) * 1.5); }
+.cs-doc h3:not([class]) { font-size: calc(var(--cs-font-size) * 1.3); }
+.cs-doc h4:not([class]) { font-size: calc(var(--cs-font-size) * 1.15); }
+.cs-doc h5:not([class]) { font-size: calc(var(--cs-font-size) * 1.02); }
+.cs-doc h6:not([class]) {
+  font-size: calc(var(--cs-font-size) * 0.9);
+  color: var(--cs-fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cs-doc ul:not([class]),
+.cs-doc ol:not([class]) { margin: 1rem 0; padding-left: 1.5rem; }
+.cs-doc ul:not([class]) li,
+.cs-doc ol:not([class]) li { margin: 0.25rem 0; }
+
+.cs-doc a:not([class]) { color: var(--cs-accent); text-underline-offset: 2px; }
+
+.cs-doc table:not([class]),
+.cs-table {
+  width: 100%;
+  margin: 1.25rem 0;
+  border-collapse: collapse;
+  font-size: calc(var(--cs-font-size) * 0.95);
+}
+.cs-doc table:not([class]) th,
+.cs-doc table:not([class]) td,
+.cs-table th,
+.cs-table td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--cs-border);
+  text-align: left;
+  vertical-align: top;
+}
+.cs-doc table:not([class]) th,
+.cs-table th { background: var(--cs-surface); font-weight: 600; }
+.cs-doc table caption {
+  padding: 0 0 0.6rem;
+  color: var(--cs-fg-muted);
+  font-weight: 600;
+  text-align: left;
+  caption-side: top;
+}
+
+/* Сравнительные таблицы сохраняют колонки, прокрутка ограничена этой обёрткой. */
+.cs-table-scroll {
+  min-width: 0;
+  max-width: 100%;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.cs-doc .cs-table-scroll > table {
+  min-width: var(--cs-table-min-width, 36rem);
+  margin: 0;
+}
+
+/* Инлайн-код: ключи, пути, URL в инструкциях. */
+.cs-doc code {
+  padding: 0.1em 0.35em;
+  border-radius: 0.3rem;
+  background: var(--cs-surface);
+  border: 1px solid var(--cs-border);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  /* em on purpose: inline code is sized relative to the surrounding text. */
+  font-size: 0.88em;
+}
+
+/* ---------- 2. Шапка (обложка + заголовок + лид) ---------- */
+
+.cs-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.cs-hero__cover {
+  flex: 0 0 auto;
+  width: 160px;
+  max-width: 40%;
+  border-radius: var(--cs-radius);
+}
+.cs-hero__body { min-width: 0; }
+.cs-hero__title { margin: 0 0 0.35rem; font-size: calc(var(--cs-font-size) * 1.6); line-height: 1.25; }
+
+/* Второй паттерн шапки: обложка сверху по центру (до 550px), заголовок под ней. */
+.cs-hero--stacked {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+.cs-hero--stacked .cs-hero__cover {
+  width: auto;
+  max-width: min(550px, 100%);
+}
+.cs-hero--stacked .cs-hero__body { max-width: 100%; }
+
+/* ---------- 3. Заголовки ---------- */
+
+.cs-heading {
+  margin: 1.75rem 0 0.6rem;
+  font-size: calc(var(--cs-font-size) * 1.35);
+  line-height: 1.3;
+  color: var(--cs-fg);
+}
+.cs-subheading {
+  margin: 1.25rem 0 0.4rem;
+  font-size: calc(var(--cs-font-size) * 1.1);
+  line-height: 1.3;
+  color: var(--cs-fg-muted);
+}
+
+/* ---------- 4. Текст, лид, акцент, ссылка ---------- */
+
+.cs-lead {
+  margin: 0 0 1rem;
+  font-size: calc(var(--cs-font-size) * 1.1);
+  color: var(--cs-fg-muted);
+  text-align: justify;
+}
+.cs-text { margin: 0 0 1rem; text-align: justify; }
+.cs-accent { color: var(--cs-accent); font-weight: 600; }
+.cs-link { color: var(--cs-accent); text-underline-offset: 2px; }
+
+/* ---------- 5. Врезки-callout ---------- */
+
+.cs-note {
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--cs-border);
+  border-left-width: 4px;
+  border-radius: var(--cs-radius);
+  background: var(--cs-surface);
+}
+.cs-note > :first-child { margin-top: 0; }
+.cs-note > :last-child { margin-bottom: 0; }
+.cs-note__title { display: block; margin: 0 0 0.35rem; font-weight: 700; }
+.cs-note--info    { background: var(--cs-info-bg);    border-color: var(--cs-info-bd);    color: var(--cs-info-fg); }
+.cs-note--success { background: var(--cs-success-bg); border-color: var(--cs-success-bd); color: var(--cs-success-fg); }
+.cs-note--warning { background: var(--cs-warning-bg); border-color: var(--cs-warning-bd); color: var(--cs-warning-fg); }
+.cs-note--important {
+  background: var(--cs-accent);
+  border-color: var(--cs-accent);
+  color: var(--cs-accent-fg);
+  font-weight: 500;
+}
+
+/* ---------- 6. Цитата ---------- */
+
+.cs-doc blockquote:not([class]),
+.cs-quote {
+  margin: 1.25rem 0;
+  padding: 0.25rem 0 0.25rem 1rem;
+  border-left: 3px solid var(--cs-accent);
+  color: var(--cs-fg-muted);
+  font-style: italic;
+}
+.cs-doc blockquote:not([class]) cite,
+.cs-quote__cite {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: calc(var(--cs-font-size) * 0.9);
+  font-style: normal;
+  color: var(--cs-fg-muted);
+}
+.cs-quote__cite::before { content: "— "; }
+
+/* ---------- 7. Разделитель ---------- */
+
+.cs-doc hr:not([class]),
+.cs-divider {
+  height: 0.4rem;
+  margin: 1.5rem 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--cs-surface);
+  /* Guard against a CSS reset in the embedding page (Bootstrap Reboot sets hr{opacity:.25}). */
+  opacity: 1;
+}
+
+/* ---------- 8. Стилизованный список (номер + текст) ---------- */
+
+.cs-list { margin: 1rem 0; padding: 0; list-style: none; }
+.cs-list > li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--cs-border);
+}
+.cs-list > li:last-child { border-bottom: 0; }
+.cs-list__num {
+  flex: 0 0 auto;
+  min-width: 1.8rem;
+  color: var(--cs-accent);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.cs-list__text { font-weight: 600; }
+
+/* Акцентный маркер у всего списка или отдельного li; текст сохраняет обычный цвет. */
+.cs-bullets {
+  margin: 1rem 0;
+  padding-inline-start: 1.5rem;
+  list-style-type: disc;
+}
+.cs-bullets > li { margin: 0.5rem 0; padding-inline-start: 0.25rem; }
+.cs-bullets > li::marker,
+li.cs-bullet::marker {
+  color: var(--cs-accent);
+  /* em on purpose: the marker follows its item's text size. */
+  font-size: 1.15em;
+  font-weight: 700;
+}
+.cs-bullets > li > :first-child { margin-top: 0; }
+.cs-bullets > li > :last-child { margin-bottom: 0; }
+
+/* ---------- 9. Витрина ---------- */
+
+.cs-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--cs-gap);
+  margin: 1.25rem 0;
+}
+.cs-showcase__item {
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  background: var(--cs-surface);
+  text-align: center;
+}
+.cs-showcase__item img { max-width: 150px; margin: 0 auto 0.5rem; }
+.cs-showcase__caption { font-weight: 600; color: var(--cs-accent); }
+.cs-showcase__text { margin: 0.5rem 0 0; font-size: calc(var(--cs-font-size) * 0.95); text-align: left; }
+
+/* ---------- 10. Figure с подписью ---------- */
+
+/* display:block is explicit so styles of the embedding page cannot break centering and width. */
+.cs-doc figure:not([class]),
+.cs-figure { display: block; margin: 1.25rem 0; text-align: center; }
+.cs-figure img { border-radius: var(--cs-radius); }
+.cs-doc figure:not([class]) figcaption,
+.cs-figure figcaption {
+  margin-top: 0.5rem;
+  font-size: calc(var(--cs-font-size) * 0.9);
+  color: var(--cs-fg-muted);
+}
+.cs-figure--wide img { display: block; width: 100%; max-width: 100%; height: auto; }
+
+/* ---------- 11. Медиа (аудио/видео) с подписью ---------- */
+
+.cs-media { display: block; margin: 1.25rem 0; }
+.cs-media video,
+.cs-media audio { display: block; width: 100%; border-radius: var(--cs-radius); }
+.cs-media figcaption {
+  margin-top: 0.5rem;
+  font-size: calc(var(--cs-font-size) * 0.9);
+  color: var(--cs-fg-muted);
+}
+
+/* ---------- 12. Шаги инструкции ---------- */
+
+.cs-steps { margin: 1rem 0; padding: 0; list-style: none; counter-reset: cs-step; }
+.cs-steps__item {
+  position: relative;
+  counter-increment: cs-step;
+  padding: 0.35rem 0 0.35rem calc(var(--cs-font-size) * 2.5);
+  min-height: calc(var(--cs-font-size) * 1.9);
+}
+.cs-steps__item::before {
+  content: counter(cs-step);
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 2em of the number's own size: the circle scales with the text (1.7rem at the 1rem base). */
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background: var(--cs-accent);
+  color: var(--cs-accent-fg);
+  font-size: calc(var(--cs-font-size) * 0.85);
+  font-weight: 700;
+}
+/* Шаг с заголовком и пояснением (основной блок How-to-buy), а не одной строкой. */
+.cs-steps__title { display: block; font-weight: 600; }
+.cs-steps__text { display: block; margin-top: 0.15rem; color: var(--cs-fg-muted); font-size: calc(var(--cs-font-size) * 0.95); }
+
+/* ---------- 13. Характеристики (ключ–значение) ---------- */
+
+.cs-doc dl:not([class]),
+.cs-specs {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+  gap: 0.4rem 1rem;
+  margin: 1rem 0;
+}
+.cs-doc dl:not([class]) dt,
+.cs-specs dt { color: var(--cs-fg-muted); }
+.cs-doc dl:not([class]) dd,
+.cs-specs dd { margin: 0; font-weight: 600; }
+
+/* ---------- 14. Ссылка-кнопка ---------- */
+
+.cs-button {
+  display: inline-block;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--cs-radius);
+  background: var(--cs-accent);
+  color: var(--cs-accent-fg);
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+}
+.cs-button:hover { opacity: 0.9; }
+
+/* ---------- 15. Карточка предложения ---------- */
+
+.cs-offer {
+  margin: 1.25rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  background: var(--cs-surface);
+}
+.cs-offer__name { margin: 0 0 0.35rem; font-size: calc(var(--cs-font-size) * 1.2); font-weight: 700; }
+.cs-offer__price { margin: 0 0 0.75rem; font-size: calc(var(--cs-font-size) * 1.6); font-weight: 700; color: var(--cs-accent); }
+.cs-offer__list { margin: 0 0 1rem; padding: 0; list-style: none; }
+.cs-offer__list > li { position: relative; padding: 0.25rem 0 0.25rem 1.5rem; }
+.cs-offer__list > li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--cs-accent);
+  font-weight: 700;
+}
+
+/* ---------- 16. FAQ (нативное схлопывание details/summary, без JS) ---------- */
+
+.cs-faq {
+  margin: 1.25rem 0;
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  overflow: hidden;
+}
+.cs-faq details { border-top: 1px solid var(--cs-border); }
+.cs-faq details:first-child { border-top: 0; }
+.cs-faq summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+.cs-faq summary::-webkit-details-marker { display: none; }
+.cs-faq summary::after { content: "+"; float: right; color: var(--cs-accent); font-weight: 700; }
+.cs-faq details[open] summary::after { content: "–"; }
+.cs-faq__answer { padding: 0 1rem 0.85rem; color: var(--cs-fg-muted); }
+.cs-faq__answer > :first-child { margin-top: 0; }
+.cs-faq__answer > :last-child { margin-bottom: 0; }
+
+/* ---------- 17. Мелкий приглушённый текст (условия лицензии, оговорки) ---------- */
+
+.cs-fineprint {
+  margin: 1rem 0;
+  font-size: calc(var(--cs-font-size) * 0.8);
+  line-height: 1.5;
+  color: var(--cs-fg-muted);
+}
+
+/* ---------- 18. Раздел описания ---------- */
+
+.cs-section { display: flow-root; margin: 2rem 0; }
+.cs-section:first-child { margin-top: 0; }
+.cs-section:last-child { margin-bottom: 0; }
+.cs-section > :first-child { margin-top: 0; }
+.cs-section > :last-child { margin-bottom: 0; }
+
+/* ---------- 19. Контакты (dl: подпись + адрес/ссылка) ---------- */
+
+.cs-contacts {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+  gap: 0.5rem 1rem;
+  margin: 1rem 0;
+}
+.cs-contacts dt { color: var(--cs-fg-muted); font-weight: 600; }
+.cs-contacts dd { min-width: 0; margin: 0; }
+.cs-contacts a { overflow-wrap: anywhere; }
+
+/* ---------- 20. Выравнивание без inline style ---------- */
+
+.cs-doc .cs-align-left,
+.cs-doc :where(.cs-align-left) :where(p, h2, h3, h4, h5, h6, figcaption) { text-align: left; }
+.cs-doc .cs-align-center,
+.cs-doc :where(.cs-align-center) :where(p, h2, h3, h4, h5, h6, figcaption) { text-align: center; }
+.cs-doc .cs-align-justify,
+.cs-doc :where(.cs-align-justify) :where(p, h2, h3, h4, h5, h6, figcaption) { text-align: justify; }
+
+/* ---------- 21. Клавиатурный фокус и состояния ссылок ---------- */
+
+.cs-doc :where(a[href], summary, .cs-table-scroll):focus-visible {
+  outline: 3px solid var(--cs-accent);
+  outline-offset: 3px;
+}
+.cs-doc :where(a[href]):hover { text-decoration-thickness: 2px; }
+.cs-doc :where(a[href]):active { opacity: 0.8; }
+
+/* ---------- Адаптив ---------- */
+
+@media (max-width: 575.98px) {
+  .cs-doc { padding: 0.85rem; }
+
+  /* Старый HTML тоже использует flex: широкие абзацы и div переходят на свою строку. */
+  .cs-doc :is(article, section, header, div) { flex-wrap: wrap; }
+  .cs-doc :is(div, p) {
+    flex-basis: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+  .cs-doc p {
+    /* auto учитывает боковые margin, а flow-root удерживает плавающие картинки внутри абзаца. */
+    display: flow-root;
+    width: auto;
+  }
+
+  /* По умолчанию строки становятся карточками; cs-table-scroll сохраняет табличную сетку. */
+  .cs-doc table:not(.cs-table-scroll *),
+  .cs-doc :is(thead, tbody, tfoot):not(.cs-table-scroll *) {
+    display: block;
+    width: 100%;
+  }
+  .cs-doc tr:not(.cs-table-scroll *) {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.75rem;
+    border: 3px solid var(--cs-fg-muted);
+  }
+  .cs-doc table :is(th, td):not(.cs-table-scroll *) {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 0.75rem;
+    border: 0;
+    text-align: left;
+  }
+  .cs-doc table th:not(.cs-table-scroll *) {
+    order: -1;
+    text-align: center;
+    background: var(--cs-surface);
+  }
+  .cs-hero { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .cs-hero__cover { width: 128px; max-width: 60%; }
+  .cs-hero__title { font-size: calc(var(--cs-font-size) * 1.35); }
+  .cs-showcase { grid-template-columns: 1fr; }
+  .cs-doc dl:not([class]),
+  .cs-specs,
+  .cs-contacts { grid-template-columns: minmax(0, 1fr); gap: 0.15rem 0; }
+  .cs-doc dl:not([class]) dd,
+  .cs-specs dd,
+  .cs-contacts dd { margin-bottom: 0.5rem; }
+}

@@ -251,7 +251,7 @@
 #Welcome #Content #ProgressText {
     text-align: center;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: var(--ui-font-2xl, 1.5rem);
     color: var(--welcome-color);
 }
 
@@ -298,7 +298,7 @@
     transform: translate(-50%, -50%);
     transform-origin: center center;
     opacity: 0;
-    background: radial-gradient(circle farthest-corner at 50% 50%, rgba(67, 64, 210, 1) 0%, rgba(255, 255, 255, 0) 70%);
+    background: radial-gradient(circle farthest-corner at 50% 50%, rgba(27, 58, 102, 1) 0%, rgba(255, 255, 255, 0) 70%);
 }
 
     #LogoBox #Flash.show {
@@ -315,7 +315,7 @@
     position: absolute;
     top: 8px;
     right: 12px;
-    font-size: 1.2rem;
+    font-size: var(--ui-font-lg, 1.125rem);
     font-weight: 500;
     color: var(--welcome-color);
     opacity: 0;

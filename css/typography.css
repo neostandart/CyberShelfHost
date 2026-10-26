@@ -1,0 +1,103 @@
+/* Shared type scale for application chrome; book documents have their own styles. */
+:root {
+    --ui-font-xs: 0.75rem;
+    --ui-font-sm: 0.875rem;
+    --ui-font-md: 1rem;
+    --ui-font-lg: 1.125rem;
+    --ui-font-xl: 1.25rem;
+    --ui-font-2xl: 1.5rem;
+    --ui-font-3xl: 1.875rem;
+    --ui-font-4xl: 2.25rem;
+    --ui-letter-spacing: 0;
+    --ui-heading-letter-spacing: -0.015em;
+
+    --rz-text-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --rz-root-font-size: 16px;
+    --rz-body-font-size: var(--ui-font-md);
+    --rz-body-line-height: 1.5;
+
+    --rz-text-h1-font-size: var(--ui-font-4xl);
+    --rz-text-h2-font-size: var(--ui-font-3xl);
+    --rz-text-h3-font-size: var(--ui-font-2xl);
+    --rz-text-h4-font-size: var(--ui-font-xl);
+    --rz-text-h5-font-size: var(--ui-font-lg);
+    --rz-text-h6-font-size: var(--ui-font-md);
+    --rz-text-display-h1-font-size: var(--rz-text-h1-font-size);
+    --rz-text-display-h2-font-size: var(--rz-text-h2-font-size);
+    --rz-text-display-h3-font-size: var(--rz-text-h3-font-size);
+    --rz-text-display-h4-font-size: var(--rz-text-h4-font-size);
+    --rz-text-display-h5-font-size: var(--rz-text-h5-font-size);
+    --rz-text-display-h6-font-size: var(--rz-text-h6-font-size);
+
+    --rz-text-body1-font-size: var(--ui-font-md);
+    --rz-text-body2-font-size: var(--ui-font-sm);
+    --rz-text-subtitle1-font-size: var(--ui-font-md);
+    --rz-text-subtitle2-font-size: var(--ui-font-sm);
+    --rz-text-subtitle1-font-weight: 500;
+    --rz-text-caption-font-size: var(--ui-font-xs);
+    --rz-text-caption-line-height: 1.5;
+    --rz-text-overline-font-size: var(--ui-font-xs);
+    --rz-text-overline-line-height: 1.5;
+    --rz-text-body1-letter-spacing: var(--ui-letter-spacing);
+    --rz-text-body2-letter-spacing: var(--ui-letter-spacing);
+    --rz-text-subtitle1-letter-spacing: var(--ui-letter-spacing);
+    --rz-text-subtitle2-letter-spacing: var(--ui-letter-spacing);
+    --rz-text-caption-letter-spacing: var(--ui-letter-spacing);
+    --rz-text-overline-letter-spacing: var(--ui-letter-spacing);
+    --rz-text-button-letter-spacing: var(--ui-letter-spacing);
+
+    --rz-tabs-tab-font-size: var(--ui-font-sm);
+    --rz-tabs-tab-letter-spacing: var(--ui-letter-spacing);
+    --rz-tabs-tab-text-transform: none;
+    --rz-badge-font-size: var(--ui-font-xs);
+    --rz-badge-letter-spacing: var(--ui-letter-spacing);
+    --rz-dialog-title-font-size: var(--ui-font-xl);
+    --rz-dialog-title-font-weight: 600;
+    --rz-dialog-title-letter-spacing: var(--ui-heading-letter-spacing);
+    --rz-panel-menu-font-size: var(--ui-font-sm);
+    --rz-panel-menu-item-2nd-level-font-size: var(--ui-font-sm);
+    --rz-tooltip-font-size: var(--ui-font-sm);
+}
+
+body {
+    letter-spacing: var(--ui-letter-spacing);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: var(--ui-font-md);
+    letter-spacing: var(--ui-letter-spacing);
+}
+
+h1, h2, h3, h4, h5, h6,
+.rz-text-display-h1, .rz-text-display-h2, .rz-text-display-h3,
+.rz-text-display-h4, .rz-text-display-h5, .rz-text-display-h6,
+.rz-text-h1, .rz-text-h2, .rz-text-h3, .rz-text-h4, .rz-text-h5, .rz-text-h6 {
+    font-family: var(--rz-text-font-family);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: var(--ui-heading-letter-spacing);
+}
+
+h1 { font-size: var(--rz-text-h1-font-size); }
+h2 { font-size: var(--rz-text-h2-font-size); }
+h3 { font-size: var(--rz-text-h3-font-size); }
+h4 { font-size: var(--rz-text-h4-font-size); }
+h5 { font-size: var(--rz-text-h5-font-size); }
+h6 { font-size: var(--rz-text-h6-font-size); }
+
+b, strong {
+    font-weight: 600;
+}
+
+.rz-button {
+    font-size: var(--ui-font-sm);
+    font-weight: 500;
+    letter-spacing: var(--ui-letter-spacing);
+    text-transform: none;
+}
+
+.rz-button-lg { font-size: var(--ui-font-md); }
+.rz-button-xs { font-size: var(--ui-font-xs); }
